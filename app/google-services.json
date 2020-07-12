@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "293005898429",
+    "firebase_url": "https://motor-feed.firebaseio.com",
+    "project_id": "motor-feed",
+    "storage_bucket": "motor-feed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293005898429:android:12becdd968fae7f6fefdd4",
+        "android_client_info": {
+          "package_name": "com.like.drive.motorfeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "293005898429-u517k4g8f2ga3m80o4f6j6lkjcu3mdrs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZLZ5TZQaUildCY5X3NgS05p6QGGrrgNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "293005898429-u517k4g8f2ga3m80o4f6j6lkjcu3mdrs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
