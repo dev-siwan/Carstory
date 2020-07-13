@@ -16,7 +16,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         super.onCreate(savedInstanceState)
 
 
-        viewModel.setMotorTypeList()
+        //viewModel.setMotorTypeList()
     }
 
 
