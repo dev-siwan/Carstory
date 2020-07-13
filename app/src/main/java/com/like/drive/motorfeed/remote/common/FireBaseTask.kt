@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
-import com.like.drive.motorfeed.common.ResultState
+import com.like.drive.motorfeed.common.async.ResultState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext

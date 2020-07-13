@@ -2,7 +2,7 @@ package com.like.drive.motorfeed.remote.api.user
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.like.drive.motorfeed.common.ResultState
+import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName.USER

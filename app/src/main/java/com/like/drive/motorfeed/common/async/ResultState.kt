@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.common
+package com.like.drive.motorfeed.common.async
 
 import java.lang.Exception
 
