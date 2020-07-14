@@ -19,7 +19,7 @@ class MotorFeedApplication :Application(){
 
         startKoin {
             androidContext(this@MotorFeedApplication)
-            modules(listOf(cacheModule, remoteModule,viewModelModule,repositoryModule,useCaseModule))
+            modules(listOf(cacheModule, remoteModule,viewModelModule,repositoryModule))
             logger(AndroidLogger(Level.DEBUG))
         }
     }

@@ -12,27 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-            FirebaseFirestore.getInstance().collection("MotorType").get()
-                .addOnSuccessListener { documentReference ->
-
-                    val list = ArrayList<MotorTypeData>()
-                    documentReference.forEach {
-                       list.add(it.toObject(MotorTypeData::class.java))
-                    }
-
-                    if(list.isNotEmpty()){
-                        val brandName = list.distinctBy { it.brandCode }.size
-                        Log.i(
-                            this.javaClass.name,
-                            "BrandListSize: $brandName"
-                        )
-
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Log.w(this.javaClass.name, "Error adding document", e)
-                }
-        }
+    }
 }
 
-data class Motor(val name:String,val code:Int)

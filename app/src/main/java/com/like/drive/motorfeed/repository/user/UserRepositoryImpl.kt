@@ -12,4 +12,6 @@ class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
         return userApi.getUser()
     }
 
+    override suspend fun checkUser()= userApi.checkUser()
+
 }

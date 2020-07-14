@@ -5,6 +5,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.like.drive.motorfeed.remote.api.motor.MotorTypeApi
 import com.like.drive.motorfeed.remote.api.motor.MotorTypeApiImpl
+import com.like.drive.motorfeed.remote.api.user.UserApi
+import com.like.drive.motorfeed.remote.api.user.UserApiImpl
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import org.koin.dsl.module
 
@@ -20,4 +22,5 @@ val remoteModule= module {
     single { fireBaseAuth }
 
     single<MotorTypeApi> { MotorTypeApiImpl(get(),get()) }
+    single<UserApi> { UserApiImpl(get(),get(),get()) }
 }

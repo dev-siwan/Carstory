@@ -4,5 +4,5 @@ import com.like.drive.motorfeed.repository.base.ResultRepository
 import java.lang.Exception
 
 interface MotorTypeRepository{
-    suspend fun setMotorTypeList(error:(e:Exception)->Unit)
+    suspend fun setMotorTypeList(success:()->Unit,error:(e:Exception)->Unit)
 }

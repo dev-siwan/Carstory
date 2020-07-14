@@ -19,4 +19,8 @@ class UserApiImpl(
         )
     }
 
+    override suspend fun checkUser(): Boolean {
+        return fireAuth.currentUser!=null
+    }
+
 }

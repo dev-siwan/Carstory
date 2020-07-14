@@ -5,4 +5,5 @@ import com.like.drive.motorfeed.data.user.UserData
 
 interface UserRepository{
     suspend fun getUser(): ResultState<UserData>
+    suspend fun checkUser():Boolean
 }

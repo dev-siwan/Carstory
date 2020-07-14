@@ -19,13 +19,14 @@ class MotorTypeRepositoryImpl(
     /*
     * 자동차 리스트 들고 오는 api
     */
-    override suspend fun setMotorTypeList(error:(e: Exception)->Unit)= withContext(Dispatchers.IO) {
+    override suspend fun setMotorTypeList(success:()->Unit,error:(e: Exception)->Unit)= withContext(Dispatchers.IO) {
 
         motorTypeApi.getMotorTypeList().let { result->
             when (result) {
                 is ResultState.Success -> {
                     val motorTypeList =makeList(result.data)
                     insertMotorType(motorTypeList)
+                    success.invoke()
                 }
                 is ResultState.Error -> {
                     error(result.exception!!)
@@ -45,7 +46,7 @@ class MotorTypeRepositoryImpl(
     }
     private suspend fun insertMotorType(list:List<MotorTypeData>){
         motorTypeDao.replaceList(
-            list.map { MotorTypeEntity().dataToEntity(it)})
+            list.map { MotorTypeEntity().dataToEntity(it) })
     }
 
 
