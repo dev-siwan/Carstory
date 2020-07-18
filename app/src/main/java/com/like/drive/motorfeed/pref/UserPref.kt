@@ -12,6 +12,9 @@ class UserPref(context:Context){
         PreferenceManager.getDefaultSharedPreferences(context)
     private val modelPref = ModelPreferencesManager
 
+    var motorTypeVersion :Int?
+    get() = preferences.getInt(MOTOR_TYPE_VERSION,0)
+    set(value) = preferences.edit { putInt(MOTOR_TYPE_VERSION,value!!) }
     var userData: UserData?
         get() = modelPref.get(USER_INFO)
         set(value) {

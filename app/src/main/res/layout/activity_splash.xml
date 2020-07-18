@@ -8,5 +8,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.splash.activity.SplashActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스플래시 화면"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

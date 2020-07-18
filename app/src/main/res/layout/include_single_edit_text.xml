@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="value"
+            type="String" />
+
+        <variable
+            name="type"
+            type="Integer" />
+
+        <variable
+            name="hint"
+            type="String" />
+    </data>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_x_margin"
+        android:background="@drawable/edit_text_background"
+        android:hint="@{hint !=null ? hint : @string/blank_text}"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:theme="@style/PrimaryEditTextTheme"
+        android:inputType="@{type}" />
+</layout>

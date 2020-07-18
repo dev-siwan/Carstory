@@ -7,7 +7,7 @@ import org.koin.core.inject
 
 object UserInfo : KoinComponent {
 
-   private val userPref:UserPref by inject()
+    val userPref:UserPref by inject()
 
     var userInfo:UserData?
     get()= userPref.userData?.run { this } ?: UserData()

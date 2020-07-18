@@ -6,11 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.like.drive.motorfeed.R
 
 abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: Int?) : AppCompatActivity() {
 
     protected var binding: V? = null
+    protected var remoteConfig =  Firebase.remoteConfig.apply {
+        setDefaultsAsync(R.xml.remote_config_defaults)
+        setConfigSettingsAsync(remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+            fetchTimeoutInSeconds = 60
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

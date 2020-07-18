@@ -7,7 +7,10 @@ import com.like.drive.motorfeed.remote.api.motor.MotorTypeApi
 import com.like.drive.motorfeed.remote.api.motor.MotorTypeApiImpl
 import com.like.drive.motorfeed.remote.api.user.UserApi
 import com.like.drive.motorfeed.remote.api.user.UserApiImpl
+import com.like.drive.motorfeed.remote.api.version.VersionApi
+import com.like.drive.motorfeed.remote.api.version.VersionApiImpl
 import com.like.drive.motorfeed.remote.common.FireBaseTask
+import com.like.drive.motorfeed.repository.version.VersionRepositoryImpl
 import org.koin.dsl.module
 
 val remoteModule= module {
@@ -21,6 +24,10 @@ val remoteModule= module {
     single { fireStorageInstance }
     single { fireBaseAuth }
 
+    /**
+     * Api
+     * **/
+    single<VersionApi> { VersionApiImpl(get(),get()) }
     single<MotorTypeApi> { MotorTypeApiImpl(get(),get()) }
     single<UserApi> { UserApiImpl(get(),get(),get()) }
 }

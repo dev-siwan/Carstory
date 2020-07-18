@@ -6,10 +6,12 @@ import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.repository.motor.MotorTypeRepository
 import com.like.drive.motorfeed.repository.user.UserRepository
+import com.like.drive.motorfeed.repository.version.VersionRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
+    private val versionRepository: VersionRepository,
     private val motorTypeRepository: MotorTypeRepository,
     private val userRepository: UserRepository
 ) : BaseViewModel() {
@@ -18,9 +20,32 @@ class SplashViewModel(
     val completeEvent = SingleLiveEvent<SplashCompleteType>()
 
     init {
-        setMotorType()
+        versionCheck()
     }
 
+
+    private fun versionCheck() {
+        viewModelScope.launch {
+            versionRepository.checkMotorTypeVersion(
+                insertMotorType = {
+                    setMotorType()
+                },
+                passInsertMotorType = {
+                    isNotEmptyMotorTypeList{result->
+                        if(result) checkUser() else setMotorType()
+                    }
+                },
+                fail = {
+                    setErrorEvent(SplashErrorType.VERSION_CHECK_ERROR)
+                })
+        }
+    }
+
+    private fun isNotEmptyMotorTypeList(isNotEmpty:(Boolean)->Unit) {
+        viewModelScope.launch {
+            isNotEmpty(motorTypeRepository.isNotEmptyMotorTypeList())
+        }
+    }
     private fun setMotorType() {
         viewModelScope.launch {
             motorTypeRepository.setMotorTypeList({
@@ -37,13 +62,15 @@ class SplashViewModel(
 
                 userRepository.getUser().let {resultState ->
                     when(resultState){
+
                         is ResultState.Success -> {
                             UserInfo.userInfo = resultState.data
                             setCompleteEvent(SplashCompleteType.FEED)
                         }
+
                         is ResultState.Error -> {
                             resultState.emptyDocument?.let {
-                                setErrorEvent(SplashErrorType.USER_BLANK)
+                                setErrorEvent(SplashErrorType.USER_EMPTY)
                             }
                             resultState.exception?.let {
                                 setErrorEvent(SplashErrorType.USER_ERROR)
@@ -70,7 +97,7 @@ class SplashViewModel(
 }
 
 enum class SplashErrorType{
-   USER_ERROR,MOTOR_TYPE_ERROR,USER_BLANK
+   VERSION_CHECK_ERROR,USER_ERROR,MOTOR_TYPE_ERROR,USER_EMPTY
 }
 enum class SplashCompleteType{
    LOGIN , FEED
