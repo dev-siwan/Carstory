@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="androidx.databinding.ObservableField"/>
+
         <variable
             name="value"
-            type="String" />
+            type="ObservableField&lt;String&gt;" />
 
         <variable
             name="type"
@@ -25,5 +28,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:theme="@style/PrimaryEditTextTheme"
-        android:inputType="@{type}" />
+        android:text="@={value}"
+        android:inputType="@{type}"
+        tools:hint="여기는 힌트입니다."/>
 </layout>

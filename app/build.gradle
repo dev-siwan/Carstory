@@ -213,6 +213,9 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     //annotationProcessor "androidx.room:room-compiler:$room_version"
 
+    //facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+
 
 
     testImplementation 'junit:junit:4.12'

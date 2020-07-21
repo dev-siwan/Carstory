@@ -4,4 +4,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_in_welcome">로그인 정보를 입력해주세요.</string>
+    <string name="email_hint">이메일을 입력해주세요.</string>
+    <string name="password_hint">패스워드를 입력해주세요.</string>
+    <string name="search_password_desc"><![CDATA[비밀번호를 잊어버리셨나요? <b>여기를 눌려주세요.</b>]]></string>
+
+    <string name="face_book_login_desc"><![CDATA[<b>페이스북</b>으로 로그인]]></string>
+    <string name="email_register_desc"><![CDATA[<b>이메일</b>로 회원가입]]></string>
+
+    <string name="login_text">로그인</string>
+
+    <string name="facebook_app_id">331908037972610</string>
+    <string name="fb_login_protocol_scheme">fb331908037972610</string>
+
 </resources>

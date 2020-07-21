@@ -1,11 +1,19 @@
 package com.like.drive.motorfeed.remote.api.user
 
+import android.net.wifi.hotspot2.pps.Credential
+import com.facebook.AccessToken
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName.USER
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class UserApiImpl(
     private val fireBaseTask: FireBaseTask,
@@ -22,5 +30,16 @@ class UserApiImpl(
     override suspend fun checkUser(): Boolean {
         return fireAuth.currentUser!=null
     }
+
+    override suspend fun facebookLogin(authCredential: AuthCredential): ResultState<AuthResult> =
+        withContext(Dispatchers.IO) {
+            try {
+                return@withContext ResultState.Success(
+                    fireAuth.signInWithCredential(authCredential).await()
+                )
+            } catch (e: Exception) {
+                return@withContext ResultState.Error(e)
+            }
+        }
 
 }

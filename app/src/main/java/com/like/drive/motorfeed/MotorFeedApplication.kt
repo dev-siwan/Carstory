@@ -1,6 +1,8 @@
 package com.like.drive.motorfeed
 
 import android.app.Application
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.FirebaseApp
 import com.like.drive.motorfeed.di.*
 import org.koin.android.ext.koin.androidContext
@@ -15,8 +17,18 @@ class MotorFeedApplication :Application(){
         super.onCreate()
 
         FirebaseApp.initializeApp(this)
+        initFacebookSDK()
         Timber.plant(Timber.DebugTree())
+        initKoin()
 
+    }
+
+
+    private fun initFacebookSDK(){
+        AppEventsLogger.activateApp(this)
+    }
+
+    private fun initKoin(){
         startKoin {
             androidContext(this@MotorFeedApplication)
             modules(listOf(cacheModule, remoteModule,viewModelModule,repositoryModule))
