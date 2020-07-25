@@ -51,6 +51,7 @@
 
     <string name="brand">브랜드</string>
     <string name="model">모델</string>
+    <string name="input_title_hint">제목을 입력해주세요.</string>
 
 
 </resources>

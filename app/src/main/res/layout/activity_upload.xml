@@ -39,10 +39,11 @@
         android:id="@+id/tvSelectMotor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="차종 선택"
+        android:hint="@string/select_motor"
         android:gravity="start|center_vertical"
-        android:padding="@dimen/activity_small_margin"
+        android:padding="@dimen/activity_horizontal_margin"
         android:textSize="@dimen/large_text_size"
+        android:drawableEnd="@drawable/ic_circle_down_arrow"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +58,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSelectMotor"/>
 
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_x_margin"
+        android:background="@drawable/edit_text_background"
+        android:hint="@string/input_title_hint"
+        android:theme="@style/PrimaryEditTextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        tools:hint="제목을 입력해주세요." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
