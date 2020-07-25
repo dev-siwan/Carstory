@@ -19,6 +19,7 @@ import com.like.drive.motorfeed.ui.splash.viewmodel.SplashCompleteType
 import com.like.drive.motorfeed.ui.splash.viewmodel.SplashErrorType
 import com.like.drive.motorfeed.ui.splash.viewmodel.SplashViewModel
 import org.koin.android.ext.android.inject
+import kotlin.reflect.KClass
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
@@ -37,31 +38,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
- /*   private fun setRemoteConfig(){
-        remoteConfig.fetchAndActivate().addOnCompleteListener(this){task ->
-            if (task.isSuccessful) {
-                showShortToast("Fetch and activate succeeded")
-                try {
-                    val mLatestVersionCode =remoteConfig["app_latest_version_code"].asLong()
-                    if (mLatestVersionCode > BuildConfig.VERSION_CODE) {
-                        showShortToast("리모트컨피그 적용 완료")
-                    }
-                }catch (e:FirebaseRemoteConfigException){
-                    showShortToast(e.message?:"")
-                }
-            } else {
-               showShortToast("Fetch failed")
-            }
-        }
-    }*/
 
     private fun SplashViewModel.complete(){
         completeEvent.observe(this@SplashActivity, Observer {
             when(it){
-                SplashCompleteType.FEED->{
-                    showShortToast("피드로 간다 !")
-                }
-                else->{ startAct(SignInActivity::class)}
+                SplashCompleteType.FEED->moveToActivity(MainActivity::class)
+
+                else-> moveToActivity(SignInActivity::class)
             }
         })
     }
@@ -71,10 +54,25 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             when(it){
                 SplashErrorType.VERSION_CHECK_ERROR->showShortToast("버전체크 에러")
                 SplashErrorType.MOTOR_TYPE_ERROR->showShortToast("모터타입 에러")
-                SplashErrorType.USER_ERROR ->showShortToast("유저 에러")
-                else->{showShortToast("유저 없음")}
+                SplashErrorType.USER_ERROR -> {
+                    showShortToast(getString(R.string.login_error))
+                    moveToActivity(SignInActivity::class)
+                }
+                SplashErrorType.USER_BAN -> {
+                    showShortToast(getString(R.string.user_ban))
+                    moveToActivity(SignInActivity::class)
+                }
+                else -> {
+                    showShortToast(getString(R.string.user_error))
+                    moveToActivity(SignInActivity::class)
+                }
             }
         })
+    }
+
+    private fun moveToActivity(clazz: KClass<*>){
+        startAct(clazz)
+        finish()
     }
 
 

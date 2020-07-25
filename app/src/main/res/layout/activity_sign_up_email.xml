@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.sign.up.viewmodel.SignUpViewModel" />
+        <import type="android.text.InputType" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.sign.in.activity.SignInActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_horizontal_x_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            android:text="@string/sign_up_welcome"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/xx_large_text_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:text="@string/sign_up_welcome" />
+
+
+        <include
+            android:id="@+id/incEmailEditText"
+            layout="@layout/layout_single_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hint="@{@string/email_hint}"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+            app:value="@{vm.email}"
+            app:type="@{InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS}" />
+
+        <include
+            android:id="@+id/incPasswordEditText"
+            layout="@layout/layout_single_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hint="@{@string/password_hint}"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/incEmailEditText"
+            app:value="@{vm.password}"
+            app:type="@{InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD}"/>
+
+
+        <include
+            android:id="@+id/incPasswordValidEditText"
+            layout="@layout/layout_single_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hint="@{@string/password_valid_hint}"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/incPasswordEditText"
+            app:value="@{vm.passwordValid}"
+            app:type="@{InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD}"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSignIn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/enable_button_rect_true_solid_black_false_light_grey3"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:text="@string/sign_up_text"
+            android:textColor="@color/btn_text_enable_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            android:stateListAnimator="@null"
+            app:layout_constraintTop_toBottomOf="@id/incPasswordValidEditText"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@+id/glStart"
+            android:enabled="@{vm.checkEnable(vm.email,vm.password,vm.passwordValid)}"
+            android:onClick="@{vm::doSignEmail}"/>
+
+
+        <TextView
+            android:id="@+id/tvSignUpDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            app:formatHtml="@{@string/sign_up_desc}"
+            android:textColor="@color/grey_3"
+            android:textSize="@dimen/normal_text_size"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/btnSignIn"
+            tools:text="@string/sign_up_desc" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

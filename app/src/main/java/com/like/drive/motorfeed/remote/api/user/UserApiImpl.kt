@@ -31,7 +31,7 @@ class UserApiImpl(
         return fireAuth.currentUser!=null
     }
 
-    override suspend fun facebookLogin(authCredential: AuthCredential): ResultState<AuthResult> =
+    override suspend fun loginFacebook(authCredential: AuthCredential): ResultState<AuthResult> =
         withContext(Dispatchers.IO) {
             try {
                 return@withContext ResultState.Success(
@@ -41,5 +41,36 @@ class UserApiImpl(
                 return@withContext ResultState.Error(e)
             }
         }
+
+    override suspend fun setUser(userData: UserData): ResultState<Boolean> {
+        return fireBaseTask.setData(
+            fireStore.collection(USER).document(fireAuth.uid!!), userData
+        )
+    }
+
+    override suspend fun signEmail(email: String, password: String): ResultState<AuthResult> = withContext(Dispatchers.IO) {
+        try {
+            return@withContext ResultState.Success(
+                fireAuth.createUserWithEmailAndPassword(email,password).await()
+            )
+        } catch (e: Exception) {
+            return@withContext ResultState.Error(e)
+        }
+    }
+
+    override suspend fun loginEmail(email: String, password: String): ResultState<AuthResult> =
+        withContext(Dispatchers.IO){
+        try {
+            return@withContext ResultState.Success(
+                fireAuth.signInWithEmailAndPassword(email,password).await()
+            )
+        } catch (e: Exception) {
+            return@withContext ResultState.Error(e)
+        }
+    }
+
+    override suspend fun signOut() {
+        fireAuth.signOut()
+    }
 
 }

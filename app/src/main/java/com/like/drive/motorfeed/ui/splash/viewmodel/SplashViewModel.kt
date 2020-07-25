@@ -1,9 +1,7 @@
 package com.like.drive.motorfeed.ui.splash.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
-import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.repository.motor.MotorTypeRepository
 import com.like.drive.motorfeed.repository.user.UserRepository
 import com.like.drive.motorfeed.repository.version.VersionRepository
@@ -48,11 +46,13 @@ class SplashViewModel(
     }
     private fun setMotorType() {
         viewModelScope.launch {
-            motorTypeRepository.setMotorTypeList({
-                checkUser()
-            }, {
-                setErrorEvent(SplashErrorType.MOTOR_TYPE_ERROR)
-            })
+            motorTypeRepository.setMotorTypeList(
+                success = {
+                    checkUser()
+                },
+                error = {
+                    setErrorEvent(SplashErrorType.MOTOR_TYPE_ERROR)
+                })
         }
     }
 
@@ -60,26 +60,17 @@ class SplashViewModel(
         viewModelScope.launch {
             if (userRepository.checkUser()) {
 
-                userRepository.getUser().let {resultState ->
-                    when(resultState){
-
-                        is ResultState.Success -> {
-                            UserInfo.userInfo = resultState.data
-                            setCompleteEvent(SplashCompleteType.FEED)
-                        }
-
-                        is ResultState.Error -> {
-                            resultState.emptyDocument?.let {
-                                setErrorEvent(SplashErrorType.USER_EMPTY)
-                            }
-                            resultState.exception?.let {
-                                setErrorEvent(SplashErrorType.USER_ERROR)
-                            }
-                        }
-
+                userRepository.getUser(
+                    success = {
+                        setCompleteEvent(SplashCompleteType.FEED)
+                    },fail = {
+                        setErrorEvent(SplashErrorType.USER_ERROR)
+                    },ban = {
+                        setErrorEvent(SplashErrorType.USER_BAN)
+                    },empty={
+                        setErrorEvent(SplashErrorType.USER_EMPTY)
                     }
-                }
-
+                )
             } else {
                 setCompleteEvent(SplashCompleteType.LOGIN)
             }
@@ -96,9 +87,10 @@ class SplashViewModel(
 
 }
 
-enum class SplashErrorType{
-   VERSION_CHECK_ERROR,USER_ERROR,MOTOR_TYPE_ERROR,USER_EMPTY
+enum class SplashErrorType {
+    VERSION_CHECK_ERROR, USER_ERROR, MOTOR_TYPE_ERROR, USER_EMPTY, USER_BAN
 }
-enum class SplashCompleteType{
-   LOGIN , FEED
+
+enum class SplashCompleteType {
+    LOGIN, FEED
 }

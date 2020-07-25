@@ -1,14 +1,17 @@
 package com.like.drive.motorfeed.data.motor
 
+
+import android.os.Parcelable
 import com.like.drive.motorfeed.cache.entity.MotorTypeEntity
+import kotlinx.android.parcel.Parcelize
 
-
+@Parcelize
 data class MotorTypeData(
     val brandName: String="",
     val brandCode: Int=0,
     val modelName: String="",
     val modelCode: Int=0
-){
+): Parcelable {
     fun entityToData(motorTypeEntity: MotorTypeEntity) =
         MotorTypeData(
             motorTypeEntity.brandName,
@@ -403,17 +406,17 @@ class MotorTypeList{
         MotorTypeData("르노삼성", 5, "클리오", 9),
         MotorTypeData("르노삼성", 5, "마스터", 10),
         MotorTypeData("르노삼성", 5, "캡처", 11),
-        MotorTypeData("르노삼성", 6, "코란도", 1),
-        MotorTypeData("르노삼성", 6, "티볼리", 2),
-        MotorTypeData("르노삼성", 6, "렉스턴", 3),
-        MotorTypeData("르노삼성", 6, "체어맨", 4),
-        MotorTypeData("르노삼성", 6, "액티언", 5),
-        MotorTypeData("르노삼성", 6, "로디우스", 6),
-        MotorTypeData("르노삼성", 6, "카이런", 7),
-        MotorTypeData("르노삼성", 6, "무쏘", 8),
-        MotorTypeData("르노삼성", 6, "이스타나", 9),
-        MotorTypeData("르노삼성", 6, "뉴훼미리", 10),
-        MotorTypeData("르노삼성", 6, "칼리스타", 11),
+        MotorTypeData("쌍용", 6, "코란도", 1),
+        MotorTypeData("쌍용", 6, "티볼리", 2),
+        MotorTypeData("쌍용", 6, "렉스턴", 3),
+        MotorTypeData("쌍용", 6, "체어맨", 4),
+        MotorTypeData("쌍용", 6, "액티언", 5),
+        MotorTypeData("쌍용", 6, "로디우스", 6),
+        MotorTypeData("쌍용", 6, "카이런", 7),
+        MotorTypeData("쌍용", 6, "무쏘", 8),
+        MotorTypeData("쌍용", 6, "이스타나", 9),
+        MotorTypeData("쌍용", 6, "뉴훼미리", 10),
+        MotorTypeData("쌍용", 6, "칼리스타", 11),
         MotorTypeData("BMW", 7, "5 시리즈", 1),
         MotorTypeData("BMW", 7, "3 시리즈", 2),
         MotorTypeData("BMW", 7, "7 시리즈", 3),

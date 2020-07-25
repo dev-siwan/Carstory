@@ -20,6 +20,7 @@ import androidx.annotation.StringRes
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
+import com.like.drive.motorfeed.ui.base.loading.LoadingProgressDialog
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -80,7 +81,9 @@ fun Context.showListDialog(list: Array<String>, title: String?="", action: (Int)
     }
 }
 
-
+fun Context.progressBar():Dialog{
+    return LoadingProgressDialog(this)
+}
 
 fun Context.openWebBrowser(url: String) {
     try {

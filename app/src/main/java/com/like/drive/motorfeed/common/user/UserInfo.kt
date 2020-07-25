@@ -6,7 +6,6 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 object UserInfo : KoinComponent {
-
     val userPref:UserPref by inject()
 
     var userInfo:UserData?

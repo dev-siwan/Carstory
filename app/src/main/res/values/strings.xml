@@ -1,19 +1,56 @@
 <resources>
     <string name="app_name">MotorFeed</string>
     <string name="blank_text">""</string>
+    <string name="hyphen">-</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_in_welcome">로그인 정보를 입력해주세요.</string>
     <string name="email_hint">이메일을 입력해주세요.</string>
-    <string name="password_hint">패스워드를 입력해주세요.</string>
+    <string name="password_hint">비밀번호를 입력해주세요.</string>
+    <string name="password_valid_hint">비밀번호를 한번 더 입력해주세요.</string>
     <string name="search_password_desc"><![CDATA[비밀번호를 잊어버리셨나요? <b>여기를 눌려주세요.</b>]]></string>
 
     <string name="face_book_login_desc"><![CDATA[<b>페이스북</b>으로 로그인]]></string>
-    <string name="email_register_desc"><![CDATA[<b>이메일</b>로 회원가입]]></string>
+    <string name="email_register_desc"><![CDATA[아이디가 없으신가요? <b>이메일</b>로 회원가입]]></string>
+
+    <string name="sign_up_welcome">회원가입 정보를 입력해주세요.</string>
+    <string name="sign_up_desc"><![CDATA[-회원가입아이디는 <font color=#000000><b>이메일</b></font>로 가입이 됩니다.<br />-비밀번호는 <font color=#000000><b>8자~20자 이내 영문+숫자+특수문자(~`!@#\$%^&*()-)의 조합</b></font>으로 입력해주세요.]]></string>
 
     <string name="login_text">로그인</string>
+    <string name="sign_up_text">회원가입</string>
+
+
+    <string name="facebook_error">페이스북 로그인을 시도하는 중 오류가 걸렸습니다.</string>
+    <string name="facebook_cancel">페이스북 로그인을 취소하였습니다.</string>
+    <string name="login_error">로그인을 시도하는 중 오류가 걸렸습니다.\n이메일과 패스워드를 확인해주세요.</string>
+    <string name="user_error">유저 정보를 가져올 수 없습니다.\n다시 시도해주세요.</string>
+    <string name="user_ban">해당 유저는 영구정지 당한 상태입니다.\n다른 아이디로 로그인 해주세요.</string>
+    <string name="sign_up_error">해당 이메일 아이디가 가입되어 있습니다.\n다시 시도해주세요.</string>
+
+
+    <string name="menu_feed">피드</string>
+    <string name="menu_search">검색</string>
+    <string name="menu_notification">알림</string>
+    <string name="menu_user">유저</string>
+
+    <string name="upload">업로드</string>
+    <string name="filter">필터</string>
+
+    <string name="label_feed_list">FeedListFragment</string>
+    <string name="label_upload_activity">UploadActivity</string>
+
 
     <string name="facebook_app_id">331908037972610</string>
     <string name="fb_login_protocol_scheme">fb331908037972610</string>
+    <string name="feed_register">피드 작성</string>
+    <string name="select_motor">자동차 모델 선택</string>
+    <string name="select_motor_desc">찾으시는 모델이 없으신 경우 기타를 선택해주세요.</string>
+    <string name="select_motor_empty_desc"><![CDATA[찾으시는 모델이 없습니다 :(<br /><font color="#000000"><b>다시 한번 검색해보세요.</b></font>]]></string>
+    <string name="select_motor_brand"><![CDATA[* 브랜드별로 찾으시려면 <b>여기를 클릭해주세요.</b>]]></string>
+    <string name="select_motor_search_box_hint">자동차 브랜드명 또는 자동차 모델 입력</string>
+
+    <string name="brand">브랜드</string>
+    <string name="model">모델</string>
+
 
 </resources>

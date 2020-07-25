@@ -22,6 +22,7 @@ class MotorTypeRepositoryImpl(
         motorTypeApi.getMotorTypeList().let { result->
             when (result) {
                 is ResultState.Success -> {
+
                     val motorTypeList =makeList(result.data)
                     insertMotorType(motorTypeList).let {insertCacheResult->
                         if(insertCacheResult is ResultState.Error){
@@ -45,6 +46,18 @@ class MotorTypeRepositoryImpl(
         } catch (e: Exception) {
             false
         }
+    }
+
+    override suspend fun getMotorTypeList(): List<MotorTypeData> {
+        return motorTypeDao.getMotorType().map { MotorTypeData().entityToData(it) }
+    }
+
+    override suspend fun searchMotorTypeList(q: String): List<MotorTypeData> {
+        return motorTypeDao.searchMotorType(q).map { MotorTypeData().entityToData(it) }
+    }
+
+    override suspend fun brandCodeByList(code: Int): List<MotorTypeData> {
+        return motorTypeDao.selectType(code).map { MotorTypeData().entityToData(it) }
     }
 
     private fun makeList(list:List<MotorTypeData>):MutableList<MotorTypeData>{

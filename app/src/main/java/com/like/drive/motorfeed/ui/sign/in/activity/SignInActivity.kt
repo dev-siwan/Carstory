@@ -1,11 +1,7 @@
 package com.like.drive.motorfeed.ui.sign.`in`.activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -16,10 +12,12 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.ActivitySignInBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
+import com.like.drive.motorfeed.ui.base.ext.startAct
+import com.like.drive.motorfeed.ui.main.activity.MainActivity
+import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInErrorType
 import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInViewModel
+import com.like.drive.motorfeed.ui.sign.up.activity.SignUpEmail
 import org.koin.android.ext.android.inject
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
@@ -31,24 +29,23 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         override fun onSuccess(result: LoginResult?) {
             result?.let {
                 viewModel.handleFacebookAccessToken(it.accessToken)
-            }?:showShortToast("페이스북 로그인 리절트값 에러")
+            }?:showShortToast(getString(R.string.facebook_error))
 
         }
 
         override fun onCancel() {
-            showShortToast("페이스북 로그인 취소")
+            showShortToast(getString(R.string.facebook_cancel))
         }
 
         override fun onError(error: FacebookException?) {
-            showShortToast("페이스북 에러")
+            showShortToast(getString(R.string.facebook_error))
         }
 
     }}
 
-    @SuppressLint("PackageManagerGetSignatures")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         withViewModel()
     }
 
@@ -61,15 +58,50 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     private fun withViewModel(){
         with(viewModel){
+            complete()
+            error()
             facebookLogin()
+            moveToSignUp()
+            isLoading()
         }
+    }
+
+    private fun SignInViewModel.complete(){
+        completeEvent.observe(this@SignInActivity, Observer {
+            startAct(MainActivity::class)
+            finish()
+        })
+    }
+
+    private fun SignInViewModel.error(){
+        errorEvent.observe(this@SignInActivity, Observer {
+            when(it){
+                SignInErrorType.LOGIN_ERROR -> showShortToast(getString(R.string.login_error))
+                SignInErrorType.USER_BAN->showShortToast(getString(R.string.user_ban))
+                SignInErrorType.USER_ERROR->showShortToast(getString(R.string.user_error))
+                else ->showShortToast(getString(R.string.facebook_error))
+            }
+        })
+    }
+
+    private fun SignInViewModel.isLoading(){
+        isLoading.observe(this@SignInActivity, Observer {
+            if(it)loadingProgress.show() else loadingProgress.dismiss()
+
+        })
     }
 
 
     private fun SignInViewModel.facebookLogin(){
-        loginEmailClickEvent.observe(this@SignInActivity, Observer {
+        loginFacebookClickEvent.observe(this@SignInActivity, Observer {
             loginManager.logInWithReadPermissions(this@SignInActivity, listOf("email", "public_profile"))
             loginManager.registerCallback(callbackManager,facebookLoginCallback)
+        })
+    }
+
+    private fun SignInViewModel.moveToSignUp(){
+        moveToSignUpEvent.observe(this@SignInActivity, Observer {
+            startAct(SignUpEmail::class)
         })
     }
 

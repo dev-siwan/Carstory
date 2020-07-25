@@ -26,6 +26,9 @@ interface MotorTypeDao{
     @Query("SELECT * FROM MotorTypeEntity WHERE brandCode =:code")
     suspend fun selectType(code:Int):List<MotorTypeEntity>
 
+    @Query("SELECT * FROM MotorTypeEntity WHERE brandName LIKE '%' || :query || '%' OR modelName LIKE'%' || :query || '%'")
+    suspend fun searchMotorType(query:String): List<MotorTypeEntity>
+
     @Query("DELETE FROM MotorTypeEntity")
     suspend fun deleteAll()
 }

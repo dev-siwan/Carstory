@@ -20,5 +20,5 @@ val cacheModule = module {
      * Preference
      * **/
 
-    single { UserPref(androidApplication()) }
+    factory { UserPref(androidApplication()) }
 }
