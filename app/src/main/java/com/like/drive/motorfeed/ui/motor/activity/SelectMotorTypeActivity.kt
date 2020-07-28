@@ -71,7 +71,7 @@ class SelectMotorTypeActivity : BaseActivity<ActivitySelectMotorTypeBinding>(R.l
 
 
     companion object{
-        const val REQUEST_CODE = 1001
+        const val REQUEST_CODE = 1003
         const val RESULT_KEY ="RESULT_MOTOR_TYPE"
     }
 

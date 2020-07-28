@@ -82,7 +82,7 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
                     setCompleteEvent()
                 }, fail = {
                     setErrorEvent(SignInErrorType.USER_ERROR)
-                }, ban = {
+                }, userBan = {
                     setErrorEvent(SignInErrorType.USER_BAN)
                 }, empty = {
                     setUser(user)

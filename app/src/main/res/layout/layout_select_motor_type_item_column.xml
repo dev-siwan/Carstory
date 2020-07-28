@@ -2,16 +2,14 @@
 <layout>
 
     <data>
-
+        <import type="android.text.TextUtils"/>
         <variable
             name="title"
             type="String" />
-
         <variable
             name="content"
             type="String" />
 
-        <import type="android.text.TextUtils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +28,7 @@
             android:paddingTop="3dp"
             android:paddingEnd="16dp"
             android:paddingBottom="3dp"
-            android:text="@{title!=null || !TextUtils.isEmpty(title) ? title : @string/hyphen}"
+            android:text="@{title !=null || !TextUtils.isEmpty(title) ? title : @string/hyphen}"
             android:textColor="@color/white_100"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintEnd_toStartOf="@id/content"
@@ -44,10 +42,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_small_margin"
-            android:text="@{content!=null || !TextUtils.isEmpty(content) ? content : @string/hyphen}"
+            android:text="@{content !=null || !TextUtils.isEmpty(content) ? content : @string/hyphen}"
             android:textColor="@color/grey_3"
             android:textSize="@dimen/large_text_size"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="7"

@@ -13,6 +13,19 @@ import timber.log.Timber
 
 class MotorFeedApplication :Application(){
 
+
+    init {
+        instance = this
+    }
+
+    companion object {
+        private var instance: MotorFeedApplication? = null
+
+        fun getContext(): MotorFeedApplication {
+            return instance as MotorFeedApplication
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
 

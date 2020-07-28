@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel" />
+
+        <variable
+            name="data"
+            type="com.like.drive.motorfeed.ui.gallery.data.GalleryItemData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivGalleryItem"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> vm.onClickGalleryItem(cbGalleryItem, data)}"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:uri="@{data.uri}" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbGalleryItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
+            android:checked="@{data.selected}"
+            android:clickable="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

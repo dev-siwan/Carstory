@@ -6,13 +6,14 @@ import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.remote.api.user.UserApi
-import com.like.drive.motorfeed.ui.splash.viewmodel.SplashCompleteType
-import com.like.drive.motorfeed.ui.splash.viewmodel.SplashErrorType
 
 class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
 
-    override suspend fun getUser(success: () -> Unit, fail: () -> Unit, userBan: () -> Unit, empty: () -> Unit) {
-        userApi.getUser().let {resultState ->
+    override suspend fun getUser(success: () -> Unit,
+                                 fail: () -> Unit,
+                                 userBan: () -> Unit,
+                                 empty: () -> Unit) {
+       userApi.getUser().let {resultState ->
             when(resultState){
 
                 is ResultState.Success -> {
@@ -38,6 +39,7 @@ class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
     }
 
     override suspend fun checkUser()= userApi.checkUser()
+
     override suspend fun loginFaceBook(
         authCredential: AuthCredential,
         success: (FirebaseUser) -> Unit,

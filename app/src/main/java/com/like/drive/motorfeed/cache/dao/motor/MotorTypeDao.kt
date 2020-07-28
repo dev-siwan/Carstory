@@ -20,9 +20,6 @@ interface MotorTypeDao{
     @Query("SELECT * FROM MotorTypeEntity")
     suspend fun getMotorType(): List<MotorTypeEntity>
 
-    @Query("SELECT * FROM MotorTypeEntity group by brandCode")
-    suspend fun selectMotorType(): List<MotorTypeEntity>
-
     @Query("SELECT * FROM MotorTypeEntity WHERE brandCode =:code")
     suspend fun selectType(code:Int):List<MotorTypeEntity>
 

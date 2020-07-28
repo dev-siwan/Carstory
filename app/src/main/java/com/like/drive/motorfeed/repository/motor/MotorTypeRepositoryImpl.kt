@@ -17,31 +17,31 @@ class MotorTypeRepositoryImpl(
     /*
     * 자동차 리스트 들고 오는 api
     */
-    override suspend fun setMotorTypeList(success:()->Unit,error:(e: Exception)->Unit)= withContext(Dispatchers.IO) {
+    override suspend fun setMotorTypeList(success: () -> Unit, error: (e: Exception) -> Unit) =
+        withContext(Dispatchers.IO) {
 
-        motorTypeApi.getMotorTypeList().let { result->
-            when (result) {
-                is ResultState.Success -> {
-
-                    val motorTypeList =makeList(result.data)
-                    insertMotorType(motorTypeList).let {insertCacheResult->
-                        if(insertCacheResult is ResultState.Error){
-                            error(insertCacheResult.exception!!)
-                            return@withContext
+            motorTypeApi.getMotorTypeList().let { result ->
+                when (result) {
+                    is ResultState.Success -> {
+                        val motorTypeList = makeList(result.data)
+                        insertMotorType(motorTypeList).let { insertCacheResult ->
+                            if (insertCacheResult is ResultState.Error) {
+                                error(insertCacheResult.exception!!)
+                                return@withContext
+                            }
+                            success.invoke()
                         }
-                        success.invoke()
-                    }
 
-                }
-                is ResultState.Error -> {
-                    error(result.exception!!)
+                    }
+                    is ResultState.Error -> {
+                        error(result.exception!!)
+                    }
                 }
             }
         }
-    }
 
     override suspend fun isNotEmptyMotorTypeList(): Boolean = withContext(Dispatchers.IO) {
-        return@withContext  try {
+        return@withContext try {
             motorTypeDao.getMotorType().isNotEmpty()
         } catch (e: Exception) {
             false
@@ -60,8 +60,8 @@ class MotorTypeRepositoryImpl(
         return motorTypeDao.selectType(code).map { MotorTypeData().entityToData(it) }
     }
 
-    private fun makeList(list:List<MotorTypeData>):MutableList<MotorTypeData>{
-      return if (list.isNotEmpty()) {
+    private fun makeList(list: List<MotorTypeData>): MutableList<MotorTypeData> {
+        return if (list.isNotEmpty()) {
             MotorTypeList().motorTypeList.apply {
                 addAll(list)
             }
@@ -69,15 +69,17 @@ class MotorTypeRepositoryImpl(
             MotorTypeList().motorTypeList
         }
     }
-    private suspend fun insertMotorType(list:List<MotorTypeData>):ResultState<Unit> = withContext(Dispatchers.IO) {
-        try {
-            motorTypeDao.replaceList(
-                list.map { MotorTypeEntity().dataToEntity(it) })
-            return@withContext ResultState.Success(Unit)
-        }catch (e:Exception){
-           return@withContext ResultState.Error(e)
+
+    private suspend fun insertMotorType(list: List<MotorTypeData>): ResultState<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                motorTypeDao.replaceList(
+                    list.map { MotorTypeEntity().dataToEntity(it) })
+                return@withContext ResultState.Success(Unit)
+            } catch (e: Exception) {
+                return@withContext ResultState.Error(e)
+            }
         }
-    }
 
 
 }

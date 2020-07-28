@@ -65,7 +65,7 @@ class SplashViewModel(
                         setCompleteEvent(SplashCompleteType.FEED)
                     },fail = {
                         setErrorEvent(SplashErrorType.USER_ERROR)
-                    },ban = {
+                    },userBan = {
                         setErrorEvent(SplashErrorType.USER_BAN)
                     },empty={
                         setErrorEvent(SplashErrorType.USER_EMPTY)

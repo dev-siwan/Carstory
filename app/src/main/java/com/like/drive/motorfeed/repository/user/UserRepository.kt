@@ -6,7 +6,7 @@ import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.data.user.UserData
 
 interface UserRepository{
-    suspend fun getUser(success: () -> Unit, fail: () -> Unit, ban: () -> Unit, empty: () -> Unit)
+    suspend fun getUser(success: () -> Unit, fail: () -> Unit, userBan: () -> Unit, empty: () -> Unit)
     suspend fun checkUser():Boolean
     suspend fun loginFaceBook(authCredential: AuthCredential, success:(FirebaseUser)->Unit, error:()->Unit)
     suspend fun setUser(userData: UserData,success:()->Unit,fail:()->Unit)
