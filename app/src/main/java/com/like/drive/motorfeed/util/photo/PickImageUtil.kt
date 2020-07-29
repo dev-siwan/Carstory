@@ -162,7 +162,7 @@ object PickImageUtil {
         }
     }
 
-    fun setImage(path: String):File {
+    fun resizeImage(path: String):File {
 
         val originFile = File(path)
         ImageResizeUtil.resizeFile(originFile, originFile, 1280, isCamera)

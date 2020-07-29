@@ -7,5 +7,6 @@ data class GalleryItemData(
     var mimeType: String,
     var directory: String,
     var sizeMb: Long,
-    var selected: Boolean = false
+    var selected: Boolean = false,
+    var index :Int = 0
 )

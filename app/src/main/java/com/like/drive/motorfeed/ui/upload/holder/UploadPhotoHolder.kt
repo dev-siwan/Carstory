@@ -26,37 +26,9 @@ class UploadPhotoHolder(val binding:HolderUploadPhotoBinding):RecyclerView.ViewH
     private var wasPaused: Boolean = false
     private val context = binding.root.context
 
-    fun bind(activity: Activity, item: PhotoData, vm: UploadViewModel) {
-
-        item.uri?.let {
-            binding.progress.visibility = View.VISIBLE
-
-            lifecycle.coroutineScope.launch {
-
-                withContext(Dispatchers.IO) {
-
-                    PickImageUtil.createUriImageFile(activity, it)?.let {
-
-                        withContext(Dispatchers.IO) { PickImageUtil.setImage(it.path) }
-
-                        vm.addFile(it)
-
-                    }?:makeFileError(vm)
-
-                }
-                binding.progress.visibility = View.GONE
-            }
-        }
-
+    fun bind( item: PhotoData, vm: UploadViewModel) {
         binding.item = item
         binding.vm= vm
-        binding.position =adapterPosition
-
-    }
-
-    private fun makeFileError(vm:UploadViewModel){
-        vm.deletePhoto(adapterPosition)
-        context.showShortToast(context.getString(R.string.error_make_file))
     }
 
     companion object {

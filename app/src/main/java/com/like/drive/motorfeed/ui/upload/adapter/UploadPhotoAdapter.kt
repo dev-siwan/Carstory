@@ -7,12 +7,13 @@ import com.like.drive.motorfeed.ui.upload.data.PhotoData
 import com.like.drive.motorfeed.ui.upload.holder.UploadPhotoHolder
 import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
 
-class UploadPhotoAdapter(val activity: Activity,val viewModel: UploadViewModel) :
+
+class UploadPhotoAdapter(val viewModel: UploadViewModel) :
     RecyclerView.Adapter<UploadPhotoHolder>() {
 
-    var photoList: List<PhotoData> = emptyList()
+    var photoList = mutableListOf<PhotoData>()
 
-    var uploadPhotoHolder : UploadPhotoHolder?=null
+    private var uploadPhotoHolder : UploadPhotoHolder?=null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UploadPhotoHolder {
         return UploadPhotoHolder.from(parent).apply {
@@ -24,7 +25,7 @@ class UploadPhotoAdapter(val activity: Activity,val viewModel: UploadViewModel) 
     override fun getItemCount(): Int = photoList.size
 
     override fun onBindViewHolder(holder: UploadPhotoHolder, position: Int) {
-        holder.bind(activity,photoList[position],viewModel)
+        holder.bind(photoList[position],viewModel)
     }
 
 
@@ -36,14 +37,21 @@ class UploadPhotoAdapter(val activity: Activity,val viewModel: UploadViewModel) 
         holder.lifeCycleDetach()
     }
 
+    fun addItem(photoData:PhotoData){
+        photoList.add(photoData)
+        notifyItemInserted(photoList.size-1)
+    }
 
-    fun lifeCycleDestroyed(){
-        uploadPhotoHolder?.let {
-            it.lifeCycleDestroyed()
+    fun removeItem(data: PhotoData) {
+        photoList.firstOrNull { it == data }?.let {
+        val index = photoList.indexOf(it)
+        photoList.remove(it)
+        notifyItemRemoved(index)
         }
     }
 
-
-
+    fun lifeCycleDestroyed(){
+        uploadPhotoHolder?.lifeCycleDestroyed()
+    }
 
 }

@@ -2,8 +2,11 @@ package com.like.drive.motorfeed.ui.gallery.viewmodel
 
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.CheckBox
+import android.view.View
+
+import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,6 +43,8 @@ class GalleryViewModel : BaseViewModel() {
     val notAvailablePhoto = SingleLiveEvent<@StringRes Int>()
     val isLoading = SingleLiveEvent<Boolean>()
     val selectDirectoryClickEvent = SingleLiveEvent<Unit>()
+
+    private val uriList = ArrayList<Uri>()
 
     init {
         viewModelScope.launch {
@@ -97,6 +102,9 @@ class GalleryViewModel : BaseViewModel() {
      * 선택한 폴더의 사진을 반환
      */
     fun bringGalleryItem(directoryName: String?) {
+
+        uriList.clear()
+
         _galleryListData.value = directoryName?.let { directory ->
             _originGalleryData.value?.filter { it.directory == directory }
         } ?: _originGalleryData.value
@@ -112,10 +120,24 @@ class GalleryViewModel : BaseViewModel() {
     /**
      * 사진 아이템 클릭 시
      */
-    fun onClickGalleryItem(view: CheckBox, data: GalleryItemData) {
+    fun onClickGalleryItem(view: TextView, data: GalleryItemData) {
         if (isAvailablePhoto(data.sizeMb, data.mimeType)) {
-            view.isChecked = !view.isChecked
-            changeSelectedData(data, !data.selected)
+
+            if (view.isVisible) {
+
+                view.visibility = View.GONE
+                uriList.remove(data.uri)
+
+            } else {
+
+                view.visibility = View.VISIBLE
+                uriList.add(data.uri)
+
+            }
+
+            view.text = uriList.size.toString()
+
+            enableStatus.value = isExistSelectedItem()
         }
     }
 
@@ -146,29 +168,16 @@ class GalleryViewModel : BaseViewModel() {
 
 
     /**
-     *  사진 선택 시 데이터 값 변경 및 버튼 활성화 여부를 설정
-     */
-    private fun changeSelectedData(data: GalleryItemData, selected: Boolean) {
-        _galleryListData.value?.filter { it == data }?.map { data.selected = selected }
-        enableStatus.value = isExistSelectedItem()
-    }
-
-    /**
      *  선택된 아이템이 있는 지 체크
      */
-    private fun isExistSelectedItem() =
-        _galleryListData.value?.filter { it.selected }?.size ?: 0 > 0
+    private fun isExistSelectedItem() = uriList.isNotEmpty()
 
 
     /**
      *  선택된 아이템의 Uri를 반환
      */
-    fun getSelectedGalleryItem(): ArrayList<Uri>? {
-        val tmpSelected = arrayListOf<Uri>()
-        _galleryListData.value?.filter { it.selected }?.map { itemData ->
-            tmpSelected.add(itemData.uri)
-        }
-        return tmpSelected
+    fun getSelectedGalleryItem(): ArrayList<Uri> {
+        return uriList
     }
 
     /**

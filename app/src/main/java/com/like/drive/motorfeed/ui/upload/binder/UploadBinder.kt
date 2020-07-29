@@ -9,7 +9,7 @@ import com.like.drive.motorfeed.ui.upload.data.PhotoData
 fun RecyclerView.setRegPhotoItems(data: List<PhotoData>?) {
     data?.let {
         (adapter as? UploadPhotoAdapter)?.run {
-            this.photoList = data
+            this.photoList = data.toMutableList()
             notifyDataSetChanged()
         }
     }

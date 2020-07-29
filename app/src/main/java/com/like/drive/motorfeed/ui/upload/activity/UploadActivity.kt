@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.motorfeed.R
@@ -13,19 +14,25 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.ActivityUploadBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
+import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
+import com.like.drive.motorfeed.ui.upload.data.PhotoData
 import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 
 class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upload) {
 
     private val viewModel: UploadViewModel by viewModel()
-    private val uploadAdapter by lazy { UploadPhotoAdapter(this,viewModel) }
+    private val uploadAdapter by lazy { UploadPhotoAdapter(viewModel) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +87,10 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
                 getString(R.string.select_photo)
             ) { position ->
                 when (position) {
-                    0 -> viewModel.deletePhoto(it)
+                    0 -> {
+                        uploadAdapter.removeItem(it)
+                        viewModel.removeFile(it)
+                    }
                 }
             }
         })
@@ -127,21 +137,62 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
                 }
 
                 PickImageUtil.PICK_FROM_CAMERA -> {
+                    loadingProgress.show()
                     PickImageUtil.getImageFromCameraPath()?.let { path ->
-                        viewModel.setPath(PickImageUtil.setImage(path))
-                    }
+                        lifecycleScope.launch {
+                            addResizeImage(File(path))
+                        }
+                    } ?: imageError()
                 }
 
                 PickImageUtil.PICK_FROM_ALBUM -> {
+                    loadingProgress.show()
                     data?.getParcelableArrayListExtra<Uri>(GalleryActivity.KEY_SELECTED_GALLERY_ITEM)
-                        ?.let {
-                            viewModel.setPath(it)
-                        }
+                        ?.let { list ->
+                            lifecycleScope.launch {
+                                list.map { uri -> createFileWithUri(uri) }
+                            }
+                        } ?: imageError()
+                }
+            }
+        }
+    }
+
+
+    private suspend fun createFileWithUri(uri: Uri?) {
+        uri?.let {
+            withContext(Dispatchers.IO) {
+                PickImageUtil.createUriImageFile(this@UploadActivity, uri)
+                    ?.let { file -> addResizeImage(file) }
+            }
+        } ?: imageError()
+    }
+
+    private suspend fun addResizeImage(file: File?) {
+        file?.let {
+            withContext(Dispatchers.IO) {
+                PickImageUtil.resizeImage(it.path)
+            }
+
+            viewModel.addFile(it)
+
+            withContext(Dispatchers.Main) {
+                uploadAdapter.addItem(PhotoData().apply { this.file = it })
+
+                if(loadingProgress.isShowing){
+                    loadingProgress.dismiss()
                 }
 
             }
-        }
+        } ?: imageError()
+    }
 
+
+    private fun imageError(){
+        showShortToast(getString(R.string.error_not_load_image))
+        if(loadingProgress.isShowing){
+            loadingProgress.dismiss()
+        }
     }
 
     override fun onDestroy() {

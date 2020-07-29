@@ -4,9 +4,6 @@
     <data>
 
         <variable
-            name="position"
-            type="Integer" />
-        <variable
             name="item"
             type="com.like.drive.motorfeed.ui.upload.data.PhotoData" />
         <variable
@@ -19,7 +16,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/rect_stork_grey_6_conner"
-        android:onClick="@{()->vm.onClickPhotoItem(position)}">
+        android:onClick="@{()->vm.onClickPhotoItem(item)}">
 
         <ImageView
             android:layout_width="80dp"

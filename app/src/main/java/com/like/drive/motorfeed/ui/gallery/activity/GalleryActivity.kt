@@ -85,6 +85,7 @@ class GalleryActivity :
 
     private fun GalleryViewModel.clickDirectory() {
         selectedDirectory.observe(this@GalleryActivity, Observer {
+
             bringGalleryItem(it.value)
 
             if (directoryDialog.isVisible) {

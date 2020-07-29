@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,6 +12,8 @@
         <variable
             name="data"
             type="com.like.drive.motorfeed.ui.gallery.data.GalleryItemData" />
+
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,22 +24,30 @@
             android:id="@+id/ivGalleryItem"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:onClick="@{() -> vm.onClickGalleryItem(cbGalleryItem, data)}"
+            android:onClick="@{() -> vm.onClickGalleryItem(tvPosition, data)}"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:uri="@{data.uri}"/>
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cbGalleryItem"
+
+        <TextView
+            android:id="@+id/tvPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@android:color/black"
-            android:checked="@{data.selected}"
-            android:clickable="false"
+            android:background="@drawable/oval_solid_alpha_50_black_size_36"
+            android:gravity="center"
+            android:textColor="@color/white_100"
+            android:textSize="@dimen/large_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            tools:text="1"
+            android:singleLine="true"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/activity_x_small_margin"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
