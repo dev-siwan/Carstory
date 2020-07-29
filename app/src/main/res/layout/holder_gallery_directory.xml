@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="15dp"
-            android:src="@drawable/ic_circle_down_arrow"
+            android:src="@drawable/ic_arrow_right"
             app:layout_constraintBottom_toBottomOf="@id/tvGalleryDirectory"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvGalleryDirectory" />

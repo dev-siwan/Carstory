@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.upload.data.PhotoData
+import timber.log.Timber
 import java.io.File
 
 class UploadViewModel:BaseViewModel(){
@@ -19,6 +20,8 @@ class UploadViewModel:BaseViewModel(){
     private val _photoListData = MutableLiveData<List<PhotoData>>()
     val photoListData: LiveData<List<PhotoData>> get() = _photoListData
 
+    private val originFileList = ArrayList<File>()
+
 
     init {
         createPhotoList(null)
@@ -28,7 +31,7 @@ class UploadViewModel:BaseViewModel(){
      * 이미 업로드 된 이미지 있으면 표시
      * 없으면 빈 리스트로 초기화
      */
-    fun createPhotoList(uploadedKeys: Array<String>?) {
+    private fun createPhotoList(uploadedKeys: Array<String>?) {
         if (uploadedKeys?.isNotEmpty() == true) {
             _photoListData.value = uploadedKeys.map {
                 PhotoData(imgUrl = it)
@@ -58,18 +61,10 @@ class UploadViewModel:BaseViewModel(){
 
     fun deletePhoto(position: Int) {
         val tempList = mutableListOf<PhotoData>()
-        _photoListData.value?.filterIndexed { index, _ -> index != position }?.map { tempList.add(it) }
+        _photoListData.value?.filterIndexed { index, _ -> index != position }
+            ?.map { tempList.add(it) }
         _photoListData.value = tempList
-    }
-
-    /**
-     * 대표사진 변경
-     */
-    fun changeMainPhoto(position: Int) {
-        val tmpPhotoList = mutableListOf<PhotoData>()
-        _photoListData.value?.get(position)?.let { tmpPhotoList.add(it) }
-        _photoListData.value?.filterIndexed { index, _ -> index != position }?.map { tmpPhotoList.add(it) }
-        _photoListData.value = tmpPhotoList
+        removeFile(position)
     }
 
     /**
@@ -77,12 +72,30 @@ class UploadViewModel:BaseViewModel(){
      */
     fun setPath(file: File) {
         _photoListData.value = _photoListData.value?.plus(PhotoData().apply { this.file = file })
+        addFile(file)
     }
 
     fun setPath(pathList:List<Uri>){
         pathList.map {
             _photoListData.value = _photoListData.value?.plus(PhotoData().apply { this.uri = it })
         }
+    }
+
+    fun addFile(file:File){
+        originFileList.add(file)
+    }
+
+    private fun removeFile(position: Int){
+        originFileList.removeAt(position)
+
+        Timber.i("originFileSize = ${originFileList.size}")
+    }
+
+    /**
+     * 사진 클릭 시 이벤트
+     */
+    fun onClickPhotoItem(position: Int) {
+        photoItemClickEvent.value = position
     }
 
 

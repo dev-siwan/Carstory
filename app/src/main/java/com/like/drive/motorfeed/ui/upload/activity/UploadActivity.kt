@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -19,16 +18,14 @@ import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
 import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
-import com.like.drive.motorfeed.util.photo.PhotoUtil
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
 
 class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upload) {
 
     private val viewModel: UploadViewModel by viewModel()
-    private val uploadAdapter by lazy { UploadPhotoAdapter(viewModel) }
+    private val uploadAdapter by lazy { UploadPhotoAdapter(this,viewModel) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +50,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     private fun withViewModel() {
         with(viewModel) {
             pickPhoto()
+            photoItemClick()
         }
     }
 
@@ -69,6 +67,20 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
                 when (position) {
                     PhotoSelectType.CAMERA.ordinal -> showCamera()
                     PhotoSelectType.ALBUM.ordinal -> checkStoragePermission()
+                }
+            }
+        })
+    }
+
+
+    private fun UploadViewModel.photoItemClick() {
+        photoItemClickEvent.observe(this@UploadActivity, Observer {
+            showListDialog(
+                resources.getStringArray(R.array.pick_photo_menu),
+                getString(R.string.select_photo)
+            ) { position ->
+                when (position) {
+                    0 -> viewModel.deletePhoto(it)
                 }
             }
         })
@@ -116,7 +128,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
                 PickImageUtil.PICK_FROM_CAMERA -> {
                     PickImageUtil.getImageFromCameraPath()?.let { path ->
-                        viewModel.setPath(File(path))
+                        viewModel.setPath(PickImageUtil.setImage(path))
                     }
                 }
 
@@ -130,6 +142,12 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        uploadAdapter.lifeCycleDestroyed()
     }
 
     companion object {

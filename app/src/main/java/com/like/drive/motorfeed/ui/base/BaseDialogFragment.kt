@@ -13,7 +13,8 @@ import androidx.fragment.app.DialogFragment
 abstract class BaseFragmentDialog<V : ViewDataBinding>(
     @get:LayoutRes val layoutId: Int
 ) : DialogFragment() {
-    private lateinit var binding: V
+
+    lateinit var binding: V
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

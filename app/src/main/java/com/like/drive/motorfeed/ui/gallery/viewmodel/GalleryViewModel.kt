@@ -39,6 +39,7 @@ class GalleryViewModel : BaseViewModel() {
     val completeClickEvent = SingleLiveEvent<Unit>()
     val notAvailablePhoto = SingleLiveEvent<@StringRes Int>()
     val isLoading = SingleLiveEvent<Boolean>()
+    val selectDirectoryClickEvent = SingleLiveEvent<Unit>()
 
     init {
         viewModelScope.launch {
@@ -95,8 +96,8 @@ class GalleryViewModel : BaseViewModel() {
     /**
      * 선택한 폴더의 사진을 반환
      */
-    fun bringGalleryItem(directory: String?) {
-        _galleryListData.value = directory?.let { directory ->
+    fun bringGalleryItem(directoryName: String?) {
+        _galleryListData.value = directoryName?.let { directory ->
             _originGalleryData.value?.filter { it.directory == directory }
         } ?: _originGalleryData.value
     }

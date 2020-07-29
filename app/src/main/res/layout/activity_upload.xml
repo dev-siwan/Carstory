@@ -68,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:drawableEnd="@drawable/ic_circle_down_arrow"
+            android:drawableEnd="@drawable/ic_arrow_circle_down"
             android:gravity="start|center_vertical"
             android:hint="@string/select_motor"
             android:padding="@dimen/activity_horizontal_margin"

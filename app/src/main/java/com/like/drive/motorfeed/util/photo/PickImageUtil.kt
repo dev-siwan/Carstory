@@ -3,7 +3,6 @@ package com.like.drive.motorfeed.util.photo
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
@@ -12,11 +11,10 @@ import androidx.fragment.app.Fragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.motorfeed.R
-
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.io.OutputStream
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +27,6 @@ object PickImageUtil {
 
     private lateinit var activity: Activity
     private var fragment: Fragment? = null
-
 
     fun pickFromGallery(
         activity: Activity,
@@ -170,10 +167,10 @@ object PickImageUtil {
         val originFile = File(path)
         ImageResizeUtil.resizeFile(originFile, originFile, 1280, isCamera)
 
-      /*  val options = BitmapFactory.Options()
-        val originalBm = BitmapFactory.decodeFile(originFile.absolutePath, options)*/
+        val options = BitmapFactory.Options()
+        BitmapFactory.decodeFile(originFile.absolutePath, options)
 
-        tempFile=null
+        tempFile?.let { null }
 
         return originFile
     }
@@ -188,16 +185,6 @@ object PickImageUtil {
             }
         }
 
-        /*// 크롭 후 이미지 비율
-        CropImage.activity(photoUri).apply {
-            when (cropCode) {
-                CROP_1_1 -> {
-                    setAspectRatio(1, 1)
-                    setCropShape(CropImageView.CropShape.RECTANGLE)
-                    start(activity)
-                }
-            }
-        }*/
     }
 
 
@@ -206,7 +193,7 @@ object PickImageUtil {
         // 이미지 파일 이름
         val cal = Calendar.getInstance().time
         val timeStamp = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
-        val imageFileName = "DabangPro_${timeStamp.format(cal)}"
+        val imageFileName = "MotorFeed_${timeStamp.format(cal)}"
 
         // 이미지가 저장될 폴더 이름
         val storageDir = File(activity.getExternalFilesDir(null)?.absolutePath + "/img/")
@@ -214,6 +201,39 @@ object PickImageUtil {
 
         // 빈 파일 생성
         return File.createTempFile(imageFileName, ".jpg", storageDir)
+    }
+
+
+
+    fun createUriImageFile(activity: Activity?,uri:Uri): File? {
+
+        var newFile:File?=null
+
+        activity?.contentResolver?.openInputStream(uri)?.let { inputStream ->
+
+            // 이미지 파일 이름
+            val cal = Calendar.getInstance().time
+            val timeStamp = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+            val imageFileName = "MotorFeed_${timeStamp.format(cal)}"
+
+            // 이미지가 저장될 폴더 이름
+            val storageDir = File(activity.getExternalFilesDir(null)?.absolutePath + "/img/")
+            if (!storageDir.exists()) storageDir.mkdirs()
+
+            newFile = File.createTempFile(imageFileName, ".jpg", storageDir)
+
+            val out = FileOutputStream(newFile)
+            val buf = ByteArray(1024)
+            var len: Int
+            while (inputStream.read(buf).also { len = it } > 0) {
+                out.write(buf, 0, len)
+            }
+            out.close()
+            inputStream.close()
+        }
+        // 빈 파일 생성
+
+        return newFile
     }
 
     //image pick code

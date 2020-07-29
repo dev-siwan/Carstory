@@ -1,26 +1,25 @@
 package com.like.drive.motorfeed.ui.gallery.activity
 
+
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
-
+import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.ActivityGalleryBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
-import com.like.drive.motorfeed.ui.base.ext.getCurrentFragmentClassName
+import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
+import com.like.drive.motorfeed.ui.gallery.adapter.GalleryAdapter
 import com.like.drive.motorfeed.ui.gallery.data.GalleryDirectoryData
 import com.like.drive.motorfeed.ui.gallery.fragment.GalleryDirectoryFragment
-import com.like.drive.motorfeed.ui.gallery.fragment.GalleryDirectoryFragmentDirections
-import com.like.drive.motorfeed.ui.gallery.fragment.GalleryFragment
 import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel
-import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
-import kotlinx.android.synthetic.main.layout_custom_toolbar.*
-
-
+import kotlinx.android.synthetic.main.activity_gallery.*
+import kotlinx.android.synthetic.main.layout_custom_toolbar.tvToolbarTitle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GalleryActivity :
@@ -33,40 +32,24 @@ class GalleryActivity :
 
     private val toolbar by lazy { findViewById<Toolbar>(R.id.incToolbar) }
     private val galleryViewModel: GalleryViewModel by viewModel()
-    private val navController by lazy {
-        Navigation.findNavController(this, R.id.customGalleryNavFragment)
-    }
-    private var showDirectory = false
+
+
+    private val galleryAdapter by lazy { GalleryAdapter(galleryViewModel) }
+    private val directoryDialog by lazy{ GalleryDirectoryFragment() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initData()
         initView()
         initObserver()
     }
 
 
-    override fun onBackPressed() {
-        if (navController.getCurrentFragmentClassName() == GalleryFragment::class.java.name) {
-            if (showDirectory) navController.popBackStack() else finish()
-        } else {
-            finish()
-        }
-    }
+    override fun onBinding(dataBinding: ActivityGalleryBinding) {
+        super.onBinding(dataBinding)
 
-    override fun setBackButtonToolbar(toolbar: Toolbar, title: String, action: () -> Unit) {
-        super.setBackButtonToolbar(toolbar, title, action)
-        tvToolbarTitle?.text = title
-    }
-
-    override fun setCloseButtonToolbar(toolbar: Toolbar, title: String, action: () -> Unit) {
-        super.setCloseButtonToolbar(toolbar, title, action)
-        tvToolbarTitle?.text = title
-    }
-
-    private fun initData() {
-        showDirectory = intent?.getBooleanExtra(KEY_SHOW_DIRECTORY, false) ?: false
+        dataBinding.vm = galleryViewModel
+        rvGallery.adapter = galleryAdapter
     }
 
     private fun initObserver() {
@@ -76,22 +59,20 @@ class GalleryActivity :
             clickDirectory()
             showNotAvailableMimeType()
             showLoading()
+            selectDirectoryClickEvent()
         }
     }
 
+
     private fun initView() {
-        if (!showDirectory) {
-            moveToGalleryFragment()
-        }
-        navController.apply {
-            addOnDestinationChangedListener { _, _, _ ->
-                when (getCurrentFragmentClassName()) {
-                    GalleryDirectoryFragment::class.java.name -> setBackButtonToolbar(toolbar, getString(R.string.select_gallery_directory)) { finish() }
-                    GalleryFragment::class.java.name -> setBackButtonToolbar(toolbar, galleryViewModel.getSelectedDirectoryTitle()) { if (showDirectory) popBackStack() else finish() }
-                }
-            }
+
+        setCloseButtonToolbar(toolbar, galleryViewModel.getSelectedDirectoryTitle()) { finish() }
+
+        rvGallery.run {
+            addItemDecoration(GridSpacingItemDecoration(3, dpToPixel(3.0f).toInt(), true))
         }
     }
+
 
     private fun GalleryViewModel.complete() {
         completeClickEvent.observe(this@GalleryActivity, Observer {
@@ -104,11 +85,21 @@ class GalleryActivity :
 
     private fun GalleryViewModel.clickDirectory() {
         selectedDirectory.observe(this@GalleryActivity, Observer {
-            //폴더 보여주지 않으면, 초기 진입 시 GalleryFragment 로 이동하므로, 폴더 선택 시에만 이동하도록 처리
-            if (showDirectory) {
-                moveToGalleryFragment()
+            bringGalleryItem(it.value)
+
+            if (directoryDialog.isVisible) {
+                directoryDialog.dismiss()
             }
+
         })
+
+    }
+
+    private fun GalleryViewModel.selectDirectoryClickEvent() {
+        selectDirectoryClickEvent.observe(this@GalleryActivity, Observer {
+            directoryDialog.show(supportFragmentManager,"")
+        })
+
     }
 
     private fun GalleryViewModel.showNotAvailableMimeType() {
@@ -119,14 +110,14 @@ class GalleryActivity :
 
     private fun GalleryViewModel.completeBringInitData() {
         originGalleryData.observe(this@GalleryActivity, Observer {
-            when {
-                showDirectory -> getGalleryDirectory()
-                // 폴더 보여주지 않고 바로 사진화면으로 넘길 경우 전체 사진으로 보여주기 위해 설정
-                else -> {
-                    setSelectedDirectory(GalleryDirectoryData(getString(R.string.select_photo), null))
-                    tvToolbarTitle.text = getString(R.string.select_photo)
-                }
-            }
+
+            setSelectedDirectory(
+                GalleryDirectoryData(
+                    getString(R.string.select_photo),
+                    null
+                )
+            )
+            tvToolbarTitle.text = getString(R.string.select_photo)
         })
     }
 
@@ -139,11 +130,38 @@ class GalleryActivity :
         })
     }
 
-    private fun moveToGalleryFragment() {
-        val directions = GalleryDirectoryFragmentDirections.actionGalleryDirectoryFragmentToGalleryFragment()
-        if (navController.currentDestination?.id == R.id.galleryDirectoryFragment) {
-            navController.navigate(directions)
+}
+
+class GridSpacingItemDecoration(
+    private val spanCount: Int,
+    private val spacing: Int,
+    private val includeEdge: Boolean
+) :
+    RecyclerView.ItemDecoration() {
+
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        val position = parent.getChildAdapterPosition(view)
+        val column = position % spanCount
+        if (includeEdge) {
+            outRect.left = spacing - column * spacing / spanCount
+            outRect.right = (column + 1) * spacing / spanCount
+            if (position < spanCount) {
+                outRect.top = spacing
+            }
+            outRect.bottom = spacing
+        } else {
+            outRect.left = column * spacing / spanCount
+            outRect.right = spacing - (column + 1) * spacing / spanCount
+            if (position >= spanCount) {
+                outRect.top = spacing
+            }
         }
     }
+
 
 }
