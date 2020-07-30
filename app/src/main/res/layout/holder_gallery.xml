@@ -24,7 +24,7 @@
             android:id="@+id/ivGalleryItem"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:onClick="@{() -> vm.onClickGalleryItem(tvPosition, data)}"
+            android:onClick="@{() -> vm.onClickGalleryItem(data)}"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,17 +36,18 @@
             android:id="@+id/tvPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_x_small_margin"
             android:background="@drawable/oval_solid_alpha_50_black_size_36"
             android:gravity="center"
+            android:singleLine="true"
             android:textColor="@color/white_100"
             android:textSize="@dimen/large_text_size"
+            android:textStyle="bold"
+            android:text="@{String.valueOf(data.index)}"
+            android:visibility="@{data.selected ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="1"
-            android:singleLine="true"
-            android:visibility="gone"
-            android:textStyle="bold"
-            android:layout_margin="@dimen/activity_x_small_margin"/>
+            tools:text="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

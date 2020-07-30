@@ -1,13 +1,11 @@
 package com.like.drive.motorfeed.ui.upload.viewmodel
 
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.upload.data.PhotoData
-import timber.log.Timber
 import java.io.File
 
 class UploadViewModel:BaseViewModel(){
@@ -16,11 +14,14 @@ class UploadViewModel:BaseViewModel(){
     val photoItemClickEvent = SingleLiveEvent<PhotoData>()
 
     private val _originListData = MutableLiveData<List<PhotoData>>()
+
     private val _photoListData = MutableLiveData<List<PhotoData>>()
     val photoListData: LiveData<List<PhotoData>> get() = _photoListData
 
     private val originFileList = ArrayList<File>()
 
+    private val _pickPhotoCount = MutableLiveData(0)
+    val pickPhotoCount :LiveData<Int> get() = _pickPhotoCount
 
     init {
        // createPhotoList(null)
@@ -44,11 +45,12 @@ class UploadViewModel:BaseViewModel(){
 
     fun addFile(file:File){
         originFileList.add(file)
+        setPhotoSize()
     }
 
     fun removeFile(photoData: PhotoData){
         originFileList.remove(photoData.file)
-
+        setPhotoSize()
     }
 
     /**
@@ -58,6 +60,13 @@ class UploadViewModel:BaseViewModel(){
         photoItemClickEvent.value = photoData
     }
 
+    private fun setPhotoSize(){ _pickPhotoCount.postValue(originFileList.size) }
 
+    fun isPhotoLimitSize() = originFileList.size < PHOTO_MAX_SIZE
+
+
+    companion object{
+        val PHOTO_MAX_SIZE = 5
+    }
 
 }

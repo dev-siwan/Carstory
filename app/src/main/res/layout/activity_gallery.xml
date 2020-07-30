@@ -37,6 +37,17 @@
                 android:textStyle="bold"
                 tools:text="제목" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{String.format(@string/pick_photo_limit_size,vm.remainCount,vm.maxSize)}"
+                android:layout_gravity="end|center_vertical"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text_size"
+                android:layout_marginEnd="@dimen/activity_small_margin"
+                tools:text="0/0" />
+
         </androidx.appcompat.widget.Toolbar>
 
 
@@ -44,7 +55,7 @@
             android:id="@+id/rvGallery"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:galleryItem="@{vm.galleryListData}"
+            app:galleryItem="@{vm.originGalleryData}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/btnComplete"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +73,7 @@
             android:enabled="@{vm.enableStatus}"
             android:onClick="@{()->vm.doClickEvent(vm.completeClickEvent)}"
             android:stateListAnimator="@null"
-            android:text="@string/complete_text"
+            android:text="@{vm.pickPhotoCount != null &amp;&amp; vm.pickPhotoCount > 0 ? String.format(@string/complete_count_text,vm.pickPhotoCount) : @string/no_pick_message}"
             android:textColor="@color/btn_text_enable_color"
             android:textSize="@dimen/large_text_size"
             android:textStyle="bold"

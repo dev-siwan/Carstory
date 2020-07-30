@@ -104,7 +104,7 @@
             android:id="@+id/btnSignIn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/enable_button_rect_true_solid_black_false_light_grey3"
+            android:background="@drawable/enable_button_rect_true_solid_black_false_light_grey3_conner"
             android:paddingTop="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_horizontal_margin"
             android:text="@string/sign_up_text"

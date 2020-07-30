@@ -2,11 +2,8 @@ package com.like.drive.motorfeed.ui.gallery.viewmodel
 
 import android.net.Uri
 import android.provider.MediaStore
-import android.view.View
 
-import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,8 +20,9 @@ import kotlinx.coroutines.withContext
 
 class GalleryViewModel : BaseViewModel() {
 
-    private val _galleryListData = MutableLiveData<List<GalleryItemData>>()
-    val galleryListData: LiveData<List<GalleryItemData>> get() = _galleryListData
+
+    private val _originGalleryData = MutableLiveData<List<GalleryItemData>>()
+    val originGalleryData: LiveData<List<GalleryItemData>> get() = _originGalleryData
 
     private val _galleryDirectory = MutableLiveData<List<GalleryDirectoryData>>()
     val galleryDirectory: LiveData<List<GalleryDirectoryData>> get() = _galleryDirectory
@@ -36,15 +34,27 @@ class GalleryViewModel : BaseViewModel() {
         addSource(_selectedDirectory) { value = isExistSelectedItem() }
     }
 
-    private val _originGalleryData = MutableLiveData<List<GalleryItemData>>()
-    val originGalleryData: LiveData<List<GalleryItemData>> get() = _originGalleryData
+    var remainCountValue :Int = 0
+    private val _remainCount =MutableLiveData<Int>()
+    val remainCount : LiveData<Int> get() = _remainCount
+
+    private val _maxSize =MutableLiveData(0)
+    val maxSize : LiveData<Int> get() = _maxSize
+
+    private val _pickPhotoCount = MutableLiveData<Int>()
+    val pickPhotoCount :LiveData<Int> get() = _pickPhotoCount
 
     val completeClickEvent = SingleLiveEvent<Unit>()
     val notAvailablePhoto = SingleLiveEvent<@StringRes Int>()
     val isLoading = SingleLiveEvent<Boolean>()
+
     val selectDirectoryClickEvent = SingleLiveEvent<Unit>()
 
     private val uriList = ArrayList<Uri>()
+
+    val addDataEvent =SingleLiveEvent<GalleryItemData>()
+    val removeDataEvent = SingleLiveEvent<GalleryItemData>()
+
 
     init {
         viewModelScope.launch {
@@ -99,18 +109,6 @@ class GalleryViewModel : BaseViewModel() {
     }
 
     /**
-     * 선택한 폴더의 사진을 반환
-     */
-    fun bringGalleryItem(directoryName: String?) {
-
-        uriList.clear()
-
-        _galleryListData.value = directoryName?.let { directory ->
-            _originGalleryData.value?.filter { it.directory == directory }
-        } ?: _originGalleryData.value
-    }
-
-    /**
      * 사진 폴더 선택 시
      */
     fun onClickDirectory(data: GalleryDirectoryData) {
@@ -120,26 +118,60 @@ class GalleryViewModel : BaseViewModel() {
     /**
      * 사진 아이템 클릭 시
      */
-    fun onClickGalleryItem(view: TextView, data: GalleryItemData) {
+    fun onClickGalleryItem(data: GalleryItemData) {
         if (isAvailablePhoto(data.sizeMb, data.mimeType)) {
 
-            if (view.isVisible) {
-
-                view.visibility = View.GONE
-                uriList.remove(data.uri)
-
-            } else {
-
-                view.visibility = View.VISIBLE
-                uriList.add(data.uri)
-
+            data.run {
+                if (selected.get()) {
+                    removeUri(uri, this)
+                } else {
+                    addUri(uri, this)
+                }
             }
-
-            view.text = uriList.size.toString()
-
+            _pickPhotoCount.value = uriList.size
             enableStatus.value = isExistSelectedItem()
         }
     }
+
+
+    /**
+     * 남는갯수랑 맥스갯수 받음
+     */
+    fun initCount(maxSize: Int, count: Int) {
+        _maxSize.value = maxSize
+        remainCountValue = count
+        _remainCount.value = remainCountValue
+    }
+
+
+    /**
+     * 아이템 추가
+     */
+    private fun addUri(uri: Uri, data: GalleryItemData) {
+        if (isAddPhoto()) {
+            uriList.add(uri)
+            _remainCount.value = ++remainCountValue
+            addDataEvent.value = data
+
+        } else {
+            notAvailablePhoto.value = R.string.pick_photo_limit_message
+            return
+        }
+    }
+    /**
+     * 아이템 삭제
+     */
+    private fun removeUri(uri: Uri, data: GalleryItemData) {
+        uriList.remove(uri)
+        _remainCount.value = --remainCountValue
+        removeDataEvent.value = data
+    }
+
+    /**
+     * 사용갯수 맥스 사이즈 비교
+     */
+    
+    private fun isAddPhoto() = _remainCount.value ?: 0 < _maxSize.value ?: 0
 
     /**
      * 사진 크기 및 확장자 체크
@@ -180,16 +212,5 @@ class GalleryViewModel : BaseViewModel() {
         return uriList
     }
 
-    /**
-     * 선택한 폴더명을 반환
-     */
-    fun getSelectedDirectoryTitle() = selectedDirectory.value?.display ?: ""
-
-    /**
-     *  폴더명을 강제로 설정
-     */
-    fun setSelectedDirectory(data: GalleryDirectoryData) {
-        _selectedDirectory.value = data
-    }
 
 }

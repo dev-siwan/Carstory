@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.ui.upload.activity
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -67,16 +68,25 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
     private fun UploadViewModel.pickPhoto() {
         selectPhotoClickEvent.observe(this@UploadActivity, Observer {
-            showListDialog(
-                resources.getStringArray(R.array.empty_photo_type_array),
-                getString(R.string.select_photo)
-            ) { position ->
-                when (position) {
-                    PhotoSelectType.CAMERA.ordinal -> showCamera()
-                    PhotoSelectType.ALBUM.ordinal -> checkStoragePermission()
-                }
+            if (isPhotoLimitSize()) {
+                showSelectPhotoList()
+            } else {
+                showShortToast(getString(R.string.pick_photo_limit_message))
             }
         })
+    }
+
+
+    private fun showSelectPhotoList() {
+        showListDialog(
+            resources.getStringArray(R.array.empty_photo_type_array),
+            getString(R.string.select_photo)
+        ) { position ->
+            when (position) {
+                PhotoSelectType.CAMERA.ordinal -> showCamera()
+                PhotoSelectType.ALBUM.ordinal -> checkStoragePermission()
+            }
+        }
     }
 
 
@@ -88,13 +98,19 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             ) { position ->
                 when (position) {
                     0 -> {
-                        uploadAdapter.removeItem(it)
-                        viewModel.removeFile(it)
+                        removeItem(it)
                     }
                 }
             }
         })
     }
+
+
+    private fun removeItem(photoData: PhotoData) {
+        uploadAdapter.removeItem(photoData)
+        viewModel.removeFile(photoData)
+    }
+
 
     private fun checkStoragePermission() {
         TedPermission.with(this)
@@ -118,7 +134,8 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
     private fun showCustomGallery() {
         startActForResult(GalleryActivity::class, PickImageUtil.PICK_FROM_ALBUM, Bundle().apply {
-            putBoolean(GalleryActivity.KEY_SHOW_DIRECTORY, true)
+            putInt(GalleryActivity.KEY_PICK_PHOTO_COUNT, uploadAdapter.itemCount)
+            putInt(GalleryActivity.KEY_PHOTO_MAX_SIZE, UploadViewModel.PHOTO_MAX_SIZE)
         })
     }
 
@@ -138,26 +155,44 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
                 PickImageUtil.PICK_FROM_CAMERA -> {
                     loadingProgress.show()
-                    PickImageUtil.getImageFromCameraPath()?.let { path ->
-                        lifecycleScope.launch {
-                            addResizeImage(File(path))
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Default) {
+                            getCameraFlow()
                         }
-                    } ?: imageError()
+                        loadingProgress.onDismiss()
+                    }
+
                 }
 
                 PickImageUtil.PICK_FROM_ALBUM -> {
                     loadingProgress.show()
-                    data?.getParcelableArrayListExtra<Uri>(GalleryActivity.KEY_SELECTED_GALLERY_ITEM)
-                        ?.let { list ->
-                            lifecycleScope.launch {
-                                list.map { uri -> createFileWithUri(uri) }
-                            }
-                        } ?: imageError()
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Default) {
+                            getAlbumFlow(data)
+                        }
+                        loadingProgress.onDismiss()
+                    }
                 }
             }
         }
     }
 
+    private suspend fun getCameraFlow() {
+        PickImageUtil.getImageFromCameraPath()?.let { path ->
+            lifecycleScope.launch {
+                addResizeImage(File(path))
+            }
+        } ?: imageError()
+    }
+
+    private suspend fun getAlbumFlow(data: Intent?) {
+        data?.getParcelableArrayListExtra<Uri>(GalleryActivity.KEY_SELECTED_GALLERY_ITEM)
+            ?.let { list ->
+
+                list.map { uri -> createFileWithUri(uri) }
+
+            } ?: imageError()
+    }
 
     private suspend fun createFileWithUri(uri: Uri?) {
         uri?.let {
@@ -173,25 +208,25 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             withContext(Dispatchers.IO) {
                 PickImageUtil.resizeImage(it.path)
             }
-
-            viewModel.addFile(it)
-
             withContext(Dispatchers.Main) {
+
                 uploadAdapter.addItem(PhotoData().apply { this.file = it })
 
-                if(loadingProgress.isShowing){
-                    loadingProgress.dismiss()
-                }
+                viewModel.addFile(it)
 
             }
         } ?: imageError()
     }
 
 
-    private fun imageError(){
+    private fun imageError() {
         showShortToast(getString(R.string.error_not_load_image))
-        if(loadingProgress.isShowing){
-            loadingProgress.dismiss()
+        loadingProgress.onDismiss()
+    }
+
+    private fun Dialog.onDismiss() {
+        if (isShowing) {
+            dismiss()
         }
     }
 
@@ -201,10 +236,6 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         uploadAdapter.lifeCycleDestroyed()
     }
 
-    companion object {
-        const val REQ_REG_PHOTO = 1002
-        const val KEY_UPLOADED_KEYS = "KEY_UPLOADED_KEYS"
-    }
 }
 
 enum class PhotoSelectType {

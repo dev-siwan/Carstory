@@ -9,11 +9,21 @@ import com.like.drive.motorfeed.databinding.HolderGalleryBinding
 import com.like.drive.motorfeed.ui.gallery.data.GalleryItemData
 import com.like.drive.motorfeed.ui.gallery.holder.GalleryHolder
 import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel
+import okhttp3.internal.notify
 
 class GalleryAdapter(val viewModel: GalleryViewModel) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var galleryListData: List<GalleryItemData> = emptyList()
+    var galleryListData = mutableListOf<GalleryItemData>()
+    var allGalleryData: List<GalleryItemData> = emptyList()
+    private val selectItemList = mutableListOf<GalleryItemData>()
+
+    fun init(data: List<GalleryItemData>) {
+        allGalleryData = data
+        galleryListData.addAll(data)
+        notifyDataSetChanged()
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,5 +40,44 @@ class GalleryAdapter(val viewModel: GalleryViewModel) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as GalleryHolder).bind(galleryListData[position])
+    }
+
+    fun bringGalleryItem(directoryName: String?) {
+
+        if (galleryListData.isNotEmpty()) {
+
+            galleryListData = (directoryName?.let { directory ->
+                allGalleryData.filter { it.directory == directory }
+            } ?: allGalleryData).toMutableList()
+
+            notifyDataSetChanged()
+        }
+    }
+
+    fun addItem(itemData: GalleryItemData) {
+        itemData.run {
+            selectItemList.add(this)
+            selected.set(!itemData.selected.get())
+            index.set(selectItemList.size)
+        }
+    }
+
+    fun removeItem(itemData: GalleryItemData) {
+        itemData.run {
+            selectItemList.remove(this)
+            selected.set(!itemData.selected.get())
+        }
+        replaceItemPosition(itemData.index.get())
+    }
+
+
+    private fun replaceItemPosition(index: Int) {
+
+        selectItemList.filter { it.index.get() > index }.forEach {
+            val indexOf = it.index.get()
+            if (indexOf > 1) {
+                it.index.set(indexOf - 1)
+            }
+        }
     }
 }

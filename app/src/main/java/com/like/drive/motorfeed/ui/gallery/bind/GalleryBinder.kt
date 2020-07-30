@@ -11,8 +11,7 @@ import com.like.drive.motorfeed.ui.gallery.data.GalleryItemData
 fun RecyclerView.setGalleryItem(data: List<GalleryItemData>?) {
     data?.let {
         (adapter as? GalleryAdapter)?.run {
-            this.galleryListData = data
-            notifyDataSetChanged()
+            init(data)
         }
     }
 }

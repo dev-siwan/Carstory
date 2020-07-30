@@ -15,7 +15,6 @@ import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.gallery.adapter.GalleryAdapter
-import com.like.drive.motorfeed.ui.gallery.data.GalleryDirectoryData
 import com.like.drive.motorfeed.ui.gallery.fragment.GalleryDirectoryFragment
 import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel
 import kotlinx.android.synthetic.main.activity_gallery.*
@@ -27,7 +26,8 @@ class GalleryActivity :
 
     companion object {
         const val KEY_SELECTED_GALLERY_ITEM = "KEY_SELECTED_GALLERY_ITEM"
-        const val KEY_SHOW_DIRECTORY = "KEY_SHOW_DIRECTORY"
+        const val KEY_PICK_PHOTO_COUNT = "KEY_PICK_PHOTO_COUNT"
+        const val KEY_PHOTO_MAX_SIZE = "KEY_PHOTO_MAX_SIZE"
     }
 
     private val toolbar by lazy { findViewById<Toolbar>(R.id.incToolbar) }
@@ -38,8 +38,11 @@ class GalleryActivity :
     private val directoryDialog by lazy{ GalleryDirectoryFragment() }
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initData()
         initView()
         initObserver()
     }
@@ -52,21 +55,29 @@ class GalleryActivity :
         rvGallery.adapter = galleryAdapter
     }
 
+    private fun initData(){
+        galleryViewModel.run {
+            initCount( intent.getIntExtra(KEY_PHOTO_MAX_SIZE,0), intent.getIntExtra(KEY_PICK_PHOTO_COUNT,0))
+        }
+    }
+
     private fun initObserver() {
         with(galleryViewModel) {
-            completeBringInitData()
             complete()
             clickDirectory()
             showNotAvailableMimeType()
             showLoading()
             selectDirectoryClickEvent()
+            addData()
+            removeData()
         }
     }
 
 
     private fun initView() {
 
-        setCloseButtonToolbar(toolbar, galleryViewModel.getSelectedDirectoryTitle()) { finish() }
+        tvToolbarTitle.text = getString(R.string.all)
+        setCloseButtonToolbar(toolbar) { finish() }
 
         rvGallery.run {
             addItemDecoration(GridSpacingItemDecoration(3, dpToPixel(3.0f).toInt(), true))
@@ -83,10 +94,24 @@ class GalleryActivity :
         })
     }
 
+    private fun GalleryViewModel.addData() {
+        addDataEvent.observe(this@GalleryActivity, Observer {
+            galleryAdapter.addItem(it)
+        })
+    }
+
+    private fun GalleryViewModel.removeData() {
+        removeDataEvent.observe(this@GalleryActivity, Observer {
+            galleryAdapter.removeItem(it)
+        })
+    }
+
+
     private fun GalleryViewModel.clickDirectory() {
         selectedDirectory.observe(this@GalleryActivity, Observer {
 
-            bringGalleryItem(it.value)
+            tvToolbarTitle.text = it.display
+            galleryAdapter.bringGalleryItem(it.value)
 
             if (directoryDialog.isVisible) {
                 directoryDialog.dismiss()
@@ -109,18 +134,6 @@ class GalleryActivity :
         })
     }
 
-    private fun GalleryViewModel.completeBringInitData() {
-        originGalleryData.observe(this@GalleryActivity, Observer {
-
-            setSelectedDirectory(
-                GalleryDirectoryData(
-                    getString(R.string.select_photo),
-                    null
-                )
-            )
-            tvToolbarTitle.text = getString(R.string.select_photo)
-        })
-    }
 
     private fun GalleryViewModel.showLoading() {
         isLoading.observe(this@GalleryActivity, Observer {
