@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.like.drive.motorfeed.ui.base.ext.dpToPixel
-import com.like.drive.motorfeed.ui.upload.data.PhotoData
+import com.like.drive.motorfeed.data.PhotoData
 
 /*@BindingAdapter("loadImage")
 fun ImageView.setLoadImage(imageUrl: String?) {

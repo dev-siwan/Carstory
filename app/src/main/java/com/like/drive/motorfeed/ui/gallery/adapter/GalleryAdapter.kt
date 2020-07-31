@@ -45,7 +45,6 @@ class GalleryAdapter(val viewModel: GalleryViewModel) :
     fun bringGalleryItem(directoryName: String?) {
 
         if (galleryListData.isNotEmpty()) {
-
             galleryListData = (directoryName?.let { directory ->
                 allGalleryData.filter { it.directory == directory }
             } ?: allGalleryData).toMutableList()
@@ -72,7 +71,6 @@ class GalleryAdapter(val viewModel: GalleryViewModel) :
 
 
     private fun replaceItemPosition(index: Int) {
-
         selectItemList.filter { it.index.get() > index }.forEach {
             val indexOf = it.index.get()
             if (indexOf > 1) {

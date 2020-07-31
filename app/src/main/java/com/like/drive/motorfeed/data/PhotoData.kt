@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.upload.data
+package com.like.drive.motorfeed.data
 
 
 import android.net.Uri

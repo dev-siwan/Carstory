@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="vm"
             type="com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel" />
@@ -52,6 +54,21 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/large_text_size"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:enabled="@{vm.isFieldEnable}"
+                android:text="@string/upload"
+                android:padding="@dimen/activity_x_small_margin"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:textColor="@color/text_enable_color"
+                android:focusable="true" />
+
+
         </androidx.appcompat.widget.Toolbar>
 
         <View
@@ -73,6 +90,7 @@
             android:hint="@string/select_motor"
             android:padding="@dimen/activity_horizontal_margin"
             android:textColor="@android:color/black"
+            android:textColorHint="@color/grey_4"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,6 +112,7 @@
             android:background="@drawable/edit_text_background"
             android:hint="@string/input_title_hint"
             android:padding="@dimen/activity_vertical_margin"
+            android:text="@={vm.title}"
             android:theme="@style/PrimaryEditTextTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,6 +129,7 @@
             android:paddingStart="@dimen/activity_vertical_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:paddingEnd="@dimen/activity_vertical_margin"
+            android:text="@={vm.content}"
             android:textColorHint="@color/grey_4"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintBottom_toTopOf="@id/ibAddButton"
@@ -128,7 +148,10 @@
             android:drawableTop="@drawable/ic_camera"
             android:onClick="@{()->vm.doClickEvent(vm.selectPhotoClickEvent)}"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintStart_toStartOf="@id/glStart">
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
 
 
             <ImageView
@@ -157,15 +180,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPhotos"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_small_margin"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="@id/ibAddButton"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toEndOf="@id/ibAddButton"
-            app:layout_constraintTop_toTopOf="@id/ibAddButton"
-            app:uploadPhotoItems="@{vm.photoListData}" />
+            app:uploadPhotoItems="@{vm.photoListData}"
+            tools:listitem="@layout/holder_upload_photo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

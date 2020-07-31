@@ -6,8 +6,10 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.motorfeed.R
@@ -20,7 +22,7 @@ import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
-import com.like.drive.motorfeed.ui.upload.data.PhotoData
+import com.like.drive.motorfeed.data.PhotoData
 import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
@@ -39,19 +41,18 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initView()
         withViewModel()
+
         tvSelectMotor.setOnClickListener {
             startActForResult(SelectMotorTypeActivity::class, SelectMotorTypeActivity.REQUEST_CODE)
         }
-
     }
 
     override fun onBinding(dataBinding: ActivityUploadBinding) {
         super.onBinding(dataBinding)
-
         dataBinding.vm = viewModel
         dataBinding.rvPhotos.adapter = uploadAdapter
-
     }
 
 
@@ -61,6 +62,18 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             photoItemClick()
         }
     }
+
+    private fun initView(){
+        val divider = DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL).apply {
+            ContextCompat.getDrawable(
+                this@UploadActivity, R.drawable.line_solid_empty
+            )?.let { setDrawable(it) }
+        }
+        rvPhotos.run {
+            addItemDecoration(divider)
+        }
+    }
+
 
     /**
      * 사진 선택
@@ -77,6 +90,11 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     }
 
 
+    /**
+     * 사진 선택 리스트
+     * 1.사진 2.앨범
+     */
+
     private fun showSelectPhotoList() {
         showListDialog(
             resources.getStringArray(R.array.empty_photo_type_array),
@@ -89,6 +107,11 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         }
     }
 
+
+    /**
+     * 포토 아이템을 눌렸을 경우 메뉴 뜸
+     * 1.삭제 2.크게보기
+     */
 
     private fun UploadViewModel.photoItemClick() {
         photoItemClickEvent.observe(this@UploadActivity, Observer {
@@ -106,12 +129,17 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     }
 
 
+    /**
+     * 포토 아이템 삭제
+     */
     private fun removeItem(photoData: PhotoData) {
         uploadAdapter.removeItem(photoData)
         viewModel.removeFile(photoData)
     }
 
-
+    /**
+     * 앨범 퍼미션 체크
+     */
     private fun checkStoragePermission() {
         TedPermission.with(this)
             .setPermissionListener(object : PermissionListener {
@@ -128,10 +156,16 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     }
 
 
+    /**
+     * 카매라 오픈
+     */
     private fun showCamera() {
         PickImageUtil.pickFromCamera(this)
     }
 
+    /**
+     * 갤러리 리스트로 향함
+     */
     private fun showCustomGallery() {
         startActForResult(GalleryActivity::class, PickImageUtil.PICK_FROM_ALBUM, Bundle().apply {
             putInt(GalleryActivity.KEY_PICK_PHOTO_COUNT, uploadAdapter.itemCount)
@@ -140,6 +174,11 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     }
 
 
+    /**
+     * 1. SelectMotorTypeActivity.REQUEST_CODE : 자동차 모델 Request
+     * 2. PickImageUtil.PICK_FROM_CAMERA : 카메라 Request
+     * 3. PickImageUtil.PICK_FROM_ALBUM : 앨범 Request
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -177,6 +216,10 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         }
     }
 
+
+    /**
+     * 카메라 파일 리사이즈
+     */
     private suspend fun getCameraFlow() {
         PickImageUtil.getImageFromCameraPath()?.let { path ->
             lifecycleScope.launch {
@@ -185,15 +228,19 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         } ?: imageError()
     }
 
+    /**
+     * 앨범 리스트들을 파일을 만들어서 stream 시킴
+     */
     private suspend fun getAlbumFlow(data: Intent?) {
         data?.getParcelableArrayListExtra<Uri>(GalleryActivity.KEY_SELECTED_GALLERY_ITEM)
             ?.let { list ->
-
                 list.map { uri -> createFileWithUri(uri) }
-
             } ?: imageError()
     }
 
+    /**
+     * 파일을 만든 후 리사이즈를 시킨다 !
+     * */
     private suspend fun createFileWithUri(uri: Uri?) {
         uri?.let {
             withContext(Dispatchers.IO) {
@@ -203,6 +250,9 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         } ?: imageError()
     }
 
+    /**
+     * 리 사이즈를 시키고 포토 Adapter에 Add 시킨다
+     * */
     private suspend fun addResizeImage(file: File?) {
         file?.let {
             withContext(Dispatchers.IO) {
@@ -210,7 +260,9 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             }
             withContext(Dispatchers.Main) {
 
-                uploadAdapter.addItem(PhotoData().apply { this.file = it })
+                uploadAdapter.addItem(
+                    PhotoData()
+                        .apply { this.file = it })
 
                 viewModel.addFile(it)
 
@@ -230,11 +282,6 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        uploadAdapter.lifeCycleDestroyed()
-    }
 
 }
 

@@ -109,7 +109,7 @@ class FireBaseTask {
         }
 
 
-    suspend fun setStorageImage(ref: StorageReference, file: File): ResultState<Uri> =
+    suspend fun uploadImage(ref: StorageReference, file: File): ResultState<Uri> =
         withContext(Dispatchers.IO) {
             try {
                 val uploadTask = ref.putStream(FileInputStream(file)).await()

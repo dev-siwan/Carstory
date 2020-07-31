@@ -24,6 +24,7 @@ data class MotorTypeData(
 
 class MotorTypeList{
     val motorTypeList = mutableListOf(
+        MotorTypeData("현대", 1, "전체", 0),
         MotorTypeData("현대", 1, "그랜저", 1),
         MotorTypeData("현대", 1, "쏘나타", 2),
         MotorTypeData("현대", 1, "아반떼", 3),
@@ -67,6 +68,7 @@ class MotorTypeList{
         MotorTypeData("현대", 1, "블루온", 41),
         MotorTypeData("현대", 1, "코티나", 42),
         MotorTypeData("현대", 1, "프레스토", 43),
+        MotorTypeData("기아", 2, "전체", 0),
         MotorTypeData("기아", 2, "모닝", 1),
         MotorTypeData("기아", 2, "카니발", 2),
         MotorTypeData("기아", 2, "K5", 3),
@@ -120,11 +122,18 @@ class MotorTypeList{
         MotorTypeData("기아", 2, "토픽", 46),
         MotorTypeData("기아", 2, "파크타운", 47),
         MotorTypeData("기아", 2, "피아트132", 48),
+        MotorTypeData("제네시스", 3, "전체", 0),
         MotorTypeData("제네시스", 3, "G80", 1),
         MotorTypeData("제네시스", 3, "EQ900", 2),
         MotorTypeData("제네시스", 3, "G70", 3),
         MotorTypeData("제네시스", 3, "G90", 4),
         MotorTypeData("제네시스", 3, "GV80", 5),
+        MotorTypeData(
+            "쉐보레(GM대우)",
+            4,
+            "전체",
+            0
+        ),
         MotorTypeData(
             "쉐보레(GM대우)",
             4,
@@ -395,6 +404,7 @@ class MotorTypeList{
             "콜벳",
             45
         ),
+        MotorTypeData("르노삼성", 5, "전체", 0),
         MotorTypeData("르노삼성", 5, "SM5", 1),
         MotorTypeData("르노삼성", 5, "SM3", 2),
         MotorTypeData("르노삼성", 5, "SM6", 3),
@@ -406,6 +416,7 @@ class MotorTypeList{
         MotorTypeData("르노삼성", 5, "클리오", 9),
         MotorTypeData("르노삼성", 5, "마스터", 10),
         MotorTypeData("르노삼성", 5, "캡처", 11),
+        MotorTypeData("쌍용", 6, "전체", 0),
         MotorTypeData("쌍용", 6, "코란도", 1),
         MotorTypeData("쌍용", 6, "티볼리", 2),
         MotorTypeData("쌍용", 6, "렉스턴", 3),
@@ -417,6 +428,7 @@ class MotorTypeList{
         MotorTypeData("쌍용", 6, "이스타나", 9),
         MotorTypeData("쌍용", 6, "뉴훼미리", 10),
         MotorTypeData("쌍용", 6, "칼리스타", 11),
+        MotorTypeData("BMW", 7, "전체", 0),
         MotorTypeData("BMW", 7, "5 시리즈", 1),
         MotorTypeData("BMW", 7, "3 시리즈", 2),
         MotorTypeData("BMW", 7, "7 시리즈", 3),
@@ -461,6 +473,7 @@ class MotorTypeList{
             33
         ),
         MotorTypeData("BMW", 7, "기타", 34),
+        MotorTypeData("벤츠", 8, "전체", 0),
         MotorTypeData("벤츠", 8, "E 클래스", 1),
         MotorTypeData("벤츠", 8, "S 클래스", 2),
         MotorTypeData("벤츠", 8, "C 클래스", 3),
@@ -513,6 +526,7 @@ class MotorTypeList{
             21
         ),
         MotorTypeData("벤츠", 8, "기타", 22),
+        MotorTypeData("아우디", 9, "전체", 0),
         MotorTypeData("아우디", 9, "A6", 1),
         MotorTypeData("아우디", 9, "A4", 2),
         MotorTypeData("아우디", 9, "A7", 3),
@@ -552,6 +566,7 @@ class MotorTypeList{
         MotorTypeData("아우디", 9, "V8", 32),
         MotorTypeData("아우디", 9, "e-트론", 33),
         MotorTypeData("아우디", 9, "기타", 34),
+        MotorTypeData("미니", 10, "전체", 0),
         MotorTypeData("미니", 10, "쿠퍼", 1),
         MotorTypeData("미니", 10, "컨트리맨", 2),
         MotorTypeData("미니", 10, "클럽맨", 3),
@@ -565,6 +580,7 @@ class MotorTypeList{
         MotorTypeData("미니", 10, "쿠페", 6),
         MotorTypeData("미니", 10, "로드스터", 7),
         MotorTypeData("미니", 10, "로버 미니", 8),
+        MotorTypeData("폭스바겐", 11, "전체", 0),
         MotorTypeData("폭스바겐", 11, "골프", 1),
         MotorTypeData("폭스바겐", 11, "티구안", 2),
         MotorTypeData("폭스바겐", 11, "파사트", 3),
@@ -589,6 +605,7 @@ class MotorTypeList{
         MotorTypeData("폭스바겐", 11, "보라", 17),
         MotorTypeData("폭스바겐", 11, "사란", 18),
         MotorTypeData("폭스바겐", 11, "코라도", 19),
+        MotorTypeData("렉서스", 12, "전체", 0),
         MotorTypeData("렉서스", 12, "ES", 1),
         MotorTypeData("렉서스", 12, "LS", 2),
         MotorTypeData("렉서스", 12, "IS", 3),
@@ -607,40 +624,41 @@ class MotorTypeList{
         MotorTypeData("렉서스", 12, "SC", 11),
         MotorTypeData("렉서스", 12, "GX", 12),
         MotorTypeData("렉서스", 12, "LX", 14),
-        MotorTypeData("인피니티", 13, "전체", 1),
-        MotorTypeData("인피니티", 13, "Q50", 2),
-        MotorTypeData("인피니티", 13, "G", 3),
-        MotorTypeData("인피니티", 13, "M", 4),
-        MotorTypeData("인피니티", 13, "Q30", 5),
-        MotorTypeData("인피니티", 13, "FX", 6),
-        MotorTypeData("인피니티", 13, "QX60", 7),
-        MotorTypeData("인피니티", 13, "Q70", 8),
-        MotorTypeData("인피니티", 13, "QX50", 9),
+        MotorTypeData("인피니티", 13, "전체", 0),
+        MotorTypeData("인피니티", 13, "Q50", 1),
+        MotorTypeData("인피니티", 13, "G", 2),
+        MotorTypeData("인피니티", 13, "M", 3),
+        MotorTypeData("인피니티", 13, "Q30", 4),
+        MotorTypeData("인피니티", 13, "FX", 5),
+        MotorTypeData("인피니티", 13, "QX60", 6),
+        MotorTypeData("인피니티", 13, "Q70", 7),
+        MotorTypeData("인피니티", 13, "QX50", 8),
         MotorTypeData(
             "인피니티",
             13,
             "QX70",
-            10
+            9
         ),
-        MotorTypeData("인피니티", 13, "Q60", 11),
-        MotorTypeData("인피니티", 13, "EX", 12),
+        MotorTypeData("인피니티", 13, "Q60", 10),
+        MotorTypeData("인피니티", 13, "EX", 11),
         MotorTypeData(
             "인피니티",
             13,
             "QX30",
-            13
+            12
         ),
-        MotorTypeData("인피니티", 13, "JX", 14),
-        MotorTypeData("인피니티", 13, "QX", 15),
+        MotorTypeData("인피니티", 13, "JX", 13),
+        MotorTypeData("인피니티", 13, "QX", 14),
         MotorTypeData(
             "인피니티",
             13,
             "QX80",
-            16
+            15
         ),
-        MotorTypeData("인피니티", 13, "I", 17),
-        MotorTypeData("인피니티", 13, "Q", 18),
-        MotorTypeData("인피니티", 13, "J30", 19),
+        MotorTypeData("인피니티", 13, "I", 16),
+        MotorTypeData("인피니티", 13, "Q", 17),
+        MotorTypeData("인피니티", 13, "J30", 18),
+        MotorTypeData("도요타", 14, "전체", 0),
         MotorTypeData("도요타", 14, "캠리", 1),
         MotorTypeData("도요타", 14, "프리우스", 2),
         MotorTypeData("도요타", 14, "시에나", 3),
@@ -730,6 +748,7 @@ class MotorTypeList{
             58
         ),
         MotorTypeData("도요타", 14, "해리어", 59),
+        MotorTypeData("닛산", 15, "전체", 0),
         MotorTypeData("닛산", 15, "알티마", 1),
         MotorTypeData("닛산", 15, "큐브", 2),
         MotorTypeData("닛산", 15, "맥시마", 3),
@@ -782,6 +801,7 @@ class MotorTypeList{
         MotorTypeData("닛산", 15, "300ZX", 45),
         MotorTypeData("닛산", 15, "NV", 46),
         MotorTypeData("닛산", 15, "기타", 47),
+        MotorTypeData("혼다", 16, "전체", 0),
         MotorTypeData("혼다", 16, "어코드", 1),
         MotorTypeData("혼다", 16, "CR-V", 2),
         MotorTypeData("혼다", 16, "시빅", 3),
@@ -816,6 +836,12 @@ class MotorTypeList{
         MotorTypeData("혼다", 16, "패스포트", 27),
         MotorTypeData("혼다", 16, "프렐류드", 28),
         MotorTypeData("혼다", 16, "기타", 29),
+        MotorTypeData(
+            "랜드로버",
+            17,
+            "전체",
+            0
+        ),
         MotorTypeData(
             "랜드로버",
             17,
@@ -855,6 +881,7 @@ class MotorTypeList{
         ),
         MotorTypeData("랜드로버", 17, "디펜더", 8),
         MotorTypeData("랜드로버", 17, "기타", 9),
+        MotorTypeData("다이하쯔", 32, "전체", 0),
         MotorTypeData("다이하쯔", 32, "코펜", 1),
         MotorTypeData("다이하쯔", 32, "마테리아", 2),
         MotorTypeData("다이하쯔", 32, "미라", 3),
@@ -871,6 +898,7 @@ class MotorTypeList{
             "테리오스",
             11
         ),
+        MotorTypeData("닷지", 33, "전체", 0),
         MotorTypeData("닷지", 33, "램픽업", 1),
         MotorTypeData("닷지", 33, "다코타", 2),
         MotorTypeData("닷지", 33, "챌린저", 3),
@@ -892,6 +920,7 @@ class MotorTypeList{
             15
         ),
         MotorTypeData("닷지", 33, "기타", 16),
+        MotorTypeData("동풍소콘", 34, "전체", 0),
         MotorTypeData("동풍소콘", 34, "C35", 1),
         MotorTypeData("동풍소콘", 34, "C31", 2),
         MotorTypeData(
@@ -902,6 +931,7 @@ class MotorTypeList{
         ),
         MotorTypeData("동풍소콘", 34, "C32", 4),
         MotorTypeData("동풍소콘", 34, "SX6", 5),
+        MotorTypeData("람보르기니", 38, "전체", 0),
         MotorTypeData("람보르기니", 38, "우라칸", 1),
         MotorTypeData(
             "람보르기니",
@@ -931,6 +961,7 @@ class MotorTypeList{
         MotorTypeData("람보르기니", 38, "레벤톤", 7),
         MotorTypeData("람보르기니", 38, "잘파", 8),
         MotorTypeData("람보르기니", 38, "기타", 9),
+        MotorTypeData("로터스", 43, "전체", 0),
         MotorTypeData("로터스", 43, "에보라", 1),
         MotorTypeData("로터스", 43, "엘리스", 2),
         MotorTypeData("로터스", 43, "엑시지", 3),
@@ -943,6 +974,7 @@ class MotorTypeList{
         MotorTypeData("로터스", 43, "에스프리", 5),
         MotorTypeData("로터스", 43, "유로파", 6),
         MotorTypeData("로터스", 43, "기타", 7),
+        MotorTypeData("롤스로이스", 41, "전체", 0),
         MotorTypeData("롤스로이스", 41, "고스트", 1),
         MotorTypeData("롤스로이스", 41, "레이스", 2),
         MotorTypeData("롤스로이스", 41, "팬텀", 3),
@@ -955,6 +987,7 @@ class MotorTypeList{
             6
         ),
         MotorTypeData("롤스로이스", 41, "코니쉬", 7),
+        MotorTypeData("링컨", 20, "전체", 0),
         MotorTypeData("링컨", 20, "MKZ", 1),
         MotorTypeData("링컨", 20, "MKS", 2),
         MotorTypeData("링컨", 20, "MKX", 3),
@@ -967,6 +1000,7 @@ class MotorTypeList{
         MotorTypeData("링컨", 20, "노틸러스", 10),
         MotorTypeData("링컨", 20, "MKT", 11),
         MotorTypeData("링컨", 20, "코세어", 12),
+        MotorTypeData("마세라티", 40, "전체", 0),
         MotorTypeData("마세라티", 40, "기블리", 1),
         MotorTypeData(
             "마세라티",
@@ -1003,6 +1037,7 @@ class MotorTypeList{
             10
         ),
         MotorTypeData("마세라티", 40, "기타", 11),
+        MotorTypeData("맥라렌", 42, "전체", 0),
         MotorTypeData("맥라렌", 42, "570S", 1),
         MotorTypeData("맥라렌", 42, "650S", 2),
         MotorTypeData("맥라렌", 42, "720S", 3),
@@ -1016,6 +1051,7 @@ class MotorTypeList{
         ),
         MotorTypeData("맥라렌", 42, "570GT", 7),
         MotorTypeData("맥라렌", 42, "GT", 8),
+        MotorTypeData("미쯔비시", 31, "전체", 0),
         MotorTypeData("미쯔비시", 31, "아웃랜더", 1),
         MotorTypeData("미쯔비시", 31, "랜서", 2),
         MotorTypeData(
@@ -1039,6 +1075,7 @@ class MotorTypeList{
         MotorTypeData("미쯔비시", 31, "갤랑", 11),
         MotorTypeData("미쯔비시", 31, "몬테로", 12),
         MotorTypeData("미쯔비시", 31, "기타", 13),
+        MotorTypeData("벤틀리", 39, "전체", 0),
         MotorTypeData("벤틀리", 39, "플라잉스퍼", 1),
         MotorTypeData("벤틀리", 39, "컨티넨탈", 2),
         MotorTypeData("벤틀리", 39, "벤테이가", 3),
@@ -1047,6 +1084,7 @@ class MotorTypeList{
         MotorTypeData("벤틀리", 39, "브룩랜즈", 6),
         MotorTypeData("벤틀리", 39, "아르나지", 7),
         MotorTypeData("벤틀리", 39, "아주르", 8),
+        MotorTypeData("볼보", 21, "전체", 0),
         MotorTypeData("볼보", 21, "XC60", 1),
         MotorTypeData("볼보", 21, "S80", 2),
         MotorTypeData("볼보", 21, "S60", 3),
@@ -1072,6 +1110,12 @@ class MotorTypeList{
         MotorTypeData(
             "북기은상",
             30,
+            "전체",
+            0
+        ),
+        MotorTypeData(
+            "북기은상",
+            30,
             "켄보 600",
             1
         ),
@@ -1087,6 +1131,7 @@ class MotorTypeList{
             "CK 미니밴",
             3
         ),
+        MotorTypeData("스즈키", 29, "전체", 0),
         MotorTypeData("스즈키", 29, "알토라팡", 1),
         MotorTypeData("스즈키", 29, "알토", 2),
         MotorTypeData("스즈키", 29, "짐니", 3),
@@ -1104,6 +1149,12 @@ class MotorTypeList{
         MotorTypeData("스즈키", 29, "웨건 R", 10),
         MotorTypeData("스즈키", 29, "카푸치노", 11),
         MotorTypeData("스즈키", 29, "트윈", 12),
+        MotorTypeData(
+            "시트로엥",
+            27,
+            "전체",
+            0
+        ),
         MotorTypeData(
             "시트로엥",
             27,
@@ -1144,6 +1195,7 @@ class MotorTypeList{
         MotorTypeData("시트로엥", 27, "XM", 13),
         MotorTypeData("시트로엥", 27, "잔티아", 14),
         MotorTypeData("시트로엥", 27, "기타", 15),
+        MotorTypeData("재규어", 18, "전체", 0),
         MotorTypeData("재규어", 18, "XF", 1),
         MotorTypeData("재규어", 18, "XJ", 2),
         MotorTypeData("재규어", 18, "XE", 3),
@@ -1193,6 +1245,7 @@ class MotorTypeList{
         MotorTypeData("재규어", 18, "XJS", 17),
         MotorTypeData("재규어", 18, "기타", 18),
         MotorTypeData("재규어", 18, "다임러", 19),
+        MotorTypeData("지프", 22, "전체", 0),
         MotorTypeData("지프", 22, "체로키", 1),
         MotorTypeData("지프", 22, "랭글러", 2),
         MotorTypeData("지프", 22, "컴패스", 3),
@@ -1200,6 +1253,12 @@ class MotorTypeList{
         MotorTypeData("지프", 22, "커맨더", 5),
         MotorTypeData("지프", 22, "패트리어트", 6),
         MotorTypeData("지프", 22, "CJ", 7),
+        MotorTypeData(
+            "캐딜락",
+            23,
+            "전체",
+            0
+        ),
         MotorTypeData(
             "캐딜락",
             23,
@@ -1232,6 +1291,12 @@ class MotorTypeList{
         MotorTypeData("캐딜락", 23, "XLR", 15),
         MotorTypeData("캐딜락", 23, "XT6", 16),
         MotorTypeData("캐딜락", 23, "XTS", 17),
+        MotorTypeData(
+            "크라이슬러",
+            24,
+            "전체",
+            0
+        ),
         MotorTypeData(
             "크라이슬러",
             24,
@@ -1297,9 +1362,11 @@ class MotorTypeList{
             14
         ),
         MotorTypeData("크라이슬러", 24, "비전", 15),
+        MotorTypeData("테슬라", 25, "전체", 0),
         MotorTypeData("테슬라", 25, "모델 3", 1),
         MotorTypeData("테슬라", 25, "모델 S", 2),
         MotorTypeData("테슬라", 25, "모델 X", 3),
+        MotorTypeData("페라리", 37, "전체", 0),
         MotorTypeData("페라리", 37, "488", 1),
         MotorTypeData("페라리", 37, "캘리포니아", 2),
         MotorTypeData("페라리", 37, "458", 3),
@@ -1344,6 +1411,7 @@ class MotorTypeList{
             "엔초페라리",
             24
         ),
+        MotorTypeData("포드", 19, "전체", 0),
         MotorTypeData("포드", 19, "익스플로러", 1),
         MotorTypeData("포드", 19, "머스탱", 2),
         MotorTypeData("포드", 19, "토러스", 3),
@@ -1386,6 +1454,7 @@ class MotorTypeList{
         MotorTypeData("포드", 19, "프로브", 25),
         MotorTypeData("포드", 19, "프리스타일", 26),
         MotorTypeData("포드", 19, "기타", 27),
+        MotorTypeData("포르쉐", 36, "전체", 0),
         MotorTypeData("포르쉐", 36, "카이엔", 1),
         MotorTypeData("포르쉐", 36, "파나메라", 2),
         MotorTypeData("포르쉐", 36, "911", 3),
@@ -1403,6 +1472,7 @@ class MotorTypeList{
             11
         ),
         MotorTypeData("포르쉐", 36, "기타", 12),
+        MotorTypeData("푸조", 26, "전체", 0),
         MotorTypeData("푸조", 26, "2008", 1),
         MotorTypeData("푸조", 26, "308", 2),
         MotorTypeData("푸조", 26, "3008", 3),
@@ -1426,6 +1496,7 @@ class MotorTypeList{
         MotorTypeData("푸조", 26, "807", 21),
         MotorTypeData("푸조", 26, "익스퍼트", 22),
         MotorTypeData("푸조", 26, "기타", 23),
+        MotorTypeData("피아트", 28, "전체", 0),
         MotorTypeData("피아트", 28, "500", 1),
         MotorTypeData("피아트", 28, "500X", 2),
         MotorTypeData("피아트", 28, "프리몬트", 3),
@@ -1438,6 +1509,7 @@ class MotorTypeList{
         MotorTypeData("피아트", 28, "판다", 10),
         MotorTypeData("피아트", 28, "푼토", 11),
         MotorTypeData("피아트", 28, "기타", 12),
+        MotorTypeData("험머", 35, "전체", 0),
         MotorTypeData("험머", 35, "H2", 1),
         MotorTypeData("험머", 35, "H3", 2),
         MotorTypeData("험머", 35, "H1", 3),

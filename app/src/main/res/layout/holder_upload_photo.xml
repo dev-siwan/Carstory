@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.like.drive.motorfeed.ui.upload.data.PhotoData" />
+            type="com.like.drive.motorfeed.data.PhotoData" />
         <variable
             name="vm"
             type="com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel" />
@@ -13,12 +13,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/rect_stork_grey_6_conner"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:onClick="@{()->vm.onClickPhotoItem(item)}">
 
         <ImageView
+            android:id="@+id/ivPhoto"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,23 +30,14 @@
             app:uploadPhoto="@{item}" />
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_rect_setting"
+            android:id="@+id/ivSetting"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_black_setting"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:indeterminate="true"
-            android:indeterminateTint="@android:color/black"
-            android:visibility="gone"/>
+            android:background="@drawable/oval_solid_alpha_50_white_size_36"
+            android:padding="@dimen/activity_x_small_margin"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

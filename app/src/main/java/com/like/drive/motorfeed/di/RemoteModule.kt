@@ -20,9 +20,9 @@ val remoteModule= module {
     val fireBaseAuth by lazy{ FirebaseAuth.getInstance() }
 
     single { fireStoreInstance }
-    single { fireBaseTask }
     single { fireStorageInstance }
     single { fireBaseAuth }
+    factory { fireBaseTask }
 
     /**
      * Api

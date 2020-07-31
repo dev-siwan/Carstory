@@ -2,13 +2,18 @@ package com.like.drive.motorfeed.ui.upload.viewmodel
 
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
+import com.like.drive.motorfeed.data.motor.MotorTypeData
+import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.ui.upload.data.PhotoData
+import com.like.drive.motorfeed.data.PhotoData
+import kotlinx.coroutines.launch
 import java.io.File
 
-class UploadViewModel:BaseViewModel(){
+class UploadViewModel(val feedRepository: FeedRepository):BaseViewModel(){
 
     val selectPhotoClickEvent = SingleLiveEvent<Unit>()
     val photoItemClickEvent = SingleLiveEvent<PhotoData>()
@@ -22,6 +27,22 @@ class UploadViewModel:BaseViewModel(){
 
     private val _pickPhotoCount = MutableLiveData(0)
     val pickPhotoCount :LiveData<Int> get() = _pickPhotoCount
+
+    private val _motorType= MutableLiveData<MotorTypeData>()
+    val motorTypeData:LiveData<MotorTypeData> get() = _motorType
+
+    val title = MutableLiveData<String>()
+    val content = MutableLiveData<String>()
+
+    val isFieldEnable = MediatorLiveData<Boolean>().apply {
+        addSource(title) {
+            value = isResultFieldValue(it, content.value)
+        }
+        addSource(content) {
+            value = isResultFieldValue(title.value, it)
+        }
+    }
+
 
     init {
        // createPhotoList(null)
@@ -59,6 +80,15 @@ class UploadViewModel:BaseViewModel(){
     fun onClickPhotoItem(photoData: PhotoData) {
         photoItemClickEvent.value = photoData
     }
+
+    private fun upload() {
+        viewModelScope.launch {
+            feedRepository.addFeed()
+        }
+    }
+
+
+    private fun isResultFieldValue(title:String?,content:String?) = !title.isNullOrBlank() && !content.isNullOrBlank()
 
     private fun setPhotoSize(){ _pickPhotoCount.postValue(originFileList.size) }
 

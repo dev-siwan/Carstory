@@ -135,36 +135,37 @@ class GalleryViewModel : BaseViewModel() {
 
 
     /**
+     * 아이템 추가
+     */
+    private fun addUri(uri: Uri, data: GalleryItemData) {
+        if (isAddPhoto()) {
+            if(uriList.add(uri)) {
+                _remainCount.value = ++remainCountValue
+                addDataEvent.value = data
+            }
+        } else {
+            notAvailablePhoto.value = R.string.pick_photo_limit_message
+            return
+        }
+    }
+
+    /**
+     * 아이템 삭제
+     */
+    private fun removeUri(uri: Uri, data: GalleryItemData) {
+        if (uriList.remove(uri)) {
+            _remainCount.value = --remainCountValue
+            removeDataEvent.value = data
+        }
+    }
+
+    /**
      * 남는갯수랑 맥스갯수 받음
      */
     fun initCount(maxSize: Int, count: Int) {
         _maxSize.value = maxSize
         remainCountValue = count
         _remainCount.value = remainCountValue
-    }
-
-
-    /**
-     * 아이템 추가
-     */
-    private fun addUri(uri: Uri, data: GalleryItemData) {
-        if (isAddPhoto()) {
-            uriList.add(uri)
-            _remainCount.value = ++remainCountValue
-            addDataEvent.value = data
-
-        } else {
-            notAvailablePhoto.value = R.string.pick_photo_limit_message
-            return
-        }
-    }
-    /**
-     * 아이템 삭제
-     */
-    private fun removeUri(uri: Uri, data: GalleryItemData) {
-        uriList.remove(uri)
-        _remainCount.value = --remainCountValue
-        removeDataEvent.value = data
     }
 
     /**
