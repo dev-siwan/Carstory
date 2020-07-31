@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.like.drive.motorfeed.ui.base.ext.dpToPixel
-import com.like.drive.motorfeed.data.PhotoData
+import com.like.drive.motorfeed.data.photo.PhotoData
 
 /*@BindingAdapter("loadImage")
 fun ImageView.setLoadImage(imageUrl: String?) {
@@ -75,7 +75,7 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
             .skipMemoryCache(true)
 
         Glide.with(context)
-            .load(it.file?:it.imgUrl?:it.uri)
+            .load(it.file?:it.imgUrl)
             .transition(withCrossFade())
             .apply(
                 RequestOptions()

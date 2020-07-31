@@ -9,7 +9,7 @@ import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.data.PhotoData
+import com.like.drive.motorfeed.data.photo.PhotoData
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -23,7 +23,7 @@ class UploadViewModel(val feedRepository: FeedRepository):BaseViewModel(){
     private val _photoListData = MutableLiveData<List<PhotoData>>()
     val photoListData: LiveData<List<PhotoData>> get() = _photoListData
 
-    private val originFileList = ArrayList<File>()
+    private val originFileList = ArrayList<PhotoData>()
 
     private val _pickPhotoCount = MutableLiveData(0)
     val pickPhotoCount :LiveData<Int> get() = _pickPhotoCount
@@ -65,12 +65,12 @@ class UploadViewModel(val feedRepository: FeedRepository):BaseViewModel(){
 
 
     fun addFile(file:File){
-        originFileList.add(file)
+        originFileList.add(PhotoData().apply { this.file = file })
         setPhotoSize()
     }
 
     fun removeFile(photoData: PhotoData){
-        originFileList.remove(photoData.file)
+        originFileList.remove(photoData)
         setPhotoSize()
     }
 

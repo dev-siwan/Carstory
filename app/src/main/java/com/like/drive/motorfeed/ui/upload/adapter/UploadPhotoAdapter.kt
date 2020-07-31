@@ -2,7 +2,7 @@ package com.like.drive.motorfeed.ui.upload.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.like.drive.motorfeed.data.PhotoData
+import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.upload.holder.UploadPhotoHolder
 import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
 

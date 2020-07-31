@@ -22,7 +22,7 @@ import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
-import com.like.drive.motorfeed.data.PhotoData
+import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
@@ -261,8 +261,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             withContext(Dispatchers.Main) {
 
                 uploadAdapter.addItem(
-                    PhotoData()
-                        .apply { this.file = it })
+                    PhotoData().apply { this.file = it })
 
                 viewModel.addFile(it)
 
