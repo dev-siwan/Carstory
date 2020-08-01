@@ -1,17 +1,17 @@
 package com.like.drive.motorfeed.repository.feed
 
+
 import com.google.firebase.firestore.FirebaseFirestore
-import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.api.feed.FeedApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
+import com.like.drive.motorfeed.ui.upload.data.FeedUploadField
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class FeedRepositoryImpl(
     private val feedApi: FeedApi,
@@ -19,57 +19,64 @@ class FeedRepositoryImpl(
     private val firestore: FirebaseFirestore
 ) : FeedRepository {
 
-    private var successPhoto:(()->Unit?)? = null
+    private var successPhoto: ((Int) -> Unit?)? = null
     private var photoFileList = ArrayList<PhotoData>()
-    private lateinit var documentID:String
+    private lateinit var documentID: String
 
     override suspend fun addFeed(
-        feedData: FeedData,
+        feedField: FeedUploadField,
         photoFileList: ArrayList<PhotoData>,
-        photoSuccessCount: (Int)->Unit,
-        success :
+        photoSuccessCount: (Int) -> Unit,
+        success: (FeedData) -> Unit,
+        fail: () -> Unit
     ) {
-        this.photoFileList=photoFileList
+
+        this.photoFileList = photoFileList
         documentID = firestore.collection(CollectionName.FEED).document().id
 
-        var photoCount = 0
-        val isPhotoUpload = withContext(Dispatchers.IO){checkImgUpload()}
-        if(isPhotoUpload){
-            val imgList = this.photoFileList.map { it.imgUrl!! }.toList()
+        checkImgUpload()
+        successPhoto = { photoSuccessCount.invoke(it) }
 
-        }
-        successPhoto={
-            photoCount = photoCount.plus(1)
-            photoSuccessCount.invoke(photoCount)
-        }
+        val creteFeedData = FeedData().createData(
+            fid = documentID,
+            feedUploadField = feedField,
+            motorTypeData = feedField.motorTypeData,
+            imgList = photoFileList
+        )
+
+        feedApi.addFeed(creteFeedData)
+            .catch {
+                fail.invoke()
+            }
+            .collect { isComplete ->
+                if (isComplete) {
+                    success(creteFeedData)
+                } else {
+                    fail.invoke()
+                }
+            }
     }
 
 
-
-    private suspend fun checkImgUpload(): Boolean {
-        if (photoFileList.any{ it.imgUrl == null }) {
-            withContext(Dispatchers.IO) { imgUpload(documentID) }
-            return false
+    private suspend fun checkImgUpload() = withContext(Dispatchers.IO) {
+        if (photoFileList.any { it.imgUrl == null }) {
+            imgUpload(documentID)
         }
-        return true
+        return@withContext
     }
 
     private suspend fun imgUpload(documentID: String) {
-        photoFileList.filter { it.imgUrl == null }.forEach {
-            imgApi.uploadImage(documentID, it.file!!).let { handler ->
-                when (handler) {
-                    is ResultState.Success -> photoFileList.add(PhotoData().apply {
-                        this.imgUrl = handler.data.toString()
-                        successPhoto?.invoke()
+        photoFileList.forEachIndexed { index, photoData ->
+            if (photoData.imgUrl == null) {
+                imgApi.uploadImage(documentID, photoData.file!!)
+                    .catch { photoFileList[index].imgUrl = null }
+                    .collect {
+                        photoFileList[index].imgUrl = it.toString()
+                        successPhoto?.invoke(photoFileList.filter { photoData -> photoData.imgUrl != null }.size)
                         checkImgUpload()
-                    })
-                    is ResultState.Error -> photoFileList.add(PhotoData().apply {
-                        this.imgUrl = null
-                    })
-                }
+                    }
             }
         }
     }
-
 
 }

@@ -17,5 +17,5 @@ val viewModelModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { MotorTypeViewModel(get()) }
     viewModel { GalleryViewModel()}
-    viewModel { UploadViewModel() }
+    viewModel { UploadViewModel(get()) }
 }

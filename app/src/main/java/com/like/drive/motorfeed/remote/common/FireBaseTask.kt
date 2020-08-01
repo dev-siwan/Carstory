@@ -1,126 +1,95 @@
 package com.like.drive.motorfeed.remote.common
 
 import android.net.Uri
+import bolts.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
-import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
-import com.like.drive.motorfeed.common.async.ResultState
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 
 
 class FireBaseTask {
-    suspend fun <T> getData(doc: DocumentReference, objectClass: Class<T>): ResultState<T> =
-        withContext(Dispatchers.IO) {
-            try {
-                val snapShot = doc.get().await()
-
-                if (snapShot.exists()) {
-                    val result = snapShot.toObject(objectClass)
-                    return@withContext ResultState.Success(result!!)
-                } else {
-                    return@withContext ResultState.Error(emptyDocument = true)
-                }
-            } catch (e: FirebaseFirestoreException) {
-                return@withContext ResultState.Error(e)
-            }
+    suspend fun <C> getData(doc: DocumentReference, objectClass: Class<C>): Flow<C?> =
+        flow {
+            val snapShot = doc.get().await()
+            if (snapShot.exists())
+                emit(snapShot.toObject(objectClass))
+            else
+                emit(null)
         }
 
-    suspend fun <R, M> getData(ref: R, objectClass: Class<M>): ResultState<List<M>> =
-        withContext(Dispatchers.IO) {
+
+    suspend fun <R, M> getData(ref: R, objectClass: Class<M>): Flow<List<M>> =
+        flow {
             when (ref) {
                 is CollectionReference -> {
-                    try {
-                        val snapShot = ref.get().await()
-                        val result = snapShot.toObjects(objectClass)
-                        return@withContext ResultState.Success(result)
-                    } catch (e: FirebaseFirestoreException) {
-                        return@withContext ResultState.Error(e)
-                    }
+                    val snapShot = ref.get().await()
+                    val result = snapShot.toObjects(objectClass)
+                    emit(result)
                 }
 
                 is Query -> {
-                    try {
-                        val snapShot = ref.get().await()
-                        val result = snapShot.toObjects(objectClass)
-                        return@withContext ResultState.Success(result)
-                    } catch (e: FirebaseFirestoreException) {
-                        return@withContext ResultState.Error(e)
-                    }
+                    val snapShot = ref.get().await()
+                    val result = snapShot.toObjects(objectClass)
+                    emit(result)
+
                 }
 
-                else -> ResultState.Error(Exception("Not found Reference"))
+                else -> emit(emptyList())
             }
         }
 
-    suspend fun <R> setData(ref: R, data: Any): ResultState<Boolean> = withContext(Dispatchers.IO) {
-        when (ref) {
-            is DocumentReference -> {
-                try {
+
+    suspend fun <R> setData(ref: R, data: Any): Flow<Boolean> =
+        flow {
+            when (ref) {
+                is DocumentReference -> {
                     val snapShot = ref.set(data).await()
-                    return@withContext ResultState.Success(Tasks.forResult(snapShot).isSuccessful)
-                } catch (e: FirebaseFirestoreException) {
-                    return@withContext ResultState.Error(e)
+                    emit(Task.forResult(snapShot).isCompleted)
                 }
-            }
 
-            is CollectionReference -> {
-                try {
+                is CollectionReference -> {
                     val snapShot = ref.add(data).await()
-                    return@withContext ResultState.Success(Tasks.forResult(snapShot).isSuccessful)
-                } catch (e: FirebaseFirestoreException) {
-                    return@withContext ResultState.Error(e)
+                    emit(Task.forResult(snapShot).isCompleted)
                 }
-            }
 
-            else -> ResultState.Error(Exception("Not found Reference"))
+
+                else -> emit(false)
+            }
         }
-    }
 
     suspend fun updateData(
         ref: DocumentReference,
         date: Any,
         fieldName: String
-    ): ResultState<Boolean> =
-        withContext(Dispatchers.IO) {
-            try {
-                val snapShot = ref.update(fieldName, date).await()
-                return@withContext ResultState.Success(Tasks.forResult(snapShot).isSuccessful)
-            } catch (e: FirebaseFirestoreException) {
-                return@withContext ResultState.Error(e)
-            }
+    ): Flow<Boolean> =
+        flow {
+            val snapShot = ref.update(fieldName, date).await()
+            emit(Tasks.forResult(snapShot).isComplete)
         }
 
-    suspend fun delete(ref: DocumentReference): ResultState<Boolean> =
-        withContext(Dispatchers.IO) {
-            try {
-                val snapShot = ref.delete().await()
-                return@withContext ResultState.Success(Tasks.forResult(snapShot).isSuccessful)
-            } catch (e: FirebaseFirestoreException) {
-                return@withContext ResultState.Error(e)
-            }
+    suspend fun delete(ref: DocumentReference): Flow<Boolean> =
+        flow {
+            val snapShot = ref.delete().await()
+            emit(Tasks.forResult(snapShot).isComplete)
         }
 
 
-    suspend fun uploadImage(ref: StorageReference, file: File): ResultState<Uri> =
-        withContext(Dispatchers.IO) {
-            try {
-                val uploadTask = ref.putStream(FileInputStream(file)).await()
-                if (uploadTask.task.isSuccessful) {
-                    return@withContext ResultState.Success(uploadTask.storage.downloadUrl.await())
-                } else {
-                    return@withContext ResultState.Error(Exception(""))
-                }
-            } catch (e: StorageException) {
-                return@withContext ResultState.Error(e)
+    suspend fun uploadImage(ref: StorageReference, file: File): Flow<Uri?> =
+        flow {
+            val uploadTask = ref.putStream(FileInputStream(file)).await()
+            if (uploadTask.task.isComplete) {
+                emit(uploadTask.storage.downloadUrl.await())
+            } else {
+                emit(null)
             }
         }
+
 
 }

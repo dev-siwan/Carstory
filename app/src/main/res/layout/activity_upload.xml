@@ -66,7 +66,8 @@
                 android:clickable="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:textColor="@color/text_enable_color"
-                android:focusable="true" />
+                android:focusable="true"
+                android:onClick="@{()->vm.upload()}"/>
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -91,6 +92,7 @@
             android:padding="@dimen/activity_horizontal_margin"
             android:textColor="@android:color/black"
             android:textColorHint="@color/grey_4"
+            app:formatMotorTypeData="@{vm.motorTypeData}"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

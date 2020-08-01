@@ -1,6 +1,5 @@
 package com.like.drive.motorfeed.ui.sign.up.viewmodel
 
-import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
@@ -36,7 +35,7 @@ class SignUpViewModel(private val userRepository: UserRepository) :BaseViewModel
         return true
     }
 
-    fun doSignEmail(view: View) {
+    fun doSignEmail() {
 
         isLoading.value = true
 

@@ -4,7 +4,7 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 
 
 interface MotorTypeRepository{
-    suspend fun setMotorTypeList(success:()->Unit,error:(e:Exception)->Unit)
+    suspend fun setMotorTypeList(success:()->Unit,error:(String)->Unit)
     suspend fun isNotEmptyMotorTypeList():Boolean
     suspend fun getMotorTypeList():List<MotorTypeData>
     suspend fun searchMotorTypeList(q:String):List<MotorTypeData>

@@ -117,7 +117,7 @@
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@+id/glStart"
             android:enabled="@{vm.checkEnable(vm.email,vm.password,vm.passwordValid)}"
-            android:onClick="@{vm::doSignEmail}"/>
+            android:onClick="@{()->vm.doSignEmail()}"/>
 
 
         <TextView

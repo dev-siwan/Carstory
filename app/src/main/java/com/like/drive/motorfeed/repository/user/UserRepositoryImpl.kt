@@ -2,40 +2,32 @@ package com.like.drive.motorfeed.repository.user
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
-import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.remote.api.user.UserApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 
 class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
 
-    override suspend fun getUser(success: () -> Unit,
-                                 fail: () -> Unit,
-                                 userBan: () -> Unit,
-                                 empty: () -> Unit) {
-       userApi.getUser().let {resultState ->
-            when(resultState){
-
-                is ResultState.Success -> {
-                    if (resultState.data.userBan) {
+    override suspend fun getUser(
+        success: () -> Unit,
+        fail: () -> Unit,
+        userBan: () -> Unit,
+        empty: () -> Unit
+    ) {
+        userApi.getUser()
+            .catch { fail.invoke() }
+            .collect { userData ->
+                userData?.let {
+                    if (it.userBan) {
                         userBan.invoke()
                     } else {
-                        UserInfo.userInfo = resultState.data
+                        UserInfo.userInfo = it
                         success.invoke()
                     }
-                }
-
-                is ResultState.Error -> {
-                    resultState.emptyDocument?.let {
-                        empty.invoke()
-                    }
-                    resultState.exception?.let {
-                        fail.invoke()
-                    }
-                }
-
+                } ?: empty.invoke()
             }
-        }
     }
 
     override suspend fun checkUser()= userApi.checkUser()
@@ -45,36 +37,25 @@ class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
         success: (FirebaseUser) -> Unit,
         error: () -> Unit
     ) {
-        userApi.loginFacebook(authCredential).let {
-            when(it){
-                is ResultState.Success ->{
-                    it.data.user?.let {user->
-                        success(user)
-                    }?:error()
-                }
-                is ResultState.Error->{
-                    it.exception?.printStackTrace()
-                    error.invoke()
-                }
+        userApi.loginFacebook(authCredential).
+            catch {error.invoke()}
+            .collect {
+                it.user?.let {user->
+                    success(user)
+                }?:error()
             }
-        }
     }
 
     override suspend fun setUser(userData: UserData, success: () -> Unit, fail: () -> Unit) {
-        userApi.setUser(userData).let {
-            when(it){
-                is ResultState.Success ->{
-                    if(it.data){
-                        UserInfo.userInfo = userData
-                        success.invoke()
-                    }else{
-                        fail.invoke()
-                    }
-                }
-                is ResultState.Error->{
-                    it.exception?.printStackTrace()
-                    fail.invoke()
-                }
+        userApi.setUser(userData).catch {
+            it.printStackTrace()
+            fail.invoke()
+        }.collect { isComplete ->
+            if (isComplete) {
+                UserInfo.userInfo = userData
+                success.invoke()
+            } else {
+                fail.invoke()
             }
         }
     }
@@ -84,19 +65,15 @@ class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
         success: (FirebaseUser) -> Unit,
         error: () -> Unit
     ) {
-        userApi.signEmail(email,password).let {
-            when(it){
-                is ResultState.Success ->{
-                    it.data.user?.let {user->
-                        success(user)
-                    }?:error()
-                }
-                is ResultState.Error->{
-                    it.exception?.printStackTrace()
-                    error.invoke()
-                }
-            }
+        userApi.signEmail(email, password).catch {
+            it.printStackTrace()
+            error.invoke()
+        }.collect {
+            it.user?.let { user ->
+                success(user)
+            } ?: error()
         }
+
     }
 
     override suspend fun loginEmail(
@@ -105,18 +82,13 @@ class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
         success: (FirebaseUser) -> Unit,
         error: () -> Unit
     ) {
-        userApi.loginEmail(email,password).let {
-            when(it){
-                is ResultState.Success ->{
-                    it.data.user?.let {user->
-                        success(user)
-                    }?:error()
-                }
-                is ResultState.Error->{
-                    it.exception?.printStackTrace()
-                    error.invoke()
-                }
-            }
+        userApi.loginEmail(email, password).catch {
+            it.printStackTrace()
+            error.invoke()
+        }.collect {
+            it.user?.let { user ->
+                success(user)
+            } ?: error()
         }
     }
 

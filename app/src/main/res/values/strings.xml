@@ -69,6 +69,9 @@
     <string name="pick_photo_limit_message">최대 5개 사진 만 등록 가능합니다.</string>
     <string name="error_not_load_image">이미지를 불러오지 못했습니다. 다시 시도해주세요.</string>
 
+    <string name="motorType_format_text">브랜드: %s | 모델: %s</string>
+    <string name="motorType_brand_all_format_text">브랜드: %s</string>
+
     <string name="remain_count">남은 갯수 %d</string>
 
     <string name="denied_permission_storage">접근을 거부하여 사진을 추가할 수 없습니다. 허용을 원하시면 설정>모터피드에서 \'저장공간\'을 켜주세요</string>

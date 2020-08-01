@@ -10,10 +10,13 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.ui.upload.data.FeedUploadField
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
 
-class UploadViewModel(val feedRepository: FeedRepository):BaseViewModel(){
+class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(){
 
     val selectPhotoClickEvent = SingleLiveEvent<Unit>()
     val photoItemClickEvent = SingleLiveEvent<PhotoData>()
@@ -30,6 +33,8 @@ class UploadViewModel(val feedRepository: FeedRepository):BaseViewModel(){
 
     private val _motorType= MutableLiveData<MotorTypeData>()
     val motorTypeData:LiveData<MotorTypeData> get() = _motorType
+
+    private val photoCountEvent = SingleLiveEvent<Int>()
 
     val title = MutableLiveData<String>()
     val content = MutableLiveData<String>()
@@ -81,9 +86,23 @@ class UploadViewModel(val feedRepository: FeedRepository):BaseViewModel(){
         photoItemClickEvent.value = photoData
     }
 
-    private fun upload() {
+    fun upload() {
+        val feedField = FeedUploadField(
+            title = this.title.value!!,
+            content = this.content.value!!,
+            motorTypeData = _motorType.value
+        )
         viewModelScope.launch {
-            feedRepository.addFeed()
+            feedRepository.addFeed(feedField, originFileList,
+                photoSuccessCount={count->
+                    photoCountEvent.value = count
+                },
+                success={
+
+                },
+                fail={
+
+                })
         }
     }
 
@@ -93,6 +112,8 @@ class UploadViewModel(val feedRepository: FeedRepository):BaseViewModel(){
     private fun setPhotoSize(){ _pickPhotoCount.postValue(originFileList.size) }
 
     fun isPhotoLimitSize() = originFileList.size < PHOTO_MAX_SIZE
+
+    fun setMotorType(motorTypeData: MotorTypeData){ _motorType.value = motorTypeData}
 
 
     companion object{

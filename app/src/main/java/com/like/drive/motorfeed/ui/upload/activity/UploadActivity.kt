@@ -188,7 +188,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
                     data?.getParcelableExtra<MotorTypeData>(SelectMotorTypeActivity.RESULT_KEY)
                         ?.let {
-                            tvSelectMotor.text = "브랜드:${it.brandName} / 모델:${it.modelName} "
+                           viewModel.setMotorType(it)
                         }
                 }
 

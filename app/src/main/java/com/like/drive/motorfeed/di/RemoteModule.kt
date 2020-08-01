@@ -3,6 +3,10 @@ package com.like.drive.motorfeed.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.like.drive.motorfeed.remote.api.feed.FeedApi
+import com.like.drive.motorfeed.remote.api.feed.FeedApiImpl
+import com.like.drive.motorfeed.remote.api.img.ImageApi
+import com.like.drive.motorfeed.remote.api.img.ImageApiImpl
 import com.like.drive.motorfeed.remote.api.motor.MotorTypeApi
 import com.like.drive.motorfeed.remote.api.motor.MotorTypeApiImpl
 import com.like.drive.motorfeed.remote.api.user.UserApi
@@ -30,4 +34,6 @@ val remoteModule= module {
     single<VersionApi> { VersionApiImpl(get(),get()) }
     single<MotorTypeApi> { MotorTypeApiImpl(get(),get()) }
     single<UserApi> { UserApiImpl(get(),get(),get()) }
+    single<ImageApi> { ImageApiImpl(get(),get()) }
+    single<FeedApi> { FeedApiImpl(get(),get()) }
 }

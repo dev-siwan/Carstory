@@ -7,6 +7,7 @@ import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -14,7 +15,7 @@ class ImageApiImpl(
     private val firebaseStorage: FirebaseStorage,
     private val fireBaseTask: FireBaseTask
 ) : ImageApi {
-    override suspend fun uploadImage(fid: String, imgFile: File): ResultState<Uri> {
-          return  fireBaseTask.uploadImage(firebaseStorage.reference.child(CollectionName.FEED).child(fid), imgFile)
+    override suspend fun uploadImage(fid: String, imgFile: File): Flow<Uri?> {
+          return  fireBaseTask.uploadImage(firebaseStorage.reference.child(CollectionName.FEED).child(fid).child(imgFile.name.replace(".","")), imgFile)
         }
     }
