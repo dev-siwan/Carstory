@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/alpha_50">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:isImgUpload="@{vm.isPhotoUpload}"
+        app:uploadPhotoCount="@{vm.uploadPhotoCount}"
+        app:uploadMaxCount="@{vm.pickPhotoCount}"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:textColor="@color/white_100"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/progressBar1"
+        app:layout_constraintEnd_toEndOf="@id/progressBar1"
+        app:layout_constraintStart_toStartOf="@id/progressBar1"
+        android:layout_marginBottom="@dimen/activity_small_margin"
+        tools:text="이미지 업로드 0/5"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white_100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

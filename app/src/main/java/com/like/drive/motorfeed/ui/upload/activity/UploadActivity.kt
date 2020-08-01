@@ -23,6 +23,7 @@ import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.ui.base.loading.UploadProgressDialog
 import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
@@ -36,6 +37,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
     private val viewModel: UploadViewModel by viewModel()
     private val uploadAdapter by lazy { UploadPhotoAdapter(viewModel) }
+    private val uploadLoadingFragment by lazy { UploadProgressDialog() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +62,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         with(viewModel) {
             pickPhoto()
             photoItemClick()
+            isUploadLoading()
         }
     }
 
@@ -123,6 +126,18 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
                     0 -> {
                         removeItem(it)
                     }
+                }
+            }
+        })
+    }
+
+    private fun UploadViewModel.isUploadLoading() {
+        isUploadLoading.observe(this@UploadActivity, Observer { isLoading ->
+            if (isLoading) {
+                uploadLoadingFragment.show(supportFragmentManager, "")
+            } else {
+                if (uploadLoadingFragment.isVisible) {
+                    uploadLoadingFragment.dismiss()
                 }
             }
         })

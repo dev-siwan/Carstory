@@ -9,8 +9,10 @@ import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.ui.upload.data.FeedUploadField
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 class FeedRepositoryImpl(
@@ -19,7 +21,6 @@ class FeedRepositoryImpl(
     private val firestore: FirebaseFirestore
 ) : FeedRepository {
 
-    private var successPhoto: ((Int) -> Unit?)? = null
     private var photoFileList = ArrayList<PhotoData>()
     private lateinit var documentID: String
 
@@ -34,8 +35,12 @@ class FeedRepositoryImpl(
         this.photoFileList = photoFileList
         documentID = firestore.collection(CollectionName.FEED).document().id
 
-        checkImgUpload()
-        successPhoto = { photoSuccessCount.invoke(it) }
+        if (photoFileList.isNotEmpty()) {
+            checkImgUpload().collect{
+                photoSuccessCount(it)
+            }
+
+        }
 
         val creteFeedData = FeedData().createData(
             fid = documentID,
@@ -58,21 +63,24 @@ class FeedRepositoryImpl(
     }
 
 
-    private suspend fun checkImgUpload() = withContext(Dispatchers.IO) {
-        if (photoFileList.any { it.imgUrl == null }) {
-            imgUpload(documentID)
+    private suspend fun checkImgUpload(): Flow<Int> =
+        flow {
+            if (photoFileList.any { it.imgUrl == null }) {
+                imgUpload().collect {
+                    emit(it)
+                }
+            }
+            emit(photoFileList.size)
         }
-        return@withContext
-    }
 
-    private suspend fun imgUpload(documentID: String) {
+    private suspend fun imgUpload(): Flow<Int> = flow {
         photoFileList.forEachIndexed { index, photoData ->
             if (photoData.imgUrl == null) {
                 imgApi.uploadImage(documentID, photoData.file!!)
                     .catch { photoFileList[index].imgUrl = null }
                     .collect {
                         photoFileList[index].imgUrl = it.toString()
-                        successPhoto?.invoke(photoFileList.filter { photoData -> photoData.imgUrl != null }.size)
+                        emit(photoFileList.filter { photoData -> photoData.imgUrl != null }.size)
                         checkImgUpload()
                     }
             }

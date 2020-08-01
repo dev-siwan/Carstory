@@ -27,3 +27,18 @@ fun TextView.setMotorType(data:MotorTypeData?){
         }
     }
 }
+
+@BindingAdapter(value=["isImgUpload","uploadPhotoCount","uploadMaxCount"] ,requireAll = true)
+fun TextView.setUploadProgress(isImgUpload:Boolean?,uploadPhotoCount:Int?,uploadMaxCount:Int?){
+    isImgUpload?.let {
+        text = if (it) {
+            String.format(
+                context.getString(R.string.upload_progress_img_format),
+                uploadPhotoCount,
+                uploadMaxCount
+            )
+        } else {
+            context.getString(R.string.upload_progress_feed_update)
+        }
+    }
+}

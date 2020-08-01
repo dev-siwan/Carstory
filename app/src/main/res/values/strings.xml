@@ -69,6 +69,9 @@
     <string name="pick_photo_limit_message">최대 5개 사진 만 등록 가능합니다.</string>
     <string name="error_not_load_image">이미지를 불러오지 못했습니다. 다시 시도해주세요.</string>
 
+    <string name="upload_progress_img_format">이미지 업로드 중 %d/%d</string>
+    <string name="upload_progress_feed_update">피드를 업데이트 중 입니다.</string>
+
     <string name="motorType_format_text">브랜드: %s | 모델: %s</string>
     <string name="motorType_brand_all_format_text">브랜드: %s</string>
 

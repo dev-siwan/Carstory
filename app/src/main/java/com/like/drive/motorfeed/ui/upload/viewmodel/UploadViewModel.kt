@@ -34,10 +34,19 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
     private val _motorType= MutableLiveData<MotorTypeData>()
     val motorTypeData:LiveData<MotorTypeData> get() = _motorType
 
-    private val photoCountEvent = SingleLiveEvent<Int>()
 
     val title = MutableLiveData<String>()
     val content = MutableLiveData<String>()
+
+    val isUploadLoading=SingleLiveEvent<Boolean>()
+
+    private val _isPhotoUpload =MutableLiveData<Boolean>(true)
+    val isPhotoUpload : LiveData<Boolean> get() = _isPhotoUpload
+
+    private val _uploadPhotoCount =MutableLiveData(0)
+    val uploadPhotoCount :LiveData<Int> get() = _uploadPhotoCount
+
+
 
     val isFieldEnable = MediatorLiveData<Boolean>().apply {
         addSource(title) {
@@ -87,6 +96,10 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
     }
 
     fun upload() {
+
+        isUploadLoading.value = true
+        _isPhotoUpload.value = originFileList.isNotEmpty()
+
         val feedField = FeedUploadField(
             title = this.title.value!!,
             content = this.content.value!!,
@@ -94,14 +107,17 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
         )
         viewModelScope.launch {
             feedRepository.addFeed(feedField, originFileList,
-                photoSuccessCount={count->
-                    photoCountEvent.value = count
+                photoSuccessCount = { count ->
+                    _uploadPhotoCount.postValue(count)
+                    if (count == originFileList.size) {
+                        _isPhotoUpload.postValue(false)
+                    }
                 },
-                success={
-
+                success = {
+                    isUploadLoading.postValue(false)
                 },
-                fail={
-
+                fail = {
+                    isUploadLoading.value = false
                 })
         }
     }
