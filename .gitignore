@@ -86,7 +86,7 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
-/.gitignore
 .idea
 *.properties
+/local.properties
 
