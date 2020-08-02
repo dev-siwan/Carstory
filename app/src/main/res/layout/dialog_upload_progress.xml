@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel" />
+            type="com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -14,5 +14,5 @@ val repositoryModule = module {
     single<VersionRepository>{VersionRepositoryImpl(get())}
     single<MotorTypeRepository> { MotorTypeRepositoryImpl(get(),get()) }
     single<UserRepository> {UserRepositoryImpl(get())}
-    single<FeedRepository>{FeedRepositoryImpl(get(),get(),get())}
+    single<FeedRepository>{FeedRepositoryImpl(get(),get(),get(),get())}
 }

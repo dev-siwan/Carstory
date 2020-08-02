@@ -11,7 +11,7 @@
         <item name="colorAccent">@color/grey_4</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
         <item name="android:textColorHint">@color/grey_4</item>
         <item name="android:textColorHighlight">@color/grey_6</item>
     </style>

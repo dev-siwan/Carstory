@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.repository.feed
 
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.FeedData
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.flow
 class FeedRepositoryImpl(
     private val feedApi: FeedApi,
     private val imgApi: ImageApi,
+    private val firebaseAuth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) : FeedRepository {
 
@@ -42,6 +44,7 @@ class FeedRepositoryImpl(
 
         val creteFeedData = FeedData().createData(
             fid = documentID,
+            firebaseUser = firebaseAuth.currentUser,
             feedUploadField = feedField,
             motorTypeData = feedField.motorTypeData,
             imgList = photoFileList

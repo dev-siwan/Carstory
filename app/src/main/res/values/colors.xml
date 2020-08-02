@@ -20,4 +20,9 @@
     <color name="white_bg">#fefefe</color>
 
     <color name="alpha_50">#80000000</color>
+
+    <color name="pro_sky_1">#98b4ff</color>
+    <color name="pro_sky_2">#d5e1ff</color>
+    <color name="pro_sky_3">#dbe1eb</color>
+    <color name="pro_sky_pale">#f3f6fb</color>
 </resources>

@@ -13,11 +13,13 @@ import kotlinx.coroutines.launch
 class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseViewModel() {
 
     private val _feedData = MutableLiveData<FeedData>()
-    private val feedData: LiveData<FeedData> get() = _feedData
+    val feedData: LiveData<FeedData> get() = _feedData
 
     private val _commentList = MutableLiveData<List<CommentData>>()
-    private val commentList: LiveData<List<CommentData>> get() = _commentList
+    val commentList: LiveData<List<CommentData>> get() = _commentList
 
+    private val _photoIndex = MutableLiveData(1)
+    val photoIndex : LiveData<Int> get() = _photoIndex
 
     fun initDate(feedData: FeedData?) {
         feedData?.let {
@@ -38,6 +40,10 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
                     .collect()
             }
         }
+    }
+
+    fun setPhotoIndex(index:Int){
+        _photoIndex.value=index
     }
 
 }

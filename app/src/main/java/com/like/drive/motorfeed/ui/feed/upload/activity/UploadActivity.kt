@@ -23,7 +23,9 @@ import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.motorfeed.ui.feed.upload.adapter.UploadPhotoAdapter
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.loading.UploadProgressDialog
+import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
@@ -63,6 +65,8 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             pickPhoto()
             photoItemClick()
             isUploadLoading()
+            uploadComplete()
+            uploadError()
         }
     }
 
@@ -131,6 +135,9 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         })
     }
 
+    /**
+     * 업로드 로딩
+     */
     private fun UploadViewModel.isUploadLoading() {
         isUploadLoading.observe(this@UploadActivity, Observer { isLoading ->
             if (isLoading) {
@@ -143,6 +150,26 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         })
     }
 
+    /**
+     * 업로드 완료
+     */
+    private fun UploadViewModel.uploadComplete() {
+        completeEvent.observe(this@UploadActivity, Observer { feedData ->
+            startAct(FeedDetailActivity::class,Bundle().apply {
+                putParcelable(CREATE_FEED_DATA_KEY,feedData)
+            })
+            finish()
+        })
+    }
+
+    /**
+     * 업로드 에러
+     */
+    private fun UploadViewModel.uploadError() {
+        errorEvent.observe(this@UploadActivity, Observer {
+            showShortToast("에러")
+        })
+    }
 
     /**
      * 포토 아이템 삭제

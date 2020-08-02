@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
+import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
@@ -32,7 +33,6 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
     private val _motorType= MutableLiveData<MotorTypeData>()
     val motorTypeData:LiveData<MotorTypeData> get() = _motorType
 
-
     val title = MutableLiveData<String>()
     val content = MutableLiveData<String>()
 
@@ -43,6 +43,9 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
 
     private val _uploadPhotoCount =MutableLiveData(0)
     val uploadPhotoCount :LiveData<Int> get() = _uploadPhotoCount
+
+     val completeEvent = SingleLiveEvent<FeedData>()
+     val errorEvent = SingleLiveEvent<Unit>()
 
 
 
@@ -113,9 +116,11 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
                 },
                 success = {
                     isUploadLoading.postValue(false)
+                    completeEvent.value = it
                 },
                 fail = {
                     isUploadLoading.value = false
+                    errorEvent.call()
                 })
         }
     }

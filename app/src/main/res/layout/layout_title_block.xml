@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="feedData"
+            type="com.like.drive.motorfeed.data.feed.FeedData" />
+        <import type="android.view.View"/>
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -38,14 +44,17 @@
         android:id="@+id/tvMotorType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/glStart"
-        android:textSize="@dimen/large_text_size"
-        app:layout_constraintTop_toTopOf="@id/glTop"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textColor="@color/white_100"
-        android:padding="@dimen/activity_x_small_margin"
         android:background="@drawable/rect_solid_black_conner"
-        tools:text="기아|다이소"/>
+        android:padding="@dimen/activity_x_small_margin"
+        android:textColor="@color/white_100"
+        android:textSize="@dimen/normal_text_size"
+        android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
+        app:detailModelCode="@{feedData.modelCode}"
+        app:detailBrandName="@{feedData.brandName}"
+        app:detailModelName="@{feedData.modelName}"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toTopOf="@id/glTop"
+        tools:text="기아|다이소" />
 
     <TextView
         android:id="@+id/title"
@@ -58,6 +67,7 @@
         app:layout_constraintEnd_toEndOf="@id/glEnd"
         android:layout_marginTop="@dimen/activity_small_margin"
         android:maxLines="2"
+        android:text="@{feedData.title}"
         tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라"/>
 
     <TextView
@@ -65,10 +75,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/glStart"
-        android:textSize="@dimen/large_text_size"
+        android:textSize="@dimen/normal_text_size"
         app:layout_constraintTop_toBottomOf="@id/title"
         android:layout_marginTop="@dimen/activity_x_small_margin"
         android:textColor="@color/grey_4"
+        app:formatDate="@{feedData.updateDate}"
         tools:text="2020.08.06"
         app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
