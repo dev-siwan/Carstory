@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.upload.activity
+package com.like.drive.motorfeed.ui.feed.upload.activity
 
 import android.Manifest
 import android.app.Activity
@@ -21,10 +21,10 @@ import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
-import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
+import com.like.drive.motorfeed.ui.feed.upload.adapter.UploadPhotoAdapter
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.base.loading.UploadProgressDialog
-import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
+import com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
 import kotlinx.coroutines.Dispatchers
@@ -296,6 +296,9 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         }
     }
 
+    companion object{
+        const val CREATE_FEED_DATA_KEY="CREATE_FEED_DATA"
+    }
 
 }
 

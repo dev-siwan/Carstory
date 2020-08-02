@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.upload.data
+package com.like.drive.motorfeed.ui.feed.upload.data
 
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 

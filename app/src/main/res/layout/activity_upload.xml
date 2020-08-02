@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel" />
+            type="com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_100"
-        tools:context=".ui.upload.activity.UploadActivity">
+        tools:context=".ui.feed.upload.activity.UploadActivity">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"

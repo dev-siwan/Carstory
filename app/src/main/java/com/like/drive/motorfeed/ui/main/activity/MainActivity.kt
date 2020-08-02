@@ -10,7 +10,7 @@ import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
-import com.like.drive.motorfeed.ui.upload.activity.UploadActivity
+import com.like.drive.motorfeed.ui.feed.upload.activity.UploadActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 

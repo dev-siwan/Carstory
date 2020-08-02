@@ -1,11 +1,10 @@
 package com.like.drive.motorfeed.repository.feed
 
-import com.like.drive.motorfeed.common.async.ResultState
+import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.photo.PhotoData
-import com.like.drive.motorfeed.ui.upload.data.FeedUploadField
+import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 interface FeedRepository {
     suspend fun addFeed(
@@ -15,4 +14,7 @@ interface FeedRepository {
         success: (FeedData) -> Unit,
         fail: () -> Unit
     )
+
+    suspend fun getFeedComment(fid:String): Flow<List<CommentData>>
+    suspend fun getFeed(fid:String):Flow<FeedData?>
 }

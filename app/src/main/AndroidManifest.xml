@@ -17,39 +17,48 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.gallery.activity.GalleryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.motor.activity.SelectMotorTypeActivity"
+        <activity android:name=".ui.feed.detail.activity.FeedDetailActivity"></activity>
+        <activity
+            android:name=".ui.gallery.activity.GalleryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.motor.activity.SelectMotorTypeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".ui.upload.activity.UploadActivity"
+        <activity
+            android:name=".ui.feed.upload.activity.UploadActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
-       <!--     <intent-filter>
-                <action android:name="android.intent.action.MAIN"
-                    android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-        <activity android:name=".ui.sign.up.activity.SignUpEmail"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".ui.sign.in.activity.SignInActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".ui.splash.activity.SplashActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN"
                     android:screenOrientation="portrait"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
-        <activity android:name=".ui.main.activity.MainActivity" />
+        <activity
+            android:name=".ui.sign.up.activity.SignUpEmail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".ui.sign.in.activity.SignInActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".ui.splash.activity.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.MAIN"
+                    android:screenOrientation="portrait" />
 
-        <!-- facebook -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.main.activity.MainActivity" /> <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -69,10 +78,7 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-        </activity>
-
-
-        <!-- 프로바이더 파일 패스 -->
+        </activity> <!-- 프로바이더 파일 패스 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

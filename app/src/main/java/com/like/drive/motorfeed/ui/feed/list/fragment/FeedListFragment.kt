@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.feed.fragment
+package com.like.drive.motorfeed.ui.feed.list.fragment
 
 import android.os.Bundle
 import com.like.drive.motorfeed.R

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerLike"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toStartOf="@id/containerComment"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/glTop">
+
+            <ImageView
+                android:id="@+id/ivLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_like_grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvLike"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_chainStyle="packed"/>
+
+            <TextView
+                android:id="@+id/tvLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="좋아요"
+                android:textColor="@color/grey_4"
+                android:textSize="@dimen/large_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/ivLike"
+                app:layout_constraintStart_toEndOf="@id/ivLike"
+                app:layout_constraintTop_toTopOf="@id/ivLike"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toStartOf="@id/containerShare"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/containerLike"
+            app:layout_constraintTop_toTopOf="@id/glTop">
+
+            <ImageView
+                android:id="@+id/ivComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_comment_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvComment"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                />
+
+            <TextView
+                android:id="@+id/tvComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="댓글"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/ivComment"
+                app:layout_constraintStart_toEndOf="@id/ivComment"
+                app:layout_constraintTop_toTopOf="@id/ivComment"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerShare"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/containerComment"
+            app:layout_constraintTop_toTopOf="@id/glTop">
+
+            <ImageView
+                android:id="@+id/ivShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvShare"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="공유"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/ivShare"
+                app:layout_constraintStart_toEndOf="@id/ivShare"
+                app:layout_constraintTop_toTopOf="@id/ivShare"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

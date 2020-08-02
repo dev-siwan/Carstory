@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_100"
-    tools:context=".ui.feed.fragment.FeedListFragment">
+    tools:context=".ui.feed.list.fragment.FeedListFragment">
 
 
     <androidx.appcompat.widget.Toolbar

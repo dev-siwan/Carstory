@@ -1,13 +1,11 @@
 package com.like.drive.motorfeed.ui.base.loading
 import android.os.Bundle
 import android.view.ViewGroup
-import android.view.Window
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.DialogUploadProgressBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
-import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
+import com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class UploadProgressDialog: BaseFragmentDialog<DialogUploadProgressBinding>(R.layout.dialog_upload_progress){

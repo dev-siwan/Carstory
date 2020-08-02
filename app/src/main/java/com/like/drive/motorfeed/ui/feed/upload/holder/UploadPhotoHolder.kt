@@ -1,11 +1,11 @@
-package com.like.drive.motorfeed.ui.upload.holder
+package com.like.drive.motorfeed.ui.feed.upload.holder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.databinding.HolderUploadPhotoBinding
 import com.like.drive.motorfeed.data.photo.PhotoData
-import com.like.drive.motorfeed.ui.upload.viewmodel.UploadViewModel
+import com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel
 
 class UploadPhotoHolder(val binding:HolderUploadPhotoBinding):RecyclerView.ViewHolder(binding.root){
 

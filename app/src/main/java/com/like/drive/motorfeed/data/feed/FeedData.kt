@@ -1,12 +1,15 @@
 package com.like.drive.motorfeed.data.feed
 
+import android.os.Parcelable
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
-import com.like.drive.motorfeed.ui.upload.data.FeedUploadField
+import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.ArrayList
 
+@Parcelize
 data class FeedData(
     var fid: String? = null,
     val title: String?=null,
@@ -20,7 +23,7 @@ data class FeedData(
     val nick: String?=null,
     val createDate: Date?=null,
     val updateDate: Date?=null
-){
+):Parcelable{
     fun createData(fid:String,feedUploadField:FeedUploadField,motorTypeData:MotorTypeData?,imgList:ArrayList<PhotoData>)=
         FeedData(
             fid = fid,

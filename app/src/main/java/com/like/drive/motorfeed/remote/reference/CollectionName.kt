@@ -7,4 +7,5 @@ object CollectionName {
     const val MOTOR_TYPE_LIST ="motorTypeList"
     const val USER="user"
     const val FEED="feed"
+    const val FEED_COMMENT="feed_comment"
 }

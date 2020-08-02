@@ -2,18 +2,17 @@ package com.like.drive.motorfeed.repository.feed
 
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.api.feed.FeedApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
-import com.like.drive.motorfeed.ui.upload.data.FeedUploadField
-import kotlinx.coroutines.Dispatchers
+import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 
 class FeedRepositoryImpl(
     private val feedApi: FeedApi,
@@ -39,7 +38,6 @@ class FeedRepositoryImpl(
             checkImgUpload().collect{
                 photoSuccessCount(it)
             }
-
         }
 
         val creteFeedData = FeedData().createData(
@@ -60,6 +58,14 @@ class FeedRepositoryImpl(
                     fail.invoke()
                 }
             }
+    }
+
+    override suspend fun getFeedComment(fid:String): Flow<List<CommentData>> {
+       return feedApi.getComment(fid)
+    }
+
+    override suspend fun getFeed(fid: String): Flow<FeedData?> {
+        return feedApi.getFeed(fid)
     }
 
 

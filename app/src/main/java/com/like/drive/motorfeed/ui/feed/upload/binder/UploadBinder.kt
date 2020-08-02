@@ -1,11 +1,11 @@
-package com.like.drive.motorfeed.ui.upload.binder
+package com.like.drive.motorfeed.ui.feed.upload.binder
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.motor.MotorTypeData
-import com.like.drive.motorfeed.ui.upload.adapter.UploadPhotoAdapter
+import com.like.drive.motorfeed.ui.feed.upload.adapter.UploadPhotoAdapter
 import com.like.drive.motorfeed.data.photo.PhotoData
 
 @BindingAdapter("uploadPhotoItems")
@@ -23,7 +23,7 @@ fun TextView.setMotorType(data:MotorTypeData?){
         text = if (it.modelCode == 0) {
             String.format(context.getString(R.string.motorType_brand_all_format_text),it.brandName)
         }else{
-            String.format(context.getString(R.string.motorType_format_text),it.brandName,it.brandName)
+            String.format(context.getString(R.string.motorType_format_text),it.brandName,it.modelName)
         }
     }
 }

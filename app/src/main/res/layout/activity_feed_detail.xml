@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.feed.detail.activity.FeedDetailActivity">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glStart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="15dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="15dp" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="20dp" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/feed_register"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/large_text_size"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvImg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                tools:listitem="@layout/holder_feed_detail_photo_holder"/>
+
+            <include
+                android:id="@+id/containerTitleBlock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                layout="@layout/layout_title_block"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvImg"
+                tools:text="기아|다이소" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/grey_6"
+                app:layout_constraintTop_toBottomOf="@id/containerTitleBlock"
+                app:layout_constraintStart_toStartOf="@id/glStart"
+                app:layout_constraintEnd_toEndOf="@id/glEnd"/>
+
+            <include
+                android:id="@+id/containerProfile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                layout="@layout/layout_profile_block"/>
+
+            <View
+                android:id="@+id/divide2"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/grey_6"
+                app:layout_constraintTop_toBottomOf="@id/containerProfile"
+                app:layout_constraintStart_toStartOf="@id/glStart"
+                app:layout_constraintEnd_toEndOf="@id/glEnd"/>
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/divide2"
+                app:layout_constraintStart_toStartOf="@id/glStart"
+                app:layout_constraintEnd_toEndOf="@id/glEnd"
+                android:textSize="@dimen/large_text_size"
+                android:lineSpacingExtra="@dimen/small_text_size"
+                android:layout_marginTop="@dimen/activity_small_margin"
+                android:textColor="@android:color/black"
+                tools:text="@string/feed_detail_content_tools_text" />
+
+            <View
+                android:id="@+id/divide3"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/grey_6"
+                android:layout_marginTop="@dimen/activity_small_margin"
+                app:layout_constraintTop_toBottomOf="@id/tvContent"
+                app:layout_constraintStart_toStartOf="@id/glStart"
+                app:layout_constraintEnd_toEndOf="@id/glEnd"/>
+            <include
+                android:id="@+id/containerDetailFunction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvContent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                layout="@layout/layout_detail_function_block"/>
+
+            <View
+                android:id="@+id/boundary"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/activity_small_margin"
+                android:background="@color/grey_6"
+                app:layout_constraintTop_toBottomOf="@id/containerDetailFunction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvBanner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/boundary"
+                android:background="@color/grey_4"
+                android:textColor="@color/white_100"
+                android:padding="@dimen/activity_vertical_margin"
+                tools:text="배너공간"/>
+
+            <View
+                android:id="@+id/boundary2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/activity_small_margin"
+                android:background="@color/grey_6"
+                app:layout_constraintTop_toBottomOf="@id/tvBanner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/boundary2"
+                tools:listitem="@layout/holder_feed_comment"
+                tools:itemCount="3"
+                app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

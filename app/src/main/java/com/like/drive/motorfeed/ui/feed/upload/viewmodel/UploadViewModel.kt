@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.upload.viewmodel
+package com.like.drive.motorfeed.ui.feed.upload.viewmodel
 
 
 import androidx.lifecycle.LiveData
@@ -10,9 +10,7 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.data.photo.PhotoData
-import com.like.drive.motorfeed.ui.upload.data.FeedUploadField
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.launch
 import java.io.File
 
