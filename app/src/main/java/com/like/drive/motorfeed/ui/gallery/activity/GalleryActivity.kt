@@ -28,16 +28,14 @@ class GalleryActivity :
         const val KEY_SELECTED_GALLERY_ITEM = "KEY_SELECTED_GALLERY_ITEM"
         const val KEY_PICK_PHOTO_COUNT = "KEY_PICK_PHOTO_COUNT"
         const val KEY_PHOTO_MAX_SIZE = "KEY_PHOTO_MAX_SIZE"
+        const val KEY_IS_MULTIPLE_PICK="KEY_IS_MULTIPLE_PICK"
     }
 
     private val toolbar by lazy { findViewById<Toolbar>(R.id.incToolbar) }
     private val galleryViewModel: GalleryViewModel by viewModel()
 
-
     private val galleryAdapter by lazy { GalleryAdapter(galleryViewModel) }
     private val directoryDialog by lazy{ GalleryDirectoryFragment() }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +53,19 @@ class GalleryActivity :
         rvGallery.adapter = galleryAdapter
     }
 
-    private fun initData(){
+    private fun initData() {
         galleryViewModel.run {
-            initCount( intent.getIntExtra(KEY_PHOTO_MAX_SIZE,0), intent.getIntExtra(KEY_PICK_PHOTO_COUNT,0))
+
+            intent.getBooleanExtra(KEY_IS_MULTIPLE_PICK, false).let {
+                initMultiple(it)
+                if (it) {
+                    initCount(
+                        intent.getIntExtra(KEY_PHOTO_MAX_SIZE, 0),
+                        intent.getIntExtra(KEY_PICK_PHOTO_COUNT, 0)
+                    )
+                }
+            }
+
         }
     }
 
@@ -70,6 +78,7 @@ class GalleryActivity :
             selectDirectoryClickEvent()
             addData()
             removeData()
+            singleImgComplete()
         }
     }
 
@@ -93,6 +102,17 @@ class GalleryActivity :
             finish()
         })
     }
+
+
+    private fun GalleryViewModel.singleImgComplete() {
+        singleUri.observe(this@GalleryActivity, Observer {
+            Intent().apply { putExtra(KEY_SELECTED_GALLERY_ITEM, it) }.run {
+                setResult(Activity.RESULT_OK, this)
+            }
+            finish()
+        })
+    }
+
 
     private fun GalleryViewModel.addData() {
         addDataEvent.observe(this@GalleryActivity, Observer {

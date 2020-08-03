@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.common.enum.PhotoSelectType
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.ActivityUploadBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
@@ -210,6 +211,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
      */
     private fun showCustomGallery() {
         startActForResult(GalleryActivity::class, PickImageUtil.PICK_FROM_ALBUM, Bundle().apply {
+            putBoolean(GalleryActivity.KEY_IS_MULTIPLE_PICK, true)
             putInt(GalleryActivity.KEY_PICK_PHOTO_COUNT, uploadAdapter.itemCount)
             putInt(GalleryActivity.KEY_PHOTO_MAX_SIZE, UploadViewModel.PHOTO_MAX_SIZE)
         })
@@ -327,9 +329,4 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         const val CREATE_FEED_DATA_KEY="CREATE_FEED_DATA"
     }
 
-}
-
-enum class PhotoSelectType {
-    CAMERA,
-    ALBUM
 }

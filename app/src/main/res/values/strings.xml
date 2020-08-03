@@ -28,6 +28,7 @@
     <string name="user_error">유저 정보를 가져올 수 없습니다.\n다시 시도해주세요.</string>
     <string name="user_ban">해당 유저는 영구정지 당한 상태입니다.\n다른 아이디로 로그인 해주세요.</string>
     <string name="sign_up_error">해당 이메일 아이디가 가입되어 있습니다.\n다시 시도해주세요.</string>
+    <string name="nick_name_null_error">닉네임 정보가 없습니다. 닉네임을 설정해주세요.</string>
 
 
     <string name="menu_feed">피드</string>
@@ -60,6 +61,7 @@
     <string name="complete_count_text">완료( %d )</string>
     <string name="no_pick_message">선택되지 않았습니다.</string>
 
+
     <string name="not_available_mime_type">jpg, jpeg, png 파일만 등록이 가능합니다.</string>
     <string name="not_available_photo_size">파일크기 초과(파일당 최대 10MB)</string>
     <string name="select_photo">사진 선택</string>
@@ -77,6 +79,9 @@
 
     <string name="remain_count">남은 갯수 %d</string>
 
+    <string name="nick_name_hint">닉네임을 입력해주세요.(최대 8글자)</string>
+    <string name="intro_text_hint">자기 소개를 간단히 입력해주세요.</string>
+
     <string name="feed_detail_content_tools_text">미국 정부가 ‘제2의 화웨이’로 삼고 공격하고 있는 틱톡이 미국내
         사업 전체를 미국 기업에 넘기는 방안을 제시하고 나섰다.
         이는 마이크로소프트에 미국내 사업을 넘기되 일부 지분을 보유하는 협상안에 대해 미국 행정부가 거부 반응을 보인 데 따른 후속 조처다.
@@ -89,6 +94,11 @@
     <string name="denied_permission_storage">접근을 거부하여 사진을 추가할 수 없습니다. 허용을 원하시면 설정>모터피드에서 \'저장공간\'을 켜주세요</string>
     <string name="denied_permission_camera">접근을 거부하여 사진을 추가할 수 없습니다. 허용을 원하시면 설정>모터피드에서 \'저장공간\'과 \'카메라\'를 켜주세요</string>
     <string name="re_comment_text">답글 달기</string>
+
+    <string name="profile_welcome_title">프로필을 작성해주세요</string>
+    <string name="pick_profile_img_desc">이미지 선택</string>
+    <string name="profile_desc">* 닉네임은 필수 입력입니다.</string>
+
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

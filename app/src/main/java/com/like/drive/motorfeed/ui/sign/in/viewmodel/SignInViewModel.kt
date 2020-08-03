@@ -6,9 +6,11 @@ import com.facebook.AccessToken
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
+import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.repository.user.UserRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
+import com.like.drive.motorfeed.ui.splash.viewmodel.SplashCompleteType
 import kotlinx.coroutines.launch
 
 class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel(){
@@ -22,6 +24,7 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
 
     val completeEvent = SingleLiveEvent<Unit>()
     val errorEvent = SingleLiveEvent<SignInErrorType>()
+    val emptyNickNameEvent = SingleLiveEvent<Unit>()
 
     val moveToSignUpEvent = SingleLiveEvent<Unit>()
 
@@ -79,7 +82,9 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
         viewModelScope.launch {
             userRepository.getUser(
                 success = {
-                    setCompleteEvent()
+                    UserInfo.userInfo?.nickName?.let {
+                        setCompleteEvent()
+                    } ?: emptyNickNameEvent.call()
                 }, fail = {
                     setErrorEvent(SignInErrorType.USER_ERROR)
                 }, userBan = {

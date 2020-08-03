@@ -13,6 +13,6 @@ import org.koin.dsl.module
 val repositoryModule = module {
     single<VersionRepository>{VersionRepositoryImpl(get())}
     single<MotorTypeRepository> { MotorTypeRepositoryImpl(get(),get()) }
-    single<UserRepository> {UserRepositoryImpl(get())}
+    single<UserRepository> {UserRepositoryImpl(get(),get())}
     single<FeedRepository>{FeedRepositoryImpl(get(),get(),get(),get())}
 }

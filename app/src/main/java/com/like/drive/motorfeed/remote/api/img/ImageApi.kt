@@ -8,4 +8,5 @@ import java.io.File
 
 interface ImageApi{
     suspend fun uploadImage(fid: String, imgFile: File): Flow<Uri?>
+    suspend fun profileImage(uid:String, imgFile: File):Flow<Uri?>
 }

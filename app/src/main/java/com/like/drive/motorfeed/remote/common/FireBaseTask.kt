@@ -66,11 +66,10 @@ class FireBaseTask {
 
     suspend fun updateData(
         ref: DocumentReference,
-        date: Any,
-        fieldName: String
+        map: Map<String, Any>
     ): Flow<Boolean> =
         flow {
-            val snapShot = ref.update(fieldName, date).await()
+            val snapShot = ref.update(map).await()
             emit(Tasks.forResult(snapShot).isComplete)
         }
 

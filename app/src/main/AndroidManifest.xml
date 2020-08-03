@@ -17,7 +17,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.feed.detail.activity.FeedDetailActivity"></activity>
+        <activity android:name=".ui.profile.activity.ProfileActivity"
+            android:screenOrientation="portrait">
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN"
+                    android:screenOrientation="portrait"/>
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".ui.feed.detail.activity.FeedDetailActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.gallery.activity.GalleryActivity"
             android:screenOrientation="portrait" />
@@ -28,17 +38,7 @@
         <activity
             android:name=".ui.feed.upload.activity.UploadActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
-
-            <!--
-                <intent-filter>
-                <action android:name="android.intent.action.MAIN"
-                    android:screenOrientation="portrait"/>
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".ui.sign.up.activity.SignUpEmail"
             android:screenOrientation="portrait"

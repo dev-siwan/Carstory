@@ -14,6 +14,7 @@ import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
+import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
 import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInErrorType
 import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInViewModel
 import com.like.drive.motorfeed.ui.sign.up.activity.SignUpEmail
@@ -22,26 +23,28 @@ import org.koin.android.ext.android.inject
 
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
-    private val viewModel:SignInViewModel by inject()
+    private val viewModel: SignInViewModel by inject()
     private val loginManager = LoginManager.getInstance()
     private val callbackManager = CallbackManager.Factory.create();
-    private val facebookLoginCallback by lazy{ object:FacebookCallback<LoginResult>{
-        override fun onSuccess(result: LoginResult?) {
-            result?.let {
-                viewModel.handleFacebookAccessToken(it.accessToken)
-            }?:showShortToast(getString(R.string.facebook_error))
+    private val facebookLoginCallback by lazy {
+        object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult?) {
+                result?.let {
+                    viewModel.handleFacebookAccessToken(it.accessToken)
+                } ?: showShortToast(getString(R.string.facebook_error))
+
+            }
+
+            override fun onCancel() {
+                showShortToast(getString(R.string.facebook_cancel))
+            }
+
+            override fun onError(error: FacebookException?) {
+                showShortToast(getString(R.string.facebook_error))
+            }
 
         }
-
-        override fun onCancel() {
-            showShortToast(getString(R.string.facebook_cancel))
-        }
-
-        override fun onError(error: FacebookException?) {
-            showShortToast(getString(R.string.facebook_error))
-        }
-
-    }}
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,52 +59,63 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     }
 
 
-    private fun withViewModel(){
-        with(viewModel){
+    private fun withViewModel() {
+        with(viewModel) {
             complete()
             error()
             facebookLogin()
             moveToSignUp()
             isLoading()
+            emptyNickName()
         }
     }
 
-    private fun SignInViewModel.complete(){
+    private fun SignInViewModel.complete() {
         completeEvent.observe(this@SignInActivity, Observer {
             startAct(MainActivity::class)
             finish()
         })
     }
 
-    private fun SignInViewModel.error(){
+    private fun SignInViewModel.error() {
         errorEvent.observe(this@SignInActivity, Observer {
-            when(it){
+            when (it) {
                 SignInErrorType.LOGIN_ERROR -> showShortToast(getString(R.string.login_error))
-                SignInErrorType.USER_BAN->showShortToast(getString(R.string.user_ban))
-                SignInErrorType.USER_ERROR->showShortToast(getString(R.string.user_error))
-                else ->showShortToast(getString(R.string.facebook_error))
+                SignInErrorType.USER_BAN -> showShortToast(getString(R.string.user_ban))
+                SignInErrorType.USER_ERROR -> showShortToast(getString(R.string.user_error))
+                else -> showShortToast(getString(R.string.facebook_error))
             }
         })
     }
 
-    private fun SignInViewModel.isLoading(){
+    private fun SignInViewModel.isLoading() {
         isLoading.observe(this@SignInActivity, Observer {
-            if(it)loadingProgress.show() else loadingProgress.dismiss()
+            if (it) loadingProgress.show() else loadingProgress.dismiss()
 
         })
     }
 
 
-    private fun SignInViewModel.facebookLogin(){
+    private fun SignInViewModel.facebookLogin() {
         loginFacebookClickEvent.observe(this@SignInActivity, Observer {
-            loginManager.logInWithReadPermissions(this@SignInActivity, listOf("email", "public_profile"))
-            loginManager.registerCallback(callbackManager,facebookLoginCallback)
+            loginManager.logInWithReadPermissions(
+                this@SignInActivity,
+                listOf("email", "public_profile")
+            )
+            loginManager.registerCallback(callbackManager, facebookLoginCallback)
         })
     }
 
-    private fun SignInViewModel.moveToSignUp(){
+    private fun SignInViewModel.moveToSignUp() {
         moveToSignUpEvent.observe(this@SignInActivity, Observer {
             startAct(SignUpEmail::class)
+        })
+    }
+
+    private fun SignInViewModel.emptyNickName() {
+        emptyNickNameEvent.observe(this@SignInActivity, Observer {
+            startAct(ProfileActivity::class)
+            showShortToast(R.string.nick_name_null_error)
         })
     }
 

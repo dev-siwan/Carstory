@@ -17,6 +17,10 @@
         <variable
             name="hint"
             type="String" />
+
+        <variable
+            name="maxLength"
+            type="Integer" />
     </data>
 
     <EditText
@@ -25,10 +29,11 @@
         android:layout_marginTop="@dimen/activity_vertical_x_margin"
         android:background="@drawable/edit_text_background"
         android:hint="@{hint !=null ? hint : @string/blank_text}"
+        android:inputType="@{type}"
+        android:maxLength="@{maxLength > 0 &amp;&amp; maxLength !=null ? maxLength : 36}"
         android:maxLines="1"
         android:singleLine="true"
-        android:theme="@style/PrimaryEditTextTheme"
         android:text="@={value}"
-        android:inputType="@{type}"
-        tools:hint="여기는 힌트입니다."/>
+        android:theme="@style/PrimaryEditTextTheme"
+        tools:hint="여기는 힌트입니다." />
 </layout>

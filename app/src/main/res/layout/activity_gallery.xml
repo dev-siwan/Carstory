@@ -8,6 +8,7 @@
         <variable
             name="vm"
             type="com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +47,8 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 android:layout_marginEnd="@dimen/activity_small_margin"
-                tools:text="0/0" />
+                tools:text="0/0"
+                android:visibility="@{vm.isMultiple ? View.VISIBLE : View.GONE}"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -79,7 +81,8 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="@{vm.isMultiple ? View.VISIBLE : View.GONE}"/>
 <!--
         <fragment
             android:id="@+id/customGalleryNavFragment"

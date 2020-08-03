@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.ui.splash.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
+import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.repository.motor.MotorTypeRepository
 import com.like.drive.motorfeed.repository.user.UserRepository
 import com.like.drive.motorfeed.repository.version.VersionRepository
@@ -16,6 +17,7 @@ class SplashViewModel(
 
     val errorEvent = SingleLiveEvent<SplashErrorType>()
     val completeEvent = SingleLiveEvent<SplashCompleteType>()
+    val emptyNickNameEvent = SingleLiveEvent<Unit>()
 
     init {
         versionCheck()
@@ -29,8 +31,8 @@ class SplashViewModel(
                     setMotorType()
                 },
                 passInsertMotorType = {
-                    isNotEmptyMotorTypeList{result->
-                        if(result) checkUser() else setMotorType()
+                    isNotEmptyMotorTypeList { result ->
+                        if (result) checkUser() else setMotorType()
                     }
                 },
                 fail = {
@@ -39,11 +41,12 @@ class SplashViewModel(
         }
     }
 
-    private fun isNotEmptyMotorTypeList(isNotEmpty:(Boolean)->Unit) {
+    private fun isNotEmptyMotorTypeList(isNotEmpty: (Boolean) -> Unit) {
         viewModelScope.launch {
             isNotEmpty(motorTypeRepository.isNotEmptyMotorTypeList())
         }
     }
+
     private fun setMotorType() {
         viewModelScope.launch {
             motorTypeRepository.setMotorTypeList(
@@ -62,12 +65,14 @@ class SplashViewModel(
 
                 userRepository.getUser(
                     success = {
-                        setCompleteEvent(SplashCompleteType.FEED)
-                    },fail = {
+                        UserInfo.userInfo?.nickName?.let {
+                            setCompleteEvent(SplashCompleteType.FEED)
+                        } ?: emptyNickNameEvent.call()
+                    }, fail = {
                         setErrorEvent(SplashErrorType.USER_ERROR)
-                    },userBan = {
+                    }, userBan = {
                         setErrorEvent(SplashErrorType.USER_BAN)
-                    },empty={
+                    }, empty = {
                         setErrorEvent(SplashErrorType.USER_EMPTY)
                     }
                 )
@@ -77,11 +82,11 @@ class SplashViewModel(
         }
     }
 
-    private fun setErrorEvent(type:SplashErrorType){
+    private fun setErrorEvent(type: SplashErrorType) {
         errorEvent.value = type
     }
 
-    private fun setCompleteEvent(type:SplashCompleteType){
+    private fun setCompleteEvent(type: SplashCompleteType) {
         completeEvent.value = type
     }
 

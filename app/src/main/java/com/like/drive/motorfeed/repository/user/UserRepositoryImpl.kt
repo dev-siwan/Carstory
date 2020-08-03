@@ -1,14 +1,19 @@
 package com.like.drive.motorfeed.repository.user
 
+import android.net.Uri
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
+import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.api.user.UserApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.single
+import java.io.File
 
-class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
+class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: ImageApi) :UserRepository{
 
     override suspend fun getUser(
         success: () -> Unit,
@@ -20,11 +25,11 @@ class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
             .catch { fail.invoke() }
             .collect { userData ->
                 userData?.let {
-                    if (it.userBan) {
-                        userBan.invoke()
-                    } else {
-                        UserInfo.userInfo = it
-                        success.invoke()
+                    when{
+                        it.userBan->userBan.invoke()
+                        else-> {
+                            UserInfo.userInfo = it
+                            success.invoke()}
                     }
                 } ?: empty.invoke()
             }
@@ -89,6 +94,27 @@ class UserRepositoryImpl(private val userApi: UserApi) :UserRepository{
             it.user?.let { user ->
                 success(user)
             } ?: error()
+        }
+    }
+
+    override suspend fun updateProfile(
+        nickName: String,
+        imgFile: File?,
+        intro: String?,
+        success: (Uri?) -> Unit,
+        fail: () -> Unit,
+        empty: () -> Unit
+    ) {
+        val uid = UserInfo.userInfo?.uid
+        if (uid != null) {
+            var imgUri: Uri? = null
+            imgFile?.let {
+                imgUri = imageApi.profileImage(uid, it).catch { fail.invoke() }.single()
+            }
+            userApi.setUserProfile(uid, nickName, imgUri?.toString(), intro)
+                .catch { fail.invoke() }.collect { success(imgUri) }
+        } else {
+            empty.invoke()
         }
     }
 

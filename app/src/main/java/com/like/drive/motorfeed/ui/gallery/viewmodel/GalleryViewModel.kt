@@ -4,6 +4,7 @@ import android.net.Uri
 import android.provider.MediaStore
 
 import androidx.annotation.StringRes
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -50,10 +51,14 @@ class GalleryViewModel : BaseViewModel() {
 
     val selectDirectoryClickEvent = SingleLiveEvent<Unit>()
 
+    val singleUri = SingleLiveEvent<Uri>()
+
     private val uriList = ArrayList<Uri>()
 
     val addDataEvent =SingleLiveEvent<GalleryItemData>()
     val removeDataEvent = SingleLiveEvent<GalleryItemData>()
+
+    val isMultiple=ObservableBoolean(false)
 
 
     init {
@@ -121,6 +126,11 @@ class GalleryViewModel : BaseViewModel() {
     fun onClickGalleryItem(data: GalleryItemData) {
         if (isAvailablePhoto(data.sizeMb, data.mimeType)) {
 
+            if (!isMultiple.get()) {
+                singleUri.value = data.uri
+                return
+            }
+
             data.run {
                 if (selected.get()) {
                     removeUri(uri, this)
@@ -159,8 +169,17 @@ class GalleryViewModel : BaseViewModel() {
         }
     }
 
+
     /**
-     * 남는갯수랑 맥스갯수 받음
+     *
+     */
+
+    fun initMultiple(isMultiple:Boolean){
+        this.isMultiple.set(isMultiple)
+    }
+
+    /**
+    * 남는갯수랑 맥스갯수 받음
      */
     fun initCount(maxSize: Int, count: Int) {
         _maxSize.value = maxSize

@@ -14,6 +14,7 @@ import com.like.drive.motorfeed.ui.base.ext.showLongToast
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
+import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.motorfeed.ui.splash.viewmodel.SplashCompleteType
 import com.like.drive.motorfeed.ui.splash.viewmodel.SplashErrorType
@@ -35,6 +36,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         with(viewModel){
             complete()
             error()
+            emptyNickName()
         }
     }
 
@@ -43,7 +45,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         completeEvent.observe(this@SplashActivity, Observer {
             when(it){
                 SplashCompleteType.FEED->moveToActivity(MainActivity::class)
-
                 else-> moveToActivity(SignInActivity::class)
             }
         })
@@ -67,6 +68,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                     moveToActivity(SignInActivity::class)
                 }
             }
+        })
+    }
+
+
+    private fun SplashViewModel.emptyNickName(){
+        emptyNickNameEvent.observe(this@SplashActivity, Observer {
+            moveToActivity(ProfileActivity::class)
+            showShortToast(R.string.nick_name_null_error)
         })
     }
 
