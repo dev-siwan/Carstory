@@ -38,7 +38,7 @@ class GalleryDirectoryFragment : BaseFragmentDialog<FragmentGalleryDirectoryBind
     }
 
     private fun initView() {
-        val divider = DividerItemDecoration(
+        val decorationItem = DividerItemDecoration(
             rvGalleryDirectory.context, DividerItemDecoration.VERTICAL
         ).apply {
             ContextCompat.getDrawable(
@@ -47,7 +47,7 @@ class GalleryDirectoryFragment : BaseFragmentDialog<FragmentGalleryDirectoryBind
         }
         rvGalleryDirectory?.run {
             adapter = directoryAdapter
-            addItemDecoration(divider)
+            addItemDecoration(decorationItem)
         }
 
         galleryViewModel.getGalleryDirectory()

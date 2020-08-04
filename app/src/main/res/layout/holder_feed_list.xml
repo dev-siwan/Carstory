@@ -55,14 +55,16 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/containerProfile">
-            <!--android:visibility="@{vm.feedData.imageUrls != null &amp;&amp; vm.feedData.imageUrls.size() > 0? View.VISIBLE : View.GONE}"-->
+            app:layout_constraintTop_toBottomOf="@id/containerProfile"
+            android:visibility="@{data.imageUrls != null &amp;&amp; !data.imageUrls.empty ? View.VISIBLE : View.GONE}">
+
 
             <ImageView
                 android:id="@+id/ivFeedImg"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
+                app:centerCropImage="@{data.imageUrls.size > 0 ? data.imageUrls.get(1) : null}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -80,6 +82,7 @@
                 android:textSize="@dimen/small_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{String.valueOf(data.imageUrls.size())}"
                 tools:text="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

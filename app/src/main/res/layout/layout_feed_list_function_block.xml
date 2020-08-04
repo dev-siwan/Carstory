@@ -67,7 +67,7 @@
             android:id="@+id/containerLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_x_small_margin"
+            android:layout_marginStart="@dimen/activity_small_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/containerView"
             app:layout_constraintTop_toTopOf="@id/glTop">
@@ -104,7 +104,7 @@
             android:id="@+id/containerComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_x_small_margin"
+            android:layout_marginStart="@dimen/activity_small_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/containerLike"
             app:layout_constraintTop_toTopOf="@id/glTop">

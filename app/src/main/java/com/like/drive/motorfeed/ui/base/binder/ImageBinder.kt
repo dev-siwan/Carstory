@@ -54,14 +54,14 @@ fun ImageView.centerCrop(imageUrl: String?) {
 fun ImageView.setUri(uri: Uri?) {
     val size = context.dpToPixel(100f).toInt()
 
-    val glideOption: RequestOptions = RequestOptions()
+    /*val glideOption: RequestOptions = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.NONE)
         .skipMemoryCache(true)
-
+*/
     Glide.with(context)
         .load(uri)
         .transition(withCrossFade())
-        .apply(glideOption)
+       // .apply(glideOption)
         .override(size)
         .into(this)
 }
@@ -94,7 +94,8 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
 fun ImageView.setProfileImg(url: String?) {
     Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).apply(
         RequestOptions()
-            //.placeholder(R.drawable.profile_default_img_100)
+            .error(R.drawable.ic_empty_profile)
+            .placeholder(R.drawable.ic_empty_profile)
             .transform(CircleCrop(),CenterCrop()))
         .into(this)
 }

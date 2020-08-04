@@ -1,11 +1,14 @@
 package com.like.drive.motorfeed.ui.feed.list.fragment
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.FragmentFeedListBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
+import kotlinx.android.synthetic.main.fragment_feed_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -22,5 +25,20 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
+        val decorationItem = DividerItemDecoration(
+            requireContext(), DividerItemDecoration.VERTICAL
+        ).apply {
+            ContextCompat.getDrawable(
+                requireContext(), R.drawable.line_solid_grey_6
+            )?.let { setDrawable(it) }
+        }
+        rvFeedList?.run {
+            addItemDecoration(decorationItem)
+        }
+
     }
 }

@@ -46,9 +46,8 @@
         android:layout_height="32dp"
         app:layout_constraintTop_toTopOf="@id/glTop"
         app:layout_constraintStart_toStartOf="@id/glStart"
-        tools:src="@drawable/ic_camera"
-        app:centerCropImage="@{feedData.profileImg}"
-        android:background="@drawable/oval_stroke_grey_6_size_32"
+        tools:src="@drawable/ic_empty_profile"
+        app:profileImg="@{feedData.profileImg}"
         app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
 
     <TextView
