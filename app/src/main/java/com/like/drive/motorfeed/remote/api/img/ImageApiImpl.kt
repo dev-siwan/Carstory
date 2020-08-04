@@ -20,6 +20,6 @@ class ImageApiImpl(
         }
 
     override suspend fun profileImage(uid: String, imgFile: File): Flow<Uri?> {
-        return  fireBaseTask.uploadImage(firebaseStorage.reference.child(CollectionName.USER).child(uid).child(imgFile.name.replace(".","")), imgFile)
+        return  fireBaseTask.uploadImage(firebaseStorage.reference.child(CollectionName.USER).child(uid).child("profileImg"), imgFile)
     }
 }

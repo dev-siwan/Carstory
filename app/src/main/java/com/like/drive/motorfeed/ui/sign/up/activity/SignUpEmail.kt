@@ -7,7 +7,9 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.ActivitySignUpEmailBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
+import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
+import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
 import com.like.drive.motorfeed.ui.sign.up.viewmodel.SignUpViewModel
 import org.koin.android.ext.android.inject
 
@@ -44,13 +46,8 @@ class SignUpEmail : BaseActivity<ActivitySignUpEmailBinding>(R.layout.activity_s
 
     private fun SignUpViewModel.complete() {
         completeEvent.observe(this@SignUpEmail, Observer {
-            Intent(application, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }.run {
-                application.startActivity(this)
-                finish()
-            }
+            finishAffinity()
+            startAct(ProfileActivity::class)
         })
     }
 

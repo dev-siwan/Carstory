@@ -10,7 +10,6 @@ import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.repository.user.UserRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.ui.splash.viewmodel.SplashCompleteType
 import kotlinx.coroutines.launch
 
 class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel(){
@@ -57,7 +56,7 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
         viewModelScope.launch {
             userRepository.loginEmail(email.get()!!,password.get()!!,
             success = {
-                setUser(it)
+                getUser(it)
             },
             error = {
                 setErrorEvent(SignInErrorType.LOGIN_ERROR)
@@ -65,7 +64,7 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
         }
     }
 
-    private fun setUser(user:FirebaseUser){
+    private fun saveUser(user:FirebaseUser){
         viewModelScope.launch {
             userRepository.setUser(UserData(uid = user.uid,email = user.email),
             success = {
@@ -82,15 +81,13 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
         viewModelScope.launch {
             userRepository.getUser(
                 success = {
-                    UserInfo.userInfo?.nickName?.let {
-                        setCompleteEvent()
-                    } ?: emptyNickNameEvent.call()
+                    successUser()
                 }, fail = {
                     setErrorEvent(SignInErrorType.USER_ERROR)
                 }, userBan = {
                     setErrorEvent(SignInErrorType.USER_BAN)
-                }, empty = {
-                    setUser(user)
+                }, emptyUser = {
+                    saveUser(user)
                 }
             )
         }
@@ -102,8 +99,10 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
         isLoading.value = false
     }
 
-    private fun setCompleteEvent(){
-        completeEvent.call()
+    private fun successUser(){
+        UserInfo.userInfo?.nickName?.let {
+            completeEvent.call()
+        } ?: emptyNickNameEvent.call()
         isLoading.value = false
     }
 

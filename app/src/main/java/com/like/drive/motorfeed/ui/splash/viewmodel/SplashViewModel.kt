@@ -72,7 +72,7 @@ class SplashViewModel(
                         setErrorEvent(SplashErrorType.USER_ERROR)
                     }, userBan = {
                         setErrorEvent(SplashErrorType.USER_BAN)
-                    }, empty = {
+                    }, emptyUser = {
                         setErrorEvent(SplashErrorType.USER_EMPTY)
                     }
                 )

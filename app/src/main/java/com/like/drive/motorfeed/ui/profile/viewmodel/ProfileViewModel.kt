@@ -9,48 +9,61 @@ import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 
-class ProfileViewModel(val userRepository: UserRepository) : BaseViewModel() {
+class ProfileViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
-    val nickName = ObservableField<String>()
-    val intro = ObservableField<String>()
-    val imgUrl = ObservableField<String>()
+    val nickObserver = ObservableField<String>()
+    val introObserver = ObservableField<String>()
+    val imgUrlObserver = ObservableField<String>()
 
     val imageClickEvent = SingleLiveEvent<Unit>()
 
     val isLoading = SingleLiveEvent<Boolean>()
+    val errorEvent = SingleLiveEvent<Unit>()
+    val signOut = SingleLiveEvent<Unit>()
+    val completeEvent = SingleLiveEvent<Unit>()
 
     private var imgFile: File? = null
 
 
     fun setImageFile(file: File) {
         imgFile = file
-        imgUrl.set(file.path)
+        imgUrlObserver.set(file.path)
     }
 
     fun updateProfile() {
         isLoading.value = true
         viewModelScope.launch {
-            userRepository.updateProfile(nickName = nickName.get()!!,
-                intro = intro.get(),
+            userRepository.updateProfile(nickName = nickObserver.get()!!,
+                intro = introObserver.get(),
                 imgFile = imgFile,
                 success = {
-                    complete(nickName.get()!!, intro.get(), it?.toString())
+                    complete(nickObserver.get()!!, introObserver.get(), it?.toString())
                 },
-                fail = {},
-                empty = {})
+                fail = {
+                    errorEvent.call()
+                },
+                notUser = {
+                    signOut()
+                })
         }
     }
 
 
-    private fun complete(nickNameValue: String, introValue: String?, imgUrlValue: String?) {
-        UserInfo.userInfo?.apply {
-            nickName = nickNameValue
-            intro = introValue
-            profileImgUrl = imgUrlValue
+    fun signOut(){
+        UserInfo.signOut()
+        signOut.call()
+    }
+
+
+
+    private fun complete(nickName: String, intro: String?, imgUrl: String?) {
+        UserInfo.userInfo?.let {
+            it.nickName = nickName
+            it.intro = intro
+            it.profileImgUrl = imgUrl
         }
+        completeEvent.call()
         isLoading.value = false
     }
-
-
 
 }

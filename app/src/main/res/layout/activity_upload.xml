@@ -64,6 +64,7 @@
                 android:text="@string/upload"
                 android:padding="@dimen/activity_x_small_margin"
                 android:clickable="true"
+                android:textStyle="bold"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:textColor="@color/text_enable_color"
                 android:focusable="true"

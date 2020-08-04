@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.di
 
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
+import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
 import com.like.drive.motorfeed.ui.motor.viewmodel.MotorTypeViewModel
@@ -21,5 +22,6 @@ val viewModelModule = module {
     viewModel { GalleryViewModel()}
     viewModel { UploadViewModel(get()) }
     viewModel { FeedDetailViewModel(get()) }
-    viewModel { ProfileViewModel() }
+    viewModel { ProfileViewModel(get()) }
+    viewModel { FeedListViewModel(get()) }
 }

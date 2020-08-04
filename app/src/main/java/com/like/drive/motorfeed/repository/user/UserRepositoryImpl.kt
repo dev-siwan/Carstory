@@ -9,7 +9,6 @@ import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.api.user.UserApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.single
 import java.io.File
 
@@ -19,19 +18,20 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         success: () -> Unit,
         fail: () -> Unit,
         userBan: () -> Unit,
-        empty: () -> Unit
+        emptyUser: () -> Unit
     ) {
         userApi.getUser()
             .catch { fail.invoke() }
             .collect { userData ->
                 userData?.let {
-                    when{
-                        it.userBan->userBan.invoke()
-                        else-> {
+                    when {
+                        it.userBan -> userBan.invoke()
+                        else -> {
                             UserInfo.userInfo = it
-                            success.invoke()}
+                            success.invoke()
+                        }
                     }
-                } ?: empty.invoke()
+                } ?: emptyUser.invoke()
             }
     }
 
@@ -103,19 +103,20 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         intro: String?,
         success: (Uri?) -> Unit,
         fail: () -> Unit,
-        empty: () -> Unit
+        notUser: () -> Unit
     ) {
-        val uid = UserInfo.userInfo?.uid
-        if (uid != null) {
+        UserInfo.userInfo?.uid?.let { uid ->
             var imgUri: Uri? = null
+
             imgFile?.let {
                 imgUri = imageApi.profileImage(uid, it).catch { fail.invoke() }.single()
             }
+
             userApi.setUserProfile(uid, nickName, imgUri?.toString(), intro)
                 .catch { fail.invoke() }.collect { success(imgUri) }
-        } else {
-            empty.invoke()
-        }
+
+        } ?: notUser.invoke()
+
     }
 
     override suspend fun signOut(success: () -> Unit, fail: () -> Unit) {

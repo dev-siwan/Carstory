@@ -9,4 +9,5 @@ interface FeedApi{
    suspend fun addFeed(feedData: FeedData): Flow<Boolean>
    suspend fun getComment(fid:String):Flow<List<CommentData>>
    suspend fun getFeed(fid:String):Flow<FeedData?>
+   suspend fun getFeedList(brandCode: Int?, modelCode: Int?): Flow<List<FeedData>>
 }

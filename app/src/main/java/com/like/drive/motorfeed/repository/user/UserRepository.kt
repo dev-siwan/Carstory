@@ -8,12 +8,12 @@ import com.like.drive.motorfeed.data.user.UserData
 import java.io.File
 
 interface UserRepository{
-    suspend fun getUser(success: () -> Unit, fail: () -> Unit,  userBan: () -> Unit, empty: () -> Unit)
+    suspend fun getUser(success: () -> Unit, fail: () -> Unit, userBan: () -> Unit, emptyUser: () -> Unit)
     suspend fun checkUser():Boolean
     suspend fun loginFaceBook(authCredential: AuthCredential, success:(FirebaseUser)->Unit, error:()->Unit)
     suspend fun setUser(userData: UserData,success:()->Unit,fail:()->Unit)
     suspend fun signEmail(email:String,password:String,success:(FirebaseUser)->Unit,error:()->Unit)
     suspend fun loginEmail(email:String,password:String,success:(FirebaseUser)->Unit,error:()->Unit)
-    suspend fun updateProfile(nickName:String, imgFile: File?=null, intro:String?=null, success: (Uri?) -> Unit, fail: () -> Unit, empty: () -> Unit)
+    suspend fun updateProfile(nickName:String, imgFile: File?=null, intro:String?=null, success: (Uri?) -> Unit, fail: () -> Unit, notUser: () -> Unit)
     suspend fun signOut(success: () -> Unit,fail : ()->Unit)
 }

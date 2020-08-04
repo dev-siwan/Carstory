@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.data.feed
 
 import android.os.Parcelable
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.auth.User
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
@@ -20,6 +21,9 @@ data class FeedData(
     val modelCode: Int? = null,
     val modelName: String? = null,
     val imageUrls: List<String>? = null,
+    val viewCount:Int?=0,
+    val likeCount: Int? = 0,
+    val commentCount: Int? = 0,
     val uid: String? = null,
     val nick: String? = null,
     val profileImg: String? = null,
@@ -28,7 +32,6 @@ data class FeedData(
 ) : Parcelable {
     fun createData(
         fid: String,
-        firebaseUser: FirebaseUser?,
         feedUploadField: FeedUploadField,
         motorTypeData: MotorTypeData?,
         imgList: ArrayList<PhotoData>
@@ -42,9 +45,9 @@ data class FeedData(
             modelCode = motorTypeData?.modelCode,
             modelName = motorTypeData?.modelName,
             imageUrls = imgList.map { it.imgUrl!! },
-            uid = firebaseUser?.uid ?: "",
-            nick = firebaseUser?.displayName ?: "",
-            profileImg = firebaseUser?.photoUrl?.toString() ?: "",
+            uid = UserInfo.userInfo?.uid ?: "",
+            nick = UserInfo.userInfo?.nickName ?: "",
+            profileImg = UserInfo.userInfo?.profileImgUrl ?: "",
             createDate = Date(),
             updateDate = Date()
         )

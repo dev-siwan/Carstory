@@ -6,9 +6,11 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
+import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 import com.like.drive.motorfeed.data.photo.PhotoData
 
@@ -88,14 +90,13 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
 }
 
 
-/*@BindingAdapter("emailProfileImg")
-fun ImageView.setProfileImg(email: String?) {
-    val mp5Email: String? = email?.replaceMD5() ?: ""
-    Glide.with(context).load(HttpDefine.PROFILE_IMG_HOST + mp5Email).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).apply(
+@BindingAdapter("profileImg")
+fun ImageView.setProfileImg(url: String?) {
+    Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).apply(
         RequestOptions()
-            .placeholder(R.drawable.profile_default_img_100)
+            //.placeholder(R.drawable.profile_default_img_100)
             .transform(CircleCrop(),CenterCrop()))
         .into(this)
-}*/
+}
 
 

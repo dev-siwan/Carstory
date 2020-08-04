@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.FragmentGalleryDirectoryBinding
-import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
 import com.like.drive.motorfeed.ui.gallery.adapter.GalleryDirectoryAdapter
 import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel

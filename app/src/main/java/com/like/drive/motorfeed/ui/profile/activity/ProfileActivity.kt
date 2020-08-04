@@ -17,10 +17,14 @@ import com.like.drive.motorfeed.databinding.ActivityProfileBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
+import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
+import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel
+import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.motorfeed.util.photo.PickImageUtil
+import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,14 +54,16 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             isNickName = true
             initData()
         }
+
+        setCloseButtonToolbar(toolbar) { onBackPressed() }
     }
 
     private fun initData() {
         UserInfo.userInfo?.let {
             viewModel.run {
-                nickName.set(it.nickName)
-                intro.set(it.intro)
-                imgUrl.set(it.profileImgUrl)
+                nickObserver.set(it.nickName)
+                introObserver.set(it.intro)
+                imgUrlObserver.set(it.profileImgUrl)
             }
         }
     }
@@ -65,12 +71,47 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     private fun withViewModel() {
         with(viewModel) {
             imageClick()
+            error()
+            complete()
+            signOutToPage()
+            loading()
         }
     }
 
     private fun ProfileViewModel.imageClick() {
         imageClickEvent.observe(this@ProfileActivity, Observer {
             showSelectPhotoList()
+        })
+    }
+
+    private fun ProfileViewModel.complete() {
+        completeEvent.observe(this@ProfileActivity, Observer {
+            when {
+                isNickName -> finish()
+                else -> {
+                    finishAffinity()
+                    startAct(MainActivity::class)
+                }
+            }
+        })
+    }
+
+    private fun ProfileViewModel.signOutToPage() {
+        signOut.observe(this@ProfileActivity, Observer {
+            finishAffinity()
+            startAct(SignInActivity::class)
+        })
+    }
+
+    private fun ProfileViewModel.error() {
+        errorEvent.observe(this@ProfileActivity, Observer {
+            showShortToast(R.string.profile_error)
+        })
+    }
+
+    private fun ProfileViewModel.loading() {
+        isLoading.observe(this@ProfileActivity, Observer {
+            if (it) loadingProgress.show() else if (loadingProgress.isShowing) loadingProgress.dismiss()
         })
     }
 
@@ -164,7 +205,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     private suspend fun getCameraFlow() {
         PickImageUtil.getImageFromCameraPath()?.let { path ->
             lifecycleScope.launch {
-                addResizeImage(File(path))
+                setResizeImage(File(path))
             }
         } ?: imageError()
     }
@@ -186,19 +227,18 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         uri?.let {
             withContext(Dispatchers.IO) {
                 PickImageUtil.createUriImageFile(this@ProfileActivity, uri)
-                    ?.let { file -> addResizeImage(file) }
+                    ?.let { file -> setResizeImage(file) }
             }
         } ?: imageError()
     }
 
 
-    private suspend fun addResizeImage(file: File?) {
+    private suspend fun setResizeImage(file: File?) {
         file?.let {
             withContext(Dispatchers.IO) {
                 PickImageUtil.resizeImage(it.path)
             }
             withContext(Dispatchers.Main) {
-
                 viewModel.setImageFile(it)
             }
         } ?: imageError()
@@ -214,6 +254,16 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         if (isShowing) {
             dismiss()
         }
+    }
+
+
+    override fun onBackPressed() {
+        if (!isNickName) {
+            viewModel.signOut()
+            return
+        }
+
+        super.onBackPressed()
     }
 
 }

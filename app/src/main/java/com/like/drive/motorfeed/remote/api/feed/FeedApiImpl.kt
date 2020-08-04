@@ -26,4 +26,9 @@ class FeedApiImpl(
         val document= fireStore.collection(CollectionName.FEED).document(fid)
         return  fireBaseTask.getData(document,FeedData::class.java)
     }
+
+    override suspend fun getFeedList(brandCode: Int?, modelCode: Int?): Flow<List<FeedData>> {
+        val feedCollection = fireStore.collection(CollectionName.FEED)
+        return fireBaseTask.getData(feedCollection,FeedData::class.java)
+    }
 }
