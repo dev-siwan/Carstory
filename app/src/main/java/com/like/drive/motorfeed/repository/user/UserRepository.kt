@@ -3,7 +3,6 @@ package com.like.drive.motorfeed.repository.user
 import android.net.Uri
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
-import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.data.user.UserData
 import java.io.File
 

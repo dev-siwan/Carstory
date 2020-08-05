@@ -1,7 +1,6 @@
 package com.like.drive.motorfeed.remote.api.feed
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.like.drive.motorfeed.common.async.ResultState
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.remote.common.FireBaseTask

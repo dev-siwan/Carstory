@@ -40,13 +40,13 @@ fun ImageView.fitLoadImage(imageUrl: String?) {
 @BindingAdapter("centerCropImage")
 fun ImageView.centerCrop(imageUrl: String?) {
 
-    val glideOption: RequestOptions = RequestOptions()
+/*    val glideOption: RequestOptions = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .skipMemoryCache(true).centerCrop()
+        .skipMemoryCache(true).centerCrop()*/
 
     Glide.with(context)
         .load(imageUrl)
-        .apply(glideOption)
+        .centerCrop()
         .into(this)
 }
 
@@ -92,7 +92,7 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
 
 @BindingAdapter("profileImg")
 fun ImageView.setProfileImg(url: String?) {
-    Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).apply(
+    Glide.with(context).load(url).apply(
         RequestOptions()
             .error(R.drawable.ic_empty_profile)
             .placeholder(R.drawable.ic_empty_profile)

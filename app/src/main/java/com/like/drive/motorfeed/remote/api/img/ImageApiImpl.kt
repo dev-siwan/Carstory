@@ -2,13 +2,9 @@ package com.like.drive.motorfeed.remote.api.img
 
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
-import com.like.drive.motorfeed.common.async.ResultState
-import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class ImageApiImpl(

@@ -15,7 +15,10 @@ class VersionRepositoryImpl(private val versionApi: VersionApi) : VersionReposit
         fail: () -> Unit
     ) {
         versionApi.getMotorTypeVersion().
-        catch { fail.invoke() }.
+        catch {
+            e->e.printStackTrace()
+            fail.invoke()
+        }.
         collect { value: Version? ->
             value?.version?.let {
                 if (UserInfo.userPref.motorTypeVersion ?: 0 < it) {
