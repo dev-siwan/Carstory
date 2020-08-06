@@ -42,17 +42,19 @@
 
     <TextView
         android:id="@+id/tvMotorType"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rect_solid_grey_6_conner"
+        android:background="@drawable/rect_solid_grey_7_conner"
         android:padding="@dimen/activity_x_small_margin"
-        android:textColor="@color/grey_3"
+        android:textColor="@color/grey_4"
         android:textSize="@dimen/small_text_size"
         android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
         app:detailModelCode="@{feedData.modelCode}"
         app:detailBrandName="@{feedData.brandName}"
         app:detailModelName="@{feedData.modelName}"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintEnd_toEndOf="@+id/glEnd"
         app:layout_constraintTop_toTopOf="@id/glTop"
         tools:text="기아|다이소" />
 

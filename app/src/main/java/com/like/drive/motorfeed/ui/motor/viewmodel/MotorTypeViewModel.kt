@@ -13,6 +13,8 @@ import com.like.drive.motorfeed.repository.motor.MotorTypeRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MotorTypeViewModel(private val motorTypeRepository: MotorTypeRepository) :BaseViewModel(){
 

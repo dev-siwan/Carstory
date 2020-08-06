@@ -1,8 +1,6 @@
 package com.like.drive.motorfeed.ui.feed.detail.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -16,10 +14,13 @@ import com.like.drive.motorfeed.ui.feed.upload.activity.UploadActivity
 import kotlinx.android.synthetic.main.activity_feed_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FeedDetailActivity : BaseActivity<ActivityFeedDetailBinding>((R.layout.activity_feed_detail)) {
+class FeedDetailActivity :
+    BaseActivity<ActivityFeedDetailBinding>((R.layout.activity_feed_detail)) {
 
-    private var feedData :FeedData?=null
-    private val viewModel :FeedDetailViewModel by viewModel()
+    private var feedData: FeedData? = null
+    private var fid:String?=null
+    private val viewModel: FeedDetailViewModel by viewModel()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,9 +35,16 @@ class FeedDetailActivity : BaseActivity<ActivityFeedDetailBinding>((R.layout.act
 
     }
 
-    private fun initData(){
-        feedData = intent.getParcelableExtra(UploadActivity.CREATE_FEED_DATA_KEY)
-        viewModel.initDate(feedData)
+    private fun initData() {
+        intent.run {
+            getParcelableExtra<FeedData>(UploadActivity.CREATE_FEED_DATA_KEY)?.let {
+                feedData = it
+                viewModel.initDate(it)
+            }
+            getStringExtra(KEY_FEED_ID)?.let {
+                viewModel.initDate(it)
+            }
+        }
     }
 
     private fun initView() {
@@ -48,20 +56,24 @@ class FeedDetailActivity : BaseActivity<ActivityFeedDetailBinding>((R.layout.act
         }
     }
 
-    private fun RecyclerView.setImagePosition(){
-        addOnScrollListener(object : RecyclerView.OnScrollListener(){
+    private fun RecyclerView.setImagePosition() {
+        addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                val index = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()+1
+                val index = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() + 1
                 viewModel.setPhotoIndex(index)
             }
         })
     }
 
-    private fun RecyclerView.setSnapHelper(){
+    private fun RecyclerView.setSnapHelper() {
         onFlingListener = null
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(this)
     }
 
+
+    companion object {
+        const val KEY_FEED_ID = "FEED_ID"
+    }
 }

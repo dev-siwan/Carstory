@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.repository.feed
 
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.photo.PhotoData
@@ -9,10 +10,7 @@ import com.like.drive.motorfeed.remote.api.feed.FeedApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 
 class FeedRepositoryImpl(
     private val feedApi: FeedApi,
@@ -35,7 +33,7 @@ class FeedRepositoryImpl(
         documentID = firestore.collection(CollectionName.FEED).document().id
 
         if (photoFileList.isNotEmpty()) {
-            checkImgUpload().collect{
+            checkImgUpload().collect {
                 photoSuccessCount(it)
             }
         }
@@ -48,20 +46,22 @@ class FeedRepositoryImpl(
         )
 
         feedApi.addFeed(creteFeedData)
-            .catch {
-                fail.invoke()
-            }
-            .collect { isComplete ->
-                if (isComplete) {
+            .zip(feedApi.addUserFeed(UserInfo.userInfo?.uid ?: "", creteFeedData)) { t1, t2 ->
+
+                if (t1 && t2) {
                     success(creteFeedData)
                 } else {
                     fail.invoke()
                 }
             }
+            .catch {
+                fail.invoke()
+            }
+            .collect()
     }
 
-    override suspend fun getFeedComment(fid:String): Flow<List<CommentData>> {
-       return feedApi.getComment(fid)
+    override suspend fun getFeedComment(fid: String): Flow<List<CommentData>> {
+        return feedApi.getComment(fid)
     }
 
     override suspend fun getFeed(fid: String): Flow<FeedData?> {
@@ -69,7 +69,7 @@ class FeedRepositoryImpl(
     }
 
     override suspend fun getFeedList(brandCode: Int?, modelCode: Int?): Flow<List<FeedData>> {
-        return feedApi.getFeedList(brandCode,modelCode)
+        return feedApi.getFeedList(brandCode, modelCode)
     }
 
 

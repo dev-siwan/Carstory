@@ -18,9 +18,11 @@ import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.like.drive.motorfeed.ui.base.loading.LoadingProgressDialog
+import java.lang.Exception
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -142,6 +144,20 @@ fun Context.startAct(clazz: KClass<*>, bundle: Bundle? = null) {
         }
     }.run {
         startActivity(this)
+    }
+}
+
+fun Fragment.startToAct(clazz: KClass<*>, bundle: Bundle? = null, attachException:(()->Unit)?=null) {
+    try {
+        Intent(requireContext(), clazz.java).apply {
+            bundle?.let {
+                putExtras(it)
+            }
+        }.run {
+            startActivity(this)
+        }
+    } catch (e: Exception) {
+        attachException?.invoke()
     }
 }
 

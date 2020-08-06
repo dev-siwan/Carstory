@@ -11,18 +11,20 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class FeedListViewModel(val feedRepository: FeedRepository) :BaseViewModel(){
+class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewModel(){
 
     private val _feedList =MutableLiveData<List<FeedData>>()
     val feedList : LiveData<List<FeedData>> get() = _feedList
 
     val errorEvent = SingleLiveEvent<Unit>()
 
+    val feedItemClickEvent = SingleLiveEvent<String>()
+
     init {
         getFeedList()
     }
 
-    private fun getFeedList(){
+    private fun getFeedList() {
         viewModelScope.launch {
             feedRepository.getFeedList().catch {
                 errorEvent.call()
@@ -31,6 +33,13 @@ class FeedListViewModel(val feedRepository: FeedRepository) :BaseViewModel(){
             }
         }
 
+    }
+
+
+     fun feedItemClickListener(feedData: FeedData?){
+        feedData?.let {
+            feedItemClickEvent.postValue(it.fid)
+        }
     }
 
 }

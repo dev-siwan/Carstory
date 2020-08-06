@@ -10,6 +10,11 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.like.drive.motorfeed.MotorFeedApplication
+import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.ui.base.ext.startAct
+import com.like.drive.motorfeed.ui.base.ext.startToAct
+import kotlin.reflect.KClass
 
 
 abstract class BaseFragment<V : ViewDataBinding>(
@@ -50,6 +55,13 @@ abstract class BaseFragment<V : ViewDataBinding>(
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+
+    protected fun startAct(clazz: KClass<*>, bundle: Bundle? = null) {
+        startToAct(clazz, bundle) {
+            MotorFeedApplication.getContext().startAct(clazz, bundle)
+        }
     }
 
 

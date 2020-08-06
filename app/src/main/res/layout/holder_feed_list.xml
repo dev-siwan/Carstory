@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel" />
+
+        <variable
             name="data"
             type="com.like.drive.motorfeed.data.feed.FeedData" />
 
@@ -15,7 +19,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:onClick="@{()->vm.feedItemClickListener(data)}">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
@@ -53,18 +59,19 @@
             android:id="@+id/containerDetailImg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="@{data.imageUrls != null &amp;&amp; !data.imageUrls.empty ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/containerProfile"
-            android:visibility="@{data.imageUrls != null &amp;&amp; !data.imageUrls.empty ? View.VISIBLE : View.GONE}">
+            app:layout_constraintStart_toEndOf="@id/containerTitleBlock"
+            app:layout_constraintTop_toTopOf="@id/containerTitleBlock">
 
 
             <ImageView
                 android:id="@+id/ivFeedImg"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                app:centerCropImage="@{data.imageUrls.size > 0 ? data.imageUrls.get(1) : null}"
+                app:centerCropImage="@{data.imageUrls.size > 0 ? data.imageUrls.get(0) : null}"
+                app:layout_constraintDimensionRatio="H,5:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -76,13 +83,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/alpha_50"
+                android:gravity="center"
                 android:padding="@dimen/activity_small_margin"
+                android:text="@{data.imageUrls.size() > 0 ? String.format(@string/feed_list_photo_count_format,(data.imageUrls.size()-1)) :String.format(@string/feed_list_photo_count_format,(data.imageUrls.size()))}"
                 android:textColor="@color/white_100"
                 android:textSize="@dimen/small_text_size"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@{data.imageUrls.size() > 0 ? String.format(@string/feed_list_photo_count_format,(data.imageUrls.size()-1)) :String.format(@string/feed_list_photo_count_format,(data.imageUrls.size()))}"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -94,8 +101,9 @@
             android:layout_height="wrap_content"
             app:feedData="@{data}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/containerDetailImg"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/containerDetailImg"
+            app:layout_constraintTop_toBottomOf="@id/containerProfile"
             tools:text="기아|다이소" />
 
         <include
@@ -103,11 +111,11 @@
             layout="@layout/layout_feed_list_function_block"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:feedData="@{data}"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintTop_toBottomOf="@id/containerTitleBlock"
-            app:feedData="@{data}"/>
+            app:layout_constraintTop_toBottomOf="@id/containerTitleBlock" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

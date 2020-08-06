@@ -23,14 +23,14 @@ class MotorTypeRepositoryImpl(
     override suspend fun setMotorTypeList(success: () -> Unit, error: (String) -> Unit) =
         withContext(Dispatchers.IO) {
             motorTypeApi.getMotorTypeList()
-                .catch { it.message?.let {message-> error.invoke(message) } }
+                .catch { it.message?.let { message -> error.invoke(message) } }
                 .collect {
-                val motorTypeList = makeList(it)
-                insertMotorType(motorTypeList).catch { e ->
-                    e.message?.let {message-> error.invoke(message)}
-                }.collect()
-                success.invoke()
-            }
+                    val motorTypeList = makeList(it)
+                    insertMotorType(motorTypeList).catch { e ->
+                        e.message?.let { message -> error.invoke(message) }
+                    }.collect()
+                    success.invoke()
+                }
         }
 
 

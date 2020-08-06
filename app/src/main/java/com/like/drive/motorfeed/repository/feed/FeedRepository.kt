@@ -17,6 +17,5 @@ interface FeedRepository {
 
     suspend fun getFeedComment(fid:String): Flow<List<CommentData>>
     suspend fun getFeed(fid:String):Flow<FeedData?>
-
     suspend fun getFeedList(brandCode:Int?=null,modelCode:Int?=null):Flow<List<FeedData>>
 }

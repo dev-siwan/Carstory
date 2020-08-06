@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.HolderFeedListBinding
+import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 
 class FeedListViewHolder(val binding: HolderFeedListBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(feedData: FeedData) {
+    fun bind(vm:FeedListViewModel,feedData: FeedData) {
+        binding.vm = vm
         binding.data = feedData
         binding.executePendingBindings()
     }

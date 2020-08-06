@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.databinding.HolderFeedDetailPhotoHolderBinding
 import com.like.drive.motorfeed.databinding.HolderSelectMotorTypeItemBinding
+import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.motor.holder.SelectMotorTypeHolder
 
 class FeedDetailPhotoHolder (val binding:HolderFeedDetailPhotoHolderBinding):
     RecyclerView.ViewHolder(binding.root){
 
     fun bind(imgUrl:String?){
+
         binding.imgUrl = imgUrl
     }
 

@@ -21,7 +21,7 @@
     <string name="login_text">로그인</string>
     <string name="sign_up_text">회원가입</string>
 
-    <string name="user_nick_format"><![CDATA[<b>%s</b> <font color="#d7d7d7">#%s</font>]]></string>
+    <string name="user_nick_format"><![CDATA[<b>%s</b> <font color="#8f8f8f">(%s)</font>]]></string>
     <string name="user_uid_format"><![CDATA[<font color="#d7d7d7">#%s</font>]]></string>
 
     <string name="facebook_error">페이스북 로그인을 시도하는 중 오류가 걸렸습니다.</string>
@@ -79,7 +79,7 @@
     <string name="upload_progress_img_format">이미지 업로드 중 %d/%d</string>
     <string name="upload_progress_feed_update">피드를 업데이트 중 입니다.</string>
 
-    <string name="motorType_format_text">브랜드: %s | 모델: %s</string>
+    <string name="motorType_format_text">%s\n%s</string>
     <string name="motorType_brand_all_format_text">브랜드: %s</string>
 
     <string name="remain_count">남은 갯수 %d</string>
@@ -107,6 +107,7 @@
     <string name="profile_desc">* 닉네임은 필수 입력입니다.</string>
     <string name="like_text">좋아요</string>
     <string name="comment_text">댓글</string>
+
 
 
     <string-array name="empty_photo_type_array">

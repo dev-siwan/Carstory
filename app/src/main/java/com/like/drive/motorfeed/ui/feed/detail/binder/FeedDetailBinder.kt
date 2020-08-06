@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 fun TextView.setDetailMotorType(brandName: String?,modelCode:Int, modelName: String?) {
     brandName?.let {
         text = if (modelCode == 0) {
-            String.format(context.getString(R.string.motorType_brand_all_format_text), brandName)
+             brandName
         } else {
             String.format(context.getString(R.string.motorType_format_text), brandName, modelName)
         }

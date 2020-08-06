@@ -16,6 +16,10 @@ class FeedApiImpl(
         return fireBaseTask.setData(fireStore.collection(CollectionName.FEED).document(feedData.fid?:""),feedData)
     }
 
+    override suspend fun addUserFeed(uid: String, feedData: FeedData): Flow<Boolean> {
+        return fireBaseTask.setData(fireStore.collection(CollectionName.USER).document(uid).collection(CollectionName.FEED).document(feedData.fid?:""),feedData)
+    }
+
     override suspend fun getComment(fid: String): Flow<List<CommentData>> {
         val collection = fireStore.collection(CollectionName.FEED).document(fid).collection(FEED_COMMENT)
         return fireBaseTask.getData(collection,CommentData::class.java)
