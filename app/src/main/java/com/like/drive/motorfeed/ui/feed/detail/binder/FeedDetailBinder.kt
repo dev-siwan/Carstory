@@ -5,7 +5,9 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.ui.base.ext.convertDateToString
+import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
 import java.util.*
 import kotlin.collections.ArrayList
@@ -28,6 +30,17 @@ fun RecyclerView.setDetailPhotoList(list:List<String>?){
         (adapter as DetailImgAdapter).submitList(list)
     }
 }
+
+@BindingAdapter("commentList")
+fun RecyclerView.setCommentList(list:List<CommentData>?){
+    list?.let {
+        (adapter as CommentAdapter).run{
+            commentList.addAll(list)
+            notifyDataSetChanged()
+        }
+    }
+}
+
 
 
 

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.like.drive.motorfeed.ui.base.binder
 
 import android.text.Html

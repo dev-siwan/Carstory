@@ -72,6 +72,23 @@ class FeedRepositoryImpl(
         return feedApi.getFeedList(brandCode, modelCode)
     }
 
+    override suspend fun addComment(
+        fid: String,
+        comment: String,
+        success: (CommentData) -> Unit,
+        fail: () -> Unit
+    ) {
+        val commentData = CommentData().createComment(fid=fid,commentStr = comment)
+
+        feedApi.addComment(commentData).catch { e->
+            e.printStackTrace()
+            fail.invoke() }
+            .collect {
+            success(commentData)
+            feedApi.updateCommentCount(fid,true)
+        }
+    }
+
 
     private suspend fun checkImgUpload(): Flow<Int> =
         flow {

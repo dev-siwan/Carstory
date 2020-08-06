@@ -108,6 +108,8 @@
     <string name="like_text">좋아요</string>
     <string name="comment_text">댓글</string>
 
+    <string name="comment_error_message">댓글을 다는데 실패하였습니다.</string>
+
 
 
     <string-array name="empty_photo_type_array">

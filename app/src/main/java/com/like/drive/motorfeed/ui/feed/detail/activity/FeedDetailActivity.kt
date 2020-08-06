@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.ui.feed.detail.activity
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,8 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.ActivityFeedDetailBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
+import com.like.drive.motorfeed.ui.base.ext.showShortToast
+import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.UploadActivity
@@ -21,17 +24,20 @@ class FeedDetailActivity :
     private var fid:String?=null
     private val viewModel: FeedDetailViewModel by viewModel()
 
-
+    private val commentAdapter by lazy { CommentAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initData()
         initView()
+        withViewModel()
     }
 
     override fun onBinding(dataBinding: ActivityFeedDetailBinding) {
         super.onBinding(dataBinding)
         dataBinding.vm = viewModel
+        dataBinding.rvImg.adapter = DetailImgAdapter()
+        dataBinding.rvComment.adapter = commentAdapter
 
     }
 
@@ -42,6 +48,7 @@ class FeedDetailActivity :
                 viewModel.initDate(it)
             }
             getStringExtra(KEY_FEED_ID)?.let {
+                fid=it
                 viewModel.initDate(it)
             }
         }
@@ -50,10 +57,29 @@ class FeedDetailActivity :
     private fun initView() {
 
         rvImg.run {
-            adapter = DetailImgAdapter()
             setImagePosition()
             setSnapHelper()
         }
+    }
+
+    private fun withViewModel(){
+        with(viewModel){
+            addComment()
+            error()
+        }
+    }
+
+    private fun FeedDetailViewModel.addComment(){
+        addCommentEvent.observe(this@FeedDetailActivity, Observer {
+            commentAdapter.addComment(it)
+        })
+    }
+
+
+    private fun FeedDetailViewModel.error(){
+        errorEvent.observe(this@FeedDetailActivity, Observer {
+           showShortToast(it)
+        })
     }
 
     private fun RecyclerView.setImagePosition() {
@@ -71,6 +97,7 @@ class FeedDetailActivity :
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(this)
     }
+
 
 
     companion object {

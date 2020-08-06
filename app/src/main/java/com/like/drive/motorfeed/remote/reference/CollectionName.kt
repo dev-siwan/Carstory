@@ -8,4 +8,5 @@ object CollectionName {
     const val USER="user"
     const val FEED="feed"
     const val FEED_COMMENT="feed_comment"
+
 }
