@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.single
 import java.io.File
 
-class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: ImageApi) :UserRepository{
+class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: ImageApi) :
+    UserRepository {
 
     override suspend fun getUser(
         success: () -> Unit,
@@ -35,19 +36,18 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             }
     }
 
-    override suspend fun checkUser()= userApi.checkUser()
+    override suspend fun checkUser() = userApi.checkUser()
 
     override suspend fun loginFaceBook(
         authCredential: AuthCredential,
         success: (FirebaseUser) -> Unit,
         error: () -> Unit
     ) {
-        userApi.loginFacebook(authCredential).
-            catch {error.invoke()}
+        userApi.loginFacebook(authCredential).catch { error.invoke() }
             .collect {
-                it.user?.let {user->
+                it.user?.let { user ->
                     success(user)
-                }?:error()
+                } ?: error()
             }
     }
 
@@ -101,29 +101,41 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         nickName: String,
         imgFile: File?,
         intro: String?,
+        existNickName: () -> Unit,
         success: (Uri?) -> Unit,
         fail: () -> Unit,
         notUser: () -> Unit
     ) {
-        UserInfo.userInfo?.uid?.let { uid ->
+        UserInfo.userInfo?.let { info ->
+
+            if (nickName != info.nickName) {
+                userApi.checkNickName(nickName).catch { fail.invoke() }.single().let {
+                    if (it.isNotEmpty()) {
+                        existNickName.invoke()
+                        return
+                    }
+                }
+            }
+
             var imgUri: Uri? = null
 
             imgFile?.let {
-                imgUri = imageApi.profileImage(uid, it).catch { fail.invoke() }.single()
+                imgUri = imageApi.profileImage(info.uid ?: "", it).catch { fail.invoke() }.single()
             }
 
-            userApi.setUserProfile(uid, nickName, imgUri?.toString(), intro)
+            userApi.setUserProfile(info.uid ?: "", nickName, imgUri?.toString(), intro)
                 .catch { fail.invoke() }.collect { success(imgUri) }
 
         } ?: notUser.invoke()
 
     }
 
+
     override suspend fun signOut(success: () -> Unit, fail: () -> Unit) {
-        try{
+        try {
             userApi.signOut()
             success.invoke()
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             fail.invoke()
         }

@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.profile.viewmodel
 
+import android.service.autofill.UserData
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
@@ -21,14 +22,17 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
     val errorEvent = SingleLiveEvent<Unit>()
     val signOut = SingleLiveEvent<Unit>()
     val completeEvent = SingleLiveEvent<Unit>()
+    val existNicknameEvent=SingleLiveEvent<Unit>()
 
     private var imgFile: File? = null
+
 
 
     fun setImageFile(file: File) {
         imgFile = file
         imgUrlObserver.set(file.path)
     }
+
 
     fun updateProfile() {
         isLoading.value = true
@@ -38,12 +42,18 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
                 imgFile = imgFile,
                 success = {
                     complete(nickObserver.get()!!, introObserver.get(), it?.toString())
+                    isLoading.value = false
                 },
                 fail = {
                     errorEvent.call()
                 },
                 notUser = {
                     signOut()
+                    isLoading.value = false
+                },
+                existNickName = {
+                    existNicknameEvent.call()
+                    isLoading.value = false
                 })
         }
     }

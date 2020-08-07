@@ -67,4 +67,13 @@ class UserApiImpl(
 
         return fireBaseTask.updateData(document, map)
     }
+
+    override suspend fun checkNickName(nickName: String): Flow<List<UserData>> {
+        val query = fireStore.collection(USER).whereEqualTo(NICK_NAME_FIELD, nickName)
+        return fireBaseTask.getData(query, UserData::class.java)
+    }
+
+    companion object{
+        const val NICK_NAME_FIELD="nickName"
+    }
 }

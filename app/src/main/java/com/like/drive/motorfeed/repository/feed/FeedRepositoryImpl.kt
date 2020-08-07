@@ -9,6 +9,7 @@ import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.api.feed.FeedApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
+import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.*
 
@@ -60,12 +61,27 @@ class FeedRepositoryImpl(
             .collect()
     }
 
+    override suspend fun setLike(fid: String,isUp:Boolean) {
+        if(isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(fid, FeedCountEnum.UNLIKE)
+    }
+
     override suspend fun getFeedComment(fid: String): Flow<List<CommentData>> {
         return feedApi.getComment(fid)
     }
 
-    override suspend fun getFeed(fid: String): Flow<FeedData?> {
-        return feedApi.getFeed(fid)
+    override suspend fun getFeed(
+        fid: String,
+        success: (FeedData?, List<CommentData>?) -> Unit,
+        fail: () -> Unit
+    ) {
+        feedApi.getFeed(fid).zip(feedApi.getComment(fid)) { feedData, commentList ->
+            success.invoke(feedData, commentList)
+            if (feedData?.uid != UserInfo.userInfo?.uid) {
+                feedApi.updateCount(fid, FeedCountEnum.VIEW)
+            }
+        }.catch {
+            fail.invoke()
+        }.collect()
     }
 
     override suspend fun getFeedList(brandCode: Int?, modelCode: Int?): Flow<List<FeedData>> {
@@ -78,15 +94,16 @@ class FeedRepositoryImpl(
         success: (CommentData) -> Unit,
         fail: () -> Unit
     ) {
-        val commentData = CommentData().createComment(fid=fid,commentStr = comment)
+        val commentData = CommentData().createComment(fid = fid, commentStr = comment)
 
-        feedApi.addComment(commentData).catch { e->
+        feedApi.addComment(commentData).catch { e ->
             e.printStackTrace()
-            fail.invoke() }
-            .collect {
-            success(commentData)
-            feedApi.updateCommentCount(fid,true)
+            fail.invoke()
         }
+            .collect {
+                success(commentData)
+                feedApi.updateCount(fid, FeedCountEnum.ADD_COMMENT)
+            }
     }
 
 

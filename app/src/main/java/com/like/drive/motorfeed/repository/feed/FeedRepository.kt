@@ -15,9 +15,9 @@ interface FeedRepository {
         fail: () -> Unit
     )
 
+    suspend fun setLike(fid:String,isUp:Boolean)
     suspend fun getFeedComment(fid:String): Flow<List<CommentData>>
-    suspend fun getFeed(fid:String):Flow<FeedData?>
+    suspend fun getFeed(fid:String, success: (FeedData?,List<CommentData>?) -> Unit, fail: () -> Unit)
     suspend fun getFeedList(brandCode:Int?=null,modelCode:Int?=null):Flow<List<FeedData>>
-
     suspend fun addComment(fid: String, comment: String,success:(CommentData)->Unit,fail: () -> Unit)
 }

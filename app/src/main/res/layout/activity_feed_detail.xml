@@ -162,6 +162,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                app:vm="@{vm}"
+                app:feedData="@{vm.feedData}"
                 layout="@layout/layout_detail_function_block"/>
 
             <TextView

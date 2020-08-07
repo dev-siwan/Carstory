@@ -74,6 +74,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             error()
             complete()
             signOutToPage()
+            existNickname()
             loading()
         }
     }
@@ -100,6 +101,12 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         signOut.observe(this@ProfileActivity, Observer {
             finishAffinity()
             startAct(SignInActivity::class)
+        })
+    }
+
+    private fun ProfileViewModel.existNickname(){
+        existNicknameEvent.observe(this@ProfileActivity, Observer {
+            showShortToast(R.string.exist_nick_name_message)
         })
     }
 

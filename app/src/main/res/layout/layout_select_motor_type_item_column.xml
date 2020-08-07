@@ -2,10 +2,13 @@
 <layout>
 
     <data>
-        <import type="android.text.TextUtils"/>
+
+        <import type="android.text.TextUtils" />
+
         <variable
             name="title"
             type="String" />
+
         <variable
             name="content"
             type="String" />

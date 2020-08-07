@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="feedData"
+            type="com.like.drive.motorfeed.data.feed.FeedData" />
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -29,32 +38,36 @@
             app:layout_constraintEnd_toStartOf="@id/containerComment"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/glTop">
+            app:layout_constraintTop_toTopOf="@id/glTop"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{()->vm.addFeedLike(feedData.fid,feedData.uid)}">
 
             <ImageView
                 android:id="@+id/ivLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_like_grey"
+                android:src="@{vm.isLikeEnable ? @drawable/ic_like_black : @drawable/ic_like_grey}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tvLike"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintHorizontal_chainStyle="packed"/>
+                app:layout_constraintHorizontal_chainStyle="packed"
+                tools:src="@drawable/ic_like_black"/>
 
             <TextView
                 android:id="@+id/tvLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="좋아요"
-                android:textColor="@color/grey_4"
+                android:text="@{String.valueOf(vm.likeCountObserver)}"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 app:layout_constraintBottom_toBottomOf="@id/ivLike"
                 app:layout_constraintStart_toEndOf="@id/ivLike"
                 app:layout_constraintTop_toTopOf="@id/ivLike"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="0"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -86,13 +99,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="댓글"
+                android:text="@{String.valueOf(vm.commentCountObserver)}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 app:layout_constraintBottom_toBottomOf="@id/ivComment"
                 app:layout_constraintStart_toEndOf="@id/ivComment"
                 app:layout_constraintTop_toTopOf="@id/ivComment"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="0"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -15,4 +15,5 @@ interface UserApi {
     suspend fun loginEmail(email:String,password:String):Flow<AuthResult>
     suspend fun signOut()
     suspend fun setUserProfile(uid:String,nickName:String,imgPath: String?=null,intro:String?=null):Flow<Boolean>
+    suspend fun checkNickName(nickName: String):Flow<List<UserData>>
 }
