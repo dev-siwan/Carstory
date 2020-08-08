@@ -51,7 +51,7 @@
 
     <string name="facebook_app_id">331908037972610</string>
     <string name="fb_login_protocol_scheme">fb331908037972610</string>
-    <string name="feed_register">피드 작성</string>
+    <string name="feed_register">카테고리 선택</string>
     <string name="select_motor">자동차 모델 선택</string>
     <string name="select_motor_desc">찾으시는 모델이 없으신 경우 기타를 선택해주세요.</string>
     <string name="select_motor_empty_desc"><![CDATA[찾으시는 모델이 없습니다 :(<br /><font color="#000000"><b>다시 한번 검색해보세요.</b></font>]]></string>
@@ -111,6 +111,22 @@
 
     <string name="comment_error_message">댓글을 다는데 실패하였습니다.</string>
 
+    <string name="feed_type_title_1">자유</string>
+    <string name="feed_type_title_2">신차</string>
+    <string name="feed_type_title_3">시승</string>
+    <string name="feed_type_title_4">용품</string>
+    <string name="feed_type_title_5">세차</string>
+    <string name="feed_type_title_6">사고</string>
+    <string name="feed_type_title_7">교통</string>
+
+    <string name="feed_type_content_1">자유로운 글을 적어주세요.</string>
+    <string name="feed_type_content_2">신차 정보를 적어주세요.</string>
+    <string name="feed_type_content_3">직접 시승 했던 경험을 적어주세요.</string>
+    <string name="feed_type_content_4">자동차 용품에 대해서 적어주세요.</string>
+    <string name="feed_type_content_5">세차에 관련 된 정보를 적어주세요.</string>
+    <string name="feed_type_content_6">자동차 사고 관련된 정보를 적어주세요.</string>
+    <string name="feed_type_content_7">교통 상황 및 교통 정보에 대해 적어주세요.</string>
+    <string name="feed_type_title">피드의 카테고리를 선택해주세요.</string>
 
 
     <string-array name="empty_photo_type_array">
@@ -121,6 +137,15 @@
     <string-array name="pick_photo_menu">
         <item>삭제하기</item>
         <item>크게보기</item>
+    </string-array>
+
+    <string-array name="pick_feed_type">
+        <item>자유</item>
+        <item>신차</item>
+        <item>시승</item>
+        <item>세차</item>
+        <item>사고</item>
+        <item>교통</item>
     </string-array>
 
 </resources>

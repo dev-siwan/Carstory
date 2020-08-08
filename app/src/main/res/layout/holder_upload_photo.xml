@@ -8,7 +8,7 @@
             type="com.like.drive.motorfeed.data.photo.PhotoData" />
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel" />
+            type="com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

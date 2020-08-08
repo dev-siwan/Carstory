@@ -13,7 +13,7 @@ import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
-import com.like.drive.motorfeed.ui.feed.upload.activity.UploadActivity
+import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import kotlinx.android.synthetic.main.activity_feed_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -43,7 +43,7 @@ class FeedDetailActivity :
 
     private fun initData() {
         intent.run {
-            getParcelableExtra<FeedData>(UploadActivity.CREATE_FEED_DATA_KEY)?.let {
+            getParcelableExtra<FeedData>(FeedUploadActivity.CREATE_FEED_DATA_KEY)?.let {
                 feedData = it
                 viewModel.initDate(it)
             }

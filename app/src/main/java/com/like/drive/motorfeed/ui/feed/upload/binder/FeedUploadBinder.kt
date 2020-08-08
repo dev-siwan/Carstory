@@ -5,13 +5,13 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.motor.MotorTypeData
-import com.like.drive.motorfeed.ui.feed.upload.adapter.UploadPhotoAdapter
+import com.like.drive.motorfeed.ui.feed.upload.adapter.FeedUploadPhotoAdapter
 import com.like.drive.motorfeed.data.photo.PhotoData
 
 @BindingAdapter("uploadPhotoItems")
 fun RecyclerView.setRegPhotoItems(data: List<PhotoData>?) {
     data?.let {
-        (adapter as? UploadPhotoAdapter)?.run {
+        (adapter as? FeedUploadPhotoAdapter)?.run {
             this.photoList = data.toMutableList()
             notifyDataSetChanged()
         }

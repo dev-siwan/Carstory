@@ -11,11 +11,12 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeItem
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.launch
 import java.io.File
 
-class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(){
+class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(){
 
     val selectPhotoClickEvent = SingleLiveEvent<Unit>()
     val photoItemClickEvent = SingleLiveEvent<PhotoData>()
@@ -28,33 +29,41 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
     private val originFileList = ArrayList<PhotoData>()
 
     private val _pickPhotoCount = MutableLiveData(0)
-    val pickPhotoCount :LiveData<Int> get() = _pickPhotoCount
+    val pickPhotoCount: LiveData<Int> get() = _pickPhotoCount
 
-    private val _motorType= MutableLiveData<MotorTypeData>()
-    val motorTypeData:LiveData<MotorTypeData> get() = _motorType
+    private val _motorType = MutableLiveData<MotorTypeData>()
+    val motorTypeData: LiveData<MotorTypeData> get() = _motorType
 
     val title = MutableLiveData<String>()
     val content = MutableLiveData<String>()
 
-    val isUploadLoading=SingleLiveEvent<Boolean>()
+    val isUploadLoading = SingleLiveEvent<Boolean>()
 
-    private val _isPhotoUpload =MutableLiveData<Boolean>(true)
-    val isPhotoUpload : LiveData<Boolean> get() = _isPhotoUpload
+    private val _isPhotoUpload = MutableLiveData<Boolean>(true)
+    val isPhotoUpload: LiveData<Boolean> get() = _isPhotoUpload
 
-    private val _uploadPhotoCount =MutableLiveData(0)
-    val uploadPhotoCount :LiveData<Int> get() = _uploadPhotoCount
+    private val _uploadPhotoCount = MutableLiveData(0)
+    val uploadPhotoCount: LiveData<Int> get() = _uploadPhotoCount
 
-     val completeEvent = SingleLiveEvent<FeedData>()
-     val errorEvent = SingleLiveEvent<Unit>()
+    private val _feedType = MutableLiveData<FeedTypeItem>()
+    val feedTypeData: LiveData<FeedTypeItem> get() = _feedType
 
+    val completeEvent = SingleLiveEvent<FeedData>()
+    val errorEvent = SingleLiveEvent<Unit>()
+
+    val closeFeedItemPage = SingleLiveEvent<Unit>()
+    val showFeedItemPage = SingleLiveEvent<Unit>()
 
 
     val isFieldEnable = MediatorLiveData<Boolean>().apply {
         addSource(title) {
-            value = isResultFieldValue(it, content.value)
+            value = isResultFieldValue(it, content.value, _feedType.value)
         }
         addSource(content) {
-            value = isResultFieldValue(title.value, it)
+            value = isResultFieldValue(title.value, it, _feedType.value)
+        }
+        addSource(_feedType) {
+            value = isResultFieldValue(title.value, content.value, it)
         }
     }
 
@@ -104,6 +113,7 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
         val feedField = FeedUploadField(
             title = this.title.value!!,
             content = this.content.value!!,
+            feedType = _feedType.value!!,
             motorTypeData = _motorType.value
         )
         viewModelScope.launch {
@@ -125,8 +135,13 @@ class UploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(
         }
     }
 
+    fun setFeedTypeItem(feedItemType: FeedTypeItem?){
+        _feedType.value =feedItemType
+        closeFeedItemPage.call()
+    }
 
-    private fun isResultFieldValue(title:String?,content:String?) = !title.isNullOrBlank() && !content.isNullOrBlank()
+    private fun isResultFieldValue(title:String?,content:String?,feedItemType:FeedTypeItem?) =
+        !title.isNullOrBlank() && !content.isNullOrBlank() && feedItemType!=null
 
     private fun setPhotoSize(){ _pickPhotoCount.postValue(originFileList.size) }
 

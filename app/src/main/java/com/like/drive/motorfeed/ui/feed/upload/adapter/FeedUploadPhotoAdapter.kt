@@ -3,23 +3,23 @@ package com.like.drive.motorfeed.ui.feed.upload.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.photo.PhotoData
-import com.like.drive.motorfeed.ui.feed.upload.holder.UploadPhotoHolder
-import com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel
+import com.like.drive.motorfeed.ui.feed.upload.holder.FeedUploadPhotoHolder
+import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 
 
-class UploadPhotoAdapter(val viewModel: UploadViewModel) :
-    RecyclerView.Adapter<UploadPhotoHolder>() {
+class FeedUploadPhotoAdapter(val viewModelFeed: FeedUploadViewModel) :
+    RecyclerView.Adapter<FeedUploadPhotoHolder>() {
 
     var photoList = mutableListOf<PhotoData>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UploadPhotoHolder {
-        return UploadPhotoHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedUploadPhotoHolder {
+        return FeedUploadPhotoHolder.from(parent)
     }
 
     override fun getItemCount(): Int = photoList.size
 
-    override fun onBindViewHolder(holder: UploadPhotoHolder, position: Int) {
-        holder.bind(photoList[position], viewModel)
+    override fun onBindViewHolder(holderFeed: FeedUploadPhotoHolder, position: Int) {
+        holderFeed.bind(photoList[position], viewModelFeed)
     }
 
     fun addItem(photoData: PhotoData) {

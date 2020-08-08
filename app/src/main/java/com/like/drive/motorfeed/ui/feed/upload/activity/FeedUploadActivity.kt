@@ -22,12 +22,13 @@ import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
-import com.like.drive.motorfeed.ui.feed.upload.adapter.UploadPhotoAdapter
+import com.like.drive.motorfeed.ui.feed.upload.adapter.FeedUploadPhotoAdapter
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.loading.UploadProgressDialog
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
-import com.like.drive.motorfeed.ui.feed.upload.viewmodel.UploadViewModel
+import com.like.drive.motorfeed.ui.feed.type.fragment.FeedTypeFragment
+import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
 import kotlinx.coroutines.Dispatchers
@@ -36,11 +37,12 @@ import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
-class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upload) {
+class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upload) {
 
-    private val viewModel: UploadViewModel by viewModel()
-    private val uploadAdapter by lazy { UploadPhotoAdapter(viewModel) }
+    private val viewModelFeed: FeedUploadViewModel by viewModel()
+    private val uploadAdapter by lazy { FeedUploadPhotoAdapter(viewModelFeed) }
     private val uploadLoadingFragment by lazy { UploadProgressDialog() }
+    private val feedTypeDialog by lazy { FeedTypeFragment.newInstance() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,25 +58,31 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
     override fun onBinding(dataBinding: ActivityUploadBinding) {
         super.onBinding(dataBinding)
-        dataBinding.vm = viewModel
+        dataBinding.vm = viewModelFeed
         dataBinding.rvPhotos.adapter = uploadAdapter
     }
 
 
     private fun withViewModel() {
-        with(viewModel) {
+        with(viewModelFeed) {
             pickPhoto()
             photoItemClick()
             isUploadLoading()
             uploadComplete()
             uploadError()
+            closeFeedTypeDialogEvent()
+            showFeedTypeDialogEvent()
         }
     }
 
-    private fun initView(){
-        val divider = DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL).apply {
+
+    private fun initView() {
+
+        showFeedTypeDialog()
+
+        val divider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL).apply {
             ContextCompat.getDrawable(
-                this@UploadActivity, R.drawable.line_solid_empty
+                this@FeedUploadActivity, R.drawable.line_solid_empty
             )?.let { setDrawable(it) }
         }
         rvPhotos.run {
@@ -87,8 +95,8 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
      * 사진 선택
      */
 
-    private fun UploadViewModel.pickPhoto() {
-        selectPhotoClickEvent.observe(this@UploadActivity, Observer {
+    private fun FeedUploadViewModel.pickPhoto() {
+        selectPhotoClickEvent.observe(this@FeedUploadActivity, Observer {
             if (isPhotoLimitSize()) {
                 showSelectPhotoList()
             } else {
@@ -121,8 +129,8 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
      * 1.삭제 2.크게보기
      */
 
-    private fun UploadViewModel.photoItemClick() {
-        photoItemClickEvent.observe(this@UploadActivity, Observer {
+    private fun FeedUploadViewModel.photoItemClick() {
+        photoItemClickEvent.observe(this@FeedUploadActivity, Observer {
             showListDialog(
                 resources.getStringArray(R.array.pick_photo_menu),
                 getString(R.string.select_photo)
@@ -139,8 +147,8 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     /**
      * 업로드 로딩
      */
-    private fun UploadViewModel.isUploadLoading() {
-        isUploadLoading.observe(this@UploadActivity, Observer { isLoading ->
+    private fun FeedUploadViewModel.isUploadLoading() {
+        isUploadLoading.observe(this@FeedUploadActivity, Observer { isLoading ->
             if (isLoading) {
                 uploadLoadingFragment.show(supportFragmentManager, "")
             } else {
@@ -154,10 +162,10 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     /**
      * 업로드 완료
      */
-    private fun UploadViewModel.uploadComplete() {
-        completeEvent.observe(this@UploadActivity, Observer { feedData ->
-            startAct(FeedDetailActivity::class,Bundle().apply {
-                putParcelable(CREATE_FEED_DATA_KEY,feedData)
+    private fun FeedUploadViewModel.uploadComplete() {
+        completeEvent.observe(this@FeedUploadActivity, Observer { feedData ->
+            startAct(FeedDetailActivity::class, Bundle().apply {
+                putParcelable(CREATE_FEED_DATA_KEY, feedData)
             })
             finish()
         })
@@ -166,18 +174,37 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     /**
      * 업로드 에러
      */
-    private fun UploadViewModel.uploadError() {
-        errorEvent.observe(this@UploadActivity, Observer {
+    private fun FeedUploadViewModel.uploadError() {
+        errorEvent.observe(this@FeedUploadActivity, Observer {
             showShortToast("에러")
         })
     }
+
+    /**
+     * 피드카테고리 다이아로그 실행
+     * */
+    private fun FeedUploadViewModel.showFeedTypeDialogEvent() {
+        showFeedItemPage.observe(this@FeedUploadActivity, Observer {
+            showFeedTypeDialog()
+        })
+    }
+
+    /**
+     * 피드카테고리 다이아로그 끔
+     * */
+    private fun FeedUploadViewModel.closeFeedTypeDialogEvent() {
+        closeFeedItemPage.observe(this@FeedUploadActivity, Observer {
+            dismissFeedTypeDialog()
+        })
+    }
+
 
     /**
      * 포토 아이템 삭제
      */
     private fun removeItem(photoData: PhotoData) {
         uploadAdapter.removeItem(photoData)
-        viewModel.removeFile(photoData)
+        viewModelFeed.removeFile(photoData)
     }
 
     /**
@@ -213,7 +240,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         startActForResult(GalleryActivity::class, PickImageUtil.PICK_FROM_ALBUM, Bundle().apply {
             putBoolean(GalleryActivity.KEY_IS_MULTIPLE_PICK, true)
             putInt(GalleryActivity.KEY_PICK_PHOTO_COUNT, uploadAdapter.itemCount)
-            putInt(GalleryActivity.KEY_PHOTO_MAX_SIZE, UploadViewModel.PHOTO_MAX_SIZE)
+            putInt(GalleryActivity.KEY_PHOTO_MAX_SIZE, FeedUploadViewModel.PHOTO_MAX_SIZE)
         })
     }
 
@@ -232,7 +259,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
                     data?.getParcelableExtra<MotorTypeData>(SelectMotorTypeActivity.RESULT_KEY)
                         ?.let {
-                           viewModel.setMotorType(it)
+                            viewModelFeed.setMotorType(it)
                         }
                 }
 
@@ -288,7 +315,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     private suspend fun createFileWithUri(uri: Uri?) {
         uri?.let {
             withContext(Dispatchers.IO) {
-                PickImageUtil.createUriImageFile(this@UploadActivity, uri)
+                PickImageUtil.createUriImageFile(this@FeedUploadActivity, uri)
                     ?.let { file -> addResizeImage(file) }
             }
         } ?: imageError()
@@ -307,10 +334,21 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
                 uploadAdapter.addItem(
                     PhotoData().apply { this.file = it })
 
-                viewModel.addFile(it)
+                viewModelFeed.addFile(it)
 
             }
         } ?: imageError()
+    }
+
+
+    private fun showFeedTypeDialog() {
+        feedTypeDialog.show(supportFragmentManager, "")
+    }
+
+    private fun dismissFeedTypeDialog() {
+        if (feedTypeDialog.isVisible) {
+            feedTypeDialog.dismiss()
+        }
     }
 
 
@@ -325,8 +363,8 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         }
     }
 
-    companion object{
-        const val CREATE_FEED_DATA_KEY="CREATE_FEED_DATA"
+    companion object {
+        const val CREATE_FEED_DATA_KEY = "CREATE_FEED_DATA"
     }
 
 }
