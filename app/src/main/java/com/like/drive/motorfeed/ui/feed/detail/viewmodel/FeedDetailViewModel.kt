@@ -28,7 +28,9 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     val photoIndex: LiveData<Int> get() = _photoIndex
 
     val comment = MutableLiveData<String>()
+    val reComment = MutableLiveData<String>()
 
+    val showReCommentEvent = SingleLiveEvent<CommentData>()
     val addCommentEvent = SingleLiveEvent<CommentData>()
 
     val errorEvent = SingleLiveEvent<@StringRes Int>()
@@ -66,7 +68,28 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         _photoIndex.value = index
     }
 
+
+    fun showReComment(commentData: CommentData){
+        showReCommentEvent.value = commentData
+    }
+
     fun addFeedComment(fid: String, comment: String?) {
+        comment?.let {
+            viewModelScope.launch {
+                feedRepository.addComment(fid, it,
+                    success = {
+                        addCommentEvent.value = it
+                        commentCountObserver.set(commentCountObserver.get() + 1)
+                    },
+                    fail = {
+                        errorEvent.value = R.string.comment_error_message
+                    }
+                )
+            }
+        }
+    }
+
+    fun addReFeedComment(fid: String, cid:String, comment: String?) {
         comment?.let {
             viewModelScope.launch {
                 feedRepository.addComment(fid, it,

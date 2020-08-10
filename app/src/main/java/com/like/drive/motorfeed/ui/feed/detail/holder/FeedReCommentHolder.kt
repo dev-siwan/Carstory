@@ -4,24 +4,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.feed.CommentData
+import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.databinding.HolderFeedCommentBinding
 import com.like.drive.motorfeed.databinding.HolderFeedDetailPhotoHolderBinding
-import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
+import com.like.drive.motorfeed.databinding.HolderFeedReCommentBinding
 
-class FeedCommentHolder (val binding:HolderFeedCommentBinding):RecyclerView.ViewHolder(binding.root){
+class FeedReCommentHolder(val binding: HolderFeedReCommentBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(vm:FeedDetailViewModel,data:CommentData){
-        binding.vm = vm
+    fun bind(data: ReCommentData) {
         binding.commentData = data
         binding.executePendingBindings()
     }
 
     companion object {
-        fun from(parent: ViewGroup): FeedCommentHolder {
+        fun from(parent: ViewGroup): FeedReCommentHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = HolderFeedCommentBinding.inflate(layoutInflater, parent, false)
+            val binding = HolderFeedReCommentBinding.inflate(layoutInflater, parent, false)
 
-            return FeedCommentHolder(binding)
+            return FeedReCommentHolder(binding)
         }
     }
 }

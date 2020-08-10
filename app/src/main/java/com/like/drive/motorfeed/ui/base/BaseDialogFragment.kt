@@ -1,13 +1,16 @@
 package com.like.drive.motorfeed.ui.base
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.fragment_re_comment_dialog.*
 
 
 abstract class BaseFragmentDialog<V : ViewDataBinding>(
@@ -50,6 +53,14 @@ abstract class BaseFragmentDialog<V : ViewDataBinding>(
 
     protected fun binding(action: V.() -> Unit) {
         binding.run(action)
+    }
+
+
+    protected fun showSoftKeyBoard(view: View) {
+        val imm: InputMethodManager? =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        view.requestFocus()
+        imm?.showSoftInput(view, 0)
     }
 
 

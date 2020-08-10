@@ -127,6 +127,8 @@
     <string name="feed_type_content_6">자동차 사고 관련된 정보를 적어주세요.</string>
     <string name="feed_type_content_7">교통 상황 및 교통 정보에 대해 적어주세요.</string>
     <string name="feed_type_title">피드의 카테고리를 선택해주세요.</string>
+    <string name="enrollment_text">등록</string>
+    <string name="comment_hint">댓글을 남겨주세요.</string>
 
 
     <string-array name="empty_photo_type_array">

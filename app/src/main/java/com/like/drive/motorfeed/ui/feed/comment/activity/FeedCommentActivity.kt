@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.feed.comment
+package com.like.drive.motorfeed.ui.feed.comment.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

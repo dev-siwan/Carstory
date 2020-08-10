@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.api.feed.FeedApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
@@ -61,8 +62,11 @@ class FeedRepositoryImpl(
             .collect()
     }
 
-    override suspend fun setLike(fid: String,isUp:Boolean) {
-        if(isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(fid, FeedCountEnum.UNLIKE)
+    override suspend fun setLike(fid: String, isUp: Boolean) {
+        if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(
+            fid,
+            FeedCountEnum.UNLIKE
+        )
     }
 
     override suspend fun getFeedComment(fid: String): Flow<List<CommentData>> {
@@ -99,11 +103,28 @@ class FeedRepositoryImpl(
         feedApi.addComment(commentData).catch { e ->
             e.printStackTrace()
             fail.invoke()
+        }.collect {
+            success(commentData)
+            feedApi.updateCount(fid, FeedCountEnum.ADD_COMMENT)
         }
-            .collect {
-                success(commentData)
-                feedApi.updateCount(fid, FeedCountEnum.ADD_COMMENT)
-            }
+    }
+
+    override suspend fun addReComment(
+        fid: String,
+        cid: String,
+        comment: String,
+        success: (ReCommentData) -> Unit,
+        fail: () -> Unit
+    ) {
+        val reCommentData =
+            ReCommentData().createComment(fid = fid, cid = cid, commentStr = comment)
+
+        feedApi.addReComment(reCommentData).catch {
+            fail.invoke()
+        }.collect {
+            success(reCommentData)
+
+        }
     }
 
 

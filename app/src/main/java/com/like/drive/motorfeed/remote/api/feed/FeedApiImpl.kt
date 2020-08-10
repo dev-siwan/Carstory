@@ -7,6 +7,8 @@ import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_COMMENT
 import com.google.firebase.firestore.FieldValue
+import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_RE_COMMENT
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import kotlinx.coroutines.flow.Flow
 
@@ -75,10 +77,33 @@ class FeedApiImpl(
 
     }
 
+    override suspend fun addReComment(reCommentData: ReCommentData): Flow<Boolean> {
+        val reCommentFeedCollection =
+            fireStore.collection(CollectionName.FEED).document(reCommentData.fid ?: "")
+                .collection(FEED_COMMENT).document(reCommentData.cid ?: "")
+                .collection(FEED_RE_COMMENT)
+        val rcId = reCommentFeedCollection.document().id
+        reCommentData.rcId = rcId
+
+        return fireBaseTask.setData(reCommentFeedCollection, reCommentData)
+    }
+
+    override suspend fun updateReComment(fid: String, cid: String, isAdd: Boolean) {
+        val document =
+            fireStore.collection(CollectionName.FEED).document(fid).collection(FEED_COMMENT)
+                .document(cid)
+        if (isAdd) {
+            document.update(RE_COMMENT_COUNT, FieldValue.increment(1))
+        } else {
+            document.update(RE_COMMENT_COUNT, FieldValue.increment(-1))
+        }
+    }
+
     companion object {
         const val COMMENT_COUNT_FIELD = "commentCount"
         const val LIKE_COUNT_FIELD = "likeCount"
         const val VIEW_COUNT_FIELD = "viewCount"
+        const val RE_COMMENT_COUNT = "reCommentCount"
     }
 
 }

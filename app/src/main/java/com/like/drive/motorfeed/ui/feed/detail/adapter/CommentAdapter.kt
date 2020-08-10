@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.ui.feed.detail.holder.FeedCommentHolder
 import com.like.drive.motorfeed.ui.feed.detail.holder.FeedDetailPhotoHolder
+import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 
-class CommentAdapter: RecyclerView.Adapter<FeedCommentHolder>() {
+class CommentAdapter(val vm: FeedDetailViewModel) : RecyclerView.Adapter<FeedCommentHolder>() {
 
     var commentList = mutableListOf<CommentData>()
 
@@ -17,14 +18,14 @@ class CommentAdapter: RecyclerView.Adapter<FeedCommentHolder>() {
         FeedCommentHolder.from(parent)
 
     override fun onBindViewHolder(holder: FeedCommentHolder, position: Int) {
-        holder.bind(commentList[position])
+        holder.bind(vm, commentList[position])
     }
 
-    override fun getItemCount()= commentList.size
+    override fun getItemCount() = commentList.size
 
-    fun addComment(commentData: CommentData){
+    fun addComment(commentData: CommentData) {
         commentList.add(commentData)
-        notifyItemInserted(commentList.size -1 )
+        notifyItemInserted(commentList.size - 1)
     }
 }
 

@@ -12,6 +12,7 @@ import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
+import com.like.drive.motorfeed.ui.feed.detail.fragment.ReCommentDialogFragment
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import kotlinx.android.synthetic.main.activity_feed_detail.*
@@ -21,10 +22,11 @@ class FeedDetailActivity :
     BaseActivity<ActivityFeedDetailBinding>((R.layout.activity_feed_detail)) {
 
     private var feedData: FeedData? = null
-    private var fid:String?=null
+    private var fid: String? = null
     private val viewModel: FeedDetailViewModel by viewModel()
 
-    private val commentAdapter by lazy { CommentAdapter() }
+    private val commentAdapter by lazy { CommentAdapter(viewModel) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +50,7 @@ class FeedDetailActivity :
                 viewModel.initDate(it)
             }
             getStringExtra(KEY_FEED_ID)?.let {
-                fid=it
+                fid = it
                 viewModel.initDate(it)
             }
         }
@@ -62,23 +64,30 @@ class FeedDetailActivity :
         }
     }
 
-    private fun withViewModel(){
-        with(viewModel){
+    private fun withViewModel() {
+        with(viewModel) {
             addComment()
             error()
+            showReCommentDialog()
         }
     }
 
-    private fun FeedDetailViewModel.addComment(){
+    private fun FeedDetailViewModel.showReCommentDialog() {
+        showReCommentEvent.observe(this@FeedDetailActivity, Observer {
+            ReCommentDialogFragment.newInstance(it).show(supportFragmentManager, "")
+        })
+    }
+
+    private fun FeedDetailViewModel.addComment() {
         addCommentEvent.observe(this@FeedDetailActivity, Observer {
             commentAdapter.addComment(it)
         })
     }
 
 
-    private fun FeedDetailViewModel.error(){
+    private fun FeedDetailViewModel.error() {
         errorEvent.observe(this@FeedDetailActivity, Observer {
-           showShortToast(it)
+            showShortToast(it)
         })
     }
 
@@ -86,7 +95,8 @@ class FeedDetailActivity :
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                val index = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() + 1
+                val index =
+                    (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() + 1
                 viewModel.setPhotoIndex(index)
             }
         })
@@ -97,7 +107,6 @@ class FeedDetailActivity :
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(this)
     }
-
 
 
     companion object {
