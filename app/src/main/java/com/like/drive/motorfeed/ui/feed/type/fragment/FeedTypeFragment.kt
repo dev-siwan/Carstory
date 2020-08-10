@@ -1,5 +1,7 @@
 package com.like.drive.motorfeed.ui.feed.type.fragment
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import com.like.drive.motorfeed.ui.feed.type.adapter.FeedTypeAdapter
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeItem
 import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
+import kotlinx.android.synthetic.main.fragment_feed_type.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -22,16 +25,24 @@ class FeedTypeFragment : BaseFragmentDialog<FragmentFeedTypeBinding>(R.layout.fr
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        dialog?.window?.run {
+            setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        isCancelable = false
+        isCancelable = true
+
+        containerFragment.setOnClickListener {
+            dismiss()
+        }
+
     }
 
 

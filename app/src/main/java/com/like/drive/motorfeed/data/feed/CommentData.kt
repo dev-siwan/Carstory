@@ -27,3 +27,7 @@ data class CommentData(
         updateDate = Date()
     )
 }
+
+
+data class CommentWrapData(val commentData:CommentData,
+                           var reCommentList:MutableList<ReCommentData> = mutableListOf())

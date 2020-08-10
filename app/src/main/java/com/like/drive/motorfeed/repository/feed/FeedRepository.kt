@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.repository.feed
 
 import com.like.drive.motorfeed.data.feed.CommentData
+import com.like.drive.motorfeed.data.feed.CommentWrapData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.photo.PhotoData
@@ -20,7 +21,7 @@ interface FeedRepository {
     suspend fun getFeedComment(fid: String): Flow<List<CommentData>>
     suspend fun getFeed(
         fid: String,
-        success: (FeedData?, List<CommentData>?) -> Unit,
+        success: (FeedData?, List<CommentWrapData>?) -> Unit,
         fail: () -> Unit
     )
 

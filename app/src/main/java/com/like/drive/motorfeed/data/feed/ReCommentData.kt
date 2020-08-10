@@ -25,3 +25,5 @@ data class ReCommentData(
         updateDate = Date()
     )
 }
+
+data class ReCommentWrapData(val reCommentData: ReCommentData,val position:Int)

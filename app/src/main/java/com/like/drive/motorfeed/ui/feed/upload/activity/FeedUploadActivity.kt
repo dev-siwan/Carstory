@@ -27,6 +27,7 @@ import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.loading.UploadProgressDialog
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
+import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.feed.type.fragment.FeedTypeFragment
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 import com.like.drive.motorfeed.util.photo.PickImageUtil
@@ -88,6 +89,8 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
         rvPhotos.run {
             addItemDecoration(divider)
         }
+
+        viewModelFeed.setFeedTypeItem(getFeedTypeList(this)[0])
     }
 
 

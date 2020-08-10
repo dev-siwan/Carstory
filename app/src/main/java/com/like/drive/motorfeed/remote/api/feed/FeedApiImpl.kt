@@ -35,6 +35,12 @@ class FeedApiImpl(
         return fireBaseTask.getData(collection, CommentData::class.java)
     }
 
+    override suspend fun getReComment(fid: String): Flow<List<ReCommentData>> {
+        val collection =
+            fireStore.collection(CollectionName.FEED).document(fid).collection(FEED_RE_COMMENT)
+        return fireBaseTask.getData(collection, ReCommentData::class.java)
+    }
+
     override suspend fun getFeed(fid: String): Flow<FeedData?> {
         val document = fireStore.collection(CollectionName.FEED).document(fid)
         return fireBaseTask.getData(document, FeedData::class.java)
@@ -49,10 +55,12 @@ class FeedApiImpl(
         val commentFeedCollection =
             fireStore.collection(CollectionName.FEED).document(commentData.fid ?: "")
                 .collection(FEED_COMMENT)
+
         val cid = commentFeedCollection.document().id
+
         commentData.cid = cid
 
-        return fireBaseTask.setData(commentFeedCollection, commentData)
+        return fireBaseTask.setData(commentFeedCollection.document(cid), commentData)
     }
 
     override suspend fun updateCount(fid: String, flag: FeedCountEnum) {
@@ -79,13 +87,12 @@ class FeedApiImpl(
 
     override suspend fun addReComment(reCommentData: ReCommentData): Flow<Boolean> {
         val reCommentFeedCollection =
-            fireStore.collection(CollectionName.FEED).document(reCommentData.fid ?: "")
-                .collection(FEED_COMMENT).document(reCommentData.cid ?: "")
-                .collection(FEED_RE_COMMENT)
+            fireStore.collection(CollectionName.FEED).document(reCommentData.fid ?: "").collection(FEED_RE_COMMENT)
+
         val rcId = reCommentFeedCollection.document().id
         reCommentData.rcId = rcId
 
-        return fireBaseTask.setData(reCommentFeedCollection, reCommentData)
+        return fireBaseTask.setData(reCommentFeedCollection.document(rcId), reCommentData)
     }
 
     override suspend fun updateReComment(fid: String, cid: String, isAdd: Boolean) {

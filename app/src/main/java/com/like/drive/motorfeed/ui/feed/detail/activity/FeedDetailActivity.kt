@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.ui.feed.detail.activity
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.ActivityFeedDetailBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
+import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
@@ -16,6 +18,9 @@ import com.like.drive.motorfeed.ui.feed.detail.fragment.ReCommentDialogFragment
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import kotlinx.android.synthetic.main.activity_feed_detail.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedDetailActivity :
@@ -66,6 +71,7 @@ class FeedDetailActivity :
 
     private fun withViewModel() {
         with(viewModel) {
+            addReComment()
             addComment()
             error()
             showReCommentDialog()
@@ -80,10 +86,24 @@ class FeedDetailActivity :
 
     private fun FeedDetailViewModel.addComment() {
         addCommentEvent.observe(this@FeedDetailActivity, Observer {
-            commentAdapter.addComment(it)
+            comment.value = null
+            hideKeyboard(rvComment)
+            lifecycleScope.launch(Dispatchers.Main) {
+                delay(50)
+                commentAdapter.run {
+                    addComment(it) {
+                        rvComment.smoothScrollToPosition(itemCount - 1)
+                    }
+                }
+            }
         })
     }
 
+    private fun FeedDetailViewModel.addReComment() {
+        reCommentEvent.observe(this@FeedDetailActivity, Observer { reCommentData ->
+            commentAdapter.addReCommentItem(reCommentData)
+        })
+    }
 
     private fun FeedDetailViewModel.error() {
         errorEvent.observe(this@FeedDetailActivity, Observer {

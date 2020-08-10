@@ -4,6 +4,7 @@ package com.like.drive.motorfeed.repository.feed
 import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.CommentData
+import com.like.drive.motorfeed.data.feed.CommentWrapData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.photo.PhotoData
@@ -75,11 +76,21 @@ class FeedRepositoryImpl(
 
     override suspend fun getFeed(
         fid: String,
-        success: (FeedData?, List<CommentData>?) -> Unit,
+        success: (FeedData?, List<CommentWrapData>?) -> Unit,
         fail: () -> Unit
     ) {
-        feedApi.getFeed(fid).zip(feedApi.getComment(fid)) { feedData, commentList ->
-            success.invoke(feedData, commentList)
+        feedApi.getFeed(fid).zip(feedApi.getComment(fid).zip(feedApi.getReComment(fid)) { comment, reComment ->
+
+            val list= mutableListOf<CommentWrapData>()
+
+            comment.forEach {
+                val reCommentList = reComment.filter { reCommentData -> reCommentData.cid == it.cid }.toMutableList()
+                list.add(CommentWrapData(commentData = it,reCommentList =  reCommentList))
+            }
+
+            return@zip list
+        }) { feedData, commentWrapList ->
+            success.invoke(feedData, commentWrapList)
             if (feedData?.uid != UserInfo.userInfo?.uid) {
                 feedApi.updateCount(fid, FeedCountEnum.VIEW)
             }
@@ -123,7 +134,6 @@ class FeedRepositoryImpl(
             fail.invoke()
         }.collect {
             success(reCommentData)
-
         }
     }
 

@@ -1,17 +1,23 @@
 package com.like.drive.motorfeed.ui.feed.detail.fragment
 
-import android.app.Dialog
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.databinding.FragmentReCommentDialogBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import kotlinx.android.synthetic.main.fragment_re_comment_dialog.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -21,7 +27,7 @@ class ReCommentDialogFragment :
     BaseFragmentDialog<FragmentReCommentDialogBinding>(R.layout.fragment_re_comment_dialog) {
     private var commentData: CommentData? = null
     private val feedDetailViewModel: FeedDetailViewModel by sharedViewModel()
-    private var originalMode : Int? = null
+    private val imm by lazy{requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?}
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,8 +51,6 @@ class ReCommentDialogFragment :
             )
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
     }
 
 
@@ -59,10 +63,35 @@ class ReCommentDialogFragment :
             dismiss()
         }
 
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(50)
+            etComment.requestFocus()
+
+            imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        }
+
+        withViewModel()
 
     }
 
+    private fun withViewModel(){
+        with(feedDetailViewModel){
+            complete()
+        }
+    }
 
+    private fun FeedDetailViewModel.complete(){
+        reCommentCompleteEvent.observe(viewLifecycleOwner, Observer {
+            dismiss()
+        })
+    }
+
+
+    override fun dismiss() {
+        super.dismiss()
+        feedDetailViewModel.reComment.value = null
+        imm?.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0)
+    }
     override fun onBind(dataBinding: FragmentReCommentDialogBinding) {
         super.onBind(dataBinding)
         dataBinding.commentData = commentData
