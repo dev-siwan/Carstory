@@ -82,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toEndOf="@id/nickName"
             app:layout_constraintTop_toTopOf="@id/ivProfile"
-            android:onClick="@{()->vm.reCommentOptions(reCommentData)}"
+            android:onClick="@{()->vm.showReCommentOptions(reCommentData)}"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <TextView

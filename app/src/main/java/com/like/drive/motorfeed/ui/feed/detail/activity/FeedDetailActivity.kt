@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
-import com.like.drive.motorfeed.common.enum.CommentSelectType
+import com.like.drive.motorfeed.common.enum.OptionsSelectType
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.ActivityFeedDetailBinding
@@ -30,9 +30,6 @@ class FeedDetailActivity :
     private val viewModel: FeedDetailViewModel by viewModel()
 
     private val commentAdapter by lazy { CommentAdapter(viewModel) }
-
-    private val commentOptions by lazy { resources.getStringArray(R.array.pick_comment_options) }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +64,8 @@ class FeedDetailActivity :
             setImagePosition()
             setSnapHelper()
         }
+
+        setBackButtonToolbar(toolbar){finish()}
     }
 
     private fun withViewModel() {
@@ -76,7 +75,7 @@ class FeedDetailActivity :
             addComment()
             removeComment()
             showReCommentDialog()
-            showCommentOptions()
+            showOptions()
         }
     }
 
@@ -129,8 +128,15 @@ class FeedDetailActivity :
 
 
 
-    private fun FeedDetailViewModel.showCommentOptions() {
+    private fun FeedDetailViewModel.showOptions() {
 
+        //게시물
+        optionFeedEvent.observe(this@FeedDetailActivity, Observer { feedData->
+            showOptionsList(feedData.uid,
+            reportCallback = {},
+            deleteCallback = {},
+            updateCallback = {})
+        })
         //코멘트
         optionsCommentEvent.observe(this@FeedDetailActivity, Observer { commentData ->
             showOptionsList(commentData.uid,
@@ -139,6 +145,9 @@ class FeedDetailActivity :
                 },
                 deleteCallback = {
                     removeFeedComment(commentData)
+                },
+                updateCallback={
+
                 })
         })
 
@@ -150,6 +159,9 @@ class FeedDetailActivity :
                 },
                 deleteCallback = {
                     removeFeedReComment(reCommentData)
+                },
+                updateCallback={
+
                 })
         })
     }
@@ -157,20 +169,22 @@ class FeedDetailActivity :
     private fun showOptionsList(
         uid: String?,
         reportCallback: () -> Unit,
-        deleteCallback: () -> Unit
+        deleteCallback: () -> Unit,
+        updateCallback: () -> Unit
     ) {
         val list = uid?.let {
             if (uid == UserInfo.userInfo?.uid ?: "") {
-                commentOptions
+              OptionsSelectType.values().drop(1).map { getString(it.resID) }.toTypedArray()
             } else {
-                commentOptions.dropLast(1).toTypedArray()
+                OptionsSelectType.values().dropLast(2).map { getString(it.resID) }.toTypedArray()
             }
-        } ?: commentOptions.dropLast(1).toTypedArray()
+        } ?:OptionsSelectType.values().dropLast(2).map { getString(it.resID) }.toTypedArray()
 
         showListDialog(list, "") {
-            when (it) {
-                CommentSelectType.REPORT.ordinal -> reportCallback()
-                CommentSelectType.DELETE.ordinal -> deleteCallback()
+            when (list[it]) {
+                getString(OptionsSelectType.REPORT.resID) -> reportCallback()
+                getString(OptionsSelectType.DELETE.resID) -> deleteCallback()
+                getString(OptionsSelectType.UPDATE.resID) -> updateCallback()
             }
         }
     }

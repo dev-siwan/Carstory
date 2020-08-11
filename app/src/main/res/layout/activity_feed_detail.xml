@@ -17,6 +17,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white_100"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/nestedScrollView">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_black_more_vert"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{()->vm.showFeedOtions(vm.feedData)}"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="0dp"
@@ -25,7 +47,7 @@
             app:layout_constraintBottom_toTopOf="@id/containerCommentEdit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -53,26 +75,6 @@
                     android:orientation="horizontal"
                     app:layout_constraintGuide_end="20dp" />
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white_100"
-                    android:minHeight="?attr/actionBarSize"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/feed_register"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/normal_text_size"
-                        android:textStyle="bold" />
-
-                </androidx.appcompat.widget.Toolbar>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/containerDetailImg"
@@ -81,7 +83,7 @@
                     android:visibility="@{vm.feedData.imageUrls != null &amp;&amp; vm.feedData.imageUrls.size() > 0? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar">
+                    app:layout_constraintTop_toTopOf="parent ">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvImg"
@@ -202,6 +204,7 @@
                     tools:listitem="@layout/holder_feed_comment" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout

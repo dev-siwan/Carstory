@@ -19,8 +19,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class FeedTypeFragment : BaseFragmentDialog<FragmentFeedTypeBinding>(R.layout.fragment_feed_type) {
-    private val viewModel:FeedUploadViewModel by sharedViewModel()
-    val list by lazy { getFeedTypeList(requireContext())}
+    private val viewModel: FeedUploadViewModel by sharedViewModel()
+    val list by lazy { getFeedTypeList(requireContext()) }
 
 
     override fun onStart() {
@@ -48,7 +48,7 @@ class FeedTypeFragment : BaseFragmentDialog<FragmentFeedTypeBinding>(R.layout.fr
 
     override fun onBind(dataBinding: FragmentFeedTypeBinding) {
         super.onBind(dataBinding)
-        dataBinding.rvFeedType.adapter = FeedTypeAdapter(list,viewModel)
+        dataBinding.rvFeedType.adapter = FeedTypeAdapter(list, viewModel)
     }
 
     companion object {

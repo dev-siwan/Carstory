@@ -133,6 +133,10 @@
     <string name="enrollment_text">등록</string>
     <string name="comment_hint">댓글을 남겨주세요.</string>
 
+    <string name="report_text">신고하기</string>
+    <string name="delete_text">삭제하기</string>
+    <string name="update_text">수정하기</string>
+
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
@@ -157,6 +161,12 @@
     <string-array name="pick_comment_options">
         <item>신고하기</item>
         <item>삭제하기</item>
+    </string-array>
+
+    <string-array name="pick_feed_options">
+        <item>신고하기</item>
+        <item>삭제하기</item>
+        <item>수정하기</item>
     </string-array>
 
 

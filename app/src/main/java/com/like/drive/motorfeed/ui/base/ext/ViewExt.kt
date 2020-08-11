@@ -68,7 +68,7 @@ fun Context.showKeyboard(view:View){
 }
 
 
-fun Context.showListDialog(list: Array<String>, title: String?="", action: (Int) -> Unit) {
+fun Context.showListDialog(list: Array<String>, title: String?=null, action: (Int) -> Unit) {
     val builder = AlertDialog.Builder(this)
     title?.let {
         builder.setTitle(it)

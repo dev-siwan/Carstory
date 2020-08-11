@@ -28,9 +28,10 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     private val _photoIndex = MutableLiveData(1)
     val photoIndex: LiveData<Int> get() = _photoIndex
 
+    val optionFeedEvent= SingleLiveEvent<FeedData>()
+
     val comment = MutableLiveData<String>()
     val reComment = MutableLiveData<String>()
-
 
     // 코멘트 관련 이벤트
     val addCommentEvent = SingleLiveEvent<CommentData>()
@@ -184,8 +185,12 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         optionsCommentEvent.value = commentData
     }
 
-    fun reCommentOptions(reCommentData: ReCommentData) {
+    fun showReCommentOptions(reCommentData: ReCommentData) {
         optionsReCommentEvent.value = reCommentData
+    }
+
+    fun showFeedOtions(feedData: FeedData){
+        optionFeedEvent.value = feedData
     }
 
     fun addFeedLike(fid: String, uid: String) {
