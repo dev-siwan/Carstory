@@ -2,9 +2,11 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="feedData"
             type="com.like.drive.motorfeed.data.feed.FeedData" />
+
         <variable
             name="vm"
             type="com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel" />
@@ -34,26 +36,26 @@
             android:id="@+id/containerLike"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{()->vm.addFeedLike(feedData.fid,feedData.uid)}"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toStartOf="@id/containerComment"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/glTop"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:onClick="@{()->vm.addFeedLike(feedData.fid,feedData.uid)}">
+            app:layout_constraintTop_toTopOf="@id/glTop">
 
             <ImageView
                 android:id="@+id/ivLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@{vm.isLikeEnable ? @drawable/ic_like_black : @drawable/ic_like_grey}"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvLike"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvLike"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                tools:src="@drawable/ic_like_black"/>
+                tools:src="@drawable/ic_like_black" />
 
             <TextView
                 android:id="@+id/tvLike"
@@ -64,10 +66,10 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 app:layout_constraintBottom_toBottomOf="@id/ivLike"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivLike"
                 app:layout_constraintTop_toTopOf="@id/ivLike"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="0"/>
+                tools:text="0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -86,13 +88,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_comment_black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvComment"
                 app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvComment"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvComment"
@@ -103,10 +104,10 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 app:layout_constraintBottom_toBottomOf="@id/ivComment"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivComment"
                 app:layout_constraintTop_toTopOf="@id/ivComment"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="0"/>
+                tools:text="0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -125,12 +126,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_share_black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvShare"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintHorizontal_chainStyle="packed" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvShare"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvShare"
@@ -141,9 +142,9 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 app:layout_constraintBottom_toBottomOf="@id/ivShare"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivShare"
-                app:layout_constraintTop_toTopOf="@id/ivShare"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="@id/ivShare" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -64,10 +64,7 @@ class FeedRepositoryImpl(
     }
 
     override suspend fun setLike(fid: String, isUp: Boolean) {
-        if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(
-            fid,
-            FeedCountEnum.UNLIKE
-        )
+        if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(fid, FeedCountEnum.UNLIKE)
     }
 
     override suspend fun getFeedComment(fid: String): Flow<List<CommentData>> {
@@ -79,24 +76,23 @@ class FeedRepositoryImpl(
         success: (FeedData?, List<CommentWrapData>?) -> Unit,
         fail: () -> Unit
     ) {
-        feedApi.getFeed(fid).zip(feedApi.getComment(fid).zip(feedApi.getReComment(fid)) { comment, reComment ->
+        feedApi.getFeed(fid)
+            .zip(feedApi.getComment(fid).zip(feedApi.getReComment(fid)) { comment, reComment ->
 
-            val list= mutableListOf<CommentWrapData>()
+                val list = mutableListOf<CommentWrapData>()
 
-            comment.forEach {
-                val reCommentList = reComment.filter { reCommentData -> reCommentData.cid == it.cid }.toMutableList()
-                list.add(CommentWrapData(commentData = it,reCommentList =  reCommentList))
-            }
-
-            return@zip list
-        }) { feedData, commentWrapList ->
-            success.invoke(feedData, commentWrapList)
-            if (feedData?.uid != UserInfo.userInfo?.uid) {
-                feedApi.updateCount(fid, FeedCountEnum.VIEW)
-            }
-        }.catch {
-            fail.invoke()
-        }.collect()
+                comment.forEach {
+                    val reCommentList =
+                        reComment.filter { reCommentData -> reCommentData.cid == it.cid }
+                            .toMutableList()
+                    list.add(CommentWrapData(commentData = it, reCommentList = reCommentList))
+                }
+                return@zip list
+            }) { feedData, commentWrapList ->
+                success.invoke(feedData, commentWrapList)
+            }.catch {
+                fail.invoke()
+            }.collect()
     }
 
     override suspend fun getFeedList(brandCode: Int?, modelCode: Int?): Flow<List<FeedData>> {
@@ -116,7 +112,6 @@ class FeedRepositoryImpl(
             fail.invoke()
         }.collect {
             success(commentData)
-            feedApi.updateCount(fid, FeedCountEnum.ADD_COMMENT)
         }
     }
 
@@ -134,6 +129,30 @@ class FeedRepositoryImpl(
             fail.invoke()
         }.collect {
             success(reCommentData)
+        }
+    }
+
+    override suspend fun removeComment(
+        comment: CommentData,
+        success: () -> Unit,
+        fail: () -> Unit
+    ) {
+        feedApi.removeComment(comment).catch {
+            fail()
+        }.collect {
+            success()
+        }
+    }
+
+    override suspend fun removeReComment(
+        reCommentData: ReCommentData,
+        success: () -> Unit,
+        fail: () -> Unit
+    ) {
+        feedApi.removeReComment(reCommentData).catch {
+            fail()
+        }.collect {
+            success()
         }
     }
 

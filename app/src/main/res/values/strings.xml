@@ -80,7 +80,7 @@
     <string name="upload_progress_img_format">이미지 업로드 중 %d/%d</string>
     <string name="upload_progress_feed_update">피드를 업데이트 중 입니다.</string>
 
-    <string name="motorType_format_text">%s\n%s</string>
+    <string name="motorType_format_text">%s | %s</string>
     <string name="motorType_brand_all_format_text">브랜드: %s</string>
 
     <string name="remain_count">남은 갯수 %d</string>
@@ -107,9 +107,12 @@
     <string name="pick_profile_img_desc">이미지 선택</string>
     <string name="profile_desc">* 닉네임은 필수 입력입니다.</string>
     <string name="like_text">좋아요</string>
+    <string name="like_format_text">좋아요 %d개</string>
     <string name="comment_text">댓글</string>
+    <string name="like_self_message">자신의 피드에 좋아요를 눌릴 수 없습니다.</string>
 
-    <string name="comment_error_message">댓글을 다는데 실패하였습니다.</string>
+    <string name="comment_add_error_message">댓글을 다는데 실패 하였습니다.</string>
+    <string name="comment_remove_error_message">댓글을 삭제하는데 실패 하였습니다.</string>
 
     <string name="feed_type_title_1">자유</string>
     <string name="feed_type_title_2">신차</string>
@@ -124,7 +127,7 @@
     <string name="feed_type_content_3">직접 시승 했던 경험을 적어주세요.</string>
     <string name="feed_type_content_4">자동차 용품에 대해서 적어주세요.</string>
     <string name="feed_type_content_5">세차에 관련 된 정보를 적어주세요.</string>
-    <string name="feed_type_content_6">자동차 사고 관련된 정보를 적어주세요.</string>
+    <string name="feed_type_content_6">자동차 사고 관련 된 정보를 적어주세요.</string>
     <string name="feed_type_content_7">교통 상황 및 교통 정보에 대해 적어주세요.</string>
     <string name="feed_type_title">피드의 카테고리를 선택해주세요.</string>
     <string name="enrollment_text">등록</string>
@@ -149,5 +152,13 @@
         <item>사고</item>
         <item>교통</item>
     </string-array>
+
+
+    <string-array name="pick_comment_options">
+        <item>신고하기</item>
+        <item>삭제하기</item>
+    </string-array>
+
+
 
 </resources>

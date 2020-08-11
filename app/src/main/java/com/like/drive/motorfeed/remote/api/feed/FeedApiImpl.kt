@@ -106,6 +106,18 @@ class FeedApiImpl(
         }
     }
 
+    override suspend fun removeComment(commentData: CommentData):Flow<Boolean> {
+        val document =  fireStore.collection(CollectionName.FEED).document(commentData.fid?:"").collection(FEED_COMMENT).document(commentData.cid?:"")
+
+        return fireBaseTask.delete(document)
+    }
+
+    override suspend fun removeReComment(reCommentData: ReCommentData):Flow<Boolean> {
+        val document =  fireStore.collection(CollectionName.FEED).document(reCommentData.fid?:"").collection(
+            FEED_RE_COMMENT).document(reCommentData.rcId?:"")
+        return fireBaseTask.delete(document)
+    }
+
     companion object {
         const val COMMENT_COUNT_FIELD = "commentCount"
         const val LIKE_COUNT_FIELD = "likeCount"

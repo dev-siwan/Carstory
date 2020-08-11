@@ -110,16 +110,7 @@
                         tools:text="0/0" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include
-                    android:id="@+id/containerTitleBlock"
-                    layout="@layout/layout_title_block"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:feedData="@{vm.feedData}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/containerDetailImg"
-                    tools:text="기아|다이소" />
+
 
                 <include
                     android:id="@+id/containerProfile"
@@ -129,7 +120,20 @@
                     app:feedData="@{vm.feedData}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/containerTitleBlock" />
+                    app:layout_constraintTop_toBottomOf="@id/containerDetailImg" />
+
+                <include
+                    android:id="@+id/containerTitleBlock"
+                    layout="@layout/layout_feed_detail_title_block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:feedData="@{vm.feedData}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/containerProfile"
+                    tools:text="기아|다이소" />
+
+
 
                 <View
                     android:id="@+id/divide2"
@@ -138,7 +142,7 @@
                     android:background="@color/grey_6"
                     app:layout_constraintEnd_toEndOf="@id/glEnd"
                     app:layout_constraintStart_toStartOf="@id/glStart"
-                    app:layout_constraintTop_toBottomOf="@id/containerProfile" />
+                    app:layout_constraintTop_toBottomOf="@id/containerTitleBlock" />
 
                 <TextView
                     android:id="@+id/tvContent"

@@ -17,4 +17,6 @@ interface FeedApi{
    suspend fun updateCount(fid:String,flag:FeedCountEnum)
    suspend fun addReComment(reCommentData: ReCommentData):Flow<Boolean>
    suspend fun updateReComment(fid: String, cid: String, isAdd: Boolean)
+   suspend fun removeComment(commentData: CommentData):Flow<Boolean>
+   suspend fun removeReComment(reCommentData: ReCommentData):Flow<Boolean>
 }

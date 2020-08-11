@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.like.drive.motorfeed.ui.feed.detail.holder.FeedDetailPhotoHolder
-import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 
 class DetailImgAdapter: ListAdapter<String, FeedDetailPhotoHolder>(
     object : DiffUtil.ItemCallback<String>() {

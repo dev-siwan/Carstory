@@ -8,12 +8,14 @@ import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.databinding.HolderFeedCommentBinding
 import com.like.drive.motorfeed.databinding.HolderFeedDetailPhotoHolderBinding
 import com.like.drive.motorfeed.databinding.HolderFeedReCommentBinding
+import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 
 class FeedReCommentHolder(val binding: HolderFeedReCommentBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(data: ReCommentData) {
-        binding.commentData = data
+    fun bind(vm :FeedDetailViewModel,data: ReCommentData) {
+        binding.vm = vm
+        binding.reCommentData = data
         binding.executePendingBindings()
     }
 

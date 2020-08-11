@@ -57,7 +57,7 @@
         android:textSize="@dimen/small_text_size"
         android:textColor="@android:color/black"
         android:layout_marginStart="@dimen/activity_small_margin"
-        app:formatHtml="@{feedData.nick !=null ?  String.format(@string/user_nick_format,feedData.nick,feedData.uid.substring(0,5)) : String.format(@string/user_uid_format,feedData.uid)}"
+        app:formatHtml="@{feedData.nick}"
         app:layout_constraintStart_toEndOf="@id/ivProfile"
         app:layout_constraintTop_toTopOf="@id/ivProfile"
         app:layout_constraintBottom_toBottomOf="@id/ivProfile"

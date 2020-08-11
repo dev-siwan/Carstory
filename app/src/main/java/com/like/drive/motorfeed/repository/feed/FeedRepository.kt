@@ -41,4 +41,16 @@ interface FeedRepository {
         success: (ReCommentData) -> Unit,
         fail: () -> Unit
     )
+
+    suspend fun removeComment(
+        comment: CommentData,
+        success: () -> Unit,
+        fail: () -> Unit
+    )
+
+    suspend fun removeReComment(
+        reCommentData: ReCommentData,
+        success: () -> Unit,
+        fail: () -> Unit
+    )
 }
