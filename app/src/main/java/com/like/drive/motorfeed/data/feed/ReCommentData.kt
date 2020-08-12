@@ -1,8 +1,11 @@
 package com.like.drive.motorfeed.data.feed
 
+import android.os.Parcelable
 import com.like.drive.motorfeed.common.user.UserInfo
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class ReCommentData(
     val uid: String? = null,
     var cid: String? = null,
@@ -10,10 +13,10 @@ data class ReCommentData(
     val fid: String? = null,
     val nickName: String? = null,
     val profileImg: String? = null,
-    val commentStr: String? = null,
+    var commentStr: String? = null,
     val createDate: Date? = null,
-    val updateDate: Date? = null
-) {
+    var updateDate: Date? = null
+):Parcelable {
     fun createComment(fid: String, cid: String, commentStr: String) = ReCommentData(
         uid = UserInfo.userInfo?.uid ?: "",
         fid = fid,

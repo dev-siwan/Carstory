@@ -34,22 +34,48 @@ class CommentAdapter(val vm: FeedDetailViewModel) : RecyclerView.Adapter<FeedCom
         }
     }
 
+    fun updateReCommentItem(reCommentData: ReCommentData) {
+        val originItem = commentList.find { it.commentData.cid == reCommentData.cid }
+        originItem?.let { commentWrapData ->
+            val updateIndex = commentList.indexOf(commentWrapData)
+
+            val reOriginItem = commentWrapData.reCommentList.find { it.rcId == reCommentData.rcId }
+            reOriginItem?.let { reCommentData ->
+                val findIndex = commentWrapData.reCommentList.indexOf(reCommentData)
+                commentWrapData.reCommentList[findIndex] = reCommentData
+            }
+
+            commentList[updateIndex] = originItem
+            notifyItemChanged(updateIndex)
+        }
+    }
+
+
     fun removeReCommentItem(reCommentData: ReCommentData) {
         val originItem = commentList.find { it.commentData.cid == reCommentData.cid }
 
         originItem?.let {
-            it.reCommentList.remove(reCommentData)
             val updateIndex = commentList.indexOf(it)
+            it.reCommentList.remove(reCommentData)
             if (updateIndex >= 0) {
                 notifyItemChanged(updateIndex)
             }
-
         }
     }
 
     fun addCommentItem(commentData: CommentData) {
         commentList.add(CommentWrapData(commentData))
         notifyItemInserted(commentList.size - 1)
+    }
+
+    fun updateCommentItem(commentData: CommentData){
+        val originItem = commentList.find { it.commentData.cid == commentData.cid }
+        originItem?.let {
+            val updateIndex = commentList.indexOf(it)
+            it.commentData = commentData
+            commentList[updateIndex] = originItem
+            notifyItemChanged(updateIndex)
+        }
     }
 
     fun removeCommentItem(commentData: CommentData) {

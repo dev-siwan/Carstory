@@ -16,7 +16,7 @@ import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
-import com.like.drive.motorfeed.ui.feed.detail.fragment.ReCommentDialogFragment
+import com.like.drive.motorfeed.ui.feed.detail.fragment.CommentDialogFragment
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import kotlinx.android.synthetic.main.activity_feed_detail.*
@@ -74,8 +74,9 @@ class FeedDetailActivity :
             isProgress()
             addComment()
             removeComment()
-            showReCommentDialog()
+            showCommentFragmentDialog()
             showOptions()
+            updateComment()
         }
     }
 
@@ -86,9 +87,9 @@ class FeedDetailActivity :
         })
     }
 
-    private fun FeedDetailViewModel.showReCommentDialog() {
-        showReCommentDialogEvent.observe(this@FeedDetailActivity, Observer {
-            ReCommentDialogFragment.newInstance(it).show(supportFragmentManager, "")
+    private fun FeedDetailViewModel.showCommentFragmentDialog() {
+        showCommentDialogEvent.observe(this@FeedDetailActivity, Observer {
+            CommentDialogFragment.newInstance(it).show(supportFragmentManager, "")
         })
     }
 
@@ -108,6 +109,18 @@ class FeedDetailActivity :
         //리코멘트
         addReCommentEvent.observe(this@FeedDetailActivity, Observer { reCommentData ->
             commentAdapter.addReCommentItem(reCommentData)
+            falseProgress()
+        })
+    }
+
+    private fun FeedDetailViewModel.updateComment(){
+        updateCommentEvent.observe(this@FeedDetailActivity, Observer {
+            commentAdapter.updateCommentItem(it)
+            falseProgress()
+        })
+
+        updateReCommentEvent.observe(this@FeedDetailActivity, Observer {
+            commentAdapter.updateReCommentItem(it)
             falseProgress()
         })
     }
@@ -147,7 +160,7 @@ class FeedDetailActivity :
                     removeFeedComment(commentData)
                 },
                 updateCallback={
-
+                    showCommentDialogListener(true,commentData,null)
                 })
         })
 
@@ -161,7 +174,7 @@ class FeedDetailActivity :
                     removeFeedReComment(reCommentData)
                 },
                 updateCallback={
-
+                    showCommentDialogListener(true,null,reCommentData)
                 })
         })
     }

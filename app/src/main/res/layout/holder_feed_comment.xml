@@ -130,8 +130,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/tvDate"
                 app:layout_constraintEnd_toEndOf="@id/glEnd"
                 app:layout_constraintStart_toEndOf="@id/tvDate"
-                app:layout_constraintTop_toTopOf="@id/tvDate"
-                android:onClick="@{()->vm.showReCommentDialog(commentData)}"/>
+                app:layout_constraintTop_toTopOf="@id/tvDate" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView

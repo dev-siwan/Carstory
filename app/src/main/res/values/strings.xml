@@ -112,6 +112,7 @@
     <string name="like_self_message">자신의 피드에 좋아요를 눌릴 수 없습니다.</string>
 
     <string name="comment_add_error_message">댓글을 다는데 실패 하였습니다.</string>
+    <string name="comment_update_error_message">댓글을 수정하는데 실패 하였습니다.</string>
     <string name="comment_remove_error_message">댓글을 삭제하는데 실패 하였습니다.</string>
 
     <string name="feed_type_title_1">자유</string>
@@ -137,6 +138,7 @@
     <string name="delete_text">삭제하기</string>
     <string name="update_text">수정하기</string>
 
+    <string name="not_found_data">데이터를 찾을 수 없습니다.</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

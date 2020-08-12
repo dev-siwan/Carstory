@@ -132,6 +132,34 @@ class FeedRepositoryImpl(
         }
     }
 
+
+    override suspend fun updateComment(
+        comment: CommentData,
+        success: () -> Unit,
+        fail: () -> Unit
+    ) {
+        feedApi.updateComment(comment).catch {
+            fail()
+        }.collect {
+            success()
+        }
+    }
+
+    override suspend fun updateReComment(
+        reCommentData: ReCommentData,
+        success: () -> Unit,
+        fail: () -> Unit
+    ) {
+        feedApi.updateReComment(reCommentData).catch {
+            fail()
+        }.collect {
+            success()
+        }
+    }
+
+
+
+
     override suspend fun removeComment(
         comment: CommentData,
         success: () -> Unit,

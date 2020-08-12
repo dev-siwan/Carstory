@@ -15,7 +15,9 @@ import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
+import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
 import kotlinx.coroutines.launch
+import java.util.*
 
 class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseViewModel() {
 
@@ -36,14 +38,19 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     // 코멘트 관련 이벤트
     val addCommentEvent = SingleLiveEvent<CommentData>()
     val removeCommentEvent = SingleLiveEvent<CommentData>()
+    val updateCommentEvent = SingleLiveEvent<CommentData>()
     val optionsCommentEvent = SingleLiveEvent<CommentData>()
 
     // 리코멘트 관련 이벤트
-    val showReCommentDialogEvent = SingleLiveEvent<CommentData>()
+
     val addReCommentEvent = SingleLiveEvent<ReCommentData>()
     val removeReCommentEvent = SingleLiveEvent<ReCommentData>()
-    val reCommentCompleteEvent = SingleLiveEvent<Unit>()
+    val updateReCommentEvent = SingleLiveEvent<ReCommentData>()
     val optionsReCommentEvent = SingleLiveEvent<ReCommentData>()
+
+    // 코멘트 다이아로그 관련 이벤트
+    val showCommentDialogEvent = SingleLiveEvent<CommentFragmentExtra>()
+    val completeCommentDialogEvent = SingleLiveEvent<Unit>()
 
     val errorEvent = SingleLiveEvent<@StringRes Int>()
     val warningSelfLikeEvent = SingleLiveEvent<@StringRes Int>()
@@ -81,11 +88,33 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         _photoIndex.value = index
     }
 
-
-    fun showReCommentDialog(commentData: CommentData) {
-        showReCommentDialogEvent.value = commentData
+    /**
+     * comment Dialog 에서 값을 받기 위한 리스너
+     */
+    fun showCommentDialogListener(isCommentUpdate:Boolean?=false, commentData: CommentData?=null, reCommentData: ReCommentData?=null) {
+        showCommentDialogEvent.value = CommentFragmentExtra(commentUpdate = isCommentUpdate ,commentData = commentData,reCommentData = reCommentData)
     }
 
+    /**
+     * Comment Dialog 에서 등록 클릭했을때 리스너
+     */
+    fun commentFragmentClickListener(
+        commentFragmentExtra: CommentFragmentExtra?,
+        commentStrValue: String?
+    ) {
+        commentFragmentExtra?.run {
+            if (commentUpdate == true) {
+                commentData?.let {
+                    updateFeedComment(it, commentStrValue!!)
+                }
+                reCommentData?.let {
+                    updateFeedReComment(it, commentStrValue!!)
+                }
+            } else {
+                addReFeedComment(commentFragmentExtra.commentData!!, commentStrValue)
+            }
+        }
+    }
 
     /**
      * Remote 댓글 추가
@@ -102,36 +131,70 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
                         commentCountObserver.set(commentCountObserver.get() + 1)
                     },
                     fail = {
-                        setRemoteFail(R.string.comment_add_error_message)
+                        setFailProcess(R.string.comment_add_error_message)
                     }
                 )
             }
         }
     }
 
-
     /**
      * Remote 대댓글 추가
      */
-    fun addReFeedComment(fid: String, cid: String, comment: String?) {
+    fun addReFeedComment(commentData: CommentData, comment: String?) {
 
         isProgressEvent.value = true
 
         comment?.let {
             viewModelScope.launch {
-                feedRepository.addReComment(fid, cid, it,
+                feedRepository.addReComment(commentData.fid ?: "", commentData.cid ?: "", it,
                     success = {
-                        reCommentCompleteEvent.call()
+                        completeCommentDialogEvent.call()
                         addReCommentEvent.value = it
                     },
                     fail = {
-                        setRemoteFail(R.string.comment_add_error_message)
+                        setFailProcess(R.string.comment_add_error_message)
                     }
                 )
             }
         }
     }
 
+    /**
+     * Remote 댓글 수정
+     */
+    private fun updateFeedComment(commentData: CommentData,commentValue:String){
+        isProgressEvent.value = true
+
+        viewModelScope.launch {
+            commentData.commentStr = commentValue
+            commentData.updateDate = Date()
+            feedRepository.updateComment(commentData,
+                success = {
+                    updateCommentEvent.value = commentData
+                    completeCommentDialogEvent.call()
+                },
+                fail = { setFailProcess(R.string.comment_update_error_message)  })
+        }
+    }
+
+    /**
+     * Remote 대댓글 수정
+     */
+    private fun updateFeedReComment(reCommentData: ReCommentData,commentValue:String){
+        isProgressEvent.value = true
+
+        viewModelScope.launch {
+            reCommentData.commentStr = commentValue
+            reCommentData.updateDate = Date()
+            feedRepository.updateReComment(reCommentData,
+                success = {
+                    updateReCommentEvent.value = reCommentData
+                    completeCommentDialogEvent.call()
+                },
+                fail = { setFailProcess(R.string.comment_update_error_message) })
+        }
+    }
 
     /**
      * Remote 댓글 삭제
@@ -147,7 +210,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
                     commentCountObserver.set(commentCountObserver.get() - 1)
                 },
                 fail = {
-                    setRemoteFail(R.string.comment_remove_error_message)
+                    setFailProcess(R.string.comment_remove_error_message)
                 })
         }
     }
@@ -165,13 +228,13 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
                     removeReCommentEvent.value = reCommentData
                 },
                 fail = {
-                    setRemoteFail(R.string.comment_remove_error_message)
+                    setFailProcess(R.string.comment_remove_error_message)
                 })
         }
     }
 
 
-    private fun setRemoteFail(stringID: Int) {
+    private fun setFailProcess(stringID: Int) {
         errorEvent.value = stringID
         isProgressEvent.value = false
     }
@@ -213,6 +276,10 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         } else {
             likeCountObserver.set(likeCountObserver.get() - 1)
         }
+    }
+
+    fun setReComment(str:String?){
+        reComment.value = str
     }
 
 }

@@ -11,6 +11,8 @@ import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_RE_COMMENT
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import kotlinx.coroutines.flow.Flow
+import java.util.*
+import kotlin.Any as Any1
 
 class FeedApiImpl(
     private val fireBaseTask: FireBaseTask,
@@ -95,15 +97,21 @@ class FeedApiImpl(
         return fireBaseTask.setData(reCommentFeedCollection.document(rcId), reCommentData)
     }
 
-    override suspend fun updateReComment(fid: String, cid: String, isAdd: Boolean) {
+    override suspend fun updateComment(commentData: CommentData): Flow<Boolean> {
         val document =
-            fireStore.collection(CollectionName.FEED).document(fid).collection(FEED_COMMENT)
-                .document(cid)
-        if (isAdd) {
-            document.update(RE_COMMENT_COUNT, FieldValue.increment(1))
-        } else {
-            document.update(RE_COMMENT_COUNT, FieldValue.increment(-1))
-        }
+            fireStore.collection(CollectionName.FEED).document(commentData.fid?:"").collection(FEED_COMMENT)
+                .document(commentData.cid?:"")
+        return fireBaseTask.setData(document, commentData)
+    }
+
+    override suspend fun updateReComment(
+        reCommentData: ReCommentData
+    ): Flow<Boolean> {
+        val document =
+            fireStore.collection(CollectionName.FEED).document(reCommentData.fid ?: "")
+                .collection(FEED_RE_COMMENT)
+                .document(reCommentData.cid ?: "")
+        return fireBaseTask.setData(document, reCommentData)
     }
 
     override suspend fun removeComment(commentData: CommentData):Flow<Boolean> {
@@ -122,7 +130,8 @@ class FeedApiImpl(
         const val COMMENT_COUNT_FIELD = "commentCount"
         const val LIKE_COUNT_FIELD = "likeCount"
         const val VIEW_COUNT_FIELD = "viewCount"
-        const val RE_COMMENT_COUNT = "reCommentCount"
+        const val COMMENT_FIELD = "commentStr"
+        const val UPDATE_DATE_FIELD="updateDate"
     }
 
 }

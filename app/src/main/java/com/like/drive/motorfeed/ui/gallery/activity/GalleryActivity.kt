@@ -55,7 +55,6 @@ class GalleryActivity :
 
     private fun initData() {
         galleryViewModel.run {
-
             intent.getBooleanExtra(KEY_IS_MULTIPLE_PICK, false).let {
                 initMultiple(it)
                 if (it) {

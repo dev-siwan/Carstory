@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.ui.feed.detail.binder
 
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -8,8 +9,10 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.CommentWrapData
 import com.like.drive.motorfeed.ui.base.ext.convertDateToString
+import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
+import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,4 +53,15 @@ fun TextView.setFormatDate(date: Date?){
     date?.let {
        text=it.convertDateToString()
     }
+}
+
+@BindingAdapter(
+    value = ["commentFragmentValue", "commentStr"],
+    requireAll = true
+)
+fun TextView.updateChange(
+    commentFragmentExtra: CommentFragmentExtra?,
+    commentStrValue: String?
+) {
+  isEnabled = !commentStrValue.isNullOrBlank() && commentFragmentExtra?.commentData?.commentStr != commentStrValue && commentFragmentExtra?.reCommentData?.commentStr != commentStrValue
 }

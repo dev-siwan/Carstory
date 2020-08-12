@@ -12,10 +12,10 @@ data class CommentData(
     val fid:String?=null,
     val nickName: String? = null,
     val profileImg: String? = null,
-    val commentStr: String? = null,
+    var commentStr: String? = null,
     var reCommentCount:Int? = 0,
     val createDate: Date? = null,
-    val updateDate: Date? = null
+    var updateDate: Date? = null
 ):Parcelable{
     fun createComment(fid:String,commentStr: String)=CommentData(
         uid = UserInfo.userInfo?.uid?:"",
@@ -29,5 +29,5 @@ data class CommentData(
 }
 
 
-data class CommentWrapData(val commentData:CommentData,
+data class CommentWrapData(var commentData:CommentData,
                            var reCommentList:MutableList<ReCommentData> = mutableListOf())

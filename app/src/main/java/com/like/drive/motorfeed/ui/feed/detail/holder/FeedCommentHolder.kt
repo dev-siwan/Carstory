@@ -19,6 +19,10 @@ class FeedCommentHolder(val binding: HolderFeedCommentBinding) :
         binding.vm = vm
         binding.commentData = data.commentData
 
+        binding.tvReComment.setOnClickListener {
+            vm.showCommentDialogListener(false,data.commentData)
+        }
+
         binding.rvReComment.run {
             adapter = reCommentAdapter?.apply {
                 reCommentList.addAll(data.reCommentList)

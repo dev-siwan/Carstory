@@ -171,7 +171,7 @@ class GalleryViewModel : BaseViewModel() {
 
 
     /**
-     *
+     * 다중선택 파일인지 아닌지 체크
      */
 
     fun initMultiple(isMultiple:Boolean){

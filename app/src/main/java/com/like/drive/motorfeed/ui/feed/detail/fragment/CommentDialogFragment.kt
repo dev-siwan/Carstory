@@ -10,9 +10,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.like.drive.motorfeed.R
-import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.databinding.FragmentReCommentDialogBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
+import com.like.drive.motorfeed.ui.base.ext.showShortToast
+import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import kotlinx.android.synthetic.main.fragment_re_comment_dialog.*
 import kotlinx.coroutines.Dispatchers
@@ -21,11 +22,11 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-private const val COMMENT_DATA_PARAM = "commentData"
+private const val EXTRA_PARAM = "extraParam"
 
-class ReCommentDialogFragment :
+class CommentDialogFragment :
     BaseFragmentDialog<FragmentReCommentDialogBinding>(R.layout.fragment_re_comment_dialog) {
-    private var commentData: CommentData? = null
+    private var commentFragmentExtra: CommentFragmentExtra? = null
     private val feedDetailViewModel: FeedDetailViewModel by sharedViewModel()
     private val imm by lazy{requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?}
 
@@ -33,23 +34,16 @@ class ReCommentDialogFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            commentData = it.getParcelable(COMMENT_DATA_PARAM)
+            commentFragmentExtra = it.getParcelable(EXTRA_PARAM)
         }
-
-
-        activity?.window?.setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
-        )
     }
 
     override fun onStart() {
         super.onStart()
         dialog?.window?.run {
-            setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         }
     }
 
@@ -57,21 +51,40 @@ class ReCommentDialogFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        isCancelable = true
+        commentFragmentExtra?.run {
+            commentData?.let {
+                if (commentUpdate == true) {
+                    feedDetailViewModel.setReComment(it.commentStr)
+                }
+            }
+            reCommentData?.let {
+                if (commentUpdate == true) {
+                    feedDetailViewModel.setReComment(it.commentStr)
+                }
+            }
 
-        containerFragment.setOnClickListener {
-            dismiss()
-        }
+            isCancelable = true
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            delay(50)
-            etComment.requestFocus()
+            containerFragment.setOnClickListener {
+                dismiss()
+            }
 
-            imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
-        }
+            lifecycleScope.launch(Dispatchers.Main) {
+                delay(50)
+                etComment.requestFocus()
 
-        withViewModel()
+                imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
 
+            withViewModel()
+
+        } ?: notFoundData()
+
+    }
+
+    private fun notFoundData(){
+        requireContext().showShortToast(R.string.not_found_data)
+        dismiss()
     }
 
     private fun withViewModel(){
@@ -81,7 +94,7 @@ class ReCommentDialogFragment :
     }
 
     private fun FeedDetailViewModel.complete(){
-        reCommentCompleteEvent.observe(viewLifecycleOwner, Observer {
+        completeCommentDialogEvent.observe(viewLifecycleOwner, Observer {
             dismiss()
         })
     }
@@ -92,18 +105,20 @@ class ReCommentDialogFragment :
         feedDetailViewModel.reComment.value = null
         imm?.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0)
     }
+
+
     override fun onBind(dataBinding: FragmentReCommentDialogBinding) {
         super.onBind(dataBinding)
-        dataBinding.commentData = commentData
+        dataBinding.commentFragmentExtra = commentFragmentExtra
         dataBinding.vm = feedDetailViewModel
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(commentData: CommentData) =
-            ReCommentDialogFragment().apply {
+        fun newInstance(commentFragmentExtra: CommentFragmentExtra) =
+            CommentDialogFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(COMMENT_DATA_PARAM, commentData)
+                    putParcelable(EXTRA_PARAM, commentFragmentExtra)
                 }
             }
     }
