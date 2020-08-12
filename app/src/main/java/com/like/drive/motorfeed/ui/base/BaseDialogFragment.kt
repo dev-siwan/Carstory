@@ -10,7 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.fragment_re_comment_dialog.*
+import kotlinx.android.synthetic.main.fragment_comment_dialog.*
 
 
 abstract class BaseFragmentDialog<V : ViewDataBinding>(

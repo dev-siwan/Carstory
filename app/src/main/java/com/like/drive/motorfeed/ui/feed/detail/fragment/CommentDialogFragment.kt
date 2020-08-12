@@ -10,12 +10,12 @@ import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.like.drive.motorfeed.R
-import com.like.drive.motorfeed.databinding.FragmentReCommentDialogBinding
+import com.like.drive.motorfeed.databinding.FragmentCommentDialogBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
-import kotlinx.android.synthetic.main.fragment_re_comment_dialog.*
+import kotlinx.android.synthetic.main.fragment_comment_dialog.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 private const val EXTRA_PARAM = "extraParam"
 
 class CommentDialogFragment :
-    BaseFragmentDialog<FragmentReCommentDialogBinding>(R.layout.fragment_re_comment_dialog) {
+    BaseFragmentDialog<FragmentCommentDialogBinding>(R.layout.fragment_comment_dialog) {
     private var commentFragmentExtra: CommentFragmentExtra? = null
     private val feedDetailViewModel: FeedDetailViewModel by sharedViewModel()
     private val imm by lazy{requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?}
@@ -107,7 +107,7 @@ class CommentDialogFragment :
     }
 
 
-    override fun onBind(dataBinding: FragmentReCommentDialogBinding) {
+    override fun onBind(dataBinding: FragmentCommentDialogBinding) {
         super.onBind(dataBinding)
         dataBinding.commentFragmentExtra = commentFragmentExtra
         dataBinding.vm = feedDetailViewModel
