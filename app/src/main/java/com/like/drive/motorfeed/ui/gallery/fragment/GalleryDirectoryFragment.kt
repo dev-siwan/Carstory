@@ -47,7 +47,7 @@ class GalleryDirectoryFragment : BaseFragmentDialog<FragmentGalleryDirectoryBind
         }
         rvGalleryDirectory?.run {
             adapter = directoryAdapter
-            addItemDecoration(decorationItem)
+            //addItemDecoration(decorationItem)
         }
 
         galleryViewModel.getGalleryDirectory()

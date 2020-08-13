@@ -43,8 +43,8 @@ class GalleryAdapter(val viewModel: GalleryViewModel) :
     }
 
     fun bringGalleryItem(directoryName: String?) {
-
         if (galleryListData.isNotEmpty()) {
+
             galleryListData = (directoryName?.let { directory ->
                 allGalleryData.filter { it.directory == directory }
             } ?: allGalleryData).toMutableList()
