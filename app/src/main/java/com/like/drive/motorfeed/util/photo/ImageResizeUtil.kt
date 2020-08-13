@@ -14,7 +14,7 @@ import java.io.IOException
 
 object ImageResizeUtil {
 
-    fun resizeFile(file: File, newFile: File, newWidth: Int, isCamera: Boolean) {
+    fun resizeFile(file: File, newFile: File, newWidth: Int) {
 
         var originalBm: Bitmap? = null
         var resizedBitmap: Bitmap? = null
@@ -27,9 +27,6 @@ object ImageResizeUtil {
 
 
             originalBm = BitmapFactory.decodeFile(file.absolutePath, options)
-
-
-            if (isCamera) {
 
                 // 카메라인 경우 이미지를 상황에 맞게 회전시킨다
                 try {
@@ -47,10 +44,9 @@ object ImageResizeUtil {
                     e.printStackTrace()
                 }
 
-            }
 
             if (originalBm == null) {
-                Timber.e("파일 에러")
+                //Timber.e("파일 에러")
                 return
             }
 

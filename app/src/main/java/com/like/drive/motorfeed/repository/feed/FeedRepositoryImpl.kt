@@ -1,8 +1,6 @@
 package com.like.drive.motorfeed.repository.feed
 
-
 import com.google.firebase.firestore.FirebaseFirestore
-import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.CommentWrapData
 import com.like.drive.motorfeed.data.feed.FeedData
@@ -48,9 +46,8 @@ class FeedRepositoryImpl(
             imgList = photoFileList
         )
 
-        feedApi.addFeed(creteFeedData)
-            .zip(feedApi.addUserFeed(UserInfo.userInfo?.uid ?: "", creteFeedData)) { t1, t2 ->
-
+        feedApi.setFeed(creteFeedData)
+            .zip(feedApi.setUserFeed(creteFeedData.uid ?: "", creteFeedData)) { t1, t2 ->
                 if (t1 && t2) {
                     success(creteFeedData)
                 } else {
@@ -63,8 +60,37 @@ class FeedRepositoryImpl(
             .collect()
     }
 
+    override suspend fun updateFeed(
+        feedField: FeedUploadField,
+        feedData: FeedData,
+        success: (FeedData) -> Unit,
+        fail: () -> Unit
+    ) {
+        val updateFeedData = FeedData().updateData(
+            feedUploadField = feedField,
+            motorTypeData = feedField.motorTypeData,
+            feedData = feedData
+        )
+
+        feedApi.setFeed(updateFeedData)
+            .zip(feedApi.setUserFeed(updateFeedData.uid ?: "", updateFeedData)) { t1, t2 ->
+                if (t1 && t2) {
+                    success(updateFeedData)
+                } else {
+                    fail.invoke()
+                }
+            }
+            .catch {
+                fail.invoke()
+            }
+            .collect()
+    }
+
     override suspend fun setLike(fid: String, isUp: Boolean) {
-        if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(fid, FeedCountEnum.UNLIKE)
+        if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(
+            fid,
+            FeedCountEnum.UNLIKE
+        )
     }
 
     override suspend fun getFeedComment(fid: String): Flow<List<CommentData>> {
@@ -156,8 +182,6 @@ class FeedRepositoryImpl(
             success()
         }
     }
-
-
 
 
     override suspend fun removeComment(

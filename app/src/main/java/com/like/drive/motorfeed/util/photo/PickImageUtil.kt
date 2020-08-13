@@ -165,7 +165,7 @@ object PickImageUtil {
     fun resizeImage(path: String):File {
 
         val originFile = File(path)
-        ImageResizeUtil.resizeFile(originFile, originFile, 1280, isCamera)
+        ImageResizeUtil.resizeFile(originFile, originFile, 1280)
 
         val options = BitmapFactory.Options()
         BitmapFactory.decodeFile(originFile.absolutePath, options)

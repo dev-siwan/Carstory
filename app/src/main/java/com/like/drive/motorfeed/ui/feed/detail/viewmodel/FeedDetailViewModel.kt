@@ -64,7 +64,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     fun initDate(feedData: FeedData) {
         feedData.let {
             _feedData.value = it
-            _commentList.value = emptyList()
+            _commentList.value = _commentList.value?.let { _commentList.value }?: emptyList()
         }
     }
 
@@ -268,6 +268,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
             setLikeCount(it)
             isLikeEnable.set(!it)
         }
+
     }
 
     private fun setLikeCount(isUp: Boolean) {

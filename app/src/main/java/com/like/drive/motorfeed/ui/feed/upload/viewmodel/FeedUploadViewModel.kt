@@ -15,13 +15,13 @@ import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeItem
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.launch
 import java.io.File
+import androidx.annotation.StringRes
+import androidx.databinding.ObservableBoolean
 
 class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewModel(){
 
     val selectPhotoClickEvent = SingleLiveEvent<Unit>()
     val photoItemClickEvent = SingleLiveEvent<PhotoData>()
-
-    private val _originListData = MutableLiveData<List<PhotoData>>()
 
     private val _photoListData = MutableLiveData<List<PhotoData>>()
     val photoListData: LiveData<List<PhotoData>> get() = _photoListData
@@ -49,7 +49,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
     val feedTypeData: LiveData<FeedTypeItem> get() = _feedType
 
     val completeEvent = SingleLiveEvent<FeedData>()
-    val errorEvent = SingleLiveEvent<Unit>()
+    val errorEvent = SingleLiveEvent<@StringRes Int>()
 
     val closeFeedItemPage = SingleLiveEvent<Unit>()
     val showFeedItemPage = SingleLiveEvent<Unit>()
@@ -67,24 +67,36 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
         }
     }
 
+    val isUpload = ObservableBoolean(false)
+    private var feedData :FeedData?=null
 
-    init {
-       // createPhotoList(null)
-    }
     /**
      * 초기 리스트 구성
      * 이미 업로드 된 이미지 있으면 표시
      * 없으면 빈 리스트로 초기화
      */
-    private fun createPhotoList(uploadedKeys: Array<String>?) {
-        if (uploadedKeys?.isNotEmpty() == true) {
-            _photoListData.value = uploadedKeys.map {
-                PhotoData(imgUrl = it)
-            }
-        } else {
-            _photoListData.value = emptyList()
+    fun getFeedData(feedData: FeedData?) {
+        feedData?.let {
+
+            this.feedData= it
+
+            _photoListData.value = it.imageUrls?.map { url -> PhotoData(imgUrl = url) }
+            _pickPhotoCount.value = it.imageUrls?.size
+
+            _motorType.value = if (!it.brandName.isNullOrBlank()) MotorTypeData(
+                brandName = it.brandName ?: "",
+                brandCode = it.brandCode ?: 0,
+                modelCode = it.modelCode ?: 0,
+                modelName = it.modelName ?: ""
+            ) else null
+
+            _feedType.value = FeedTypeItem(it.feedTypeStr ?: "", "", it.feedTypeCode ?: 0)
+
+            title.value = it.title
+            content.value = it.content
+
+            isUpload.set(true)
         }
-        _originListData.value = _photoListData.value
     }
 
 
@@ -116,6 +128,13 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
             feedType = _feedType.value!!,
             motorTypeData = _motorType.value
         )
+
+        if(isUpload.get()) updateFeed(feedField,feedData) else addFeed(feedField)
+    }
+
+    /*
+       * TODO 에러메세지 넣어야함*/
+    private fun addFeed(feedField: FeedUploadField) {
         viewModelScope.launch {
             feedRepository.addFeed(feedField, originFileList,
                 photoSuccessCount = { count ->
@@ -129,10 +148,34 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
                     completeEvent.value = it
                 },
                 fail = {
-                    isUploadLoading.value = false
-                    errorEvent.call()
+                    setError()
                 })
         }
+    }
+
+    /*
+    * TODO 에러메세지 넣어야함*/
+    private fun updateFeed(feedField: FeedUploadField, feedData: FeedData?) {
+        feedData?.let {
+            viewModelScope.launch {
+                feedRepository.updateFeed(feedField, feedData,
+                    success = {
+                        isUploadLoading.postValue(false)
+                        completeEvent.value = it
+                    },
+                    fail = {
+                        setError()
+                    })
+            }
+        } ?: setError()
+    }
+
+
+    private fun setError(resID:Int?=null){
+        isUploadLoading.value = false
+        resID?.let {
+            errorEvent.postValue(resID)
+        }?:errorEvent.call()
     }
 
     fun setFeedTypeItem(feedItemType: FeedTypeItem?){

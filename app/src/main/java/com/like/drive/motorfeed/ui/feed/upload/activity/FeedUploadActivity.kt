@@ -14,6 +14,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.enum.PhotoSelectType
+import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.ActivityUploadBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
@@ -77,9 +78,12 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
     }
 
 
+
     private fun initView() {
 
-        showFeedTypeDialog()
+        intent.getParcelableExtra<FeedData>(FEED_UPDATE_KEY)?.let {
+            viewModelFeed.getFeedData(it)
+        } ?: showFeedTypeDialog()
 
         val divider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL).apply {
             ContextCompat.getDrawable(
@@ -167,9 +171,15 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
      */
     private fun FeedUploadViewModel.uploadComplete() {
         completeEvent.observe(this@FeedUploadActivity, Observer { feedData ->
-            startAct(FeedDetailActivity::class, Bundle().apply {
-                putParcelable(CREATE_FEED_DATA_KEY, feedData)
-            })
+            if (isUpload.get()) {
+                setResult(
+                    Activity.RESULT_OK,
+                    Intent().apply { putExtra(FEED_UPDATE_KEY, feedData) })
+            } else {
+                startAct(FeedDetailActivity::class, Bundle().apply {
+                    putParcelable(FEED_CREATE_KEY, feedData)
+                })
+            }
             finish()
         })
     }
@@ -179,7 +189,7 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
      */
     private fun FeedUploadViewModel.uploadError() {
         errorEvent.observe(this@FeedUploadActivity, Observer {
-            showShortToast("에러")
+            showShortToast(it)
         })
     }
 
@@ -367,7 +377,8 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
     }
 
     companion object {
-        const val CREATE_FEED_DATA_KEY = "CREATE_FEED_DATA"
+        const val FEED_CREATE_KEY = "CREATE_FEED"
+        const val FEED_UPDATE_KEY ="UPDATE_FEED"
     }
 
 }

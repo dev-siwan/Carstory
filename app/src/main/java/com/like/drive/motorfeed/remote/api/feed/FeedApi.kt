@@ -7,8 +7,8 @@ import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import kotlinx.coroutines.flow.Flow
 
 interface FeedApi{
-   suspend fun addFeed(feedData: FeedData): Flow<Boolean>
-   suspend fun addUserFeed(uid:String,feedData: FeedData):Flow<Boolean>
+   suspend fun setFeed(feedData: FeedData): Flow<Boolean>
+   suspend fun setUserFeed(uid:String, feedData: FeedData):Flow<Boolean>
    suspend fun getComment(fid:String):Flow<List<CommentData>>
    suspend fun getReComment(fid:String):Flow<List<ReCommentData>>
    suspend fun getFeed(fid:String):Flow<FeedData?>

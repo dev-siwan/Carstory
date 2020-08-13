@@ -18,13 +18,13 @@ class FeedApiImpl(
     private val fireBaseTask: FireBaseTask,
     private val fireStore: FirebaseFirestore
 ) : FeedApi {
-    override suspend fun addFeed(feedData: FeedData): Flow<Boolean> {
+    override suspend fun setFeed(feedData: FeedData): Flow<Boolean> {
         return fireBaseTask.setData(
             fireStore.collection(CollectionName.FEED).document(feedData.fid ?: ""), feedData
         )
     }
 
-    override suspend fun addUserFeed(uid: String, feedData: FeedData): Flow<Boolean> {
+    override suspend fun setUserFeed(uid: String, feedData: FeedData): Flow<Boolean> {
         return fireBaseTask.setData(
             fireStore.collection(CollectionName.USER).document(uid).collection(CollectionName.FEED)
                 .document(feedData.fid ?: ""), feedData

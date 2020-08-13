@@ -1,5 +1,7 @@
 package com.like.drive.motorfeed.ui.feed.detail.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
+import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
 import com.like.drive.motorfeed.ui.feed.detail.fragment.CommentDialogFragment
@@ -48,7 +51,7 @@ class FeedDetailActivity :
 
     private fun initData() {
         intent.run {
-            getParcelableExtra<FeedData>(FeedUploadActivity.CREATE_FEED_DATA_KEY)?.let {
+            getParcelableExtra<FeedData>(FeedUploadActivity.FEED_CREATE_KEY)?.let {
                 feedData = it
                 viewModel.initDate(it)
             }
@@ -148,7 +151,9 @@ class FeedDetailActivity :
             showOptionsList(feedData.uid,
             reportCallback = {},
             deleteCallback = {},
-            updateCallback = {})
+            updateCallback = {
+                startActForResult(FeedUploadActivity::class,FEED_UPLOAD_REQ_CODE,Bundle().apply { putParcelable(FeedUploadActivity.FEED_UPDATE_KEY,feedData) })
+            })
         })
         //코멘트
         optionsCommentEvent.observe(this@FeedDetailActivity, Observer { commentData ->
@@ -230,7 +235,22 @@ class FeedDetailActivity :
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                FEED_UPLOAD_REQ_CODE -> {
+                    data?.getParcelableExtra<FeedData>(FeedUploadActivity.FEED_UPDATE_KEY)?.let {
+                        viewModel.initDate(it)
+                    }
+                }
+            }
+        }
+    }
+
+
     companion object {
         const val KEY_FEED_ID = "FEED_ID"
+        const val FEED_UPLOAD_REQ_CODE=1055
     }
 }

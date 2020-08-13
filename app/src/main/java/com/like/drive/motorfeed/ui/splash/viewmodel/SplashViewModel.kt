@@ -83,11 +83,11 @@ class SplashViewModel(
     }
 
     private fun setErrorEvent(type: SplashErrorType) {
-        errorEvent.value = type
+        errorEvent.postValue(type)
     }
 
     private fun setCompleteEvent(type: SplashCompleteType) {
-        completeEvent.value = type
+        completeEvent.postValue(type)
     }
 
 }

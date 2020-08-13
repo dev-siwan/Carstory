@@ -35,8 +35,7 @@ data class FeedData(
         feedUploadField: FeedUploadField,
         motorTypeData: MotorTypeData?,
         imgList: ArrayList<PhotoData>
-    ) =
-        FeedData(
+    ) = FeedData(
             fid = fid,
             title = feedUploadField.title,
             content = feedUploadField.content,
@@ -53,4 +52,26 @@ data class FeedData(
             createDate = Date(),
             updateDate = Date()
         )
+
+    fun updateData(
+        feedUploadField: FeedUploadField,
+        motorTypeData: MotorTypeData?,
+        feedData: FeedData
+    ) = FeedData(
+        fid = feedData.fid,
+        title = feedUploadField.title,
+        content = feedUploadField.content,
+        feedTypeStr = feedUploadField.feedType.title,
+        feedTypeCode = feedUploadField.feedType.typeCode,
+        brandName = motorTypeData?.brandName,
+        brandCode = motorTypeData?.brandCode,
+        modelCode = motorTypeData?.modelCode,
+        modelName = motorTypeData?.modelName,
+        imageUrls = feedData.imageUrls,
+        uid = feedData.uid ?: "",
+        nick = feedData.nick ?: "",
+        profileImg = feedData.profileImg ?: "",
+        createDate = feedData.createDate,
+        updateDate = Date()
+    )
 }
