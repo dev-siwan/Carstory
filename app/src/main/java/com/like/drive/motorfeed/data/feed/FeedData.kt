@@ -22,6 +22,7 @@ data class FeedData(
     val brandName: String? = null,
     val modelCode: Int? = null,
     val modelName: String? = null,
+    val feedTagList:List<String>?=null,
     val imageUrls: List<String>? = null,
     val likeCount: Int? = 0,
     val uid: String? = null,
@@ -34,6 +35,7 @@ data class FeedData(
         fid: String,
         feedUploadField: FeedUploadField,
         motorTypeData: MotorTypeData?,
+        feedTagList:ArrayList<String>?,
         imgList: ArrayList<PhotoData>
     ) = FeedData(
             fid = fid,
@@ -45,6 +47,7 @@ data class FeedData(
             brandCode = motorTypeData?.brandCode,
             modelCode = motorTypeData?.modelCode,
             modelName = motorTypeData?.modelName,
+            feedTagList= feedTagList?.toList(),
             imageUrls = imgList.map { it.imgUrl!! },
             uid = UserInfo.userInfo?.uid ?: "",
             nick = UserInfo.userInfo?.nickName ?: "",
@@ -56,6 +59,7 @@ data class FeedData(
     fun updateData(
         feedUploadField: FeedUploadField,
         motorTypeData: MotorTypeData?,
+        feedTagList:ArrayList<String>?,
         feedData: FeedData
     ) = FeedData(
         fid = feedData.fid,
@@ -67,6 +71,7 @@ data class FeedData(
         brandCode = motorTypeData?.brandCode,
         modelCode = motorTypeData?.modelCode,
         modelName = motorTypeData?.modelName,
+        feedTagList =  feedTagList?.toList(),
         imageUrls = feedData.imageUrls,
         uid = feedData.uid ?: "",
         nick = feedData.nick ?: "",

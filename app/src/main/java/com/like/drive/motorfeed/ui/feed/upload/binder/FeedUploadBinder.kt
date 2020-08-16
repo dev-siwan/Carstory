@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.feed.upload.binder
 
+import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -40,5 +41,19 @@ fun TextView.setUploadProgress(isImgUpload:Boolean?,uploadPhotoCount:Int?,upload
         } else {
             context.getString(R.string.upload_progress_feed_update)
         }
+    }
+}
+
+@BindingAdapter("tagList")
+fun Button.setTagList(tagList:ArrayList<String>?){
+    tagList?.let {
+    text = it.joinToString(", #","#")
+    }
+}
+
+@BindingAdapter("tagList")
+fun TextView.setTagList(tagList:List<String>?){
+    tagList?.let {
+        text = it.joinToString(", #","#")
     }
 }

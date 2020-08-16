@@ -28,7 +28,7 @@ class CommentDialogFragment :
     BaseFragmentDialog<FragmentCommentDialogBinding>(R.layout.fragment_comment_dialog) {
     private var commentFragmentExtra: CommentFragmentExtra? = null
     private val feedDetailViewModel: FeedDetailViewModel by sharedViewModel()
-    private val imm by lazy{requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?}
+    private val imm by lazy { requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager? }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,18 +82,18 @@ class CommentDialogFragment :
 
     }
 
-    private fun notFoundData(){
+    private fun notFoundData() {
         requireContext().showShortToast(R.string.not_found_data)
         dismiss()
     }
 
-    private fun withViewModel(){
-        with(feedDetailViewModel){
+    private fun withViewModel() {
+        with(feedDetailViewModel) {
             complete()
         }
     }
 
-    private fun FeedDetailViewModel.complete(){
+    private fun FeedDetailViewModel.complete() {
         completeCommentDialogEvent.observe(viewLifecycleOwner, Observer {
             dismiss()
         })
@@ -103,7 +103,7 @@ class CommentDialogFragment :
     override fun dismiss() {
         super.dismiss()
         feedDetailViewModel.reComment.value = null
-        imm?.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0)
+        imm?.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0)
     }
 
 

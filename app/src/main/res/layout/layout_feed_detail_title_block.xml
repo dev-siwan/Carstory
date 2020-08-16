@@ -97,9 +97,23 @@
         android:layout_marginTop="@dimen/activity_small_margin"
         android:maxLines="2"
         android:text="@{feedData.title}"
-        tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라"
+        tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라" />
+
+
+    <TextView
+        android:id="@+id/tvTagList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_small_margin"
+        android:gravity="start"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/normal_text_size"
+        app:tagList="@{feedData.feedTagList}"
+        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="#태그,#태그,#태그"
+        android:visibility="@{feedData.feedTagList !=null &amp;&amp; !feedData.feedTagList.empty ? View.VISIBLE : View.GONE}"
         app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

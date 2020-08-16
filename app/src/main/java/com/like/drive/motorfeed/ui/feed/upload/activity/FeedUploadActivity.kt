@@ -28,6 +28,7 @@ import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.loading.UploadProgressDialog
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
+import com.like.drive.motorfeed.ui.feed.tag.activity.FeedTagActivity
 import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.feed.type.fragment.FeedTypeFragment
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
@@ -53,8 +54,16 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
         initView()
         withViewModel()
 
-        tvSelectMotor.setOnClickListener {
+        btnSelectMotor.setOnClickListener {
             startActForResult(SelectMotorTypeActivity::class, SelectMotorTypeActivity.REQUEST_CODE)
+        }
+
+        btnSelectTag.setOnClickListener {
+            startActForResult(FeedTagActivity::class, FeedTagActivity.TAG_ACT_REQ, Bundle().apply {
+                viewModelFeed.tagList.value?.let {
+                    putStringArrayList(FeedTagActivity.TAG_LIST_KEY, it)
+                }
+            })
         }
     }
 
@@ -276,6 +285,12 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
                         }
                 }
 
+                FeedTagActivity.TAG_ACT_REQ->{
+                    data?.getStringArrayListExtra(FeedTagActivity.TAG_LIST_KEY)?.let {
+                        viewModelFeed.setTagList(it)
+                    }
+                }
+
                 PickImageUtil.PICK_FROM_CAMERA -> {
                     loadingProgress.show()
                     lifecycleScope.launch {
@@ -344,9 +359,7 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
             }
             withContext(Dispatchers.Main) {
 
-                uploadAdapter.addItem(
-                    PhotoData().apply { this.file = it })
-
+                uploadAdapter.addItem(PhotoData().apply { this.file = it })
                 viewModelFeed.addFile(it)
 
             }

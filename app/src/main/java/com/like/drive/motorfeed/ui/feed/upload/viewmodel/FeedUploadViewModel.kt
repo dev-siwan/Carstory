@@ -34,6 +34,9 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
     private val _motorType = MutableLiveData<MotorTypeData>()
     val motorTypeData: LiveData<MotorTypeData> get() = _motorType
 
+    private val _tagList = MutableLiveData<ArrayList<String>>()
+    val tagList : LiveData<ArrayList<String>> get() = _tagList
+
     val title = MutableLiveData<String>()
     val content = MutableLiveData<String>()
 
@@ -84,13 +87,14 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
             _pickPhotoCount.value = it.imageUrls?.size
 
             _motorType.value = if (!it.brandName.isNullOrBlank()) MotorTypeData(
-                brandName = it.brandName ?: "",
+                brandName = it.brandName,
                 brandCode = it.brandCode ?: 0,
                 modelCode = it.modelCode ?: 0,
                 modelName = it.modelName ?: ""
             ) else null
 
             _feedType.value = FeedTypeItem(it.feedTypeStr ?: "", "", it.feedTypeCode ?: 0)
+            _tagList.value = it.feedTagList?.let { list-> list as ArrayList<String> }
 
             title.value = it.title
             content.value = it.content
@@ -126,7 +130,8 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
             title = this.title.value!!,
             content = this.content.value!!,
             feedType = _feedType.value!!,
-            motorTypeData = _motorType.value
+            motorTypeData = _motorType.value,
+            feedTagList = _tagList.value
         )
 
         if(isUpload.get()) updateFeed(feedField,feedData) else addFeed(feedField)
@@ -191,6 +196,8 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
     fun isPhotoLimitSize() = originFileList.size < PHOTO_MAX_SIZE
 
     fun setMotorType(motorTypeData: MotorTypeData){ _motorType.value = motorTypeData}
+
+    fun setTagList(tagList:ArrayList<String>){ _tagList.value = tagList}
 
 
     companion object{

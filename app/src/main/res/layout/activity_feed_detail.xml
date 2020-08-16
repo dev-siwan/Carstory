@@ -34,7 +34,7 @@
                 android:layout_gravity="end"
                 android:src="@drawable/ic_black_more_vert"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="@{()->vm.showFeedOtions(vm.feedData)}"
+                android:onClick="@{()->vm.showFeedOptions(vm.feedData)}"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
 
         </androidx.appcompat.widget.Toolbar>

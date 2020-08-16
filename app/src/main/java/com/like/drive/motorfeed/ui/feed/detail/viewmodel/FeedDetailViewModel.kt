@@ -64,7 +64,6 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     fun initDate(feedData: FeedData) {
         feedData.let {
             _feedData.value = it
-            _commentList.value = _commentList.value?.let { _commentList.value }?: emptyList()
         }
     }
 
@@ -141,7 +140,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     /**
      * Remote 대댓글 추가
      */
-    fun addReFeedComment(commentData: CommentData, comment: String?) {
+    private fun addReFeedComment(commentData: CommentData, comment: String?) {
 
         isProgressEvent.value = true
 
@@ -252,7 +251,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         optionsReCommentEvent.value = reCommentData
     }
 
-    fun showFeedOtions(feedData: FeedData){
+    fun showFeedOptions(feedData: FeedData){
         optionFeedEvent.value = feedData
     }
 

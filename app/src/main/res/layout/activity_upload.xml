@@ -88,11 +88,11 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <Button
-            android:id="@+id/tvSelectMotor"
+            android:id="@+id/btnSelectMotor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:drawableEnd="@drawable/ic_arrow_circle_down"
+            android:drawableEnd="@drawable/ic_arrow_right"
             android:gravity="start|center_vertical"
             android:hint="@string/select_motor"
             android:padding="@dimen/activity_horizontal_margin"
@@ -111,7 +111,34 @@
             android:background="@color/grey_6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSelectMotor" />
+            app:layout_constraintTop_toBottomOf="@id/btnSelectMotor" />
+
+
+        <Button
+            android:id="@+id/btnSelectTag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawableEnd="@drawable/ic_black_add_circle"
+            android:gravity="start|center_vertical"
+            android:hint="@string/tag_hint"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/grey_4"
+            android:textSize="@dimen/normal_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider2"
+            app:tagList="@{vm.tagList}"/>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey_6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSelectTag" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etTitle"
@@ -124,7 +151,7 @@
             android:theme="@style/PrimaryEditTextTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider2"
+            app:layout_constraintTop_toBottomOf="@id/divider3"
             tools:hint="제목을 입력해주세요." />
 
         <androidx.appcompat.widget.AppCompatEditText

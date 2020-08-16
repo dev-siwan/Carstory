@@ -70,11 +70,12 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                app:centerCropImage="@{data.imageUrls.size > 0 ? data.imageUrls.get(0) : null}"
+                app:centerCropImage="@{!data.imageUrls.empty ? data.imageUrls.get(0) : null}"
                 app:layout_constraintDimensionRatio="H,5:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:visibility="@{!data.imageUrls.empty ? View.VISIBLE :View.GONE}"
                 tools:src="@drawable/thumb_car_20200423" />
 
 

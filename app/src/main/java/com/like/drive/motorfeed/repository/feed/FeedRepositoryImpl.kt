@@ -43,7 +43,8 @@ class FeedRepositoryImpl(
             fid = documentID,
             feedUploadField = feedField,
             motorTypeData = feedField.motorTypeData,
-            imgList = photoFileList
+            imgList = photoFileList,
+            feedTagList = feedField.feedTagList
         )
 
         feedApi.setFeed(creteFeedData)
@@ -69,7 +70,8 @@ class FeedRepositoryImpl(
         val updateFeedData = FeedData().updateData(
             feedUploadField = feedField,
             motorTypeData = feedField.motorTypeData,
-            feedData = feedData
+            feedData = feedData,
+            feedTagList = feedField.feedTagList
         )
 
         feedApi.setFeed(updateFeedData)

@@ -140,6 +140,15 @@
 
     <string name="not_found_data">데이터를 찾을 수 없습니다.</string>
 
+    <string name="tag_hint">태그 추가</string>
+    <string name="tag_text">태그</string>
+    <string name="tag_edit_hint">최대 글자 8자리 입력</string>
+    <string name="add_text">추가</string>
+    <string name="tag_desc">태그는 최대 5개까지 등록 가능합니다.</string>
+    <string name="tag_equal">같은 태그값이 있습니다.</string>
+    <string name="tag_empty_desc">태그값이 없습니다.</string>
+    <string name="sharp">#</string>
+
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>
@@ -170,7 +179,6 @@
         <item>삭제하기</item>
         <item>수정하기</item>
     </string-array>
-
 
 
 </resources>
