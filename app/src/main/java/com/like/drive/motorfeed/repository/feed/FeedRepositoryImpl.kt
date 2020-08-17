@@ -88,6 +88,31 @@ class FeedRepositoryImpl(
             .collect()
     }
 
+    override suspend fun removeFeed(
+        feedData: FeedData,
+        success: (FeedData) -> Unit,
+        fail: () -> Unit
+    ) {
+
+        if (feedData.imageUrls?.isNotEmpty() == true) {
+            feedData.imageUrls.forEachIndexed { index, _ ->
+                imgApi.deleteFeedImage(feedData.fid ?: "", index).catch { fail.invoke() }.collect()
+            }
+        }
+
+            feedApi.removeFeed(feedData).zip(feedApi.removeUserFeed(feedData)) { t1, t2 ->
+                if(t1 && t2){
+                    success(feedData)
+                }else{
+                    fail.invoke()
+                }
+            }.catch {
+                fail.invoke()
+            }.collect()
+
+    }
+
+
     override suspend fun setLike(fid: String, isUp: Boolean) {
         if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(
             fid,
@@ -224,7 +249,7 @@ class FeedRepositoryImpl(
     private suspend fun imgUpload(): Flow<Int> = flow {
         photoFileList.forEachIndexed { index, photoData ->
             if (photoData.imgUrl == null) {
-                imgApi.uploadImage(documentID, photoData.file!!)
+                imgApi.uploadFeedImage(documentID, photoData.file!!,index)
                     .catch { photoFileList[index].imgUrl = null }
                     .collect {
                         photoFileList[index].imgUrl = it.toString()

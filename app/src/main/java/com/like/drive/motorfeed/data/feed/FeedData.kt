@@ -24,7 +24,7 @@ data class FeedData(
     val modelName: String? = null,
     val feedTagList:List<String>?=null,
     val imageUrls: List<String>? = null,
-    val likeCount: Int? = 0,
+    var likeCount: Int? = 0,
     val uid: String? = null,
     val nick: String? = null,
     val profileImg: String? = null,

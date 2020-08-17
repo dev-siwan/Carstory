@@ -52,6 +52,7 @@ class CommentDialogFragment :
         super.onActivityCreated(savedInstanceState)
 
         commentFragmentExtra?.run {
+
             commentData?.let {
                 if (commentUpdate == true) {
                     feedDetailViewModel.setReComment(it.commentStr)
@@ -62,8 +63,6 @@ class CommentDialogFragment :
                     feedDetailViewModel.setReComment(it.commentStr)
                 }
             }
-
-            isCancelable = true
 
             containerFragment.setOnClickListener {
                 dismiss()

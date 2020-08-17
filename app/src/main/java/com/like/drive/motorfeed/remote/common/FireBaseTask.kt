@@ -90,5 +90,9 @@ class FireBaseTask {
             }
         }
 
-
+    suspend fun deleteImage(ref: StorageReference):Flow<Boolean> =
+        flow {
+            val deleteTask = ref.delete().await()
+            emit(Tasks.forResult(deleteTask).isComplete)
+        }
 }

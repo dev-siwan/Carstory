@@ -21,7 +21,9 @@ class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewMod
     val feedItemClickEvent = SingleLiveEvent<String>()
 
     init {
-        getFeedList()
+        if(_feedList.value.isNullOrEmpty()){
+            getFeedList()
+        }
     }
 
     private fun getFeedList() {

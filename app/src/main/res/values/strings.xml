@@ -114,6 +114,7 @@
     <string name="comment_add_error_message">댓글을 다는데 실패 하였습니다.</string>
     <string name="comment_update_error_message">댓글을 수정하는데 실패 하였습니다.</string>
     <string name="comment_remove_error_message">댓글을 삭제하는데 실패 하였습니다.</string>
+    <string name="feed_remove_error_message">피드를 삭제하는데 실패 하였습니다.</string>
 
     <string name="feed_type_title_1">자유</string>
     <string name="feed_type_title_2">신차</string>

@@ -35,22 +35,24 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     val comment = MutableLiveData<String>()
     val reComment = MutableLiveData<String>()
 
-    // 코멘트 관련 이벤트
+    // 코멘트 이벤트
     val addCommentEvent = SingleLiveEvent<CommentData>()
     val removeCommentEvent = SingleLiveEvent<CommentData>()
     val updateCommentEvent = SingleLiveEvent<CommentData>()
     val optionsCommentEvent = SingleLiveEvent<CommentData>()
 
-    // 리코멘트 관련 이벤트
-
+    // 리코멘트  이벤트
     val addReCommentEvent = SingleLiveEvent<ReCommentData>()
     val removeReCommentEvent = SingleLiveEvent<ReCommentData>()
     val updateReCommentEvent = SingleLiveEvent<ReCommentData>()
     val optionsReCommentEvent = SingleLiveEvent<ReCommentData>()
 
-    // 코멘트 다이아로그 관련 이벤트
+    // 코멘트 다이아로그 이벤트
     val showCommentDialogEvent = SingleLiveEvent<CommentFragmentExtra>()
     val completeCommentDialogEvent = SingleLiveEvent<Unit>()
+
+    //피드 삭제 이벤트
+    val removeFeedEvent = SingleLiveEvent<FeedData>()
 
     val errorEvent = SingleLiveEvent<@StringRes Int>()
     val warningSelfLikeEvent = SingleLiveEvent<@StringRes Int>()
@@ -78,8 +80,19 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
                 _commentList.value =
                     if (commentWrapList.isNullOrEmpty()) emptyList() else commentWrapList
             }, fail = {
-
+                errorEvent.value = R.string.not_found_data
             })
+        }
+    }
+
+    fun removeFeedListener(){
+        isProgressEvent.value = true
+        _feedData.value?.let {
+            viewModelScope.launch {
+                feedRepository.removeFeed(it,
+                success = { removeFeedEvent.value = it },
+                fail = {  setFailProcess(R.string.feed_remove_error_message) })
+            }
         }
     }
 
@@ -273,8 +286,10 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     private fun setLikeCount(isUp: Boolean) {
         if (isUp) {
             likeCountObserver.set(likeCountObserver.get() + 1)
+            _feedData.value?.likeCount = +1
         } else {
             likeCountObserver.set(likeCountObserver.get() - 1)
+            _feedData.value?.likeCount = -1
         }
     }
 

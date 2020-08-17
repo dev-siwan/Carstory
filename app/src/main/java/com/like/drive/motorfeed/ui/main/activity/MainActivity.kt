@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.main.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -7,10 +8,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.ActivityMainBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
+import com.like.drive.motorfeed.ui.base.ext.currentNavigationFragment
 import com.like.drive.motorfeed.ui.base.ext.startAct
+import com.like.drive.motorfeed.ui.base.ext.startActForResult
+import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
+import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
-import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
@@ -56,7 +60,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun MainViewModel.moveToUploadPage(){
         uploadClickEvent.observe(this@MainActivity, Observer {
-            startAct(FeedUploadActivity::class)
+            startActForResult(FeedUploadActivity::class,UPLOAD_FEED_REQ)
         })
     }
 
@@ -65,6 +69,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             startAct(SignInActivity::class)
             finish()
         })
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (val currentFragment = supportFragmentManager.currentNavigationFragment()) {
+            is FeedListFragment-> currentFragment.onActivityResult(requestCode,resultCode,data)
+        }
+    }
+
+    companion object{
+        const val UPLOAD_FEED_REQ=1530
     }
 }
 

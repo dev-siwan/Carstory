@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.base
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +13,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.like.drive.motorfeed.MotorFeedApplication
 import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startAct
+import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.startToAct
 import kotlin.reflect.KClass
 
@@ -60,7 +63,13 @@ abstract class BaseFragment<V : ViewDataBinding>(
 
     protected fun startAct(clazz: KClass<*>, bundle: Bundle? = null) {
         startToAct(clazz, bundle) {
-            MotorFeedApplication.getContext().startAct(clazz, bundle)
+           MotorFeedApplication.getContext().startAct(clazz, bundle)
+        }
+    }
+
+    protected fun startForResult(clazz: KClass<*>, requestCode: Int, bundle: Bundle? = null) {
+        startActForResult(clazz, requestCode, bundle){
+            MotorFeedApplication.getContext().showShortToast(R.string.not_found_data)
         }
     }
 

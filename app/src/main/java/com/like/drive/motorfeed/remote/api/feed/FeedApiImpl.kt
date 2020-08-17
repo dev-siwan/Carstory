@@ -19,9 +19,7 @@ class FeedApiImpl(
     private val fireStore: FirebaseFirestore
 ) : FeedApi {
     override suspend fun setFeed(feedData: FeedData): Flow<Boolean> {
-        return fireBaseTask.setData(
-            fireStore.collection(CollectionName.FEED).document(feedData.fid ?: ""), feedData
-        )
+        return fireBaseTask.setData(fireStore.collection(CollectionName.FEED).document(feedData.fid ?: ""), feedData)
     }
 
     override suspend fun setUserFeed(uid: String, feedData: FeedData): Flow<Boolean> {
@@ -29,6 +27,16 @@ class FeedApiImpl(
             fireStore.collection(CollectionName.USER).document(uid).collection(CollectionName.FEED)
                 .document(feedData.fid ?: ""), feedData
         )
+    }
+
+    override suspend fun removeFeed(feedData: FeedData): Flow<Boolean> {
+        return fireBaseTask.delete(fireStore.collection(CollectionName.FEED).document(feedData.fid ?: ""))
+    }
+
+    override suspend fun removeUserFeed(feedData: FeedData): Flow<Boolean> {
+        return fireBaseTask.delete(
+            fireStore.collection(CollectionName.USER).document(feedData.uid?:"").collection(CollectionName.FEED)
+                .document(feedData.fid ?: ""))
     }
 
     override suspend fun getComment(fid: String): Flow<List<CommentData>> {

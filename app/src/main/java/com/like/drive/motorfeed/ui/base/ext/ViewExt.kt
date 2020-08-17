@@ -161,6 +161,21 @@ fun Fragment.startToAct(clazz: KClass<*>, bundle: Bundle? = null, attachExceptio
     }
 }
 
+fun Fragment.startActForResult(clazz: KClass<*>, requestCode: Int, bundle: Bundle? = null,attachException:(()->Unit)?=null) {
+    try {
+
+        Intent(requireContext(), clazz.java).apply {
+            bundle?.let {
+                putExtras(it)
+            }
+        }.run {
+            startActivityForResult(this,requestCode)
+        }
+    } catch (e: Exception) {
+        attachException?.invoke()
+    }
+}
+
 fun Activity.startActForResult(clazz: KClass<*>, requestCode: Int, bundle: Bundle? = null) {
     Intent(this, clazz.java).apply {
         bundle?.let {

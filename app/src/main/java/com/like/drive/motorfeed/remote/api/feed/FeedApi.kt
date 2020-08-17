@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface FeedApi{
    suspend fun setFeed(feedData: FeedData): Flow<Boolean>
    suspend fun setUserFeed(uid:String, feedData: FeedData):Flow<Boolean>
+   suspend fun removeFeed(feedData: FeedData):Flow<Boolean>
+   suspend fun removeUserFeed(feedData: FeedData):Flow<Boolean>
    suspend fun getComment(fid:String):Flow<List<CommentData>>
    suspend fun getReComment(fid:String):Flow<List<ReCommentData>>
    suspend fun getFeed(fid:String):Flow<FeedData?>

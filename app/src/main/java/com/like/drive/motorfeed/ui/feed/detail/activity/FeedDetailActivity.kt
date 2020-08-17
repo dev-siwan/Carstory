@@ -68,13 +68,14 @@ class FeedDetailActivity :
             setSnapHelper()
         }
 
-        setBackButtonToolbar(toolbar){finish()}
+        setBackButtonToolbar(toolbar){onBackPressed()}
     }
 
     private fun withViewModel() {
         with(viewModel) {
             error()
             isProgress()
+            removeFeed()
             addComment()
             removeComment()
             showCommentFragmentDialog()
@@ -150,7 +151,7 @@ class FeedDetailActivity :
         optionFeedEvent.observe(this@FeedDetailActivity, Observer { feedData->
             showOptionsList(feedData.uid,
             reportCallback = {},
-            deleteCallback = {},
+            deleteCallback = { viewModel.removeFeedListener() },
             updateCallback = {
                 startActForResult(FeedUploadActivity::class,FEED_UPLOAD_REQ_CODE,Bundle().apply { putParcelable(FeedUploadActivity.FEED_UPDATE_KEY,feedData) })
             })
@@ -184,6 +185,18 @@ class FeedDetailActivity :
         })
     }
 
+    private fun FeedDetailViewModel.removeFeed(){
+        removeFeedEvent.observe(this@FeedDetailActivity, Observer {
+            setResult(FEED_REMOVE_RES_CODE,Intent().apply {
+                putExtra(KEY_FEED_DATA,it)
+            })
+            finish()
+        })
+    }
+
+    /** 신고하기,수정,삭제
+     * 자신의 아이디가 아니면 수정,삭제 표시
+     * 아니면 신고하기 표시**/
     private fun showOptionsList(
         uid: String?,
         reportCallback: () -> Unit,
@@ -248,9 +261,20 @@ class FeedDetailActivity :
         }
     }
 
+    override fun onBackPressed() {
+        viewModel.feedData.value?.let {
+            setResult(FEED_UPLOAD_RES_CODE,Intent().apply {
+                putExtra(KEY_FEED_DATA,it)
+            })
+            finish()
+        }?:super.onBackPressed()
+    }
 
     companion object {
         const val KEY_FEED_ID = "FEED_ID"
+        const val KEY_FEED_DATA= "FEED_DATA"
         const val FEED_UPLOAD_REQ_CODE=1055
+        const val FEED_UPLOAD_RES_CODE=1056
+        const val FEED_REMOVE_RES_CODE=1057
     }
 }

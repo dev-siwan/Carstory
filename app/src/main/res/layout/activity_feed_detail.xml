@@ -36,7 +36,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{()->vm.showFeedOptions(vm.feedData)}"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
-
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.core.widget.NestedScrollView
@@ -110,6 +109,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:text="0/0" />
+
+                    <requestFocus/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -123,6 +124,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/containerDetailImg" />
+
+
 
                 <include
                     android:id="@+id/containerTitleBlock"

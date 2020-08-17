@@ -185,6 +185,9 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
                     Activity.RESULT_OK,
                     Intent().apply { putExtra(FEED_UPDATE_KEY, feedData) })
             } else {
+                setResult(Activity.RESULT_OK,Intent().apply {
+                    putExtra(FEED_CREATE_KEY, feedData)
+                })
                 startAct(FeedDetailActivity::class, Bundle().apply {
                     putParcelable(FEED_CREATE_KEY, feedData)
                 })
