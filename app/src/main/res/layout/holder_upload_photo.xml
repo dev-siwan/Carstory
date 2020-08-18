@@ -18,7 +18,6 @@
         android:background="@drawable/rect_stork_grey_6_conner"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:onClick="@{()->vm.onClickPhotoItem(item)}">
-
         <ImageView
             android:id="@+id/ivPhoto"
             android:layout_width="80dp"
@@ -28,16 +27,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:uploadPhoto="@{item}" />
-
-        <ImageView
-            android:id="@+id/ivSetting"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_black_setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/oval_solid_alpha_50_white_size_36"
-            android:padding="@dimen/activity_x_small_margin"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

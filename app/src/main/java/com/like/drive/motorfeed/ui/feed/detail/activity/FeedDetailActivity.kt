@@ -11,17 +11,16 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.enum.OptionsSelectType
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.databinding.ActivityFeedDetailBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
-import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
-import com.like.drive.motorfeed.ui.base.ext.showListDialog
-import com.like.drive.motorfeed.ui.base.ext.showShortToast
-import com.like.drive.motorfeed.ui.base.ext.startActForResult
+import com.like.drive.motorfeed.ui.base.ext.*
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
 import com.like.drive.motorfeed.ui.feed.detail.fragment.CommentDialogFragment
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
+import com.like.drive.motorfeed.ui.view.large.activity.LargeThanActivity
 import kotlinx.android.synthetic.main.activity_feed_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,6 +32,7 @@ class FeedDetailActivity :
     private val viewModel: FeedDetailViewModel by viewModel()
 
     private val commentAdapter by lazy { CommentAdapter(viewModel) }
+    private val detailImgAdapter by lazy { DetailImgAdapter(viewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class FeedDetailActivity :
     override fun onBinding(dataBinding: ActivityFeedDetailBinding) {
         super.onBinding(dataBinding)
         dataBinding.vm = viewModel
-        dataBinding.rvImg.adapter = DetailImgAdapter()
+        dataBinding.rvImg.adapter = detailImgAdapter
         dataBinding.rvComment.adapter = commentAdapter
 
     }
@@ -74,6 +74,7 @@ class FeedDetailActivity :
     private fun withViewModel() {
         with(viewModel) {
             error()
+            imgClick()
             isProgress()
             removeFeed()
             addComment()
@@ -194,6 +195,27 @@ class FeedDetailActivity :
         })
     }
 
+    /**
+     *  이미지 클릭 이벤트
+     */
+    private fun FeedDetailViewModel.imgClick(){
+        imgUrlClickEvent.observe(this@FeedDetailActivity, Observer {
+            startAct(LargeThanActivity::class, Bundle().apply {
+
+                val list = detailImgAdapter.currentList.map { PhotoData(null,it) } as ArrayList
+
+                putParcelableArrayList(
+                    LargeThanActivity.KEY_PHOTO_DATA_ARRAY,
+                    list
+                )
+                putInt(
+                    LargeThanActivity.KEY_PHOTO_DATA_ARRAY_POSITION,
+                    detailImgAdapter.currentList.indexOf(it)
+                )
+            })
+        })
+    }
+
     /** 신고하기,수정,삭제
      * 자신의 아이디가 아니면 수정,삭제 표시
      * 아니면 신고하기 표시**/
@@ -205,11 +227,11 @@ class FeedDetailActivity :
     ) {
         val list = uid?.let {
             if (uid == UserInfo.userInfo?.uid ?: "") {
-              OptionsSelectType.values().drop(1).map { getString(it.resID) }.toTypedArray()
+                OptionsSelectType.values().drop(1).map { getString(it.resID) }.toTypedArray()
             } else {
                 OptionsSelectType.values().dropLast(2).map { getString(it.resID) }.toTypedArray()
             }
-        } ?:OptionsSelectType.values().dropLast(2).map { getString(it.resID) }.toTypedArray()
+        } ?: OptionsSelectType.values().dropLast(2).map { getString(it.resID) }.toTypedArray()
 
         showListDialog(list, "") {
             when (list[it]) {

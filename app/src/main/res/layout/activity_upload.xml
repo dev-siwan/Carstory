@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel" />
@@ -186,7 +188,10 @@
             app:layout_constraintStart_toStartOf="@id/glStart"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless">
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="@dimen/activity_small_margin"
+            app:layout_constraintEnd_toStartOf="@id/rvPhotos"
+            android:visibility="@{vm.isUpload ? View.GONE : View.VISIBLE}">
 
 
             <ImageView
@@ -216,7 +221,6 @@
             android:id="@+id/rvPhotos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_small_margin"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="@id/ibAddButton"

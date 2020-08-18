@@ -35,7 +35,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
     val motorTypeData: LiveData<MotorTypeData> get() = _motorType
 
     private val _tagList = MutableLiveData<ArrayList<String>>()
-    val tagList : LiveData<ArrayList<String>> get() = _tagList
+    val tagList: LiveData<ArrayList<String>> get() = _tagList
 
     val title = MutableLiveData<String>()
     val content = MutableLiveData<String>()
@@ -71,7 +71,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
     }
 
     val isUpload = ObservableBoolean(false)
-    private var feedData :FeedData?=null
+    private var feedData: FeedData? = null
 
     /**
      * 초기 리스트 구성

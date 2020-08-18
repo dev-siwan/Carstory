@@ -63,6 +63,8 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
     val isProgressEvent = SingleLiveEvent<Boolean>()
 
+    val imgUrlClickEvent = SingleLiveEvent<String>()
+
     fun initDate(feedData: FeedData) {
         feedData.let {
             _feedData.value = it
@@ -282,6 +284,11 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         }
 
     }
+
+    fun setDetailImgClickListener(url:String){
+        imgUrlClickEvent.value = url
+    }
+
 
     private fun setLikeCount(isUp: Boolean) {
         if (isUp) {

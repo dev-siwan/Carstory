@@ -13,7 +13,7 @@ import com.like.drive.motorfeed.data.photo.PhotoData
 fun RecyclerView.setRegPhotoItems(data: List<PhotoData>?) {
     data?.let {
         (adapter as? FeedUploadPhotoAdapter)?.run {
-            this.photoList = data.toMutableList()
+            this.photoList = data as ArrayList<PhotoData>
             notifyDataSetChanged()
         }
     }

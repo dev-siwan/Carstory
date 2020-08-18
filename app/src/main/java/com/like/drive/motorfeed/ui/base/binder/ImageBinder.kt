@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
+import com.github.chrisbanes.photoview.PhotoView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 import com.like.drive.motorfeed.data.photo.PhotoData
@@ -30,24 +31,36 @@ fun ImageView.setLoadImage(imageUrl: String?) {
 }*/
 
 @BindingAdapter("fitLoadImage")
-fun ImageView.fitLoadImage(imageUrl: String?) {
-    Glide.with(context)
-        .load(imageUrl)
-        .apply(RequestOptions().fitCenter())
-        .into(this)
+fun ImageView.fitLoadImage(photoData: PhotoData?) {
+    photoData?.let {
+        Glide.with(context)
+            .load(it.file ?: it.imgUrl)
+            .transition(withCrossFade())
+            .apply(RequestOptions().fitCenter())
+            .into(this)
+    }
 }
+
+@BindingAdapter("fitLoadPhotoView")
+fun PhotoView.fitLoadImage(photoData: PhotoData?) {
+    photoData?.let {
+        Glide.with(context)
+            .load(it.file ?: it.imgUrl)
+            .transition(withCrossFade())
+            .apply(RequestOptions().fitCenter())
+            .into(this)
+    }
+}
+
 
 @BindingAdapter("centerCropImage")
 fun ImageView.centerCrop(imageUrl: String?) {
-
-/*    val glideOption: RequestOptions = RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .skipMemoryCache(true).centerCrop()*/
-
-    Glide.with(context)
-        .load(imageUrl)
-        .centerCrop()
-        .into(this)
+    imageUrl?.let {
+        Glide.with(context)
+            .load(it)
+            .centerCrop()
+            .into(this)
+    }
 }
 
 @BindingAdapter("uri")
@@ -65,8 +78,6 @@ fun ImageView.setUri(uri: Uri?) {
         .override(size)
         .into(this)
 }
-
-
 
 @BindingAdapter("uploadPhoto")
 fun ImageView.setPhotoData(photoData: PhotoData?) {

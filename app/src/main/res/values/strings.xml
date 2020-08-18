@@ -150,6 +150,12 @@
     <string name="tag_empty_desc">태그값이 없습니다.</string>
     <string name="sharp">#</string>
 
+    <string name="camera_text">카메라</string>
+    <string name="gallery_text">앨범</string>
+
+    <string name="photo_menu_show">크게보기</string>
+    <string name="photo_menu_delete">삭제하기</string>
+
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>
@@ -167,18 +173,6 @@
         <item>세차</item>
         <item>사고</item>
         <item>교통</item>
-    </string-array>
-
-
-    <string-array name="pick_comment_options">
-        <item>신고하기</item>
-        <item>삭제하기</item>
-    </string-array>
-
-    <string-array name="pick_feed_options">
-        <item>신고하기</item>
-        <item>삭제하기</item>
-        <item>수정하기</item>
     </string-array>
 
 

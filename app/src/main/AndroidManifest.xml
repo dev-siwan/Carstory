@@ -17,14 +17,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.feed.tag.activity.FeedTagActivity"
+        <activity android:name=".ui.view.large.activity.LargeThanActivity"></activity>
+        <activity
+            android:name=".ui.feed.tag.activity.FeedTagActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-
-        <activity android:name=".ui.feed.comment.activity.FeedCommentActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".ui.feed.comment.activity.FeedCommentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".ui.profile.activity.ProfileActivity"
             android:screenOrientation="portrait"
@@ -32,7 +33,7 @@
         <activity
             android:name=".ui.feed.detail.activity.FeedDetailActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".ui.gallery.activity.GalleryActivity"
             android:screenOrientation="portrait"

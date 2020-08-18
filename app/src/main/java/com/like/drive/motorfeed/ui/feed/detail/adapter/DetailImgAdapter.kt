@@ -4,8 +4,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.like.drive.motorfeed.ui.feed.detail.holder.FeedDetailPhotoHolder
+import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 
-class DetailImgAdapter: ListAdapter<String, FeedDetailPhotoHolder>(
+class DetailImgAdapter(val vm :FeedDetailViewModel): ListAdapter<String, FeedDetailPhotoHolder>(
     object : DiffUtil.ItemCallback<String>() {
         override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
@@ -20,7 +21,7 @@ class DetailImgAdapter: ListAdapter<String, FeedDetailPhotoHolder>(
         FeedDetailPhotoHolder.from(parent)
 
     override fun onBindViewHolder(holder: FeedDetailPhotoHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(vm,getItem(position))
     }
 }
 

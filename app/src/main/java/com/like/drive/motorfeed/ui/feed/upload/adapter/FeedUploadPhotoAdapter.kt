@@ -7,10 +7,10 @@ import com.like.drive.motorfeed.ui.feed.upload.holder.FeedUploadPhotoHolder
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 
 
-class FeedUploadPhotoAdapter(val viewModelFeed: FeedUploadViewModel) :
+class FeedUploadPhotoAdapter(private val viewModelFeed: FeedUploadViewModel) :
     RecyclerView.Adapter<FeedUploadPhotoHolder>() {
 
-    var photoList = mutableListOf<PhotoData>()
+    var photoList = arrayListOf<PhotoData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedUploadPhotoHolder {
         return FeedUploadPhotoHolder.from(parent)

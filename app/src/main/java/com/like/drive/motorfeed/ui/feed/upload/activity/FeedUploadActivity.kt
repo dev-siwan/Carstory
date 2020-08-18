@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.common.enum.PhotoMenuType
 import com.like.drive.motorfeed.common.enum.PhotoSelectType
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
@@ -32,6 +33,7 @@ import com.like.drive.motorfeed.ui.feed.tag.activity.FeedTagActivity
 import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.feed.type.fragment.FeedTypeFragment
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
+import com.like.drive.motorfeed.ui.view.large.activity.LargeThanActivity
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_upload.*
 import kotlinx.coroutines.Dispatchers
@@ -129,12 +131,12 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
 
     private fun showSelectPhotoList() {
         showListDialog(
-            resources.getStringArray(R.array.empty_photo_type_array),
+           PhotoSelectType.values().map { getString(it.resID) }.toTypedArray(),
             getString(R.string.select_photo)
         ) { position ->
             when (position) {
                 PhotoSelectType.CAMERA.ordinal -> showCamera()
-                PhotoSelectType.ALBUM.ordinal -> checkStoragePermission()
+                PhotoSelectType.ALBUM.ordinal ->  checkStoragePermission()
             }
         }
     }
@@ -143,21 +145,41 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
     /**
      * 포토 아이템을 눌렸을 경우 메뉴 뜸
      * 1.삭제 2.크게보기
+     * 업데이트 일 경우 크게보기만 가능함
      */
 
     private fun FeedUploadViewModel.photoItemClick() {
         photoItemClickEvent.observe(this@FeedUploadActivity, Observer {
+
+            val photoMenuList =
+                if (isUpload.get()) PhotoMenuType.values().dropLast(1).map { getString(it.resID) }
+                    .toTypedArray()
+                else PhotoMenuType.values().map { getString(it.resID) }.toTypedArray()
+
             showListDialog(
-                resources.getStringArray(R.array.pick_photo_menu),
+                photoMenuList,
                 getString(R.string.select_photo)
             ) { position ->
-                when (position) {
-                    0 -> {
+                when (photoMenuList[position]) {
+                    getString(PhotoMenuType.DELETE.resID) -> {
                         removeItem(it)
+                    }
+                    getString(PhotoMenuType.SHOW.resID) -> {
+                        startAct(LargeThanActivity::class, Bundle().apply {
+                            putParcelableArrayList(
+                                LargeThanActivity.KEY_PHOTO_DATA_ARRAY,
+                                uploadAdapter.photoList
+                            )
+                            putInt(
+                                LargeThanActivity.KEY_PHOTO_DATA_ARRAY_POSITION,
+                                uploadAdapter.photoList.indexOf(it)
+                            )
+                        })
                     }
                 }
             }
         })
+
     }
 
     /**
