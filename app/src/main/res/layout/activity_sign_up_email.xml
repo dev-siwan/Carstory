@@ -109,8 +109,7 @@
             android:paddingBottom="@dimen/activity_horizontal_margin"
             android:text="@string/sign_up_text"
             android:textColor="@color/btn_text_enable_color"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:textSize="@dimen/small_text_size"
             android:layout_marginTop="@dimen/activity_vertical_x_margin"
             android:stateListAnimator="@null"
             app:layout_constraintTop_toBottomOf="@id/incPasswordValidEditText"
@@ -131,6 +130,7 @@
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@id/btnSignIn"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             tools:text="@string/sign_up_desc" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

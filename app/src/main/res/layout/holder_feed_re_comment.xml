@@ -17,21 +17,21 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey_7">
+        android:background="@color/light_gery_3">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="15dp" />
+            app:layout_constraintGuide_begin="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glEnd"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="15dp" />
+            app:layout_constraintGuide_end="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glTop"

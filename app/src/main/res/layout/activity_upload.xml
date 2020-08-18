@@ -55,7 +55,7 @@
                 android:text="@{vm.feedTypeData !=null? vm.feedTypeData.title : @string/feed_register}"
                 android:gravity="center_vertical"
                 android:drawablePadding="@dimen/activity_x_small_margin"
-                android:drawableEnd="@drawable/ic_arrow_circle_down"
+                android:drawableEnd="@drawable/ic_black_down"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 android:textStyle="bold"
@@ -169,29 +169,46 @@
             android:text="@={vm.content}"
             android:textColorHint="@color/grey_4"
             android:textSize="@dimen/normal_text_size"
-            app:layout_constraintBottom_toTopOf="@id/ibAddButton"
+            app:layout_constraintBottom_toTopOf="@id/tvPhotoDesc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etTitle"
             tools:hint="내용을 입력해주세요." />
+
+        <TextView
+            android:id="@+id/tvPhotoDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
+            android:text="@{vm.isUpdate ? @string/update_photo_desc : @string/not_update_photo_desc}"
+            app:layout_constraintTop_toBottomOf="@id/tvContent"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintBottom_toTopOf="@id/rvPhotos"
+            tools:text="@string/update_photo_desc"
+            android:visibility="@{(vm.isUpdate &amp;&amp; !vm.photoListData.empty) || (!vm.isUpdate &amp;&amp; vm.pickPhotoCount>0) ? View.VISIBLE : View.GONE}"
+            android:layout_marginBottom="@dimen/activity_x_small_margin"/>
+
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ibAddButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginEnd="@dimen/activity_small_margin"
             android:background="@drawable/rect_stork_grey_6_conner"
+            android:clickable="true"
             android:contentDescription="@string/todo"
             android:drawableTop="@drawable/ic_camera"
-            android:onClick="@{()->vm.doClickEvent(vm.selectPhotoClickEvent)}"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="@dimen/activity_small_margin"
+            android:onClick="@{()->vm.doClickEvent(vm.selectPhotoClickEvent)}"
+            android:visibility="@{vm.isUpdate ? View.GONE : View.VISIBLE}"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintTop_toBottomOf="@id/tvPhotoDesc"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toStartOf="@id/rvPhotos"
-            android:visibility="@{vm.isUpload ? View.GONE : View.VISIBLE}">
+            app:layout_constraintStart_toStartOf="@id/glStart">
 
 
             <ImageView
@@ -223,9 +240,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@id/ibAddButton"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toEndOf="@id/ibAddButton"
+            app:layout_constraintTop_toBottomOf="@id/tvPhotoDesc"
+            app:layout_constraintVertical_bias="1"
             app:uploadPhotoItems="@{vm.photoListData}"
             tools:listitem="@layout/holder_upload_photo" />
 

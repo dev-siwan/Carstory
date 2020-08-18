@@ -164,7 +164,8 @@
             app:layout_constraintTop_toBottomOf="@id/viewDivider2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:motorTypeList="@{vm.motorTypeList}"
-            android:visibility="@{vm.isSearchEmpty() ? View.GONE : View.VISIBLE}"/>
+            android:visibility="@{vm.isSearchEmpty() ? View.GONE : View.VISIBLE}"
+            tools:listitem="@layout/holder_select_motor_type_item"/>
 
 
         <TextView

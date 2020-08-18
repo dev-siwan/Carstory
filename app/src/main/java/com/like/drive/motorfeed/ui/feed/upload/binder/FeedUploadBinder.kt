@@ -18,11 +18,12 @@ fun RecyclerView.setRegPhotoItems(data: List<PhotoData>?) {
         }
     }
 }
+
 @BindingAdapter("formatMotorTypeData")
 fun TextView.setMotorType(data:MotorTypeData?){
     data?.let {
         text = if (it.modelCode == 0) {
-            String.format(context.getString(R.string.motorType_brand_all_format_text),it.brandName)
+            it.brandName
         }else{
             String.format(context.getString(R.string.motorType_format_text),it.brandName,it.modelName)
         }

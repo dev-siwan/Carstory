@@ -15,13 +15,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white_100">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/white_100"
+
             android:minHeight="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,8 +163,6 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@id/glStart"
                     app:layout_constraintTop_toBottomOf="@id/divide2"
-                    android:padding="@dimen/activity_x_small_margin"
-                    android:background="@drawable/rect_solid_light_3_conner"
                     tools:text="@string/feed_detail_content_tools_text" />
 
 

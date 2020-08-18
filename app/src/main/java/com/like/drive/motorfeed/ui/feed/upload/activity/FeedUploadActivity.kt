@@ -152,7 +152,7 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
         photoItemClickEvent.observe(this@FeedUploadActivity, Observer {
 
             val photoMenuList =
-                if (isUpload.get()) PhotoMenuType.values().dropLast(1).map { getString(it.resID) }
+                if (isUpdate.get()) PhotoMenuType.values().dropLast(1).map { getString(it.resID) }
                     .toTypedArray()
                 else PhotoMenuType.values().map { getString(it.resID) }.toTypedArray()
 
@@ -202,7 +202,7 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
      */
     private fun FeedUploadViewModel.uploadComplete() {
         completeEvent.observe(this@FeedUploadActivity, Observer { feedData ->
-            if (isUpload.get()) {
+            if (isUpdate.get()) {
                 setResult(
                     Activity.RESULT_OK,
                     Intent().apply { putExtra(FEED_UPDATE_KEY, feedData) })

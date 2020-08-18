@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="feedData"
             type="com.like.drive.motorfeed.data.feed.FeedData" />
         <import type="android.view.View"/>
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white_100">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glStart"
@@ -38,7 +40,7 @@
         android:id="@+id/tvFeedType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rect_solid_grey_7_conner"
+        android:background="@drawable/rect_solid_light_3_conner"
         android:padding="@dimen/activity_x_small_margin"
         android:text="@{feedData.feedTypeStr}"
         android:textColor="@color/grey_3"
@@ -55,7 +57,7 @@
         android:id="@+id/tvMotorType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rect_solid_grey_7_conner"
+        android:background="@drawable/rect_solid_light_3_conner"
         android:padding="@dimen/activity_x_small_margin"
         android:textColor="@color/grey_3"
         android:textSize="@dimen/small_text_size"

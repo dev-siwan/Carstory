@@ -70,7 +70,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
         }
     }
 
-    val isUpload = ObservableBoolean(false)
+    val isUpdate = ObservableBoolean(false)
     private var feedData: FeedData? = null
 
     /**
@@ -99,7 +99,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
             title.value = it.title
             content.value = it.content
 
-            isUpload.set(true)
+            isUpdate.set(true)
         }
     }
 
@@ -134,7 +134,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
             feedTagList = _tagList.value
         )
 
-        if(isUpload.get()) updateFeed(feedField,feedData) else addFeed(feedField)
+        if(isUpdate.get()) updateFeed(feedField,feedData) else addFeed(feedField)
     }
 
     /*
