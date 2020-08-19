@@ -3,15 +3,11 @@ package com.like.drive.motorfeed.ui.feed.type.fragment
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.FragmentFeedTypeBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
 import com.like.drive.motorfeed.ui.feed.type.adapter.FeedTypeAdapter
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeItem
 import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 import kotlinx.android.synthetic.main.fragment_feed_type.*

@@ -293,14 +293,14 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     private fun setLikeCount(isUp: Boolean) {
         if (isUp) {
             likeCountObserver.set(likeCountObserver.get() + 1)
-            _feedData.value?.likeCount = +1
+            _feedData.value?.likeCount?.plus(1)
         } else {
             likeCountObserver.set(likeCountObserver.get() - 1)
-            _feedData.value?.likeCount = -1
+            _feedData.value?.likeCount?.minus(1)
         }
     }
 
-    fun setReComment(str:String?){
+    fun setReComment(str: String?) {
         reComment.value = str
     }
 

@@ -11,7 +11,7 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.data.photo.PhotoData
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeItem
+import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.launch
 import java.io.File
@@ -48,8 +48,8 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
     private val _uploadPhotoCount = MutableLiveData(0)
     val uploadPhotoCount: LiveData<Int> get() = _uploadPhotoCount
 
-    private val _feedType = MutableLiveData<FeedTypeItem>()
-    val feedTypeData: LiveData<FeedTypeItem> get() = _feedType
+    private val _feedType = MutableLiveData<FeedTypeData>()
+    val feedTypeData: LiveData<FeedTypeData> get() = _feedType
 
     val completeEvent = SingleLiveEvent<FeedData>()
     val errorEvent = SingleLiveEvent<@StringRes Int>()
@@ -93,7 +93,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
                 modelName = it.modelName ?: ""
             ) else null
 
-            _feedType.value = FeedTypeItem(it.feedTypeStr ?: "", "", it.feedTypeCode ?: 0)
+            _feedType.value = FeedTypeData(it.feedTypeStr ?: "", "", it.feedTypeCode ?: 0)
             _tagList.value = it.feedTagList?.let { list-> list as ArrayList<String> }
 
             title.value = it.title
@@ -183,12 +183,12 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
         }?:errorEvent.call()
     }
 
-    fun setFeedTypeItem(feedItemType: FeedTypeItem?){
+    fun setFeedTypeItem(feedItemType: FeedTypeData?){
         _feedType.value =feedItemType
         closeFeedItemPage.call()
     }
 
-    private fun isResultFieldValue(title:String?,content:String?,feedItemType:FeedTypeItem?) =
+    private fun isResultFieldValue(title:String?,content:String?,feedItemType:FeedTypeData?) =
         !title.isNullOrBlank() && !content.isNullOrBlank() && feedItemType!=null
 
     private fun setPhotoSize(){ _pickPhotoCount.postValue(originFileList.size) }

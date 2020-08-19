@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.databinding.HolderFeedTypeItemBinding
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeItem
+import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 
 class FeedTypeItemHolder (val binding: HolderFeedTypeItemBinding):
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(vm:FeedUploadViewModel,item: FeedTypeItem) {
-        binding.item = item
+    fun bind(vm:FeedUploadViewModel, data: FeedTypeData) {
+        binding.item = data
         binding.vm = vm
         binding.executePendingBindings()
     }
