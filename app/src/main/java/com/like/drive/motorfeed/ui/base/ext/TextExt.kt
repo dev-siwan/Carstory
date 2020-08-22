@@ -1,5 +1,11 @@
 package com.like.drive.motorfeed.ui.base.ext
 
+import android.text.Html
+import android.widget.TextView
+import com.like.drive.motorfeed.MotorFeedApplication
+import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.data.motor.MotorTypeData
+
 //이름
 fun String.isUserName(): Boolean {
     val regex = Regex("^.{2,100}\$")
@@ -69,3 +75,11 @@ fun String.isIncludeBadKeyword(): List<String>{
 fun String.isPasswordValid(password: String): Boolean {
     return this == password
 }
+
+fun htmlFormat(text: String?):String {
+    return text?.let {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) Html.fromHtml(it)
+        else Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY)
+    }.toString()
+}
+

@@ -159,6 +159,12 @@
     <string name="update_photo_desc">피드를 수정 할 때는 이미지를 수정 할 수 없습니다.\n해당 이미지를 선택하면 크게 볼 수 있습니다.</string>
     <string name="not_update_photo_desc">해당 이미지를 선택하면 삭제 또는 크게 볼 수 있습니다.</string>
 
+
+    <string name="filter_feed_type_desc"><![CDATA[<font color="#8f8f8f">피드 종류를 선택해주세요.</font><br /><br />%s]]></string>
+    <string name="filter_motor_type_desc"><![CDATA[<font color="#8f8f8f">자동차 종류를 선택해주세요.</font><br /><br />%s]]></string>
+    <string name="not_select">선택없음</string>
+    <string name="feed_filter_title">필터 설정</string>
+    <string name="setting_complete">적용하기</string>
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>

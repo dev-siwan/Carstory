@@ -8,8 +8,10 @@ import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_COMMENT
 import com.google.firebase.firestore.FieldValue
 import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_RE_COMMENT
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
+import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 import kotlin.Any as Any1
@@ -56,9 +58,42 @@ class FeedApiImpl(
         return fireBaseTask.getData(document, FeedData::class.java)
     }
 
-    override suspend fun getFeedList(brandCode: Int?, modelCode: Int?): Flow<List<FeedData>> {
+    override suspend fun getFeedList(motorTypeData: MotorTypeData?,feedTypeData: FeedTypeData?): Flow<List<FeedData>> {
         val feedCollection = fireStore.collection(CollectionName.FEED)
-        return fireBaseTask.getData(feedCollection, FeedData::class.java)
+
+        val query = when {
+            motorTypeData != null && feedTypeData == null -> {
+                if (motorTypeData.modelCode == 0) {
+                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                } else {
+                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                        .whereEqualTo(
+                            MODE_CODE_FIELD, motorTypeData.modelCode
+                        )
+                }
+            }
+
+            feedTypeData != null && motorTypeData == null -> {
+                feedCollection.whereEqualTo(FEED_TYPE_CODE_FIELD, feedTypeData.typeCode)
+            }
+
+            motorTypeData != null && feedTypeData != null -> {
+                if (motorTypeData.modelCode == 0) {
+                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                        .whereEqualTo(FEED_TYPE_CODE_FIELD, feedTypeData.typeCode)
+                } else {
+                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                        .whereEqualTo(
+                            MODE_CODE_FIELD, motorTypeData.modelCode
+                        ).whereEqualTo(FEED_TYPE_CODE_FIELD, feedTypeData.typeCode)
+                }
+            }
+            else -> {
+                feedCollection
+            }
+        }
+
+        return fireBaseTask.getData(query, FeedData::class.java)
     }
 
     override suspend fun addComment(commentData: CommentData): Flow<Boolean> {
@@ -138,8 +173,9 @@ class FeedApiImpl(
         const val COMMENT_COUNT_FIELD = "commentCount"
         const val LIKE_COUNT_FIELD = "likeCount"
         const val VIEW_COUNT_FIELD = "viewCount"
-        const val COMMENT_FIELD = "commentStr"
-        const val UPDATE_DATE_FIELD="updateDate"
+        const val BRAND_CODE_FIELD="brandCode"
+        const val MODE_CODE_FIELD="modelCode"
+        const val FEED_TYPE_CODE_FIELD="feedTypeCode"
     }
 
 }

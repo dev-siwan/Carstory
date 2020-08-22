@@ -195,7 +195,13 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
 
     fun isPhotoLimitSize() = originFileList.size < PHOTO_MAX_SIZE
 
-    fun setMotorType(motorTypeData: MotorTypeData){ _motorType.value = motorTypeData}
+    fun setMotorType(motorTypeData: MotorTypeData) {
+        if (motorTypeData.brandCode == 0) {
+            _motorType.value = null
+            return
+        }
+        _motorType.value = motorTypeData
+    }
 
     fun setTagList(tagList:ArrayList<String>){ _tagList.value = tagList}
 

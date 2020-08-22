@@ -18,7 +18,6 @@ class FeedTypeFragment : BaseFragmentDialog<FragmentFeedTypeBinding>(R.layout.fr
     private val viewModel: FeedUploadViewModel by sharedViewModel()
     val list by lazy { getFeedTypeList(requireContext()) }
 
-
     override fun onStart() {
         super.onStart()
         dialog?.window?.run {
@@ -32,13 +31,9 @@ class FeedTypeFragment : BaseFragmentDialog<FragmentFeedTypeBinding>(R.layout.fr
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        isCancelable = true
-
         containerFragment.setOnClickListener {
             dismiss()
         }
-
     }
 
 

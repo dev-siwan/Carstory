@@ -8,7 +8,7 @@ import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 
 class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<FeedListViewHolder>() {
 
-    var feedList = mutableListOf<FeedData>().apply {
+    val feedList = mutableListOf<FeedData>().apply {
         sortByDescending { it.updateDate }
     }
 
@@ -21,6 +21,14 @@ class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<FeedList
         holder.bind(vm, feedList[position])
     }
 
+    fun initList(feedList: List<FeedData>){
+        this.feedList.run {
+            clear()
+            addAll(feedList)
+            notifyDataSetChanged()
+        }
+
+    }
     fun addAll(feedList: List<FeedData>) {
         this.feedList.addAll(feedList)
         notifyDataSetChanged()

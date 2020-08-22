@@ -5,11 +5,13 @@ import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.CommentWrapData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.api.feed.FeedApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
+import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.*
 
@@ -148,8 +150,8 @@ class FeedRepositoryImpl(
             }.collect()
     }
 
-    override suspend fun getFeedList(brandCode: Int?, modelCode: Int?): Flow<List<FeedData>> {
-        return feedApi.getFeedList(brandCode, modelCode)
+    override suspend fun getFeedList(motorTypeData: MotorTypeData?,feedTypeData: FeedTypeData?): Flow<List<FeedData>> {
+        return feedApi.getFeedList(motorTypeData, feedTypeData)
     }
 
     override suspend fun addComment(

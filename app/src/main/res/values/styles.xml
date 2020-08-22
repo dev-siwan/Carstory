@@ -22,4 +22,9 @@
         <item name="android:textSize">@dimen/x_large_text_size</item>
     </style>
 
+    <style name="AnimationFilterStyle">
+        <item name="android:windowEnterAnimation">@anim/filter_open</item>
+        <item name="android:windowExitAnimation">@anim/filter_close</item>
+    </style>
+
 </resources>

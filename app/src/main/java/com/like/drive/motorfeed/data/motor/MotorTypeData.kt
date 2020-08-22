@@ -24,6 +24,7 @@ data class MotorTypeData(
 
 class MotorTypeList{
     val motorTypeList = mutableListOf(
+        MotorTypeData("없음", 0, "없음", 0),
         MotorTypeData("현대", 1, "전체", 0),
         MotorTypeData("현대", 1, "그랜저", 1),
         MotorTypeData("현대", 1, "쏘나타", 2),

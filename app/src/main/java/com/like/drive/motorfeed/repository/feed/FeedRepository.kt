@@ -4,7 +4,9 @@ import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.CommentWrapData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.Flow
 
@@ -40,7 +42,7 @@ interface FeedRepository {
         fail: () -> Unit
     )
 
-    suspend fun getFeedList(brandCode: Int? = null, modelCode: Int? = null): Flow<List<FeedData>>
+    suspend fun getFeedList(motorTypeData: MotorTypeData? = null ,feedTypeData: FeedTypeData?=null): Flow<List<FeedData>>
 
     suspend fun addComment(
         fid: String,
