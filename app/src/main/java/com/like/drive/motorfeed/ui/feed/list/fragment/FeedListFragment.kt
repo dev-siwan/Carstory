@@ -8,21 +8,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
-import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.FragmentFeedListBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
-import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
-import com.like.drive.motorfeed.ui.feed.list.dialog.FeedListFilterDialog
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
-import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
-import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import kotlinx.android.synthetic.main.fragment_feed_list.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -30,7 +23,7 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
 
     private val viewModel: FeedListViewModel by viewModel()
     private val feedListAdapter by lazy { FeedListAdapter(viewModel) }
-    private val filterDialog by lazy { FeedListFilterDialog }
+
 
     override fun onBind(dataBinding: FragmentFeedListBinding) {
         super.onBind(dataBinding)
@@ -69,14 +62,13 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
     private fun withViewModel() {
         with(viewModel) {
             pageToDetailAct()
-            showFilter()
-            feedList()
+            completeFeedList()
         }
 
     }
 
-    private fun FeedListViewModel.feedList() {
-        feedList.observe(viewLifecycleOwner, Observer {
+    private fun FeedListViewModel.completeFeedList() {
+        feedListLiveData.observe(viewLifecycleOwner, Observer {
             feedListAdapter.initList(it)
         })
     }
@@ -86,17 +78,6 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
             startForResult(FeedDetailActivity::class, FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
                 putString(FeedDetailActivity.KEY_FEED_ID, it)
             })
-        })
-    }
-
-    private fun FeedListViewModel.showFilter() {
-        filterClickEvent.observe(viewLifecycleOwner, Observer {
-            filterDialog.newInstance().apply {
-                setFilter = { feedType, motorType ->
-                    viewModel.setFilter(feedType, motorType)
-                    dismiss()
-                }
-            }.show(requireActivity().supportFragmentManager, "")
         })
     }
 

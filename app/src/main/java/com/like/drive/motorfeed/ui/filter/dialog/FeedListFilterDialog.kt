@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.feed.list.dialog
+package com.like.drive.motorfeed.ui.filter.dialog
 
 import android.app.Activity
 import android.content.Intent
@@ -14,17 +14,29 @@ import com.like.drive.motorfeed.databinding.DialogFeedListFilterBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
-import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
+import com.like.drive.motorfeed.ui.filter.viewmodel.FilterViewModel
 import kotlinx.android.synthetic.main.dialog_feed_list_filter.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+const val FEED_TYPE="feed_type"
+const val MOTOR_TYPE="motor_type"
 
 class FeedListFilterDialog : BaseFragmentDialog<DialogFeedListFilterBinding>(R.layout.dialog_feed_list_filter) {
 
-    val viewModel:FeedListViewModel by sharedViewModel()
+    val viewModel: FilterViewModel by viewModel()
     var setFilter:((FeedTypeData?,MotorTypeData?)->Unit)?=null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            viewModel.feedType.value =it.getParcelable(FEED_TYPE)
+            viewModel.motorType.value = it.getParcelable(MOTOR_TYPE)
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -40,7 +52,7 @@ class FeedListFilterDialog : BaseFragmentDialog<DialogFeedListFilterBinding>(R.l
     override fun onBind(dataBinding: DialogFeedListFilterBinding) {
         super.onBind(dataBinding)
         dataBinding.vm = viewModel
-        setFeedType( viewModel.feedType.value)
+        setFeedType(viewModel.feedType.value)
         setMotorType(viewModel.motorType.value)
     }
 
@@ -61,6 +73,7 @@ class FeedListFilterDialog : BaseFragmentDialog<DialogFeedListFilterBinding>(R.l
         }
 
         btnComplete.setOnClickListener {
+            viewModel.setFilter(binding.feedType,binding.motorType)
             setFilter?.invoke(binding.feedType,binding.motorType)
         }
     }
@@ -70,31 +83,24 @@ class FeedListFilterDialog : BaseFragmentDialog<DialogFeedListFilterBinding>(R.l
             motorType()
             pageToMotorType()
             showFeedType()
-            close()
         }
     }
 
 
-    private fun FeedListViewModel.motorType() {
+    private fun FilterViewModel.motorType() {
         motorTypeEvent.observe(viewLifecycleOwner, Observer {
             this@FeedListFilterDialog.setMotorType(it)
         })
     }
 
 
-    private fun FeedListViewModel.pageToMotorType(){
+    private fun FilterViewModel.pageToMotorType(){
         filterMotorTypeClickEvent.observe(viewLifecycleOwner, Observer {
             startActForResult(SelectMotorTypeActivity::class, SelectMotorTypeActivity.REQUEST_CODE)
         })
     }
 
-    private fun FeedListViewModel.close(){
-        filterCloseEvent.observe(viewLifecycleOwner, Observer {
-            dismiss()
-        })
-    }
-
-    private fun FeedListViewModel.showFeedType() {
+    private fun FilterViewModel.showFeedType() {
         filterFeedTypeClickEvent.observe(viewLifecycleOwner, Observer {
             getFeedTypeList(this@FeedListFilterDialog.requireContext()).toMutableList().apply {
                 add(0, FeedTypeData(getString(R.string.not_select), "", 0))
@@ -112,6 +118,8 @@ class FeedListFilterDialog : BaseFragmentDialog<DialogFeedListFilterBinding>(R.l
             }
         })
     }
+
+
 
 
     private fun setMotorType(motorTypeData: MotorTypeData?) {
@@ -149,6 +157,11 @@ class FeedListFilterDialog : BaseFragmentDialog<DialogFeedListFilterBinding>(R.l
 
     companion object {
         @JvmStatic
-        fun newInstance() = FeedListFilterDialog()
+        fun newInstance(feedTypeData: FeedTypeData?=null,motorTypeData: MotorTypeData?=null) = FeedListFilterDialog().apply {
+            arguments = Bundle().apply {
+                putParcelable(FEED_TYPE,feedTypeData)
+                putParcelable(MOTOR_TYPE,motorTypeData)
+            }
+        }
     }
 }

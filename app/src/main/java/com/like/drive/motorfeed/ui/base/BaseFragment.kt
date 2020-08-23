@@ -56,10 +56,6 @@ abstract class BaseFragment<V : ViewDataBinding>(
         binding.run(action)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
 
     protected fun startAct(clazz: KClass<*>, bundle: Bundle? = null) {
         startToAct(clazz, bundle) {

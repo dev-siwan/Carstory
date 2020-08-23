@@ -27,7 +27,6 @@ class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<FeedList
             addAll(feedList)
             notifyDataSetChanged()
         }
-
     }
     fun addAll(feedList: List<FeedData>) {
         this.feedList.addAll(feedList)

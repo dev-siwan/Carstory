@@ -11,31 +11,30 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewModel(){
 
     private val _feedList = MutableLiveData<List<FeedData>>()
-    val feedList :LiveData<List<FeedData>> get() = _feedList
+    val feedListLiveData :LiveData<List<FeedData>> get() = _feedList
 
     val errorEvent = SingleLiveEvent<Unit>()
     val feedType = MutableLiveData<FeedTypeData>()
     val motorType = MutableLiveData<MotorTypeData>()
-    val motorTypeEvent = SingleLiveEvent<MotorTypeData>()
 
     val feedItemClickEvent = SingleLiveEvent<String>()
 
-    val filterClickEvent=SingleLiveEvent<Unit>()
-    val filterCloseEvent=SingleLiveEvent<Unit>()
-    val filterFeedTypeClickEvent = SingleLiveEvent<Unit>()
-    val filterMotorTypeClickEvent = SingleLiveEvent<Unit>()
 
 
-    fun getFeedList(){
+    fun getFeedList(feedTypeData: FeedTypeData?=null,motorTypeData: MotorTypeData?=null){
         viewModelScope.launch {
-            feedRepository.getFeedList(motorType.value, feedType.value).catch {
+            _feedList.value =feedRepository.getFeedList(motorTypeData, feedTypeData).
+            catch {
                 errorEvent.call()
-            }.collect {
-                _feedList.value =it
+            }.single().apply {
+                forEach {
+                    Timber.i(it.title)
+                }
             }
         }
     }
@@ -46,19 +45,13 @@ class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewMod
         }
     }
 
-    fun setMotorType(motorTypeData: MotorTypeData){
-        if (motorTypeData.brandCode == 0) {
-            motorTypeEvent.value = null
-            return
-        }
-        motorTypeEvent.value = motorTypeData
-    }
+
 
 
     fun setFilter(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
         feedType.value = feedTypeData
         motorType.value = motorTypeData
-        getFeedList()
+        getFeedList(feedTypeData,motorTypeData)
     }
 
 }
