@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/action_feed">
+    app:startDestination="@id/action_home">
 
     <fragment
-        android:id="@+id/action_feed"
-        android:name="com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment"
+        android:id="@+id/action_home"
+        android:name="com.like.drive.motorfeed.ui.home.fragment.HomeFragment"
         android:label="@string/label_feed_list"
-        tools:layout="@layout/fragment_feed_list"/>
+        tools:layout="@layout/fragment_home"/>
 
     <fragment
         android:id="@+id/action_search"

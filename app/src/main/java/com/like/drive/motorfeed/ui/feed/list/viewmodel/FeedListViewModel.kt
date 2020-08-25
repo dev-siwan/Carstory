@@ -16,7 +16,7 @@ import timber.log.Timber
 class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewModel(){
 
     private val _feedList = MutableLiveData<List<FeedData>>()
-    val feedListLiveData :LiveData<List<FeedData>> get() = _feedList
+    val feedList :LiveData<List<FeedData>> get() = _feedList
 
     val errorEvent = SingleLiveEvent<Unit>()
     val feedType = MutableLiveData<FeedTypeData>()

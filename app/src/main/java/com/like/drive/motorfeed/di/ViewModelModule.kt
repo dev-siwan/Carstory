@@ -12,6 +12,7 @@ import com.like.drive.motorfeed.ui.splash.viewmodel.SplashViewModel
 import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 import com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.motorfeed.ui.filter.viewmodel.FilterViewModel
+import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
 import com.like.drive.motorfeed.ui.view.large.viewmodel.LargeThanViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -22,6 +23,7 @@ val viewModelModule = module {
     viewModel { SignInViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { MainViewModel(get()) }
+    viewModel { HomeViewModel() }
     viewModel { MotorTypeViewModel(get()) }
     viewModel { GalleryViewModel()}
     viewModel { FeedUploadViewModel(get()) }

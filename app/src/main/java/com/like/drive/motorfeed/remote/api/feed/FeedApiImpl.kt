@@ -7,6 +7,7 @@ import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_COMMENT
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_RE_COMMENT
@@ -21,7 +22,9 @@ class FeedApiImpl(
     private val fireStore: FirebaseFirestore
 ) : FeedApi {
     override suspend fun setFeed(feedData: FeedData): Flow<Boolean> {
-        return fireBaseTask.setData(fireStore.collection(CollectionName.FEED).document(feedData.fid ?: ""), feedData)
+        return fireBaseTask.setData(
+            fireStore.collection(CollectionName.FEED).document(feedData.fid ?: ""), feedData
+        )
     }
 
     override suspend fun setUserFeed(uid: String, feedData: FeedData): Flow<Boolean> {
@@ -32,13 +35,17 @@ class FeedApiImpl(
     }
 
     override suspend fun removeFeed(feedData: FeedData): Flow<Boolean> {
-        return fireBaseTask.delete(fireStore.collection(CollectionName.FEED).document(feedData.fid ?: ""))
+        return fireBaseTask.delete(
+            fireStore.collection(CollectionName.FEED).document(feedData.fid ?: "")
+        )
     }
 
     override suspend fun removeUserFeed(feedData: FeedData): Flow<Boolean> {
         return fireBaseTask.delete(
-            fireStore.collection(CollectionName.USER).document(feedData.uid?:"").collection(CollectionName.FEED)
-                .document(feedData.fid ?: ""))
+            fireStore.collection(CollectionName.USER).document(feedData.uid ?: "")
+                .collection(CollectionName.FEED)
+                .document(feedData.fid ?: "")
+        )
     }
 
     override suspend fun getComment(fid: String): Flow<List<CommentData>> {
@@ -58,7 +65,10 @@ class FeedApiImpl(
         return fireBaseTask.getData(document, FeedData::class.java)
     }
 
-    override suspend fun getFeedList(motorTypeData: MotorTypeData?,feedTypeData: FeedTypeData?): Flow<List<FeedData>> {
+    override suspend fun getFeedList(
+        motorTypeData: MotorTypeData?,
+        feedTypeData: FeedTypeData?
+    ): Flow<List<FeedData>> {
         val feedCollection = fireStore.collection(CollectionName.FEED)
 
         val query = when {
@@ -93,7 +103,7 @@ class FeedApiImpl(
             }
         }
 
-        return fireBaseTask.getData(query, FeedData::class.java)
+        return fireBaseTask.getData(query.orderBy(CREATE_DATE_FIELD,Query.Direction.DESCENDING), FeedData::class.java)
     }
 
     override suspend fun addComment(commentData: CommentData): Flow<Boolean> {
@@ -132,7 +142,8 @@ class FeedApiImpl(
 
     override suspend fun addReComment(reCommentData: ReCommentData): Flow<Boolean> {
         val reCommentFeedCollection =
-            fireStore.collection(CollectionName.FEED).document(reCommentData.fid ?: "").collection(FEED_RE_COMMENT)
+            fireStore.collection(CollectionName.FEED).document(reCommentData.fid ?: "")
+                .collection(FEED_RE_COMMENT)
 
         val rcId = reCommentFeedCollection.document().id
         reCommentData.rcId = rcId
@@ -142,8 +153,9 @@ class FeedApiImpl(
 
     override suspend fun updateComment(commentData: CommentData): Flow<Boolean> {
         val document =
-            fireStore.collection(CollectionName.FEED).document(commentData.fid?:"").collection(FEED_COMMENT)
-                .document(commentData.cid?:"")
+            fireStore.collection(CollectionName.FEED).document(commentData.fid ?: "")
+                .collection(FEED_COMMENT)
+                .document(commentData.cid ?: "")
         return fireBaseTask.setData(document, commentData)
     }
 
@@ -157,15 +169,18 @@ class FeedApiImpl(
         return fireBaseTask.setData(document, reCommentData)
     }
 
-    override suspend fun removeComment(commentData: CommentData):Flow<Boolean> {
-        val document =  fireStore.collection(CollectionName.FEED).document(commentData.fid?:"").collection(FEED_COMMENT).document(commentData.cid?:"")
+    override suspend fun removeComment(commentData: CommentData): Flow<Boolean> {
+        val document = fireStore.collection(CollectionName.FEED).document(commentData.fid ?: "")
+            .collection(FEED_COMMENT).document(commentData.cid ?: "")
 
         return fireBaseTask.delete(document)
     }
 
-    override suspend fun removeReComment(reCommentData: ReCommentData):Flow<Boolean> {
-        val document =  fireStore.collection(CollectionName.FEED).document(reCommentData.fid?:"").collection(
-            FEED_RE_COMMENT).document(reCommentData.rcId?:"")
+    override suspend fun removeReComment(reCommentData: ReCommentData): Flow<Boolean> {
+        val document =
+            fireStore.collection(CollectionName.FEED).document(reCommentData.fid ?: "").collection(
+                FEED_RE_COMMENT
+            ).document(reCommentData.rcId ?: "")
         return fireBaseTask.delete(document)
     }
 
@@ -173,9 +188,10 @@ class FeedApiImpl(
         const val COMMENT_COUNT_FIELD = "commentCount"
         const val LIKE_COUNT_FIELD = "likeCount"
         const val VIEW_COUNT_FIELD = "viewCount"
-        const val BRAND_CODE_FIELD="brandCode"
-        const val MODE_CODE_FIELD="modelCode"
-        const val FEED_TYPE_CODE_FIELD="feedTypeCode"
+        const val BRAND_CODE_FIELD = "brandCode"
+        const val MODE_CODE_FIELD = "modelCode"
+        const val FEED_TYPE_CODE_FIELD = "feedTypeCode"
+        const val CREATE_DATE_FIELD = "createDate"
     }
 
 }

@@ -8,9 +8,7 @@ import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 
 class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<FeedListViewHolder>() {
 
-    val feedList = mutableListOf<FeedData>().apply {
-        sortByDescending { it.updateDate }
-    }
+    val feedList = mutableListOf<FeedData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         FeedListViewHolder.from(parent)

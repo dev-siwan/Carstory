@@ -1,4 +1,4 @@
-package com.like.drive.motorfeed.ui.feed.list.fragment
+package com.like.drive.motorfeed.ui.home.fragment
 
 import android.app.Activity
 import android.content.Intent
@@ -8,28 +8,33 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
-import com.like.drive.motorfeed.databinding.FragmentFeedListBinding
+import com.like.drive.motorfeed.databinding.FragmentHomeBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
+import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
+import com.like.drive.motorfeed.ui.home.adapter.HomeAdapter
+import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment_feed_list) {
-
-    private val viewModel: FeedListViewModel by viewModel()
-    private val feedListAdapter by lazy { FeedListAdapter(viewModel) }
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
-    override fun onBind(dataBinding: FragmentFeedListBinding) {
+    val viewModel: HomeViewModel by viewModel()
+    private val feedListViewModel: FeedListViewModel by viewModel()
+    private val homeListAdapter by lazy { HomeAdapter(viewModel, feedListViewModel) }
+
+
+    override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
 
-        dataBinding.vm = viewModel
-        dataBinding.rvFeedList.adapter = feedListAdapter
+        dataBinding.incContent.rvFeedList.adapter = homeListAdapter
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -38,46 +43,36 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
         withViewModel()
     }
 
-    private fun initView() {
-        val decorationItem = DividerItemDecoration(
-            requireContext(), DividerItemDecoration.VERTICAL
-        ).apply {
-            ContextCompat.getDrawable(
-                requireContext(), R.drawable.line_solid_grey_6
-            )?.let { setDrawable(it) }
-        }
-        rvFeedList?.run {
-            addItemDecoration(decorationItem)
-        }
-
+    fun initView() {
         initData()
     }
 
-    private fun initData(){
-        if(feedListAdapter.feedList.isEmpty()){
-            viewModel.getFeedList()
+    private fun initData() {
+        if (homeListAdapter.feedList.isEmpty()) {
+            feedListViewModel.getFeedList()
         }
     }
 
-    private fun withViewModel() {
-        with(viewModel) {
-            pageToDetailAct()
+    fun withViewModel() {
+        with(feedListViewModel) {
             completeFeedList()
+            pageToDetailAct()
         }
-
     }
 
     private fun FeedListViewModel.completeFeedList() {
         feedList.observe(viewLifecycleOwner, Observer {
-            feedListAdapter.initList(it)
+            homeListAdapter.initList(it)
         })
     }
 
     private fun FeedListViewModel.pageToDetailAct() {
         feedItemClickEvent.observe(viewLifecycleOwner, Observer {
-            startForResult(FeedDetailActivity::class, FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
-                putString(FeedDetailActivity.KEY_FEED_ID, it)
-            })
+            startForResult(
+                FeedDetailActivity::class,
+                FeedListFragment.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
+                    putString(FeedDetailActivity.KEY_FEED_ID, it)
+                })
         })
     }
 
@@ -86,16 +81,16 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            FEED_LIST_TO_DETAIL_REQ -> {
+            FeedListFragment.FEED_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
                     FeedDetailActivity.FEED_UPLOAD_RES_CODE -> {
                         data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {
-                            feedListAdapter.updateFeed(it)
+                            homeListAdapter.updateFeed(it)
                         }
                     }
                     FeedDetailActivity.FEED_REMOVE_RES_CODE -> {
                         data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {
-                            feedListAdapter.removeFeed(it)
+                            homeListAdapter.removeFeed(it)
                         }
                     }
                 }
@@ -106,8 +101,8 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
                     Activity.RESULT_OK -> {
                         data?.getParcelableExtra<FeedData>(FeedUploadActivity.FEED_CREATE_KEY)
                             ?.let {
-                                feedListAdapter.run {
-                                   addFeed(it)
+                                homeListAdapter.run {
+                                    addFeed(it)
                                 }
                             }
                     }
@@ -116,7 +111,5 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
         }
     }
 
-    companion object {
-        const val FEED_LIST_TO_DETAIL_REQ = 1515
-    }
+
 }

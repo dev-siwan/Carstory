@@ -13,6 +13,7 @@ import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
+import com.like.drive.motorfeed.ui.home.fragment.HomeFragment
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,6 +76,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (val currentFragment = supportFragmentManager.currentNavigationFragment()) {
+            is HomeFragment -> currentFragment.onActivityResult(requestCode,resultCode,data)
             is FeedListFragment-> currentFragment.onActivityResult(requestCode,resultCode,data)
         }
     }
