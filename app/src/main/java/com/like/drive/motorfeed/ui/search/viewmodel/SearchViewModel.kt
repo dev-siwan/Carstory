@@ -17,6 +17,8 @@ class SearchViewModel :BaseViewModel(){
 
     val filterClickEvent=SingleLiveEvent<Unit>()
 
+    val searchBtnClickEvent=SingleLiveEvent<Unit>()
+
     fun setFilter(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
         _feedType.value = feedTypeData
         _motorType.value = motorTypeData

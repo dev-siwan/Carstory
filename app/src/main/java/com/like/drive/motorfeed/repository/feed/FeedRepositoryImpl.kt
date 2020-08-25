@@ -150,8 +150,8 @@ class FeedRepositoryImpl(
             }.collect()
     }
 
-    override suspend fun getFeedList(motorTypeData: MotorTypeData?,feedTypeData: FeedTypeData?): Flow<List<FeedData>> {
-        return feedApi.getFeedList(motorTypeData, feedTypeData)
+    override suspend fun getFeedList(motorTypeData: MotorTypeData?,feedTypeData: FeedTypeData?,tagStr:String?): Flow<List<FeedData>> {
+        return feedApi.getFeedList(motorTypeData, feedTypeData,tagStr)
     }
 
     override suspend fun addComment(

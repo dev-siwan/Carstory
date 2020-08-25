@@ -67,7 +67,8 @@ class FeedApiImpl(
 
     override suspend fun getFeedList(
         motorTypeData: MotorTypeData?,
-        feedTypeData: FeedTypeData?
+        feedTypeData: FeedTypeData?,
+        tagStr:String?
     ): Flow<List<FeedData>> {
         val feedCollection = fireStore.collection(CollectionName.FEED)
 
@@ -103,7 +104,9 @@ class FeedApiImpl(
             }
         }
 
-        return fireBaseTask.getData(query.orderBy(CREATE_DATE_FIELD,Query.Direction.DESCENDING), FeedData::class.java)
+        val tagQuery = tagStr?.let { query.whereArrayContains(FEED_TAG_LIST,tagStr) }?:query
+
+        return fireBaseTask.getData(tagQuery.orderBy(CREATE_DATE_FIELD,Query.Direction.DESCENDING), FeedData::class.java)
     }
 
     override suspend fun addComment(commentData: CommentData): Flow<Boolean> {
@@ -192,6 +195,7 @@ class FeedApiImpl(
         const val MODE_CODE_FIELD = "modelCode"
         const val FEED_TYPE_CODE_FIELD = "feedTypeCode"
         const val CREATE_DATE_FIELD = "createDate"
+        const val FEED_TAG_LIST="feedTagList"
     }
 
 }

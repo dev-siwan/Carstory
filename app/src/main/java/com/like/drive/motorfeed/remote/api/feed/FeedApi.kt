@@ -16,7 +16,7 @@ interface FeedApi{
    suspend fun getComment(fid:String):Flow<List<CommentData>>
    suspend fun getReComment(fid:String):Flow<List<ReCommentData>>
    suspend fun getFeed(fid:String):Flow<FeedData?>
-   suspend fun getFeedList(motorTypeData: MotorTypeData?=null, feedTypeData: FeedTypeData?=null): Flow<List<FeedData>>
+   suspend fun getFeedList(motorTypeData: MotorTypeData?=null, feedTypeData: FeedTypeData?=null,tagStr:String?=null): Flow<List<FeedData>>
    suspend fun addComment(commentData:CommentData):Flow<Boolean>
    suspend fun updateCount(fid:String,flag:FeedCountEnum)
    suspend fun addReComment(reCommentData: ReCommentData):Flow<Boolean>

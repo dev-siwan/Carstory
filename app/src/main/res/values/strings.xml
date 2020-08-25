@@ -161,11 +161,11 @@
     <string name="camera_text">카메라</string>
     <string name="gallery_text">앨범</string>
 
-    <string name="filter_feed_type_value">피드 종류:%s</string>
-    <string name="filter_feed_type_motor_type_full_value">피드 종류: %s, 브랜드: %s, 모델: %s</string>
-    <string name="filter_feed_type_motor_type_brand_value">피드 종류: %s, 브랜드: %s</string>
-    <string name="filter_motor_type_full_value">브랜드: %s, 모델: %s</string>
-    <string name="filter_motor_type_brand_value">브랜드: %s</string>
+    <string name="filter_feed_type_value">카테고리:%s</string>
+    <string name="filter_feed_type_motor_type_full_value">카테고리:%s, 종류:%s | %s</string>
+    <string name="filter_feed_type_motor_type_brand_value">카테고리:%s, 종류:%s</string>
+    <string name="filter_motor_type_full_value">종류:%s | %s</string>
+    <string name="filter_motor_type_brand_value">종류:%s</string>
     <string name="filter_not_select"><![CDATA[<font color="#d7d7d7">추가된 필터가 없습니다.</font>]]></string>
 
     <string name="photo_menu_show">크게보기</string>

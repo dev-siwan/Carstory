@@ -42,7 +42,7 @@ interface FeedRepository {
         fail: () -> Unit
     )
 
-    suspend fun getFeedList(motorTypeData: MotorTypeData? = null ,feedTypeData: FeedTypeData?=null): Flow<List<FeedData>>
+    suspend fun getFeedList(motorTypeData: MotorTypeData? = null ,feedTypeData: FeedTypeData?=null,tagStr:String?=null): Flow<List<FeedData>>
 
     suspend fun addComment(
         fid: String,

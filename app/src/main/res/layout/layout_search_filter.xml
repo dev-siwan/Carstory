@@ -9,15 +9,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/light_gery_3">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glTop"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/activity_small_margin" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glStartMargin"
@@ -34,34 +27,43 @@
         app:layout_constraintGuide_end="15dp" />
 
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/activity_small_margin" />
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="@id/glStartMargin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/glEndMargin"
+        android:background="@color/light_gery_1"/>
+
+
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tvFilter"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:searchFeedType="@{vm.feedType}"
         app:searchMotorType="@{vm.motorType}"
         android:textColor="@android:color/black"
+        android:layout_marginVertical="@dimen/activity_vertical_margin"
         app:layout_constraintStart_toStartOf="@id/glStartMargin"
-        app:layout_constraintTop_toTopOf="@id/glTop"
-        app:layout_constraintBottom_toBottomOf="@id/glBottom"
-        tools:text="@string/filter_not_select"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/glEndMargin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_filter"
-        android:padding="@dimen/activity_x_small_margin"
-        android:background="@color/light_gery_1"
-        android:onClick="@{()->vm.doClickEvent(vm.filterClickEvent)}"/>
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:gravity="center_vertical"
+        android:onClick="@{()->vm.doClickEvent(vm.filterClickEvent)}"
+        tools:text="@string/filter_not_select"/>
 
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="@id/glStartMargin"
+        app:layout_constraintTop_toBottomOf="@id/tvFilter"
+        app:layout_constraintEnd_toEndOf="@id/glEndMargin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="1"
+        android:background="@color/light_gery_1"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

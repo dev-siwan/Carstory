@@ -26,15 +26,14 @@ class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewMod
 
 
 
-    fun getFeedList(feedTypeData: FeedTypeData?=null,motorTypeData: MotorTypeData?=null){
+    fun getFeedList(feedTypeData: FeedTypeData?=null,motorTypeData: MotorTypeData?=null,tagQuery:String?=null){
         viewModelScope.launch {
-            _feedList.value =feedRepository.getFeedList(motorTypeData, feedTypeData).
+           feedRepository.getFeedList(motorTypeData, feedTypeData,tagQuery).
             catch {
+                it.message
                 errorEvent.call()
-            }.single().apply {
-                forEach {
-                    Timber.i(it.title)
-                }
+            }.collect {
+               _feedList.value =it
             }
         }
     }
