@@ -70,14 +70,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun FeedListViewModel.listComplete() {
         feedList.observe(viewLifecycleOwner, Observer {
-            goneSearchView(cvSearchView) {
-                listVisible(containerList)
-            }
+            goneSearchView(cvSearchView)
+            visibleList(containerList)
+
         })
     }
 
 
-    private fun goneSearchView(view:View, action:()->Unit) {
+    private fun goneSearchView(view:View) {
         val transition: Transition = Slide(Gravity.TOP)
         transition.apply {
             duration = 200
@@ -86,11 +86,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
         view.visibility = View.GONE
-        action()
+
     }
 
 
-    private fun listVisible(view:View) {
+    private fun visibleList(view:View) {
         view.visibility=View.VISIBLE
         val slideUp = AnimationUtils.loadAnimation(context,R.anim.slide_up)
         view.startAnimation(slideUp)
