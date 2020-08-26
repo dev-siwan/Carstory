@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/action_user"
+    app:startDestination="@id/userScreen">
+
+    <fragment
+        android:id="@+id/userScreen"
+        android:name="com.like.drive.motorfeed.ui.user.fragment.UserFragment"
+        android:label="UserFragment"
+        tools:layout="@layout/fragment_user"/>
+
+
+</navigation>

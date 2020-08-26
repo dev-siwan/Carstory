@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottomMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="5dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSearchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/glBottomMargin">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/glStartMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="15dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/glEndMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="15dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/glBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_end="15dp" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etSearchBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_search_light"
+                    android:drawablePadding="@dimen/activity_x_small_margin"
+                    android:hint="@string/search_tag"
+                    android:imeOptions="actionDone"
+                    android:maxLength="9"
+                    android:padding="@dimen/activity_vertical_margin"
+                    android:singleLine="true"
+                    android:text="@={vm.tagValue}"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/grey_4"
+                    android:textSize="@dimen/normal_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:hint="@string/search_tag" />
+
+
+                <include
+                    android:id="@+id/incFilter"
+                    layout="@layout/layout_search_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etSearchBox"
+                    app:vm="@{vm}" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:background="@drawable/enable_button_rect_true_solid_black_false_light_grey3_conner"
+                    android:enabled="@{vm.motorType!=null || vm.feedType!=null || (!vm.tagValue.empty &amp;&amp; vm.tagValue!=null)}"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:onClick="@{()->vm.doClickEvent(vm.searchBtnClickEvent)}"
+                    android:text="@string/filter_complete"
+                    android:textColor="@color/btn_text_enable_color"
+                    app:layout_constraintBottom_toBottomOf="@id/glBottom"
+                    app:layout_constraintEnd_toEndOf="@id/glEndMargin"
+                    app:layout_constraintStart_toStartOf="@id/glStartMargin"
+                    app:layout_constraintTop_toBottomOf="@id/incFilter" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

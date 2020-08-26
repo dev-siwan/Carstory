@@ -22,8 +22,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
-    private val viewModel:SearchViewModel by viewModel()
-    private val feedListViewModel:FeedListViewModel by viewModel()
+    private val viewModel: SearchViewModel by viewModel()
+    private val feedListViewModel: FeedListViewModel by viewModel()
     private val feedAdapter by lazy { FeedListAdapter(feedListViewModel) }
     private val filterDialog by lazy { FeedListFilterDialog }
 
@@ -32,7 +32,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         super.onBind(dataBinding)
         dataBinding.vm = viewModel
         dataBinding.feedVm = feedListViewModel
-        dataBinding.rvFeed.adapter = feedAdapter
+        dataBinding.incSearchList.rvFeed.adapter = feedAdapter
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -40,19 +40,20 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         withViewModel()
     }
 
-    private fun withViewModel(){
-        with(viewModel){
+    private fun withViewModel() {
+        with(viewModel) {
             showFilter()
             searchComplete()
+            searchIcEvent()
         }
-        with(feedListViewModel){
+        with(feedListViewModel) {
             listComplete()
         }
     }
 
     private fun SearchViewModel.showFilter() {
         filterClickEvent.observe(viewLifecycleOwner, Observer {
-            filterDialog.newInstance(viewModel.feedType.value,viewModel.motorType.value).apply {
+            filterDialog.newInstance(viewModel.feedType.value, viewModel.motorType.value).apply {
                 setFilter = { feedType, motorType ->
                     dismiss()
                     this@SearchFragment.viewModel.setFilter(feedType, motorType)
@@ -61,23 +62,31 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         })
     }
 
-    private fun SearchViewModel.searchComplete(){
+    private fun SearchViewModel.searchComplete() {
         searchBtnClickEvent.observe(viewLifecycleOwner, Observer {
-            feedListViewModel.getFeedList(feedType.value,motorType.value,tagValue.value)
+            feedListViewModel.getFeedList(feedType.value, motorType.value, tagValue.value)
+        })
+    }
+
+    private fun SearchViewModel.searchIcEvent(){
+        searchIcClickEvent.observe(viewLifecycleOwner, Observer {
+            visibleSearchView(incSearchView)
+            goneList(incSearchList)
         })
     }
 
 
     private fun FeedListViewModel.listComplete() {
         feedList.observe(viewLifecycleOwner, Observer {
-            goneSearchView(cvSearchView)
-            visibleList(containerList)
+
+            goneSearchView(incSearchView)
+            visibleList(incSearchList)
 
         })
     }
 
 
-    private fun goneSearchView(view:View) {
+    private fun goneSearchView(view: View) {
         val transition: Transition = Slide(Gravity.TOP)
         transition.apply {
             duration = 200
@@ -90,11 +99,28 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
 
-    private fun visibleList(view:View) {
-        view.visibility=View.VISIBLE
-        val slideUp = AnimationUtils.loadAnimation(context,R.anim.slide_up)
-        view.startAnimation(slideUp)
+    private fun visibleSearchView(view: View) {
+
+        val transition: Transition = Slide(Gravity.TOP)
+        transition.apply {
+            duration = 400
+            addTarget(view)
+        }
+
+        TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
+        view.visibility = View.VISIBLE
     }
 
+    private fun goneList(view: View) {
+        val slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+        view.startAnimation(slideUp)
+        view.visibility = View.GONE
+    }
+
+    private fun visibleList(view: View) {
+        view.visibility = View.VISIBLE
+        val slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
+        view.startAnimation(slideUp)
+    }
 
 }
