@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
-import androidx.transition.Scene
 import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
+import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.filter.dialog.FeedListFilterDialog
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
@@ -23,12 +24,15 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
     private val viewModel:SearchViewModel by viewModel()
     private val feedListViewModel:FeedListViewModel by viewModel()
+    private val feedAdapter by lazy { FeedListAdapter(feedListViewModel) }
     private val filterDialog by lazy { FeedListFilterDialog }
 
 
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
         dataBinding.vm = viewModel
+        dataBinding.feedVm = feedListViewModel
+        dataBinding.rvFeed.adapter = feedAdapter
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,18 +68,32 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
 
-    private fun FeedListViewModel.listComplete(){
+    private fun FeedListViewModel.listComplete() {
         feedList.observe(viewLifecycleOwner, Observer {
-            val transition: Transition = Slide(Gravity.TOP)
-            transition.apply {
-                duration = 200
-                addTarget(cvSearchView)
+            goneSearchView(cvSearchView) {
+                listVisible(containerList)
             }
-
-            val aScene:Scene= Scene.getSceneForLayout(rootView as ViewGroup,R.layout.fragment_search,requireContext())
-            TransitionManager.go(aScene, transition)
-            cvSearchView.visibility=View.GONE
         })
+    }
+
+
+    private fun goneSearchView(view:View, action:()->Unit) {
+        val transition: Transition = Slide(Gravity.TOP)
+        transition.apply {
+            duration = 200
+            addTarget(view)
+        }
+
+        TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
+        view.visibility = View.GONE
+        action()
+    }
+
+
+    private fun listVisible(view:View) {
+        view.visibility=View.VISIBLE
+        val slideUp = AnimationUtils.loadAnimation(context,R.anim.slide_up)
+        view.startAnimation(slideUp)
     }
 
 
