@@ -16,8 +16,7 @@ class FilterViewModel : BaseViewModel() {
 
     val motorTypeEvent = SingleLiveEvent<MotorTypeData>()
 
-
-    fun setFilter(feedTypeData: FeedTypeData?,motorTypeData: MotorTypeData?){
+    fun setFilter(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
         feedType.value = feedTypeData
         motorType.value = motorTypeData
     }

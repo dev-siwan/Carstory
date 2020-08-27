@@ -14,7 +14,6 @@ import java.util.*
 
 class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewModel() {
 
-    //private val _feedList = MutableLiveData<List<FeedData>>()
     val feedList =  SingleLiveEvent<List<FeedData>>()
 
     val errorEvent = SingleLiveEvent<Unit>()
@@ -39,7 +38,7 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
         this.feedTypeData = feedTypeData
         this.motorTypeData = motorTypeData
-        this.tagQuery = tagQuery
+        this.tagQuery = if(!tagQuery.isNullOrBlank())tagQuery else null
 
         getFeedList(Date())
     }

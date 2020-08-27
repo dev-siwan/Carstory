@@ -67,14 +67,13 @@
                     android:paddingVertical="@dimen/activity_x_small_margin"
                     android:text="@{vm.tagValue!=null ? String.format(@string/feed_list_top_tag,vm.tagValue) : ``}"
                     android:textColor="@color/white_100"
-                    android:visibility="@{vm.tagValue!=null ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{vm.tagValue!=null &amp;&amp; !vm.tagValue.empty ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvType"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="@dimen/x_small_text_size"
-                    android:layout_marginEnd="@dimen/x_small_text_size"
+                    android:layout_marginStart="@dimen/activity_small_margin"
                     tools:text="태그: 태그" />
 
                 <TextView
@@ -91,8 +90,7 @@
                     app:layout_constraintEnd_toStartOf="@id/tvBrand"
                     app:layout_constraintStart_toEndOf="@id/tvTag"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="@dimen/x_small_text_size"
-                    android:layout_marginEnd="@dimen/x_small_text_size"
+                    android:layout_marginStart="@dimen/activity_x_small_margin"
                     tools:text="카테고리: 태그" />
 
                 <TextView
@@ -109,8 +107,7 @@
                     app:layout_constraintEnd_toStartOf="@id/tvModel"
                     app:layout_constraintStart_toEndOf="@id/tvType"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="@dimen/x_small_text_size"
-                    android:layout_marginEnd="@dimen/x_small_text_size"
+                    android:layout_marginStart="@dimen/activity_x_small_margin"
                     tools:text="브랜드: 람보르기니" />
 
                 <TextView
@@ -126,8 +123,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvBrand"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="@dimen/x_small_text_size"
-                    android:layout_marginEnd="@dimen/x_small_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="@dimen/activity_x_small_margin"
                     tools:text="모델: 무르시엘라고" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

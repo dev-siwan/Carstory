@@ -67,7 +67,7 @@ class HomeAdapter(
 
     fun addFeed(feed: FeedData) {
         feedList.add(feed)
-        notifyItemInserted(FEED_LIST_START_POSITION)
+        notifyItemInserted(0)
     }
 
     fun updateFeed(feed: FeedData) {

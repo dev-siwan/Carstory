@@ -45,7 +45,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintTop_toTopOf="@id/glTop"
-        app:layout_constraintStart_toStartOf="@id/glStart"
+        app:layout_constraintStart_toStartOf="parent"
         tools:src="@drawable/ic_empty_profile"
         app:profileImg="@{feedData.profileImg}"
         app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
@@ -58,11 +58,10 @@
         android:textColor="@android:color/black"
         android:layout_marginStart="@dimen/activity_small_margin"
         android:text="@{feedData.nick}"
-        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/ivProfile"
         app:layout_constraintTop_toTopOf="@id/ivProfile"
         app:layout_constraintBottom_toBottomOf="@id/ivProfile"
-        app:layout_constraintEnd_toEndOf="@id/glEnd"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="모터피드 "/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

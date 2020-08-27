@@ -25,5 +25,4 @@ class MainViewModel(private val userRepository: UserRepository) :BaseViewModel()
         }
     }
 
-
 }

@@ -17,18 +17,24 @@ import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import com.like.drive.motorfeed.ui.home.adapter.HomeAdapter
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
+import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_home_content.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     val viewModel: HomeViewModel by viewModel()
     private val feedListViewModel: FeedListViewModel by viewModel()
+    private val mainVm : MainViewModel by sharedViewModel()
     private val homeListAdapter by lazy { HomeAdapter(viewModel, feedListViewModel) }
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
 
+        dataBinding.mainVm = mainVm
+        dataBinding.vm = viewModel
         dataBinding.incContent.rvFeedList.adapter = homeListAdapter
 
     }
@@ -58,6 +64,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 override fun isRequest(): Boolean = false
 
             })
+
+            scrollToPosition(0)
         }
 
 
@@ -75,6 +83,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             completeFeedList()
             pageToDetailAct()
         }
+        with(viewModel){
+            searchClick()
+        }
+    }
+
+    private fun HomeViewModel.searchClick(){
+        moveSearchEvent.observe(viewLifecycleOwner, Observer {
+            (requireActivity() as MainActivity).navBottomView.selectedItemId=R.id.action_search
+        })
     }
 
     private fun FeedListViewModel.completeFeedList() {
@@ -117,7 +134,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     }
                 }
             }
-
+/*
             MainActivity.UPLOAD_FEED_REQ -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
@@ -129,7 +146,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                             }
                     }
                 }
-            }
+            }*/
         }
     }
 

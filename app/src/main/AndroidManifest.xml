@@ -17,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.view.large.activity.LargeThanActivity"></activity>
+        <activity android:name=".ui.view.large.activity.LargeThanActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".ui.feed.tag.activity.FeedTagActivity"
             android:screenOrientation="portrait"
@@ -65,7 +67,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.activity.MainActivity" /> <!-- facebook -->
+        <activity android:name=".ui.main.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

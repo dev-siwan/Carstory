@@ -7,24 +7,23 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 
-class SearchViewModel :BaseViewModel(){
+class SearchViewModel : BaseViewModel() {
 
     private val _feedType = MutableLiveData<FeedTypeData>()
-    val feedType :LiveData<FeedTypeData> get() = _feedType
+    val feedType: LiveData<FeedTypeData> get() = _feedType
     private val _motorType = MutableLiveData<MotorTypeData>()
-    val motorType : LiveData<MotorTypeData> get() = _motorType
-    val tagValue =MutableLiveData<String>()
+    val motorType: LiveData<MotorTypeData> get() = _motorType
+    val tagValue = MutableLiveData<String>()
 
-    val filterClickEvent=SingleLiveEvent<Unit>()
+    val filterClickEvent = SingleLiveEvent<Unit>()
 
-    val searchBtnClickEvent=SingleLiveEvent<Unit>()
+    val searchBtnClickEvent = SingleLiveEvent<Unit>()
 
-    val searchIcClickEvent=SingleLiveEvent<Unit>()
+    val searchIcClickEvent = SingleLiveEvent<Unit>()
 
     fun setFilter(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
         _feedType.value = feedTypeData
         _motorType.value = motorTypeData
     }
-
 
 }
