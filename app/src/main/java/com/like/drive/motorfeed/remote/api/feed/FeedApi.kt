@@ -7,6 +7,7 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 interface FeedApi{
    suspend fun setFeed(feedData: FeedData): Flow<Boolean>
@@ -16,7 +17,7 @@ interface FeedApi{
    suspend fun getComment(fid:String):Flow<List<CommentData>>
    suspend fun getReComment(fid:String):Flow<List<ReCommentData>>
    suspend fun getFeed(fid:String):Flow<FeedData?>
-   suspend fun getFeedList(motorTypeData: MotorTypeData?=null, feedTypeData: FeedTypeData?=null,tagStr:String?=null): Flow<List<FeedData>>
+   suspend fun getFeedList(date: Date,motorTypeData: MotorTypeData?=null, feedTypeData: FeedTypeData?=null, tagStr:String?=null): Flow<List<FeedData>>
    suspend fun addComment(commentData:CommentData):Flow<Boolean>
    suspend fun updateCount(fid:String,flag:FeedCountEnum)
    suspend fun addReComment(reCommentData: ReCommentData):Flow<Boolean>

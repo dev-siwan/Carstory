@@ -3,32 +3,28 @@ package com.like.drive.motorfeed.ui.home.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.FragmentHomeBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
+import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
-import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
 import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import com.like.drive.motorfeed.ui.home.adapter.HomeAdapter
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
-import kotlinx.android.synthetic.main.fragment_feed_list.*
+import kotlinx.android.synthetic.main.layout_home_content.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-
 
     val viewModel: HomeViewModel by viewModel()
     private val feedListViewModel: FeedListViewModel by viewModel()
     private val homeListAdapter by lazy { HomeAdapter(viewModel, feedListViewModel) }
-
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
@@ -44,12 +40,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     fun initView() {
+
+        rvFeedList.apply {
+
+            withPaging(object : PagingCallback {
+                override fun requestMoreList() {
+
+                    with(feedListViewModel) {
+                        if (!getLastDate()) {
+                            feedList.value?.lastOrNull()?.createDate?.let {
+                                moreData(it)
+                            }
+                        }
+                    }
+                }
+
+                override fun isRequest(): Boolean = false
+
+            })
+        }
+
+
         initData()
     }
 
     private fun initData() {
         if (homeListAdapter.feedList.isEmpty()) {
-            feedListViewModel.getFeedList()
+            feedListViewModel.initDate(null, null, null)
         }
     }
 
@@ -62,7 +79,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun FeedListViewModel.completeFeedList() {
         feedList.observe(viewLifecycleOwner, Observer {
-            homeListAdapter.initList(it)
+            homeListAdapter.run {
+                if (isFirst) {
+                    initList(it)
+                } else {
+                    moreList(it)
+                }
+            }
         })
     }
 
@@ -75,7 +98,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 })
         })
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -110,6 +132,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
     }
-
 
 }

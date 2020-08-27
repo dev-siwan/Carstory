@@ -9,7 +9,10 @@ import com.like.drive.motorfeed.ui.home.holder.HomeFeedListDescViewHolder
 import com.like.drive.motorfeed.ui.home.holder.HomeRegisterFeedViewHolder
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 
-class HomeAdapter(private val homeViewModel: HomeViewModel,private val feedListViewModel: FeedListViewModel) :
+class HomeAdapter(
+    private val homeViewModel: HomeViewModel,
+    private val feedListViewModel: FeedListViewModel
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val feedList = mutableListOf<FeedData>().apply {
@@ -28,15 +31,14 @@ class HomeAdapter(private val homeViewModel: HomeViewModel,private val feedListV
         }
     }
 
-    override fun getItemCount() = feedList.size + 2
+    override fun getItemCount() = feedList.size + FEED_LIST_START_POSITION
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is HomeRegisterFeedViewHolder -> holder.bind(homeViewModel)
-            is FeedListViewHolder -> holder.bind(feedListViewModel, feedList[position-2])
+            is FeedListViewHolder -> holder.bind(feedListViewModel, feedList[position - FEED_LIST_START_POSITION])
         }
     }
-
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
@@ -54,14 +56,18 @@ class HomeAdapter(private val homeViewModel: HomeViewModel,private val feedListV
         }
     }
 
-    fun addAll(feedList: List<FeedData>) {
-        this.feedList.addAll(feedList)
-        notifyDataSetChanged()
+    fun moreList(feedList: List<FeedData>) {
+
+        this.feedList.run {
+            val beforePosition = (size + FEED_LIST_START_POSITION)
+            addAll(feedList)
+            notifyItemRangeInserted(beforePosition, feedList.size + beforePosition)
+        }
     }
 
     fun addFeed(feed: FeedData) {
         feedList.add(feed)
-        notifyItemInserted(0)
+        notifyItemInserted(FEED_LIST_START_POSITION)
     }
 
     fun updateFeed(feed: FeedData) {
@@ -69,7 +75,7 @@ class HomeAdapter(private val homeViewModel: HomeViewModel,private val feedListV
         originData?.let {
             val index = feedList.indexOf(it)
             feedList[index] = feed
-            notifyItemChanged(index)
+            notifyItemChanged(index + FEED_LIST_START_POSITION)
         }
     }
 
@@ -78,7 +84,11 @@ class HomeAdapter(private val homeViewModel: HomeViewModel,private val feedListV
         originData?.let {
             val index = feedList.indexOf(it)
             feedList.removeAt(index)
-            notifyItemRemoved(index)
+            notifyItemRemoved(index + FEED_LIST_START_POSITION)
         }
+    }
+
+    companion object{
+        const val FEED_LIST_START_POSITION = 2
     }
 }

@@ -19,21 +19,25 @@ class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<FeedList
         holder.bind(vm, feedList[position])
     }
 
-    fun initList(feedList: List<FeedData>){
+    fun initList(feedList: List<FeedData>) {
         this.feedList.run {
             clear()
             addAll(feedList)
             notifyDataSetChanged()
         }
     }
-    fun addAll(feedList: List<FeedData>) {
-        this.feedList.addAll(feedList)
-        notifyDataSetChanged()
+
+    fun moreList(feedList: List<FeedData>) {
+        this.feedList.run {
+            val beforePosition = size
+            addAll(feedList)
+            notifyItemRangeInserted(beforePosition, feedList.size + beforePosition)
+        }
     }
 
     fun addFeed(feed:FeedData){
         feedList.add(feed)
-        notifyItemInserted(feedList.size-1)
+        notifyItemInserted(feedList.size - 1)
     }
 
     fun updateFeed(feed: FeedData) {

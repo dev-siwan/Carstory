@@ -9,14 +9,13 @@ import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import java.util.*
 
-class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewModel(){
+class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewModel() {
 
-    private val _feedList = MutableLiveData<List<FeedData>>()
-    val feedList :LiveData<List<FeedData>> get() = _feedList
+    //private val _feedList = MutableLiveData<List<FeedData>>()
+    val feedList =  SingleLiveEvent<List<FeedData>>()
 
     val errorEvent = SingleLiveEvent<Unit>()
     val feedType = MutableLiveData<FeedTypeData>()
@@ -24,33 +23,53 @@ class FeedListViewModel(private val feedRepository: FeedRepository) :BaseViewMod
 
     val feedItemClickEvent = SingleLiveEvent<String>()
 
+    var isFirst = true
+    var lastDate: Date? = null
 
+    private var feedTypeData: FeedTypeData? = null
+    private var motorTypeData: MotorTypeData? = null
+    private var tagQuery: String? = null
 
-    fun getFeedList(feedTypeData: FeedTypeData?=null,motorTypeData: MotorTypeData?=null,tagQuery:String?=null){
+    fun initDate(
+        feedTypeData: FeedTypeData?,
+        motorTypeData: MotorTypeData?,
+        tagQuery: String?
+    ) {
+        isFirst = true
+
+        this.feedTypeData = feedTypeData
+        this.motorTypeData = motorTypeData
+        this.tagQuery = tagQuery
+
+        getFeedList(Date())
+    }
+
+    fun moreData(date: Date) {
+        isFirst = false
+        lastDate = date
+
+        getFeedList(date)
+    }
+
+    private fun getFeedList(date: Date) {
         viewModelScope.launch {
-           feedRepository.getFeedList(motorTypeData, feedTypeData,tagQuery).
-            catch {
+            feedRepository.getFeedList(date, motorTypeData, feedTypeData, tagQuery).catch {
                 it.message
                 errorEvent.call()
             }.collect {
-               _feedList.value =it
+                feedList.value = it
             }
         }
     }
 
-     fun feedItemClickListener(feedData: FeedData?){
+    fun getLastDate(): Boolean {
+        return feedList.value?.lastOrNull()?.createDate == lastDate
+    }
+
+    fun feedItemClickListener(feedData: FeedData?) {
         feedData?.let {
             feedItemClickEvent.postValue(it.fid)
         }
-    }
-
-
-
-
-    fun setFilter(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
-        feedType.value = feedTypeData
-        motorType.value = motorTypeData
-        getFeedList(feedTypeData,motorTypeData)
     }
 
 }

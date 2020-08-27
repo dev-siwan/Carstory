@@ -55,7 +55,7 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
 
     private fun initData(){
         if(feedListAdapter.feedList.isEmpty()){
-            viewModel.getFeedList()
+            //viewModel.getFeedList()
         }
     }
 

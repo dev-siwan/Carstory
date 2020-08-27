@@ -14,6 +14,8 @@ import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FeedRepositoryImpl(
     private val feedApi: FeedApi,
@@ -150,8 +152,13 @@ class FeedRepositoryImpl(
             }.collect()
     }
 
-    override suspend fun getFeedList(motorTypeData: MotorTypeData?,feedTypeData: FeedTypeData?,tagStr:String?): Flow<List<FeedData>> {
-        return feedApi.getFeedList(motorTypeData, feedTypeData,tagStr)
+    override suspend fun getFeedList(
+        date: Date,
+        motorTypeData: MotorTypeData?,
+        feedTypeData: FeedTypeData?,
+        tagStr: String?
+    ): Flow<List<FeedData>> {
+        return feedApi.getFeedList(date, motorTypeData, feedTypeData, tagStr)
     }
 
     override suspend fun addComment(

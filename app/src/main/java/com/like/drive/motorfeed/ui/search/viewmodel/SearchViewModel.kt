@@ -25,4 +25,6 @@ class SearchViewModel :BaseViewModel(){
         _feedType.value = feedTypeData
         _motorType.value = motorTypeData
     }
+
+
 }
