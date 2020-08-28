@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@id/glStart"
                     app:layout_constraintTop_toTopOf="@id/glTop"
-                    app:profileImg="@{commentFragmentExtra.commentData.profileImg}"
+                    app:profileImg="@{commentFragmentExtra.commentData.userInfo.profileImgUrl}"
                     tools:background="@drawable/oval_stroke_grey_6_size_32" />
 
                 <TextView
@@ -79,7 +79,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_small_margin"
-                    android:text="@{commentFragmentExtra.commentData.nickName!=null ? commentFragmentExtra.commentData.nickName :`` }"
+                    android:text="@{commentFragmentExtra.commentData.userInfo.nickName!=null ? commentFragmentExtra.commentData.userInfo.nickName :`` }"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/normal_text_size"
                     app:layout_constraintBottom_toBottomOf="@id/ivProfile"

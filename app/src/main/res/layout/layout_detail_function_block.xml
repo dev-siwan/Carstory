@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:onClick="@{()->vm.addFeedLike(feedData.fid,feedData.uid)}"
+            android:onClick="@{()->vm.addFeedLike(feedData.fid,feedData.userInfo.uid)}"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toStartOf="@id/containerComment"
             app:layout_constraintHorizontal_weight="1"

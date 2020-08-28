@@ -47,7 +47,7 @@
         app:layout_constraintTop_toTopOf="@id/glTop"
         app:layout_constraintStart_toStartOf="parent"
         tools:src="@drawable/ic_empty_profile"
-        app:profileImg="@{feedData.profileImg}"
+        app:profileImg="@{feedData.userInfo.profileImgUrl}"
         app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
 
     <TextView
@@ -57,7 +57,7 @@
         android:textSize="@dimen/small_text_size"
         android:textColor="@android:color/black"
         android:layout_marginStart="@dimen/activity_small_margin"
-        android:text="@{feedData.nick}"
+        android:text="@{feedData.userInfo.nickName}"
         app:layout_constraintStart_toEndOf="@id/ivProfile"
         app:layout_constraintTop_toTopOf="@id/ivProfile"
         app:layout_constraintBottom_toBottomOf="@id/ivProfile"

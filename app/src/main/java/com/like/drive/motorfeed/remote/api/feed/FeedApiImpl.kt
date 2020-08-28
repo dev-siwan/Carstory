@@ -1,21 +1,20 @@
 package com.like.drive.motorfeed.remote.api.feed
 
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_COMMENT
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
-import com.like.drive.motorfeed.data.feed.ReCommentData
-import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_RE_COMMENT
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import kotlinx.coroutines.flow.Flow
 import java.util.*
-import kotlin.Any as Any1
 
 class FeedApiImpl(
     private val fireBaseTask: FireBaseTask,
@@ -42,7 +41,7 @@ class FeedApiImpl(
 
     override suspend fun removeUserFeed(feedData: FeedData): Flow<Boolean> {
         return fireBaseTask.delete(
-            fireStore.collection(CollectionName.USER).document(feedData.uid ?: "")
+            fireStore.collection(CollectionName.USER).document(feedData.userInfo?.uid ?: "")
                 .collection(CollectionName.FEED)
                 .document(feedData.fid ?: "")
         )
