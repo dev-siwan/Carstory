@@ -91,7 +91,9 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-        </activity> <!-- 프로바이더 파일 패스 -->
+        </activity>
+
+        <!-- 프로바이더 파일 패스 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -103,6 +105,24 @@
                 android:resource="@xml/file_provider_path"
                 tools:replace="android:resource" />
         </provider>
+
+        <!-- FCM SERVICE -->
+        <service
+            android:name=".fcm.AppFireMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher_foreground" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@android:color/black" />
+
+
     </application>
 
 </manifest>

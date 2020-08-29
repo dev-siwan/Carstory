@@ -85,6 +85,7 @@ dependencies {
     def firebase_crash_version = '16.2.1'
     def firebase_analytics_version='17.4.4'
     def firebase_auth_version='19.3.2'
+    def firebase_functions_version='19.0.2'
     def coroutine_play_service = '1.1.1'
     def firestore_ktx_version='21.5.0'
     def firestorage_ktx_version='19.1.1'
@@ -129,6 +130,7 @@ dependencies {
     implementation "com.google.firebase:firebase-config-ktx:$firebase_config_version"
     implementation "com.google.firebase:firebase-invites:$firebase_invites_version"
     implementation "com.google.firebase:firebase-perf:$firebase_pref_version"
+    implementation "com.google.firebase:firebase-functions-ktx:$firebase_functions_version"
     implementation "com.google.firebase:firebase-crash:$firebase_crash_version"
     implementation "com.google.firebase:firebase-analytics-ktx:$firebase_analytics_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutine_play_service"

@@ -15,7 +15,13 @@ class UserPref(application:Application){
         with(application)
     }
 
+    var fcmToken: String?
+        get() = preferences.getString(FCM_TOKEN, null)
+        set(value) = preferences.edit { putString(FCM_TOKEN, value) }
 
+    var isNewToken: Boolean
+        get() = preferences.getBoolean(IS_SEND_FCM_TOKEN, false)
+        set(value) = preferences.edit { putBoolean(IS_SEND_FCM_TOKEN, value) }
 
     var motorTypeVersion :Int?
     get() = preferences.getInt(MOTOR_TYPE_VERSION,0)
@@ -36,5 +42,7 @@ class UserPref(application:Application){
     companion object {
         const val MOTOR_TYPE_VERSION = "MOTOR_TYPE_VERSION_KEY"
         const val USER_INFO="USER_INFO_KEY"
+        const val FCM_TOKEN = "FCM_TOKEN"
+        const val IS_SEND_FCM_TOKEN = "IS_SEND_FCM_TOKEN"
     }
 }

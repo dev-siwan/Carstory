@@ -150,7 +150,7 @@ class FeedDetailActivity :
 
         //게시물
         optionFeedEvent.observe(this@FeedDetailActivity, Observer { feedData->
-            showOptionsList(feedData.uid,
+            showOptionsList(feedData.Feed,
             reportCallback = {},
             deleteCallback = { viewModel.removeFeedListener() },
             updateCallback = {

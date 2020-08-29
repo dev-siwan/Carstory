@@ -67,6 +67,7 @@ class SplashViewModel(
                     success = {
                         UserInfo.userInfo?.nickName?.let {
                             setCompleteEvent(SplashCompleteType.FEED)
+                            UserInfo.updateFcm()
                         } ?: emptyNickNameEvent.call()
                     }, fail = {
                         setErrorEvent(SplashErrorType.USER_ERROR)

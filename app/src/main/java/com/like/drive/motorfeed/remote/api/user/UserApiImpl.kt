@@ -4,10 +4,12 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName.USER
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
@@ -71,6 +73,15 @@ class UserApiImpl(
     override suspend fun checkNickName(nickName: String): Flow<List<UserData>> {
         val query = fireStore.collection(USER).whereEqualTo(NICK_NAME_FIELD, nickName)
         return fireBaseTask.getData(query, UserData::class.java)
+    }
+
+    override suspend fun updateFcmToken(token: String): Flow<Boolean> {
+        return  UserInfo.userInfo?.uid?.let {
+            val document = fireStore.collection(USER).document(it)
+            val map = mapOf("fcmToken" to token)
+
+             fireBaseTask.updateData(document ,map)
+        }?: emptyFlow()
     }
 
     companion object{

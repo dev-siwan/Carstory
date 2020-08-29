@@ -1,5 +1,9 @@
 package com.like.drive.motorfeed.data.user
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class UserData(
     val uid:String?=null,
     val email:String?=null,
@@ -7,4 +11,4 @@ data class UserData(
     var intro:String?=null,
     var nickName:String?=null,
     val userBan:Boolean=false
-)
+):Parcelable
