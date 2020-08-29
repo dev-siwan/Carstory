@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 
-fun RecyclerView.withPaging(callback: PagingCallback,scrollDown:((Boolean)->Unit)?=null) {
+fun RecyclerView.withPaging(callback: PagingCallback, isScroll:((Boolean)->Unit)?=null) {
     val visibleThreshold = 3
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -23,12 +23,22 @@ fun RecyclerView.withPaging(callback: PagingCallback,scrollDown:((Boolean)->Unit
                         callback.requestMoreList()
                     }
 
-                    if (dy > 0) {
-                        scrollDown?.invoke(false)
+                   /* if (dy > 0) {
+                        isScroll?.invoke(false)
                     } else {
-                        scrollDown?.invoke(true)
-                    }
+                        isScroll?.invoke(true)
+                    }*/
                 }
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                isScroll?.invoke(false)
+            } else {
+                isScroll?.invoke(true)
             }
         }
     })

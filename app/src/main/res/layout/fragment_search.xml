@@ -19,6 +19,18 @@
         android:background="@color/white_100"
         tools:context=".ui.search.fragment.SearchFragment">
 
+
+        <include
+            android:id="@+id/listFilter"
+            layout="@layout/layout_search_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:vm="@{vm}"/>
+
+
         <include
             android:id="@+id/incSearchList"
             android:layout_width="0dp"
@@ -31,26 +43,5 @@
             app:vm="@{vm}"
             app:feedVm="@{feedVm}" />
 
-
-        <include
-            android:id="@+id/listFilter"
-            layout="@layout/layout_search_list_top"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:vm="@{vm}"
-            android:visibility="gone"/>
-
-        <include
-            android:id="@+id/incSearchView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            layout="@layout/layout_search_view"
-            app:vm="@{vm}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

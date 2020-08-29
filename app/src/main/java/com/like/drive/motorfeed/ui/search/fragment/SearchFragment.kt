@@ -16,24 +16,25 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.showListDialog
+import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
 import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
-import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
+import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
+import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.filter.dialog.FeedListFilterDialog
-import com.like.drive.motorfeed.ui.main.activity.MainActivity
+import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_search_list.*
-import kotlinx.android.synthetic.main.layout_search_list.view.*
-import kotlinx.android.synthetic.main.layout_search_view.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -59,10 +60,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun initView() {
         rvFeed.apply {
             paging()
+
         }
 
-        incSearchView.isVisible = feedAdapter.feedList.isEmpty()
-        listFilter.isVisible = feedAdapter.feedList.isNotEmpty()
     }
 
     private fun RecyclerView.paging() {
@@ -80,16 +80,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
             override fun isRequest(): Boolean = false
 
-        }, scrollDown = {
+        },
+        isScroll = {
+            if(it){
+                goneSearchView()
+            }else{
+                visibleSearchView()
+            }
+        });
 
-        })
     }
 
     private fun withViewModel() {
         with(viewModel) {
-            showFilter()
+            //showFilter()
             searchComplete()
-            searchIcEvent()
+            showFeedType()
+            pageToMotorType()
         }
         with(feedListViewModel) {
             listComplete()
@@ -97,7 +104,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
     }
 
-    private fun SearchViewModel.showFilter() {
+ /*   private fun SearchViewModel.showFilter() {
         filterClickEvent.observe(viewLifecycleOwner, Observer {
             filterDialog.newInstance(viewModel.feedType.value, viewModel.motorType.value).apply {
                 setFilter = { feedType, motorType ->
@@ -106,18 +113,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                 }
             }.show(requireActivity().supportFragmentManager, "")
         })
-    }
+    }*/
 
     private fun SearchViewModel.searchComplete() {
         searchBtnClickEvent.observe(viewLifecycleOwner, Observer {
             feedListViewModel.initDate(feedType.value, motorType.value, tagValue.value)
-        })
-    }
-
-    private fun SearchViewModel.searchIcEvent() {
-        searchIcClickEvent.observe(viewLifecycleOwner, Observer {
-            visibleSearchView()
-            goneListTop()
         })
     }
 
@@ -126,8 +126,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             feedAdapter.run {
                 if (isFirst) {
                     initList(it)
-                    goneSearchView()
-                    visibleListTop()
                 } else {
                     moreList(it)
                 }
@@ -135,49 +133,58 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         })
     }
 
+    private fun SearchViewModel.showFeedType() {
+        filterFeedTypeClickEvent.observe(viewLifecycleOwner, Observer {
+            getFeedTypeList(this@SearchFragment.requireContext()).toMutableList().apply {
+                add(0, FeedTypeData(getString(R.string.not_select), "", 0))
+            }.let {
+                requireActivity().showListDialog(it.map { data -> data.title }
+                    .toTypedArray()) { position ->
+                    when (position) {
+                        0 -> {
+                            viewModel.setTypeFilter(null)
+                        }
+                        else -> {
+                            viewModel.setTypeFilter(it[position])
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     private fun visibleSearchView() {
+        if(!listFilter.isVisible) {
+            val transition: Transition = Slide(Gravity.TOP)
+            transition.apply {
+                duration = 400
+                addTarget(listFilter)
+            }
 
-        val transition: Transition = Slide(Gravity.TOP)
-        transition.apply {
-            duration = 400
-            addTarget(incSearchView)
+            TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
+            listFilter.visibility = View.VISIBLE
         }
-
-        TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
-        incSearchView.visibility = View.VISIBLE
-
     }
 
     private fun goneSearchView() {
+        if (listFilter.isVisible) {
+            val transition: Transition = Slide(Gravity.TOP)
+            transition.apply {
+                duration = 200
+                addTarget(listFilter)
+            }
 
-        val transition: Transition = Slide(Gravity.TOP)
-        transition.apply {
-            duration = 200
-            addTarget(incSearchView)
-        }
-
-        TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
-        incSearchView.visibility = View.GONE
-
-    }
-
-    private fun goneListTop() {
-        lifecycleScope.launch(Dispatchers.Main) {
-
-            val slideDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
-            listFilter.startAnimation(slideDown)
+            TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
             listFilter.visibility = View.GONE
-
         }
     }
 
-    private fun visibleListTop() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            val slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
-            listFilter.startAnimation(slideUp)
-            listFilter.visibility = View.VISIBLE
 
-        }
+
+    private fun SearchViewModel.pageToMotorType() {
+        filterMotorTypeClickEvent.observe(viewLifecycleOwner, Observer {
+            startActForResult(SelectMotorTypeActivity::class, SelectMotorTypeActivity.REQUEST_CODE)
+        })
     }
 
     private fun FeedListViewModel.pageToDetailAct() {
@@ -209,6 +216,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                 }
             }
 
+            SelectMotorTypeActivity.REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    data?.getParcelableExtra<MotorTypeData>(SelectMotorTypeActivity.RESULT_KEY)
+                        ?.let {
+                            viewModel.setMotorFilter(it)
+                        }
+                }
+            }
         }
     }
 

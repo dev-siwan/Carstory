@@ -161,23 +161,18 @@
     <string name="camera_text">카메라</string>
     <string name="gallery_text">앨범</string>
 
-    <string name="filter_feed_type_value">카테고리:%s</string>
-    <string name="filter_feed_type_motor_type_full_value">카테고리:%s, 종류:%s | %s</string>
-    <string name="filter_feed_type_motor_type_brand_value">카테고리:%s, 종류:%s</string>
-    <string name="filter_motor_type_full_value">종류:%s | %s</string>
-    <string name="filter_motor_type_brand_value">종류:%s</string>
-    <string name="filter_not_select"><![CDATA[<font color="#d7d7d7">추가된 필터가 없습니다.</font>]]></string>
-
     <string name="photo_menu_show">크게보기</string>
     <string name="photo_menu_delete">삭제하기</string>
 
     <string name="update_photo_desc">피드를 수정 할 때는 이미지를 수정 할 수 없습니다.\n해당 이미지를 선택하면 크게 볼 수 있습니다.</string>
     <string name="not_update_photo_desc">해당 이미지를 선택하면 삭제 또는 크게 볼 수 있습니다.</string>
 
-    <string name="feed_list_top_tag">태그: %s</string>
-    <string name="feed_list_top_type">카테고리: %s</string>
-    <string name="feed_list_top_brand">브랜드: %s</string>
-    <string name="feed_list_top_model">모델: %s</string>
+    <string name="feed_list_filter_type">카테고리: %s</string>
+    <string name="feed_list_filter_motor_brand">종류: %s</string>
+    <string name="feed_list_filter_motor_brand_model">종류 : %s | %s</string>
+
+    <string name="feed_list_filter_type_default">카테고리 선택</string>
+    <string name="feed_list_filter_motor_default">종류 선택</string>
 
     <string name="filter_feed_type_desc"><![CDATA[<font color="#8f8f8f">피드 종류를 선택해주세요.</font><br /><br />%s]]></string>
     <string name="filter_motor_type_desc"><![CDATA[<font color="#8f8f8f">자동차 종류를 선택해주세요.</font><br /><br />%s]]></string>
@@ -185,6 +180,7 @@
     <string name="feed_filter_title">필터 설정</string>
     <string name="setting_complete">적용하기</string>
     <string name="home_search_tag_hint">#태그로 검색이 가능합니다</string>
+    <string name="search_filter_complete">조건 검색 완료</string>
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>

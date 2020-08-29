@@ -50,7 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/rect_solid_black_conner"
+            android:background="@drawable/rect_solid_black_conner_4dp"
             android:text="글 작성하기"
             android:textColor="@color/white_100"
             android:textSize="@dimen/normal_text_size"

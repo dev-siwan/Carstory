@@ -25,7 +25,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rect_solid_light_1_conner"
+            android:background="@drawable/rect_solid_light_1_conner_8dp"
             android:gravity="center_horizontal"
             android:paddingStart="16dp"
             android:paddingTop="3dp"
