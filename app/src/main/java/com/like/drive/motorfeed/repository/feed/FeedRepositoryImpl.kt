@@ -1,10 +1,8 @@
 package com.like.drive.motorfeed.repository.feed
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.like.drive.motorfeed.data.feed.CommentData
-import com.like.drive.motorfeed.data.feed.CommentWrapData
-import com.like.drive.motorfeed.data.feed.FeedData
-import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.google.firebase.functions.FirebaseFunctionsException
+import com.like.drive.motorfeed.data.feed.*
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.api.feed.FeedApi
@@ -14,6 +12,7 @@ import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -164,16 +163,26 @@ class FeedRepositoryImpl(
     override suspend fun addComment(
         fid: String,
         comment: String,
+        commentFunData: CommentFunData,
         success: (CommentData) -> Unit,
         fail: () -> Unit
     ) {
         val commentData = CommentData().createComment(fid = fid, commentStr = comment)
 
-        feedApi.addComment(commentData).catch { e ->
+        feedApi.addComment(commentData).catch {e ->
             e.printStackTrace()
             fail.invoke()
         }.collect {
             success(commentData)
+
+            feedApi.setFuncComment(commentFunData).catch {e->
+                if (e is FirebaseFunctionsException) {
+              /*      val code = e.code
+                    val details = e.details*/
+
+                    Timber.i("functionError $e")
+                }
+            }.collect()
         }
     }
 

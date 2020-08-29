@@ -10,5 +10,6 @@ data class UserData(
     var profileImgUrl:String?=null,
     var intro:String?=null,
     var nickName:String?=null,
+    val fcmToken:String?=null,
     val userBan:Boolean=false
 ):Parcelable

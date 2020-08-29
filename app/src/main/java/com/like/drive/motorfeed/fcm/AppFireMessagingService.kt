@@ -8,7 +8,7 @@ import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.util.notification.NotificationUtil
 
-class AppFireMessagingService :FirebaseMessagingService(){
+class AppFireMessagingService : FirebaseMessagingService() {
 
     val context = MotorFeedApplication.getContext()
 
@@ -21,12 +21,12 @@ class AppFireMessagingService :FirebaseMessagingService(){
     override fun onMessageReceived(remoteMessaging: RemoteMessage) {
         super.onMessageReceived(remoteMessaging)
 
-        if(UserInfo.userInfo == null) return
+        if (UserInfo.userInfo == null) return
 
         remoteMessaging.notification?.let {
-            val title = it.title?:context.getString(R.string.app_name_kr)
-            val body= it.body?:""
-            handleNotification(title,body)
+            val title = it.title ?: context.getString(R.string.app_name_kr)
+            val body = it.body ?: ""
+            handleNotification(title, body)
         }
     }
 

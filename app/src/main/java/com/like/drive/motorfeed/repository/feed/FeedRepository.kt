@@ -1,9 +1,6 @@
 package com.like.drive.motorfeed.repository.feed
 
-import com.like.drive.motorfeed.data.feed.CommentData
-import com.like.drive.motorfeed.data.feed.CommentWrapData
-import com.like.drive.motorfeed.data.feed.FeedData
-import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.like.drive.motorfeed.data.feed.*
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
@@ -49,6 +46,7 @@ interface FeedRepository {
     suspend fun addComment(
         fid: String,
         comment: String,
+        commentFunData: CommentFunData,
         success: (CommentData) -> Unit,
         fail: () -> Unit
     )

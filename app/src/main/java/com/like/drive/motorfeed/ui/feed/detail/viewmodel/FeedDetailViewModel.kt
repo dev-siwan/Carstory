@@ -9,10 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.common.user.UserInfo
-import com.like.drive.motorfeed.data.feed.CommentData
-import com.like.drive.motorfeed.data.feed.CommentWrapData
-import com.like.drive.motorfeed.data.feed.FeedData
-import com.like.drive.motorfeed.data.feed.ReCommentData
+import com.like.drive.motorfeed.data.feed.*
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
@@ -30,7 +27,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     private val _photoIndex = MutableLiveData(1)
     val photoIndex: LiveData<Int> get() = _photoIndex
 
-    val optionFeedEvent= SingleLiveEvent<FeedData>()
+    val optionFeedEvent = SingleLiveEvent<FeedData>()
 
     val comment = MutableLiveData<String>()
     val reComment = MutableLiveData<String>()
@@ -87,13 +84,13 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         }
     }
 
-    fun removeFeedListener(){
+    fun removeFeedListener() {
         isProgressEvent.value = true
         _feedData.value?.let {
             viewModelScope.launch {
                 feedRepository.removeFeed(it,
-                success = { removeFeedEvent.value = it },
-                fail = {  setFailProcess(R.string.feed_remove_error_message) })
+                    success = { removeFeedEvent.value = it },
+                    fail = { setFailProcess(R.string.feed_remove_error_message) })
             }
         }
     }
@@ -105,8 +102,16 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     /**
      * comment Dialog 에서 값을 받기 위한 리스너
      */
-    fun showCommentDialogListener(isCommentUpdate:Boolean?=false, commentData: CommentData?=null, reCommentData: ReCommentData?=null) {
-        showCommentDialogEvent.value = CommentFragmentExtra(commentUpdate = isCommentUpdate ,commentData = commentData,reCommentData = reCommentData)
+    fun showCommentDialogListener(
+        isCommentUpdate: Boolean? = false,
+        commentData: CommentData? = null,
+        reCommentData: ReCommentData? = null
+    ) {
+        showCommentDialogEvent.value = CommentFragmentExtra(
+            commentUpdate = isCommentUpdate,
+            commentData = commentData,
+            reCommentData = reCommentData
+        )
     }
 
     /**
@@ -138,10 +143,19 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         isProgressEvent.value = true
 
         comment?.let {
+            val commentFuncData =
+                CommentFunData(
+                    it,
+                    fid,
+                    0,
+                    feedData.value?.userInfo?.uid ?: "",
+                    feedData.value?.userInfo?.fcmToken ?: ""
+                )
+
             viewModelScope.launch {
-                feedRepository.addComment(fid, it,
-                    success = {
-                        addCommentEvent.value = it
+                feedRepository.addComment(fid, it, commentFuncData,
+                    success = { commentData ->
+                        addCommentEvent.value = commentData
                         commentCountObserver.set(commentCountObserver.get() + 1)
                     },
                     fail = {
@@ -177,7 +191,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     /**
      * Remote 댓글 수정
      */
-    private fun updateFeedComment(commentData: CommentData,commentValue:String){
+    private fun updateFeedComment(commentData: CommentData, commentValue: String) {
         isProgressEvent.value = true
 
         viewModelScope.launch {
@@ -188,14 +202,14 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
                     updateCommentEvent.value = commentData
                     completeCommentDialogEvent.call()
                 },
-                fail = { setFailProcess(R.string.comment_update_error_message)  })
+                fail = { setFailProcess(R.string.comment_update_error_message) })
         }
     }
 
     /**
      * Remote 대댓글 수정
      */
-    private fun updateFeedReComment(reCommentData: ReCommentData,commentValue:String){
+    private fun updateFeedReComment(reCommentData: ReCommentData, commentValue: String) {
         isProgressEvent.value = true
 
         viewModelScope.launch {
@@ -247,7 +261,6 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         }
     }
 
-
     private fun setFailProcess(stringID: Int) {
         errorEvent.value = stringID
         isProgressEvent.value = false
@@ -257,7 +270,6 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         isProgressEvent.value = false
     }
 
-
     fun showCommentOptions(commentData: CommentData) {
         optionsCommentEvent.value = commentData
     }
@@ -266,7 +278,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         optionsReCommentEvent.value = reCommentData
     }
 
-    fun showFeedOptions(feedData: FeedData){
+    fun showFeedOptions(feedData: FeedData) {
         optionFeedEvent.value = feedData
     }
 
@@ -285,10 +297,9 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
     }
 
-    fun setDetailImgClickListener(url:String){
+    fun setDetailImgClickListener(url: String) {
         imgUrlClickEvent.value = url
     }
-
 
     private fun setLikeCount(isUp: Boolean) {
         if (isUp) {

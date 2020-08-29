@@ -92,14 +92,13 @@ class FireBaseTask {
             emit(Tasks.forResult(deleteTask).isComplete)
         }
 
-    suspend fun setFunction(map: Map<String, String>, callableName: String): Flow<Boolean> =
+    suspend fun setFunction(map: Map<String, Any>, callableName: String): Flow<String> =
         flow {
-            val functionTask = taskFunction(map, callableName).await()
-            emit(Tasks.forResult(functionTask).isSuccessful)
+            emit(taskFunction(map, callableName).await())
         }
 
     private fun taskFunction(
-        map: Map<String, String>,
+        map: Map<String, Any>,
         callableName: String
     ): com.google.android.gms.tasks.Task<String> {
         return FirebaseFunctions.getInstance("asia-northeast3")
