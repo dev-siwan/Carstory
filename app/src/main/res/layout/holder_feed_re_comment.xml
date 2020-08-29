@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@id/glTop"
-            app:profileImg="@{reCommentData.profileImg}"
+            app:profileImg="@{reCommentData.userInfo.profileImgUrl}"
             tools:background="@drawable/oval_stroke_grey_6_size_32" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_marginStart="@dimen/activity_small_margin"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="@{reCommentData.nickName}"
+            android:text="@{reCommentData.userInfo.nickName}"
             android:textColor="@android:color/black"
             android:textSize="@dimen/normal_text_size"
             app:layout_constraintBottom_toBottomOf="@id/ivProfile"

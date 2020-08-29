@@ -19,22 +19,29 @@
         android:background="@color/white_100"
         tools:context=".ui.search.fragment.SearchFragment">
 
-
-
-
         <include
             android:id="@+id/incSearchList"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/listFilter"
             layout="@layout/layout_search_list"
             app:vm="@{vm}"
-            app:feedVm="@{feedVm}"
-            android:visibility="gone"/>
+            app:feedVm="@{feedVm}" />
 
+
+        <include
+            android:id="@+id/listFilter"
+            layout="@layout/layout_search_list_top"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:vm="@{vm}"
+            android:visibility="gone"/>
 
         <include
             android:id="@+id/incSearchView"

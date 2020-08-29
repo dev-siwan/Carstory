@@ -60,6 +60,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         rvFeed.apply {
             paging()
         }
+
+        incSearchView.isVisible = feedAdapter.feedList.isEmpty()
+        listFilter.isVisible = feedAdapter.feedList.isNotEmpty()
     }
 
     private fun RecyclerView.paging() {
@@ -162,8 +165,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         lifecycleScope.launch(Dispatchers.Main) {
 
             val slideDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
-            incSearchList.startAnimation(slideDown)
-            incSearchList.visibility = View.GONE
+            listFilter.startAnimation(slideDown)
+            listFilter.visibility = View.GONE
 
         }
     }
@@ -171,8 +174,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun visibleListTop() {
         lifecycleScope.launch(Dispatchers.Main) {
             val slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
-            incSearchList.startAnimation(slideUp)
-            incSearchList.visibility = View.VISIBLE
+            listFilter.startAnimation(slideUp)
+            listFilter.visibility = View.VISIBLE
 
         }
     }

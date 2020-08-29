@@ -150,7 +150,7 @@ class FeedDetailActivity :
 
         //게시물
         optionFeedEvent.observe(this@FeedDetailActivity, Observer { feedData->
-            showOptionsList(feedData.Feed,
+            showOptionsList(feedData.userInfo?.uid,
             reportCallback = {},
             deleteCallback = { viewModel.removeFeedListener() },
             updateCallback = {
@@ -159,7 +159,7 @@ class FeedDetailActivity :
         })
         //코멘트
         optionsCommentEvent.observe(this@FeedDetailActivity, Observer { commentData ->
-            showOptionsList(commentData.uid,
+            showOptionsList(commentData.userInfo?.uid,
                 reportCallback = {
 
                 },
@@ -173,7 +173,7 @@ class FeedDetailActivity :
 
         //리코멘트
         optionsReCommentEvent.observe(this@FeedDetailActivity, Observer { reCommentData ->
-            showOptionsList(reCommentData.uid,
+            showOptionsList(reCommentData.userInfo?.uid,
                 reportCallback = {
 
                 },

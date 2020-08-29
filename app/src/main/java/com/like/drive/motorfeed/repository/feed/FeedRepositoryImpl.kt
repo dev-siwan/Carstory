@@ -52,7 +52,7 @@ class FeedRepositoryImpl(
         )
 
         feedApi.setFeed(creteFeedData)
-            .zip(feedApi.setUserFeed(creteFeedData.uid ?: "", creteFeedData)) { t1, t2 ->
+            .zip(feedApi.setUserFeed(creteFeedData.userInfo?.uid ?: "", creteFeedData)) { t1, t2 ->
                 if (t1 && t2) {
                     success(creteFeedData)
                 } else {
@@ -79,7 +79,7 @@ class FeedRepositoryImpl(
         )
 
         feedApi.setFeed(updateFeedData)
-            .zip(feedApi.setUserFeed(updateFeedData.uid ?: "", updateFeedData)) { t1, t2 ->
+            .zip(feedApi.setUserFeed(updateFeedData.userInfo?.uid ?: "", updateFeedData)) { t1, t2 ->
                 if (t1 && t2) {
                     success(updateFeedData)
                 } else {
