@@ -5,11 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.ui.feed.list.holder.FeedListViewHolder
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
-import com.like.drive.motorfeed.ui.home.holder.HomeFeedListDescViewHolder
 import com.like.drive.motorfeed.ui.home.holder.HomeRegisterFeedViewHolder
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 
-class HomeAdapter(
+class NewsFeedAdapter(
     private val homeViewModel: HomeViewModel,
     private val feedListViewModel: FeedListViewModel
 ) :
@@ -20,13 +19,11 @@ class HomeAdapter(
     }
 
     private val TYPE_REGISTER_FEED = 0
-    private val TYPE_TITLE = 1
-    private val TYPE_ITEM = 2
+    private val TYPE_ITEM = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_REGISTER_FEED -> HomeRegisterFeedViewHolder.from(parent)
-            TYPE_TITLE -> HomeFeedListDescViewHolder.from(parent)
             else -> FeedListViewHolder.from(parent)
         }
     }
@@ -43,7 +40,6 @@ class HomeAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             TYPE_REGISTER_FEED -> TYPE_REGISTER_FEED
-            TYPE_TITLE -> TYPE_TITLE
             else -> TYPE_ITEM
         }
     }
@@ -89,6 +85,6 @@ class HomeAdapter(
     }
 
     companion object{
-        const val FEED_LIST_START_POSITION = 2
+        const val FEED_LIST_START_POSITION = 1
     }
 }

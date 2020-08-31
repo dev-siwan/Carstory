@@ -13,6 +13,7 @@ import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_COMMENT
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_RE_COMMENT
+import com.like.drive.motorfeed.ui.base.ext.getDaysAgo
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import kotlinx.coroutines.flow.Flow
@@ -64,6 +65,21 @@ class FeedApiImpl(
     override suspend fun getFeed(fid: String): Flow<FeedData?> {
         val document = fireStore.collection(CollectionName.FEED).document(fid)
         return fireBaseTask.getData(document, FeedData::class.java)
+    }
+
+    override suspend fun getPopularFeedList(likeCount:Int): Flow<List<FeedData>> {
+        val feedCollection = fireStore.collection(CollectionName.FEED)
+
+        val query = feedCollection
+
+            .whereLessThan(LIKE_COUNT_FIELD, likeCount)
+            .orderBy(LIKE_COUNT_FIELD, Query.Direction.DESCENDING)
+            .limit(INIT_SIZE.toLong())
+
+        return fireBaseTask.getData(
+            query,
+            FeedData::class.java
+        )
     }
 
     override suspend fun getFeedList(
@@ -128,7 +144,7 @@ class FeedApiImpl(
     }
 
     override suspend fun setFuncComment(commentFunData: CommentFunData): Flow<String> {
-        return fireBaseTask.setFunction(commentFunData.getHashMap(),FunctionDefine.ADD_COMMENT)
+        return fireBaseTask.setFunction(commentFunData.getHashMap(), FunctionDefine.ADD_COMMENT)
     }
 
     override suspend fun updateCount(fid: String, flag: FeedCountEnum) {

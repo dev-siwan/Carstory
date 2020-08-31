@@ -78,7 +78,12 @@ class FeedRepositoryImpl(
         )
 
         feedApi.setFeed(updateFeedData)
-            .zip(feedApi.setUserFeed(updateFeedData.userInfo?.uid ?: "", updateFeedData)) { t1, t2 ->
+            .zip(
+                feedApi.setUserFeed(
+                    updateFeedData.userInfo?.uid ?: "",
+                    updateFeedData
+                )
+            ) { t1, t2 ->
                 if (t1 && t2) {
                     success(updateFeedData)
                 } else {
@@ -103,18 +108,17 @@ class FeedRepositoryImpl(
             }
         }
 
-            feedApi.removeFeed(feedData).zip(feedApi.removeUserFeed(feedData)) { t1, t2 ->
-                if(t1 && t2){
-                    success(feedData)
-                }else{
-                    fail.invoke()
-                }
-            }.catch {
+        feedApi.removeFeed(feedData).zip(feedApi.removeUserFeed(feedData)) { t1, t2 ->
+            if (t1 && t2) {
+                success(feedData)
+            } else {
                 fail.invoke()
-            }.collect()
+            }
+        }.catch {
+            fail.invoke()
+        }.collect()
 
     }
-
 
     override suspend fun setLike(fid: String, isUp: Boolean) {
         if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(
@@ -156,9 +160,11 @@ class FeedRepositoryImpl(
         motorTypeData: MotorTypeData?,
         feedTypeData: FeedTypeData?,
         tagStr: String?
-    ): Flow<List<FeedData>> {
-        return feedApi.getFeedList(date, motorTypeData, feedTypeData, tagStr)
-    }
+    ): Flow<List<FeedData>> =
+        feedApi.getFeedList(date, motorTypeData, feedTypeData, tagStr)
+
+    override suspend fun getPopularFeedList(likeCount: Int): Flow<List<FeedData>> =
+        feedApi.getPopularFeedList(likeCount)
 
     override suspend fun addComment(
         fid: String,
@@ -169,16 +175,16 @@ class FeedRepositoryImpl(
     ) {
         val commentData = CommentData().createComment(fid = fid, commentStr = comment)
 
-        feedApi.addComment(commentData).catch {e ->
+        feedApi.addComment(commentData).catch { e ->
             e.printStackTrace()
             fail.invoke()
         }.collect {
             success(commentData)
 
-            feedApi.setFuncComment(commentFunData).catch {e->
+            feedApi.setFuncComment(commentFunData).catch { e ->
                 if (e is FirebaseFunctionsException) {
-              /*      val code = e.code
-                    val details = e.details*/
+                    /*      val code = e.code
+                          val details = e.details*/
 
                     Timber.i("functionError $e")
                 }
@@ -202,7 +208,6 @@ class FeedRepositoryImpl(
             success(reCommentData)
         }
     }
-
 
     override suspend fun updateComment(
         comment: CommentData,
@@ -228,7 +233,6 @@ class FeedRepositoryImpl(
         }
     }
 
-
     override suspend fun removeComment(
         comment: CommentData,
         success: () -> Unit,
@@ -253,7 +257,6 @@ class FeedRepositoryImpl(
         }
     }
 
-
     private suspend fun checkImgUpload(): Flow<Int> =
         flow {
             if (photoFileList.any { it.imgUrl == null }) {
@@ -267,7 +270,7 @@ class FeedRepositoryImpl(
     private suspend fun imgUpload(): Flow<Int> = flow {
         photoFileList.forEachIndexed { index, photoData ->
             if (photoData.imgUrl == null) {
-                imgApi.uploadFeedImage(documentID, photoData.file!!,index)
+                imgApi.uploadFeedImage(documentID, photoData.file!!, index)
                     .catch { photoFileList[index].imgUrl = null }
                     .collect {
                         photoFileList[index].imgUrl = it.toString()

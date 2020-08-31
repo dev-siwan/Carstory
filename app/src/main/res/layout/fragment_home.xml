@@ -73,7 +73,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         app:tabGravity="fill"
-                        app:tabMode="scrollable" />
+                        app:tabMode="scrollable"
+                        app:tabIndicatorColor="@android:color/black"/>
                 </LinearLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -93,18 +94,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
-
-                <!-- <include
-                     android:id="@+id/incContent"
-                     layout="@layout/layout_home_content"
-                     android:layout_width="0dp"
-                     android:layout_height="0dp"
-                     android:overScrollMode="never"
-                     app:layout_constraintBottom_toBottomOf="parent"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toTopOf="parent" />-->
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
