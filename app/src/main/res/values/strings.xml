@@ -8,6 +8,8 @@
     <string name="home_register_feed_intro_desc">나의 유용한 정보나 궁금한 정보를 \n공유해보세요.</string>
     <string name="home_recent_upload_desc">최근 올라온 글</string>
     <string name="home_filter_desc">내가 저장 해놓은 필터의 글을 미리 볼수 가 있습니다.</string>
+    <string name="home_news_feed">뉴스피드</string>
+    <string name="home_popular">인기글</string>
 
     <string name="all">전체</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

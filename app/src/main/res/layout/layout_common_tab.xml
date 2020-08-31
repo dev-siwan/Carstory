@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvTabTitle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:maxLines="1"
+    android:ellipsize="end"
+    android:textColor="@color/color_selected_grey_2_and_grey_4"
+    android:textSize="16sp"
+    tools:text="탭 타이틀" />

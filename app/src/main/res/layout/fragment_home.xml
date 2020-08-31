@@ -1,91 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="vm"
             type="com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel" />
+
         <variable
             name="mainVm"
             type="com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.fragment.HomeFragment"
-    android:background="@color/white_100">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white_100"
+        tools:context=".ui.home.fragment.HomeFragment">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBar"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clipToPadding="false">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/ctBarLayout"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clipToPadding="false"
+                app:elevation="0dp">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/ctBarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:contentScrim="@null"
+                    app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+                    <include
+                        layout="@layout/layout_home_intro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_collapseMode="parallax" />
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:contentInsetLeft="0dp"
+                        app:contentInsetStart="0dp"
+                        app:layout_collapseMode="pin" />
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <include
+                        android:id="@+id/incSearch"
+                        layout="@layout/layout_home_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="74dp"
+                        app:vm="@{vm}" />
+
+                    <com.like.drive.motorfeed.ui.custom.tab.CustomTabLayout
+                        android:id="@+id/tabHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:tabGravity="fill"
+                        app:tabMode="scrollable" />
+                </LinearLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="@null"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <include
-                    layout="@layout/layout_home_intro"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vpHome"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:contentInsetLeft="0dp"
-                    app:contentInsetStart="0dp"
-                    app:layout_collapseMode="pin" />
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-        </com.google.android.material.appbar.AppBarLayout>
+                <!-- <include
+                     android:id="@+id/incContent"
+                     layout="@layout/layout_home_content"
+                     android:layout_width="0dp"
+                     android:layout_height="0dp"
+                     android:overScrollMode="never"
+                     app:layout_constraintBottom_toBottomOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintTop_toTopOf="parent" />-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <include
-                android:id="@+id/incSearch"
-                layout="@layout/layout_home_search"
-                android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:focusable="true"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:vm="@{vm}"/>
-
-
-            <include
-                android:id="@+id/incContent"
-                layout="@layout/layout_home_content"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:overScrollMode="never"
-                android:layout_marginTop="74dp"
-                app:layout_constraintTop_toTopOf="@id/incSearch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
