@@ -121,7 +121,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
         photoItemClickEvent.value = photoData
     }
 
-    fun upload() {
+    fun upload(tagList:List<String>) {
 
         isUploadLoading.value = true
         _isPhotoUpload.value = originFileList.isNotEmpty()
@@ -131,7 +131,7 @@ class FeedUploadViewModel(private val feedRepository: FeedRepository):BaseViewMo
             content = this.content.value!!,
             feedType = _feedType.value!!,
             motorTypeData = _motorType.value,
-            feedTagList = _tagList.value
+            feedTagList = tagList as ArrayList<String>
         )
 
         if(isUpdate.get()) updateFeed(feedField,feedData) else addFeed(feedField)

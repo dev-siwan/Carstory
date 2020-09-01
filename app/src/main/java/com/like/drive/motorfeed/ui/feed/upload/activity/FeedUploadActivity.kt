@@ -60,13 +60,13 @@ class FeedUploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity
             startActForResult(SelectMotorTypeActivity::class, SelectMotorTypeActivity.REQUEST_CODE)
         }
 
-        btnSelectTag.setOnClickListener {
+      /*  btnSelectTag.setOnClickListener {
             startActForResult(FeedTagActivity::class, FeedTagActivity.TAG_ACT_REQ, Bundle().apply {
                 viewModelFeed.tagList.value?.let {
                     putStringArrayList(FeedTagActivity.TAG_LIST_KEY, it)
                 }
             })
-        }
+        }*/
     }
 
     override fun onBinding(dataBinding: ActivityUploadBinding) {

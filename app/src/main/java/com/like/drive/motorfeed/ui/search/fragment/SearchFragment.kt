@@ -88,7 +88,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         with(viewModel) {
             //showFilter()
             searchComplete()
-            showFeedType()
+           // showFeedType()
             pageToMotorType()
         }
         with(feedListViewModel) {
@@ -97,9 +97,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
     }
 
-    private fun SearchViewModel.searchComplete() {
+/*    private fun SearchViewModel.searchComplete() {
         searchBtnClickEvent.observe(viewLifecycleOwner, Observer {
             feedListViewModel.initDate(feedType.value, motorType.value, tagValue.value)
+        })
+    }
+    */
+    private fun SearchViewModel.searchComplete(){
+        tagValueEvent.observe(viewLifecycleOwner, Observer {
+            feedListViewModel.initDate(tagQuery = it)
         })
     }
 
@@ -115,7 +121,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         })
     }
 
-    private fun SearchViewModel.showFeedType() {
+   /* private fun SearchViewModel.showFeedType() {
         filterFeedTypeClickEvent.observe(viewLifecycleOwner, Observer {
             getFeedTypeList(this@SearchFragment.requireContext()).toMutableList().apply {
                 add(0, FeedTypeData(getString(R.string.not_select), "", 0))
@@ -133,9 +139,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                 }
             }
         })
-    }
+    }*/
 
-    private fun visibleSearchView() {
+   /* private fun visibleSearchView() {
         if (!listFilter.isVisible) {
             val transition: Transition = Slide(Gravity.TOP)
             transition.apply {
@@ -160,7 +166,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             listFilter.visibility = View.GONE
         }
     }
-
+*/
     private fun SearchViewModel.pageToMotorType() {
         filterMotorTypeClickEvent.observe(viewLifecycleOwner, Observer {
             startActForResult(SelectMotorTypeActivity::class, SelectMotorTypeActivity.REQUEST_CODE)

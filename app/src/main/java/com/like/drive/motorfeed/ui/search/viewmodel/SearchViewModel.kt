@@ -15,6 +15,8 @@ class SearchViewModel : BaseViewModel() {
     val motorType: LiveData<MotorTypeData> get() = _motorType
     val tagValue = MutableLiveData<String>()
 
+    val tagValueEvent = SingleLiveEvent<String>()
+
     val filterClickEvent = SingleLiveEvent<Unit>()
 
     val filterFeedTypeClickEvent =SingleLiveEvent<Unit>()
@@ -31,6 +33,12 @@ class SearchViewModel : BaseViewModel() {
     fun setTypeFilter(feedTypeData: FeedTypeData?){
         _feedType.value =feedTypeData
     }
+
+    val searchFeedAction: (String?) -> Unit = this::searchComplex
+    private fun searchComplex(keyword: String?) {
+        tagValueEvent.value = keyword
+    }
+
 
     fun setMotorFilter(motorTypeData: MotorTypeData?){
         if (motorTypeData?.brandCode == 0) {

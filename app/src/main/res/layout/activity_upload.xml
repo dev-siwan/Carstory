@@ -75,7 +75,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:textColor="@color/text_enable_color"
                 android:focusable="true"
-                android:onClick="@{()->vm.upload()}"/>
+                android:onClick="@{()->vm.upload(tvContent.getMentionList(true))}"/>
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -156,7 +156,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider3"
             tools:hint="제목을 입력해주세요." />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.like.drive.motorfeed.util.tag.MentionEditText
             android:id="@+id/tvContent"
             android:layout_width="0dp"
             android:layout_height="0dp"
