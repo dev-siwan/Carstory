@@ -5,7 +5,7 @@ import com.like.drive.motorfeed.R
 
 enum class HomeTab(val resId:Int) {
     NEWS_FEED(R.string.home_news_feed),
-    POPULAR(R.string.home_popular);
+    FILTER(R.string.home_filter);
 
     fun getTitle():String = MotorFeedApplication.getContext().getString(resId)
 }

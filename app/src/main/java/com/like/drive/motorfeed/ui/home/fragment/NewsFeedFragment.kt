@@ -14,24 +14,30 @@ import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
-import com.like.drive.motorfeed.ui.home.adapter.NewsFeedAdapter
-import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
+import com.like.drive.motorfeed.ui.home.adapter.HomeFeedAdapter
+import com.like.drive.motorfeed.ui.home.data.HomeTab
+import com.like.drive.motorfeed.ui.home.viewmodel.NewsFeedViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_news_feed.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment_news_feed) {
 
+    private val viewModel :NewsFeedViewModel by viewModel()
     private val feedListViewModel: FeedListViewModel by viewModel()
-    val viewModel: HomeViewModel by viewModel()
 
-    private val newsFeedAdapter by lazy { NewsFeedAdapter(viewModel, feedListViewModel) }
+    private val newsFeedAdapter by lazy {
+        HomeFeedAdapter(
+            viewModel=viewModel,
+            feedListViewModel =feedListViewModel,
+            homeTab = HomeTab.NEWS_FEED
+        )
+    }
 
     override fun onBind(dataBinding: FragmentNewsFeedBinding) {
         super.onBind(dataBinding)
 
         dataBinding.feedVm = feedListViewModel
-        dataBinding.vm = viewModel
         dataBinding.rvFeedList.adapter = newsFeedAdapter
 
     }

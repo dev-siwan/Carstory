@@ -42,7 +42,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private val viewModel: SearchViewModel by viewModel()
     private val feedListViewModel: FeedListViewModel by viewModel()
     private val feedAdapter by lazy { FeedListAdapter(feedListViewModel) }
-    private val filterDialog by lazy { FeedListFilterDialog }
 
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
@@ -66,6 +65,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
     private fun RecyclerView.paging() {
+
         withPaging(object : PagingCallback {
             override fun requestMoreList() {
 
@@ -80,13 +80,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
             override fun isRequest(): Boolean = false
 
-        },
-        isScroll = {
-            if(it){
-                goneSearchView()
-            }else{
-                visibleSearchView()
-            }
         });
 
     }
@@ -103,17 +96,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             pageToDetailAct()
         }
     }
-
- /*   private fun SearchViewModel.showFilter() {
-        filterClickEvent.observe(viewLifecycleOwner, Observer {
-            filterDialog.newInstance(viewModel.feedType.value, viewModel.motorType.value).apply {
-                setFilter = { feedType, motorType ->
-                    dismiss()
-                    this@SearchFragment.viewModel.setFilter(feedType, motorType)
-                }
-            }.show(requireActivity().supportFragmentManager, "")
-        })
-    }*/
 
     private fun SearchViewModel.searchComplete() {
         searchBtnClickEvent.observe(viewLifecycleOwner, Observer {
@@ -154,7 +136,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
     private fun visibleSearchView() {
-        if(!listFilter.isVisible) {
+        if (!listFilter.isVisible) {
             val transition: Transition = Slide(Gravity.TOP)
             transition.apply {
                 duration = 400
@@ -178,8 +160,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             listFilter.visibility = View.GONE
         }
     }
-
-
 
     private fun SearchViewModel.pageToMotorType() {
         filterMotorTypeClickEvent.observe(viewLifecycleOwner, Observer {

@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="vm"
-            type="com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel" />
-
-        <variable
             name="feedVm"
             type="com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel" />
     </data>
@@ -17,7 +13,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.fragment.NewsFeedFragment">
+        tools:context=".ui.home.fragment.NewsFeedFragment"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="beforeDescendants"
+        >
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeLayout"
             android:layout_width="match_parent"

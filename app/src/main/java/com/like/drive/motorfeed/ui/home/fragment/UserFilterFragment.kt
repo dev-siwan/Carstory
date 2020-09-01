@@ -3,37 +3,41 @@ package com.like.drive.motorfeed.ui.home.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
-import com.like.drive.motorfeed.databinding.FragmentNewsFeedBinding
-import com.like.drive.motorfeed.databinding.FragmentPopularBinding
+import com.like.drive.motorfeed.databinding.FragmentUserFilterBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
-import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
 import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
-import com.like.drive.motorfeed.ui.home.adapter.NewsFeedAdapter
-import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
+import com.like.drive.motorfeed.ui.filter.dialog.FeedListFilterDialog
+import com.like.drive.motorfeed.ui.home.adapter.HomeFeedAdapter
+import com.like.drive.motorfeed.ui.home.data.HomeTab
+import com.like.drive.motorfeed.ui.home.viewmodel.UserFilterViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_news_feed.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PopularFragment : BaseFragment<FragmentPopularBinding>(R.layout.fragment_popular) {
+class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.fragment_user_filter) {
 
     private val feedListViewModel: FeedListViewModel by viewModel()
-    val viewModel: HomeViewModel by viewModel()
+    val viewModel: UserFilterViewModel by viewModel()
 
-    private val listAdapter by lazy { FeedListAdapter(feedListViewModel) }
+    private val listAdapter by lazy {
+        HomeFeedAdapter(
+            viewModel = viewModel,
+            feedListViewModel = feedListViewModel,
+            homeTab = HomeTab.FILTER
+        )
+    }
+    private val filterDialog by lazy { FeedListFilterDialog }
 
-    override fun onBind(dataBinding: FragmentPopularBinding) {
+    override fun onBind(dataBinding: FragmentUserFilterBinding) {
         super.onBind(dataBinding)
 
         dataBinding.vm = viewModel
@@ -43,37 +47,35 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(R.layout.fragment_p
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initData()
         initView()
         withViewModel()
     }
 
     private fun initView() {
         rvFeedList.apply {
-
-            withPaging(object : PagingCallback {
-                override fun requestMoreList() {
-
-                    with(feedListViewModel) {
-                        if (!getLastDate()) {
-                            feedList.value?.lastOrNull()?.likeCount?.let {
-                                moreData(likeCount = it,isPopular = true)
-                            }
-                        }
-                    }
-                }
-
-                override fun isRequest(): Boolean = false
-
-            })
+            paging()
         }
 
     }
 
-    private fun initData() {
-        if (listAdapter.feedList.isEmpty()) {
-            feedListViewModel.initDate(isPopular = true)
-        }
+    private fun RecyclerView.paging() {
+        withPaging(object : PagingCallback {
+            override fun requestMoreList() {
+
+                with(feedListViewModel) {
+                    if (!getLastDate()) {
+                        feedList.value?.lastOrNull()?.let {
+                            moreData(
+                                date = it.createDate
+                            )
+                        }
+                    }
+                }
+            }
+
+            override fun isRequest(): Boolean = false
+
+        })
     }
 
     fun withViewModel() {
@@ -82,6 +84,32 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>(R.layout.fragment_p
             pageToDetailAct()
         }
 
+        with(viewModel) {
+            showFilterDialog()
+            setFilter()
+        }
+
+    }
+
+    private fun UserFilterViewModel.setFilter() {
+        setUserFilterEvent.observe(viewLifecycleOwner, Observer {
+            feedListViewModel.initDate(motorTypeData = it.motorType, feedTypeData = it.feedType)
+        })
+    }
+
+    private fun UserFilterViewModel.showFilterDialog() {
+        filterClickEvent.observe(viewLifecycleOwner, Observer {
+            val filterDialog = it?.let {
+                filterDialog.newInstance(it.feedType, it.motorType)
+            } ?: filterDialog.newInstance(null, null)
+
+            filterDialog.apply {
+                setFilter = { feedType, motorType ->
+                    dismiss()
+                    this@UserFilterFragment.viewModel.setFilter(feedType, motorType)
+                }
+            }.show(requireActivity().supportFragmentManager, "")
+        })
     }
 
     private fun FeedListViewModel.completeFeedList() {

@@ -3,14 +3,19 @@ package com.like.drive.motorfeed.ui.home.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.feed.list.holder.FeedListViewHolder
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
-import com.like.drive.motorfeed.ui.home.holder.HomeRegisterFeedViewHolder
-import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
+import com.like.drive.motorfeed.ui.home.data.HomeTab
+import com.like.drive.motorfeed.ui.home.holder.NewsFeedHeaderViewHolder
+import com.like.drive.motorfeed.ui.home.holder.UserFilterHeaderViewHolder
+import com.like.drive.motorfeed.ui.home.viewmodel.NewsFeedViewModel
+import com.like.drive.motorfeed.ui.home.viewmodel.UserFilterViewModel
 
-class NewsFeedAdapter(
-    private val homeViewModel: HomeViewModel,
-    private val feedListViewModel: FeedListViewModel
+class HomeFeedAdapter(
+    private val viewModel: BaseViewModel? = null,
+    private val feedListViewModel: FeedListViewModel,
+    private val homeTab: HomeTab
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -18,12 +23,18 @@ class NewsFeedAdapter(
         sortByDescending { it.updateDate }
     }
 
-    private val TYPE_REGISTER_FEED = 0
+    private val TYPE_HEADER = 0
     private val TYPE_ITEM = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_REGISTER_FEED -> HomeRegisterFeedViewHolder.from(parent)
+            TYPE_HEADER -> {
+                when (homeTab) {
+                    HomeTab.NEWS_FEED -> NewsFeedHeaderViewHolder.from(parent)
+                    else -> UserFilterHeaderViewHolder.from(parent)
+                }
+
+            }
             else -> FeedListViewHolder.from(parent)
         }
     }
@@ -32,14 +43,18 @@ class NewsFeedAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is HomeRegisterFeedViewHolder -> holder.bind(homeViewModel)
-            is FeedListViewHolder -> holder.bind(feedListViewModel, feedList[position - FEED_LIST_START_POSITION])
+            is NewsFeedHeaderViewHolder -> holder.bind((viewModel as NewsFeedViewModel))
+            is UserFilterHeaderViewHolder-> holder.bind((viewModel as UserFilterViewModel))
+            is FeedListViewHolder -> holder.bind(
+                feedListViewModel,
+                feedList[position - FEED_LIST_START_POSITION]
+            )
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            TYPE_REGISTER_FEED -> TYPE_REGISTER_FEED
+            TYPE_HEADER -> TYPE_HEADER
             else -> TYPE_ITEM
         }
     }
@@ -84,7 +99,7 @@ class NewsFeedAdapter(
         }
     }
 
-    companion object{
+    companion object {
         const val FEED_LIST_START_POSITION = 1
     }
 }

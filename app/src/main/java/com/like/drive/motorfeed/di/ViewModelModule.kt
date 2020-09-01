@@ -13,6 +13,8 @@ import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 import com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.motorfeed.ui.filter.viewmodel.FilterViewModel
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
+import com.like.drive.motorfeed.ui.home.viewmodel.NewsFeedViewModel
+import com.like.drive.motorfeed.ui.home.viewmodel.UserFilterViewModel
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
 import com.like.drive.motorfeed.ui.view.large.viewmodel.LargeThanViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -34,4 +36,6 @@ val viewModelModule = module {
     viewModel { LargeThanViewModel() }
     viewModel { SearchViewModel() }
     viewModel { FilterViewModel() }
+    viewModel { UserFilterViewModel() }
+    viewModel { NewsFeedViewModel() }
 }

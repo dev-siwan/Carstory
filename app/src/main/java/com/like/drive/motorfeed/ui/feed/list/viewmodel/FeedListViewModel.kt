@@ -1,7 +1,8 @@
 package com.like.drive.motorfeed.ui.feed.list.viewmodel
 
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
@@ -15,7 +16,7 @@ import java.util.*
 
 class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewModel() {
 
-    val feedList =  SingleLiveEvent<List<FeedData>>()
+    val feedList = SingleLiveEvent<List<FeedData>>()
 
     val errorEvent = SingleLiveEvent<Unit>()
     val feedType = MutableLiveData<FeedTypeData>()
@@ -33,67 +34,48 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
     private var tagQuery: String? = null
 
     fun initDate(
-        feedTypeData: FeedTypeData?=null,
-        motorTypeData: MotorTypeData?=null,
-        tagQuery: String?=null,
-        isPopular:Boolean?=false
+        feedTypeData: FeedTypeData? = null,
+        motorTypeData: MotorTypeData? = null,
+        tagQuery: String? = null
     ) {
         isFirst = true
 
-        if (isPopular == true) {
-            getFeedPopularList(9999)
-            return
-        }
-
         this.feedTypeData = feedTypeData
         this.motorTypeData = motorTypeData
-        this.tagQuery = if(!tagQuery.isNullOrBlank())tagQuery else null
+        this.tagQuery = if (!tagQuery.isNullOrBlank()) tagQuery else null
 
         getFeedList()
     }
 
-    fun moreData(date: Date?=null, likeCount: Int?=null, isPopular: Boolean? = null) {
+    fun moreData(date: Date? = null) {
         isFirst = false
         lastDate = date
 
-        if (isPopular == true) {
-            getFeedPopularList(likeCount?:9999)
-        } else {
-            getFeedList(date)
-        }
+
+        getFeedList(date)
+
     }
 
-    private fun getFeedList(date: Date?=Date()) {
+    private fun getFeedList(date: Date? = Date()) {
         viewModelScope.launch {
-            feedRepository.getFeedList(date?:Date(), motorTypeData, feedTypeData, tagQuery).catch {
-                it.message
-                errorEvent.call()
+            feedRepository.getFeedList(date ?: Date(), motorTypeData, feedTypeData, tagQuery)
+                .catch {
+                    it.message
+                    errorEvent.call()
 
-                if (isRefresh.get()){
-                    isRefresh.set(false)
+                    if (isRefresh.get()) {
+                        isRefresh.set(false)
+                    }
+                }.collect {
+                    feedList.value = it
+
+                    if (isRefresh.get()) {
+                        isRefresh.set(false)
+                    }
+
                 }
-            }.collect {
-                feedList.value = it
-
-                if (isRefresh.get()){
-                    isRefresh.set(false)
-                }
-
-            }
         }
     }
-
-    private fun getFeedPopularList(likeCount:Int) {
-        viewModelScope.launch {
-            feedRepository.getPopularFeedList(likeCount).catch {
-                it.message
-                errorEvent.call()
-            }.collect {
-                feedList.value = it
-            }
-        }
-    }
-
 
     fun getLastDate(): Boolean {
         return feedList.value?.lastOrNull()?.createDate == lastDate

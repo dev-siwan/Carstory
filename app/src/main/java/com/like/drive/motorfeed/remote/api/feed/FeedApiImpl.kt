@@ -67,20 +67,6 @@ class FeedApiImpl(
         return fireBaseTask.getData(document, FeedData::class.java)
     }
 
-    override suspend fun getPopularFeedList(likeCount:Int): Flow<List<FeedData>> {
-        val feedCollection = fireStore.collection(CollectionName.FEED)
-
-        val query = feedCollection
-
-            .whereLessThan(LIKE_COUNT_FIELD, likeCount)
-            .orderBy(LIKE_COUNT_FIELD, Query.Direction.DESCENDING)
-            .limit(INIT_SIZE.toLong())
-
-        return fireBaseTask.getData(
-            query,
-            FeedData::class.java
-        )
-    }
 
     override suspend fun getFeedList(
         date: Date,

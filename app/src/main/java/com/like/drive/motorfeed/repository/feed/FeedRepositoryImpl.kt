@@ -163,9 +163,6 @@ class FeedRepositoryImpl(
     ): Flow<List<FeedData>> =
         feedApi.getFeedList(date, motorTypeData, feedTypeData, tagStr)
 
-    override suspend fun getPopularFeedList(likeCount: Int): Flow<List<FeedData>> =
-        feedApi.getPopularFeedList(likeCount)
-
     override suspend fun addComment(
         fid: String,
         comment: String,
