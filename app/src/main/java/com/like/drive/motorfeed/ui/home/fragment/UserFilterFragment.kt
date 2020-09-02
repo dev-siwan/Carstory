@@ -3,7 +3,10 @@ package com.like.drive.motorfeed.ui.home.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
@@ -76,6 +79,15 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
             override fun isRequest(): Boolean = false
 
         })
+
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
+                    setDrawable(it)
+                }
+            }
+
+        addItemDecoration(dividerItemDecoration)
     }
 
     fun withViewModel() {

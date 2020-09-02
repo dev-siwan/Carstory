@@ -3,7 +3,10 @@ package com.like.drive.motorfeed.ui.home.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.FragmentNewsFeedBinding
@@ -23,13 +26,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment_news_feed) {
 
-    private val viewModel :NewsFeedViewModel by viewModel()
+    private val viewModel: NewsFeedViewModel by viewModel()
     private val feedListViewModel: FeedListViewModel by viewModel()
 
     private val newsFeedAdapter by lazy {
         HomeFeedAdapter(
-            viewModel=viewModel,
-            feedListViewModel =feedListViewModel,
+            viewModel = viewModel,
+            feedListViewModel = feedListViewModel,
             homeTab = HomeTab.NEWS_FEED
         )
     }
@@ -67,6 +70,15 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
                 override fun isRequest(): Boolean = false
 
             })
+
+            val dividerItemDecoration =
+                DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
+                        setDrawable(it)
+                    }
+                }
+
+            addItemDecoration(dividerItemDecoration)
         }
 
 

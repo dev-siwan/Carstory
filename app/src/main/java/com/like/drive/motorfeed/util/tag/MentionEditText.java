@@ -215,7 +215,6 @@ public class MentionEditText extends AppCompatEditText {
         setPattern(DEFAULT_METION_TAG, DEFAULT_MENTION_PATTERN);
         mMentionTextColor = Color.RED;
         //disable suggestion
-        setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         addTextChangedListener(new MentionTextWatcher());
     }
 

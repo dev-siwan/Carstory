@@ -69,7 +69,7 @@
     <string name="brand">브랜드</string>
     <string name="model">모델</string>
     <string name="input_title_hint">제목을 입력해주세요.</string>
-    <string name="input_content_hint">내용을 입력해주세요.</string>
+    <string name="input_content_hint"><![CDATA[내용을 입력해주세요.<br /><br /><font color="#000000">검색 조건을 넣으시려면 <big><b>#</b></big> 추가하여 입력해주세요.<br />(예:#람보르기니)</font>]]></string>
     <string name="todo">TODO</string>
     <string name="complete_text">완료</string>
     <string name="complete_count_text">완료( %d )</string>
@@ -173,16 +173,22 @@
     <string name="feed_list_filter_motor_brand">종류: %s</string>
     <string name="feed_list_filter_motor_brand_model">종류 : %s | %s</string>
 
+
+
+
+
     <string name="feed_list_filter_type_default">카테고리 선택</string>
     <string name="feed_list_filter_motor_default">종류 선택</string>
 
-    <string name="filter_feed_type_desc"><![CDATA[<font color="#8f8f8f">피드 종류를 선택해주세요.</font><br /><br />%s]]></string>
+    <string name="filter_feed_type_desc"><![CDATA[<font color="#8f8f8f">카테리를 선택해주세요.</font><br /><br />%s]]></string>
     <string name="filter_motor_type_desc"><![CDATA[<font color="#8f8f8f">자동차 종류를 선택해주세요.</font><br /><br />%s]]></string>
     <string name="not_select">선택없음</string>
     <string name="feed_filter_title">필터 설정</string>
     <string name="setting_complete">적용하기</string>
     <string name="home_search_tag_hint">#태그로 검색이 가능합니다</string>
     <string name="search_filter_complete">조건 검색 완료</string>
+    <string name="filter_not_message">카테고리와 모터종류를 통하여\n정보를 얻어보세요</string>
+    <string name="filter_search_btn">필터로 글 찾기</string>
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>

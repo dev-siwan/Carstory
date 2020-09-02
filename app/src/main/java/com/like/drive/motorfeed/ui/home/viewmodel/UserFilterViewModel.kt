@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.ui.home.viewmodel
 
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.user.UserFilter
@@ -17,6 +18,9 @@ class UserFilterViewModel : BaseViewModel(), KoinComponent {
 
     val setUserFilterEvent = SingleLiveEvent<UserFilter>()
     val filterClickEvent = SingleLiveEvent<UserFilter>()
+
+    val feedType = MutableLiveData<FeedTypeData>()
+    val motorType = MutableLiveData<MotorTypeData>()
 
     init {
         userPref.userFilter?.let {
@@ -58,6 +62,8 @@ class UserFilterViewModel : BaseViewModel(), KoinComponent {
 
     private fun setFilter(userFilter: UserFilter) {
         setUserFilterEvent.value = userFilter
+        feedType.value = userFilter.feedType
+        motorType.value = userFilter.motorType
         isFilter.set(true)
     }
 }

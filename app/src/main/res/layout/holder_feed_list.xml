@@ -72,16 +72,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:id="@+id/divider"
-                android:background="@color/light_gery_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/containerProfile"
-                android:visibility="@{data.imageUrls != null &amp;&amp; !data.imageUrls.empty ? View.GONE : View.VISIBLE}"/>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerDetailImg"
                 android:layout_width="0dp"
