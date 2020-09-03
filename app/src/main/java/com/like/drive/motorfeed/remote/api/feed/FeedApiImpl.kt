@@ -13,7 +13,6 @@ import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_COMMENT
 import com.like.drive.motorfeed.remote.reference.CollectionName.FEED_RE_COMMENT
-import com.like.drive.motorfeed.ui.base.ext.getDaysAgo
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import kotlinx.coroutines.flow.Flow
@@ -67,7 +66,6 @@ class FeedApiImpl(
         return fireBaseTask.getData(document, FeedData::class.java)
     }
 
-
     override suspend fun getFeedList(
         date: Date,
         motorTypeData: MotorTypeData?,
@@ -108,8 +106,10 @@ class FeedApiImpl(
             }
         }
 
-        val tagQuery = tagStr?.let { query
-            .whereArrayContains(FEED_TAG_LIST, tagStr)} ?: query
+        val tagQuery = tagStr?.let {
+            query
+                .whereArrayContains(FEED_TAG_LIST, tagStr)
+        } ?: query
 
         return fireBaseTask.getData(
             tagQuery.whereLessThan(CREATE_DATE_FIELD, date)
@@ -209,11 +209,6 @@ class FeedApiImpl(
         const val FEED_TYPE_CODE_FIELD = "feedTypeCode"
         const val CREATE_DATE_FIELD = "createDate"
         const val FEED_TAG_LIST = "feedTagList"
-        const val TITLE_FIELD="title"
-        const val CONTENT_FIELD="content"
-        const val FEED_TYPE_STR_FIELD="feedTypeStr"
-        const val BRAND_NAME_FIELD="brandName"
-        const val MODEL_NAME_FIELD="modelName"
         const val INIT_SIZE = 3
     }
 
