@@ -13,7 +13,9 @@ class RecentlyViewHolder(val binding: HolderRecentlyBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(vm: SearchViewModel, data: RecentlyData) {
-
+        binding.data = data
+        binding.vm= vm
+        binding.executePendingBindings()
     }
 
     companion object {

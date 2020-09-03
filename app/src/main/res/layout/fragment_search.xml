@@ -30,7 +30,9 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_100">
+        android:background="@color/white_100"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
@@ -47,12 +49,14 @@
                 android:background="@null"
                 android:drawableStart="@drawable/ic_search_light"
                 android:drawablePadding="@dimen/activity_small_margin"
-                android:hint="검색어를 입력하세요."
+                android:hint="@string/search_tag_hint"
                 android:imeOptions="actionSearch"
                 android:paddingHorizontal="@dimen/activity_small_margin"
                 android:singleLine="true"
+                android:maxLines="1"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:onEditorSearchAction="@{vm.searchFeedAction}"
+                app:parentRequestView="@{coordinator}"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -65,16 +69,6 @@
             tools:context=".ui.search.fragment.SearchFragment">
 
             <include
-                android:id="incRecently"
-                layout="@layout/layout_recently_search_list"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <include
                 android:id="@+id/incSearchList"
                 layout="@layout/layout_search_list"
                 android:layout_width="0dp"
@@ -84,8 +78,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"
                 app:vm="@{vm}" />
+
+            <include
+                android:id="@+id/incRecentlyList"
+                layout="@layout/layout_recently_search_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vm="@{vm}"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

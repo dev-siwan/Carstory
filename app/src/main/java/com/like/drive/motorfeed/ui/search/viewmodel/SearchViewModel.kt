@@ -4,48 +4,57 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.motor.MotorTypeData
+import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
+import com.like.drive.motorfeed.ui.search.data.RecentlyData
+import org.koin.core.KoinComponent
+import org.koin.core.inject
+import java.util.*
+import kotlin.collections.ArrayList
 
-class SearchViewModel : BaseViewModel() {
+class SearchViewModel : BaseViewModel(), KoinComponent {
 
-    private val _feedType = MutableLiveData<FeedTypeData>()
-    val feedType: LiveData<FeedTypeData> get() = _feedType
-    private val _motorType = MutableLiveData<MotorTypeData>()
-    val motorType: LiveData<MotorTypeData> get() = _motorType
-    val tagValue = MutableLiveData<String>()
+    private val userPref: UserPref by inject()
+
+    private val recentlyListPref = userPref.recentlyData
+
+    private val _recentlyList = MutableLiveData<ArrayList<RecentlyData>>()
+    val recentlyList: LiveData<ArrayList<RecentlyData>> get() = _recentlyList
 
     val tagValueEvent = SingleLiveEvent<String>()
-
-    val filterClickEvent = SingleLiveEvent<Unit>()
-
-    val filterFeedTypeClickEvent =SingleLiveEvent<Unit>()
-    val filterMotorTypeClickEvent =SingleLiveEvent<Unit>()
-
     val searchBtnClickEvent = SingleLiveEvent<Unit>()
-
-
-    fun setFilter(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
-        _feedType.value = feedTypeData
-        _motorType.value = motorTypeData
-    }
-
-    fun setTypeFilter(feedTypeData: FeedTypeData?){
-        _feedType.value =feedTypeData
-    }
 
     val searchFeedAction: (String?) -> Unit = this::searchComplex
     private fun searchComplex(keyword: String?) {
         tagValueEvent.value = keyword
+
+        recentlyListPref.apply {
+            find { it.tag == keyword }?.let {
+                remove(it)
+            }
+            add(RecentlyData(keyword, Date()))
+        }
+
+        setRecentlyData()
     }
 
+    init {
+        setRecentlyData()
+    }
 
-    fun setMotorFilter(motorTypeData: MotorTypeData?){
-        if (motorTypeData?.brandCode == 0) {
-            _motorType.value = null
-            return
+    private fun  setRecentlyData() {
+        recentlyListPref.run {
+            sortByDescending {
+                it.createDate
+            }
+            _recentlyList.value = this
         }
-        _motorType.value = motorTypeData
+    }
+
+    fun removeRecentlyData(recentlyData: RecentlyData){
+        recentlyListPref.remove(recentlyData)
+        setRecentlyData()
     }
 
 }

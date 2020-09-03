@@ -4,6 +4,9 @@
 
     <data>
         <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel" />
+        <variable
             name="data"
             type="com.like.drive.motorfeed.ui.search.data.RecentlyData" />
     </data>
@@ -64,6 +67,7 @@
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toEndOf="@id/tvTitle"
             app:layout_constraintTop_toTopOf="@id/tvTitle"
+            android:onClick="@{()->vm.removeRecentlyData(data)}"
             android:padding="@dimen/activity_small_margin"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

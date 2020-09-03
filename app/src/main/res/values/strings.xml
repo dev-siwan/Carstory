@@ -189,6 +189,7 @@
     <string name="search_filter_complete">조건 검색 완료</string>
     <string name="filter_not_message">카테고리와 모터종류를 통하여\n정보를 얻어보세요</string>
     <string name="filter_search_btn">필터로 글 찾기</string>
+    <string name="search_tag_hint">태그를 입력하세요.</string>
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>
