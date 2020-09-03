@@ -23,7 +23,6 @@ class SplashViewModel(
         versionCheck()
     }
 
-
     private fun versionCheck() {
         viewModelScope.launch {
             versionRepository.checkMotorTypeVersion(

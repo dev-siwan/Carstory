@@ -10,6 +10,7 @@ import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.data.user.UserFilter
 import com.like.drive.motorfeed.pref.util.ModelPreferencesManager
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
+import com.like.drive.motorfeed.ui.search.data.RecentlyData
 
 class UserPref(application: Application) {
     private val preferences: SharedPreferences =
@@ -30,8 +31,7 @@ class UserPref(application: Application) {
         get() = preferences.getInt(MOTOR_TYPE_VERSION, 0)
         set(value) = preferences.edit { putInt(MOTOR_TYPE_VERSION, value!!) }
 
-
-    var userFilter : UserFilter?
+    var userFilter: UserFilter?
         get() = modelPref.get(FEED_TYPE)
         set(value) {
             modelPref.put(value, FEED_TYPE)
@@ -43,10 +43,14 @@ class UserPref(application: Application) {
             modelPref.put(value, USER_INFO)
         }
 
+    var recentlyData: ArrayList<RecentlyData>
+        get() = modelPref.get(RECENTLY_LIST) ?: ArrayList()
+        set(value) {
+            modelPref.put(value, RECENTLY_LIST)
+        }
+
     fun removeUserInfo() {
         modelPref.remove(USER_INFO)
-        //preferences.edit { remove(AUTH_KEY) }
-        //AccountInfo.authKey = null
     }
 
     companion object {
@@ -54,6 +58,7 @@ class UserPref(application: Application) {
         const val USER_INFO = "USER_INFO_KEY"
         const val FCM_TOKEN = "FCM_TOKEN"
         const val IS_SEND_FCM_TOKEN = "IS_SEND_FCM_TOKEN"
-        const val FEED_TYPE ="USER_FILTER"
+        const val FEED_TYPE = "USER_FILTER"
+        const val RECENTLY_LIST = "RECENTLY_LIST"
     }
 }
