@@ -3,15 +3,15 @@ package com.like.drive.motorfeed.ui.search.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
-import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.search.data.RecentlyData
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.annotation.StringRes
+import com.like.drive.motorfeed.R
 
 class SearchViewModel : BaseViewModel(), KoinComponent {
 
@@ -23,27 +23,15 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
     val recentlyList: LiveData<ArrayList<RecentlyData>> get() = _recentlyList
 
     val tagValueEvent = SingleLiveEvent<String>()
-    val searchBtnClickEvent = SingleLiveEvent<Unit>()
+    val tagBlankMessageEvent = SingleLiveEvent<@StringRes Int>()
 
-    val searchFeedAction: (String?) -> Unit = this::searchComplex
-    private fun searchComplex(keyword: String?) {
-        tagValueEvent.value = keyword
-
-        recentlyListPref.apply {
-            find { it.tag == keyword }?.let {
-                remove(it)
-            }
-            add(RecentlyData(keyword, Date()))
-        }
-
-        setRecentlyData()
-    }
+    val searchFeedAction: (String?) -> Unit = this::tagListener
 
     init {
         setRecentlyData()
     }
 
-    private fun  setRecentlyData() {
+    private fun setRecentlyData() {
         recentlyListPref.run {
             sortByDescending {
                 it.createDate
@@ -52,9 +40,26 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
         }
     }
 
-    fun removeRecentlyData(recentlyData: RecentlyData){
-        recentlyListPref.remove(recentlyData)
-        setRecentlyData()
+    fun removeRecentlyData(recentlyData: RecentlyData) {
+        if (recentlyListPref.remove(recentlyData)) {
+            setRecentlyData()
+        }
     }
 
+    fun tagListener(str: String?) {
+        if (str.isNullOrBlank()) {
+            tagBlankMessageEvent.value = R.string.tag_warning_message
+            return
+        }
+
+        tagValueEvent.value = str
+        recentlyListPref.apply {
+            find { it.tag == str }?.let {
+                remove(it)
+            }
+            if (add(RecentlyData(str, Date()))) {
+                setRecentlyData()
+            }
+        }
+    }
 }

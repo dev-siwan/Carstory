@@ -42,7 +42,7 @@
             android:clipToPadding="false"
             app:elevation="0dp">
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"

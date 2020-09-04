@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.core.content.edit
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.data.user.UserFilter
@@ -43,10 +45,16 @@ class UserPref(application: Application) {
             modelPref.put(value, USER_INFO)
         }
 
-    var recentlyData: ArrayList<RecentlyData>
-        get() = modelPref.get(RECENTLY_LIST) ?: ArrayList()
+    var recentlyData:ArrayList<RecentlyData>
+        get() {
+            val jsonPref = preferences.getString(RECENTLY_LIST,"")
+            val type = object :TypeToken<ArrayList<RecentlyData>>(){}.type
+
+            return Gson().fromJson(jsonPref,type)
+        }
         set(value) {
-            modelPref.put(value, RECENTLY_LIST)
+            val tagList = Gson().toJson(value)
+            preferences.edit { putString(RECENTLY_LIST,tagList) }
         }
 
     fun removeUserInfo() {

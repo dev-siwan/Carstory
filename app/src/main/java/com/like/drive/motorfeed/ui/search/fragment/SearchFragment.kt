@@ -1,10 +1,13 @@
 package com.like.drive.motorfeed.ui.search.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -12,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import com.google.android.material.appbar.AppBarLayout
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
+import com.like.drive.motorfeed.ui.base.binder.onEditorSearchAction
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
+import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
@@ -37,12 +42,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 visibleSearchView()
-            } else {
-                goneSearchView()
             }
         }
     }
-    private val appbarParams by lazy { etSearch.layoutParams as AppBarLayout.LayoutParams }
 
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
@@ -58,20 +60,43 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         initView()
         withViewModel()
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (incRecentlyList.isVisible) {
-                goneSearchView()
-            }
-        }
-
     }
 
     private fun initView() {
+
+        //리싸이클러뷰 페이징
         rvFeed.apply {
             paging()
         }
+
+        //검색창 포커스
         etSearch.onFocusChangeListener = editFocusListener
 
+        //피드 리스트 유무에 따른 검색창 visible/gone
+        if (feedAdapter.feedList.isEmpty()) {
+            visibleSearchView()
+        } else {
+            goneSearchView()
+        }
+
+
+        requireActivity().run {
+            //뒤로 가기 버튼 눌렸을 때 검색창이 뜨면 닫는다.
+            onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+                isEnabled = if (!isEnabled || incRecentlyList.isVisible) {
+                    goneSearchView()
+                    false
+                } else {
+                    true
+                }
+
+            }
+
+            //검색창 소프트 키보드 올라왔을때 바텀네비 올라오는거 막기
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
+        }
     }
 
     private fun RecyclerView.paging() {
@@ -90,13 +115,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
             override fun isRequest(): Boolean = false
 
-        });
+        })
 
     }
 
     private fun withViewModel() {
         with(viewModel) {
             searchComplete()
+            tagNullBlankWarningMessage()
         }
         with(feedListViewModel) {
             listComplete()
@@ -107,6 +133,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
             feedListViewModel.initDate(tagQuery = it)
+            etSearch.setText(it)
+            goneSearchView()
+        })
+    }
+
+    private fun SearchViewModel.tagNullBlankWarningMessage() {
+        tagBlankMessageEvent.observe(viewLifecycleOwner, Observer {
+            requireContext().showShortToast(it)
         })
     }
 
@@ -124,6 +158,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun visibleSearchView() {
         if (!incRecentlyList.isVisible) {
+
             val transition: Transition = Slide(Gravity.TOP)
             transition.apply {
                 duration = 400
@@ -133,13 +168,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
             incRecentlyList.visibility = View.VISIBLE
 
-
-            appbarParams.scrollFlags = (AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL)
         }
     }
 
     private fun goneSearchView() {
         if (incRecentlyList.isVisible) {
+
             val transition: Transition = Slide(Gravity.TOP)
             transition.apply {
                 duration = 200
@@ -150,8 +184,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             incRecentlyList.visibility = View.GONE
 
             coordinator.requestFocus()
-            appbarParams.scrollFlags =
-                (AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
+            requireActivity().hideKeyboard(coordinator)
+
         }
     }
 
