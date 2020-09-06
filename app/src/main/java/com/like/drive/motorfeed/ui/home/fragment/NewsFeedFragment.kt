@@ -83,16 +83,15 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
 
 
         swipeLayout.setOnRefreshListener {
-            newsFeedAdapter.feedList.clear()
-            feedListViewModel.isRefresh.set(true)
+            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
             feedListViewModel.initDate()
-            rvFeedList.smoothScrollToPosition(0)
         }
 
     }
 
     private fun initData() {
         if (newsFeedAdapter.feedList.isEmpty()) {
+            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.LOADING
             feedListViewModel.initDate()
         }
     }
@@ -109,6 +108,7 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
         feedList.observe(viewLifecycleOwner, Observer {
             newsFeedAdapter.run {
                 if (isFirst) {
+
                     initList(it)
                 } else {
                     moreList(it)

@@ -209,7 +209,7 @@ class FeedApiImpl(
         const val FEED_TYPE_CODE_FIELD = "feedTypeCode"
         const val CREATE_DATE_FIELD = "createDate"
         const val FEED_TAG_LIST = "feedTagList"
-        const val INIT_SIZE = 3
+        const val INIT_SIZE = 5
     }
 
 }

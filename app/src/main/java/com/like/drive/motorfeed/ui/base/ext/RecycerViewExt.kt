@@ -23,11 +23,6 @@ fun RecyclerView.withPaging(callback: PagingCallback, isScroll:((Boolean)->Unit)
                         callback.requestMoreList()
                     }
 
-                   /* if (dy > 0) {
-                        isScroll?.invoke(false)
-                    } else {
-                        isScroll?.invoke(true)
-                    }*/
                 }
             }
         }

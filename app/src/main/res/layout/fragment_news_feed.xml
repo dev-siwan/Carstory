@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,32 +8,48 @@
         <variable
             name="feedVm"
             type="com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.fragment.NewsFeedFragment"
+        android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:descendantFocusability="beforeDescendants"
-        >
+        tools:context=".ui.home.fragment.NewsFeedFragment">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{feedVm.isLoading ? View.VISIBLE : View.GONE}"
+            app:indicatorColor="@android:color/black"
+            app:indicatorName="BallPulseSyncIndicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:refreshing="@{feedVm.isRefresh}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvFeedList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layout_constraintTop_toBottomOf="parent"
+            app:refreshing="@{feedVm.isRefresh}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFeedList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

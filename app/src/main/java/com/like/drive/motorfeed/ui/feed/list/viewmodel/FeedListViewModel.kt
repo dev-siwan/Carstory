@@ -22,7 +22,10 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
     val feedType = MutableLiveData<FeedTypeData>()
     val motorType = MutableLiveData<MotorTypeData>()
 
+    var loadingStatus: LoadingStatus? = null
+
     val isRefresh = ObservableBoolean()
+    val isLoading = ObservableBoolean()
 
     val feedItemClickEvent = SingleLiveEvent<String>()
 
@@ -39,6 +42,9 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
         tagQuery: String? = null
     ) {
         isFirst = true
+        lastDate = null
+
+        loadingStatus()
 
         this.feedTypeData = feedTypeData
         this.motorTypeData = motorTypeData
@@ -49,11 +55,11 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
     fun moreData(date: Date? = null) {
         isFirst = false
+
+        loadingStatus = LoadingStatus.LOADING
+
         lastDate = date
-
-
         getFeedList(date)
-
     }
 
     private fun getFeedList(date: Date? = Date()) {
@@ -62,24 +68,16 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
                 .catch {
                     it.message
                     errorEvent.call()
-
-                    if (isRefresh.get()) {
-                        isRefresh.set(false)
-                    }
+                    loadingStatus()
                 }.collect {
                     feedList.value = it
-
-                    if (isRefresh.get()) {
-                        isRefresh.set(false)
-                    }
-
+                    loadingStatus()
                 }
         }
     }
 
-    fun getLastDate(): Boolean {
-        return feedList.value?.lastOrNull()?.createDate == lastDate
-    }
+    fun getLastDate() =
+        feedList.value?.lastOrNull()?.createDate == lastDate
 
     fun feedItemClickListener(feedData: FeedData?) {
         feedData?.let {
@@ -87,4 +85,19 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
         }
     }
 
+    private fun loadingStatus() {
+        when (loadingStatus) {
+            LoadingStatus.LOADING -> {
+                if (isLoading.get()) isLoading.set(false) else isLoading.set(true)
+            }
+            LoadingStatus.REFRESH -> {
+                if (isRefresh.get()) isRefresh.set(false) else isRefresh.set(true)
+            }
+            else -> Unit
+        }
+    }
+
+    enum class LoadingStatus {
+        REFRESH, LOADING
+    }
 }

@@ -1,17 +1,14 @@
 package com.like.drive.motorfeed.pref
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.data.user.UserFilter
 import com.like.drive.motorfeed.pref.util.ModelPreferencesManager
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.search.data.RecentlyData
 
 class UserPref(application: Application) {
@@ -47,10 +44,16 @@ class UserPref(application: Application) {
 
     var recentlyData:ArrayList<RecentlyData>
         get() {
-            val jsonPref = preferences.getString(RECENTLY_LIST,"")
-            val type = object :TypeToken<ArrayList<RecentlyData>>(){}.type
 
-            return Gson().fromJson(jsonPref,type)
+            val jsonPref = preferences.getString(RECENTLY_LIST,"")
+
+            return if(jsonPref.isNullOrEmpty()){
+                ArrayList()
+            }else{
+                val type = object :TypeToken<ArrayList<RecentlyData>>(){}.type
+                Gson().fromJson(jsonPref,type)
+
+            }
         }
         set(value) {
             val tagList = Gson().toJson(value)

@@ -32,6 +32,9 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
     }
 
     private fun setRecentlyData() {
+
+        userPref.recentlyData = recentlyListPref
+
         recentlyListPref.run {
             sortByDescending {
                 it.createDate
