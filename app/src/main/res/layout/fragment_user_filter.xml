@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
+            android:visibility="@{vm.isFilter ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,6 @@
                     layout="@layout/layout_not_user_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="@{vm.isFilter ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -51,17 +51,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <include
-            layout="@layout/shimmer_feed_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{feedVm.isLoading()? View.VISIBLE : View.GONE}" />
+
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{vm.isFilter ? View.VISIBLE : View.GONE}"
+            android:visibility="@{vm.isFilter &amp;&amp; !feedVm.isLoading ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +72,11 @@
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+        <include
+            layout="@layout/shimmer_feed_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{feedVm.isLoading? View.VISIBLE : View.GONE}" />
         <ProgressBar
             android:id="@+id/pbLoading"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"

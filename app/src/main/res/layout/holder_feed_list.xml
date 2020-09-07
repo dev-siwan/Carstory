@@ -62,6 +62,7 @@
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@id/glTop">
 
+
             <include
                 android:id="@+id/containerProfile"
                 layout="@layout/layout_profile_block"
@@ -72,45 +73,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerDetailImg"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:visibility="@{data.imageUrls != null &amp;&amp; !data.imageUrls.empty ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/containerProfile">
-
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivFeedImg"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="@{!data.imageUrls.empty ? View.VISIBLE :View.GONE}"
-                    app:centerCropImage="@{!data.imageUrls.empty ? data.imageUrls.get(0) : null}"
-                    app:layout_constraintDimensionRatio="H,5:3"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/thumb_car_20200423" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/alpha_50"
-                    android:gravity="center"
-                    android:padding="@dimen/activity_small_margin"
-                    android:text="@{data.imageUrls.size() > 0 ? String.format(@string/feed_list_photo_count_format,(data.imageUrls.size()-1)) :String.format(@string/feed_list_photo_count_format,(data.imageUrls.size()))}"
-                    android:textColor="@color/white_100"
-                    android:textSize="@dimen/small_text_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="0" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
             <include
                 android:id="@+id/containerTitleBlock"
                 layout="@layout/layout_feed_list_title_block"
@@ -118,8 +80,10 @@
                 android:layout_height="wrap_content"
                 app:feedData="@{data}"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/containerDetailImg" />
+                app:layout_constraintTop_toBottomOf="@id/containerProfile" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

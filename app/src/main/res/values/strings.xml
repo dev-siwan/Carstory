@@ -45,7 +45,7 @@
 
 
     <string name="menu_home">홈</string>
-    <string name="menu_search">검색</string>
+    <string name="menu_tag">태그</string>
     <string name="menu_notification">알림</string>
     <string name="menu_user">유저</string>
 

@@ -21,12 +21,6 @@
         tools:context=".ui.home.fragment.NewsFeedFragment">
 
 
-        <include
-            layout="@layout/shimmer_feed_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{feedVm.isLoading()? View.VISIBLE : View.GONE}" />
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeLayout"
             android:layout_width="match_parent"
@@ -35,6 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
+            android:visibility="@{feedVm.isLoading ? View.GONE : View.VISIBLE}"
             app:refreshing="@{feedVm.isRefresh}">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -46,17 +41,23 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <include
+            layout="@layout/shimmer_feed_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{feedVm.isLoading()? View.VISIBLE : View.GONE}" />
+
         <ProgressBar
             android:id="@+id/pbLoading"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:indeterminate="true"
+            android:progressDrawable="@drawable/progress_drawable_black"
+            android:visibility="@{feedVm.isMore()? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:progressDrawable="@drawable/progress_drawable_black"
-            android:visibility="@{feedVm.isMore()? View.VISIBLE : View.GONE}"/>
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

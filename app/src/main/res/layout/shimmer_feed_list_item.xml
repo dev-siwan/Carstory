@@ -5,7 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white_100">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glTop"
@@ -54,28 +55,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivFeedImg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/light_gery_1"
-                android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="H,5:3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewNick"
-                android:layout_marginTop="@dimen/activity_small_margin"/>
-
-
             <View
                 android:id="@+id/viewTitle"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@color/grey_7"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivImg"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivFeedImg" />
+                app:layout_constraintTop_toBottomOf="@id/viewNick"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+            <View
+                android:id="@+id/ivImg"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:background="@color/grey_7"
+                app:layout_constraintStart_toEndOf="@id/viewTitle"
+                app:layout_constraintTop_toTopOf="@id/viewTitle"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <View
                 android:id="@+id/viewLike"
@@ -97,7 +95,7 @@
 
             <View
                 android:id="@+id/viewType"
-                android:layout_width="20dp"
+                android:layout_width="30dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@color/grey_7"
@@ -105,7 +103,7 @@
                 app:layout_constraintTop_toBottomOf="@id/viewTag" />
             <View
                 android:id="@+id/viewMotor"
-                android:layout_width="20dp"
+                android:layout_width="60dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="@dimen/activity_small_margin"
                 android:background="@color/grey_7"
