@@ -24,8 +24,9 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
     var loadingStatus: LoadingStatus? = null
 
-    val isRefresh = ObservableBoolean()
-    val isLoading = ObservableBoolean()
+    val isRefresh = ObservableBoolean(false)
+    val isLoading = ObservableBoolean(false)
+    val isMore = ObservableBoolean(false)
 
     val feedItemClickEvent = SingleLiveEvent<String>()
 
@@ -55,10 +56,11 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
     fun moreData(date: Date? = null) {
         isFirst = false
-
-        loadingStatus = LoadingStatus.LOADING
-
         lastDate = date
+
+        loadingStatus = LoadingStatus.MORE
+        loadingStatus()
+
         getFeedList(date)
     }
 
@@ -87,17 +89,19 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
     private fun loadingStatus() {
         when (loadingStatus) {
-            LoadingStatus.LOADING -> {
+            LoadingStatus.INIT -> {
                 if (isLoading.get()) isLoading.set(false) else isLoading.set(true)
             }
             LoadingStatus.REFRESH -> {
                 if (isRefresh.get()) isRefresh.set(false) else isRefresh.set(true)
             }
-            else -> Unit
+            else -> {
+                if (isMore.get()) isMore.set(false) else isMore.set(true)
+            }
         }
     }
 
     enum class LoadingStatus {
-        REFRESH, LOADING
+        REFRESH, INIT, MORE
     }
 }

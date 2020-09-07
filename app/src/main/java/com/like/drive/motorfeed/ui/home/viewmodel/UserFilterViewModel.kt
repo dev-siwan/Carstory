@@ -43,11 +43,17 @@ class UserFilterViewModel : BaseViewModel(), KoinComponent {
             motorTypeData
         }
 
-        val userFilter = UserFilter(feedTypeData, motorType)
+        val feedType: FeedTypeData? = if (feedTypeData?.typeCode == 0) {
+            null
+        } else {
+            feedTypeData
+        }
+
+        val userFilter = UserFilter(feedType, motorType)
 
         userPref.userFilter = userFilter
 
-        if (feedTypeData == null && motorType == null) {
+        if (feedType == null && motorType == null) {
             isFilter.set(false)
         } else {
             setFilter(userFilter)

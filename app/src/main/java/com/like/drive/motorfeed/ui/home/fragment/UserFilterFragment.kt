@@ -44,6 +44,7 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
         super.onBind(dataBinding)
 
         dataBinding.vm = viewModel
+        dataBinding.feedVm = feedListViewModel
         dataBinding.rvFeedList.adapter = listAdapter
 
     }
@@ -57,6 +58,11 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
     private fun initView() {
         rvFeedList.apply {
             paging()
+        }
+
+        swipeLayout.setOnRefreshListener {
+            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
+            feedListViewModel.initDate(feedTypeData = viewModel.feedType.value,motorTypeData = viewModel.motorType.value)
         }
 
     }
@@ -105,6 +111,7 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
 
     private fun UserFilterViewModel.setFilter() {
         setUserFilterEvent.observe(viewLifecycleOwner, Observer {
+            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
             feedListViewModel.initDate(motorTypeData = it.motorType, feedTypeData = it.feedType)
         })
     }
@@ -117,8 +124,8 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
 
             filterDialog.apply {
                 setFilter = { feedType, motorType ->
-                    dismiss()
                     this@UserFilterFragment.viewModel.setFilter(feedType, motorType)
+                    dismiss()
                 }
             }.show(requireActivity().supportFragmentManager, "")
         })

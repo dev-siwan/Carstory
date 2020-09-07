@@ -20,18 +20,12 @@
         android:focusableInTouchMode="true"
         tools:context=".ui.home.fragment.NewsFeedFragment">
 
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/avi"
-            style="@style/AVLoadingIndicatorView.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{feedVm.isLoading ? View.VISIBLE : View.GONE}"
-            app:indicatorColor="@android:color/black"
-            app:indicatorName="BallPulseSyncIndicator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <include
+            layout="@layout/shimmer_feed_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{feedVm.isLoading()? View.VISIBLE : View.GONE}" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeLayout"
@@ -51,6 +45,18 @@
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:progressDrawable="@drawable/progress_drawable_black"
+            android:visibility="@{feedVm.isMore()? View.VISIBLE : View.GONE}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

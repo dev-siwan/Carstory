@@ -91,7 +91,7 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
 
     private fun initData() {
         if (newsFeedAdapter.feedList.isEmpty()) {
-            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.LOADING
+            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
             feedListViewModel.initDate()
         }
     }
@@ -108,7 +108,6 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
         feedList.observe(viewLifecycleOwner, Observer {
             newsFeedAdapter.run {
                 if (isFirst) {
-
                     initList(it)
                 } else {
                     moreList(it)
