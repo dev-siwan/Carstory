@@ -24,10 +24,6 @@ class HomeFeedAdapter(
         sortByDescending { it.updateDate }
     }
 
-    private val TYPE_HEADER = 0
-    private val TYPE_ITEM = 1
-    private val TYPE_ADV = 2
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_HEADER -> {
@@ -60,7 +56,7 @@ class HomeFeedAdapter(
         return when {
             position == 0 -> TYPE_HEADER
             position == 1 -> TYPE_ITEM
-            position.rem(5) == 1 -> TYPE_ADV
+            position.rem(5) == 0 -> TYPE_ADV
             else -> TYPE_ITEM
         }
     }
@@ -92,7 +88,7 @@ class HomeFeedAdapter(
         originData?.let {
             val index = feedList.indexOf(it)
             feedList[index] = feed
-            notifyItemChanged(index + FEED_LIST_START_POSITION)
+            notifyItemChanged((index + feedList.size.div(5)) + FEED_LIST_START_POSITION)
         }
     }
 
@@ -101,12 +97,15 @@ class HomeFeedAdapter(
         originData?.let {
             val index = feedList.indexOf(it)
             feedList.removeAt(index)
-            notifyItemRemoved(index + FEED_LIST_START_POSITION)
+            notifyItemRemoved((index + feedList.size.div(5))  + FEED_LIST_START_POSITION)
         }
     }
 
     companion object {
         const val FEED_LIST_START_POSITION = 1
+        const val TYPE_HEADER = 0
+        const val TYPE_ITEM = 1
+        const val TYPE_ADV = 2
     }
 
 }
