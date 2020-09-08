@@ -25,6 +25,8 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
     val tagValueEvent = SingleLiveEvent<String>()
     val tagBlankMessageEvent = SingleLiveEvent<@StringRes Int>()
 
+    val tag = MutableLiveData<String>()
+
     val searchFeedAction: (String?) -> Unit = this::tagListener
 
     init {
@@ -55,6 +57,7 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
             return
         }
 
+        tag.value = str
         tagValueEvent.value = str
         recentlyListPref.apply {
             find { it.tag == str }?.let {

@@ -86,6 +86,7 @@ dependencies {
     def firebase_analytics_version='17.4.4'
     def firebase_auth_version='19.3.2'
     def firebase_functions_version='19.0.2'
+    def firebase_ad_mob_version='19.3.0'
     def coroutine_play_service = '1.1.1'
     def firestore_ktx_version='21.5.0'
     def firestorage_ktx_version='19.1.1'
@@ -137,6 +138,7 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore-ktx:$firestore_ktx_version"
     implementation "com.google.firebase:firebase-storage-ktx:$firestorage_ktx_version"
     implementation "com.google.firebase:firebase-auth:$firebase_auth_version"
+    implementation "com.google.firebase:firebase-ads:$firebase_ad_mob_version"
 
     //rx
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
@@ -232,6 +234,8 @@ dependencies {
     //Loading
     implementation 'com.wang.avi:library:2.1.3'
 
+    //ad template
+    implementation project(path: ':nativetemplates')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

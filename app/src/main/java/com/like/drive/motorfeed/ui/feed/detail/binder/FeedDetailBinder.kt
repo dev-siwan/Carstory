@@ -16,11 +16,14 @@ import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-@BindingAdapter(value = ["detailBrandName","detailModelCode","detailModelName"], requireAll = true)
-fun TextView.setDetailMotorType(brandName: String?,modelCode:Int, modelName: String?) {
+@BindingAdapter(
+    value = ["detailBrandName", "detailModelCode", "detailModelName"],
+    requireAll = true
+)
+fun TextView.setDetailMotorType(brandName: String?, modelCode: Int, modelName: String?) {
     brandName?.let {
         text = if (modelCode == 0) {
-             brandName
+            brandName
         } else {
             String.format(context.getString(R.string.motorType_format_text), brandName, modelName)
         }
@@ -29,29 +32,26 @@ fun TextView.setDetailMotorType(brandName: String?,modelCode:Int, modelName: Str
 }
 
 @BindingAdapter("detailPhotoList")
-fun RecyclerView.setDetailPhotoList(list:List<String>?){
+fun RecyclerView.setDetailPhotoList(list: List<String>?) {
     list?.let {
         (adapter as DetailImgAdapter).submitList(list)
     }
 }
 
 @BindingAdapter("commentList")
-fun RecyclerView.setCommentList(list:List<CommentWrapData>?){
+fun RecyclerView.setCommentList(list: List<CommentWrapData>?) {
     list?.let {
-        (adapter as CommentAdapter).run{
+        (adapter as CommentAdapter).run {
             commentList.addAll(list)
             notifyDataSetChanged()
         }
     }
 }
 
-
-
-
 @BindingAdapter("formatDate")
-fun TextView.setFormatDate(date: Date?){
+fun TextView.setFormatDate(date: Date?) {
     date?.let {
-       text=it.convertDateToString()
+        text = it.convertDateToString()
     }
 }
 
@@ -63,5 +63,12 @@ fun TextView.updateChange(
     commentFragmentExtra: CommentFragmentExtra?,
     commentStrValue: String?
 ) {
-  isEnabled = !commentStrValue.isNullOrBlank() && commentFragmentExtra?.commentData?.commentStr != commentStrValue && commentFragmentExtra?.reCommentData?.commentStr != commentStrValue
+    isEnabled =
+        !commentStrValue.isNullOrBlank() &&
+                if (commentFragmentExtra?.commentUpdate == true) {
+                    commentFragmentExtra.commentData?.commentStr != commentStrValue
+                            && commentFragmentExtra.reCommentData?.commentStr != commentStrValue
+                } else {
+                    true
+                }
 }

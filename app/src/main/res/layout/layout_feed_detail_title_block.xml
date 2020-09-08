@@ -1,121 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="feedData"
             type="com.like.drive.motorfeed.data.feed.FeedData" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white_100">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glStart"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="15dp" />
+        android:background="@color/white_100">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="15dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="15dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="15dp" />
 
-
-
-    <TextView
-        android:id="@+id/tvFeedType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rect_solid_light_3_conner"
-        android:padding="@dimen/activity_x_small_margin"
-        android:text="@{feedData.feedTypeStr}"
-        android:textColor="@color/grey_3"
-        android:textSize="@dimen/small_text_size"
-        android:visibility="@{feedData.feedTypeStr !=null ? View.VISIBLE:View.GONE}"
-        app:layout_constraintEnd_toStartOf="@+id/tvMotorType"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/glStart"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="자유" />
-
-    <TextView
-        android:id="@+id/tvMotorType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rect_solid_light_3_conner"
-        android:padding="@dimen/activity_x_small_margin"
-        android:textColor="@color/grey_3"
-        android:textSize="@dimen/small_text_size"
-        android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
-        app:detailBrandName="@{feedData.brandName}"
-        app:detailModelCode="@{feedData.modelCode}"
-        app:detailModelName="@{feedData.modelName}"
-        app:layout_constraintEnd_toEndOf="@+id/glEnd"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/tvFeedType"
-        app:layout_constraintTop_toTopOf="@id/tvFeedType"
-        android:layout_marginStart="@dimen/activity_x_small_margin"
-        app:layout_constraintBottom_toBottomOf="@id/tvFeedType"
-        tools:text="기아|다이소" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/glStart"
-        android:textSize="@dimen/small_text_size"
-        app:layout_constraintTop_toBottomOf="@id/tvFeedType"
-        android:layout_marginTop="@dimen/activity_x_small_margin"
-        android:textColor="@color/grey_4"
-        app:formatDate="@{feedData.updateDate}"
-        tools:text="2020.08.06" />
+        <TextView
+            android:id="@+id/tvFeedType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{feedData.feedTypeStr}"
+            android:textColor="@color/grey_3"
+            android:textSize="@dimen/small_text_size"
+            android:textStyle="bold"
+            android:visibility="@{feedData.feedTypeStr !=null ? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/tvMotorType"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="자유" />
+
+        <TextView
+            android:id="@+id/tvMotorType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_x_small_margin"
+            android:textColor="@color/grey_3"
+            android:textSize="@dimen/small_text_size"
+            android:textStyle="bold"
+            android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
+            app:detailBrandName="@{feedData.brandName}"
+            app:detailModelCode="@{feedData.modelCode}"
+            app:detailModelName="@{feedData.modelName}"
+            app:layout_constraintBottom_toBottomOf="@id/tvFeedType"
+            app:layout_constraintEnd_toEndOf="@+id/glEnd"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/tvFeedType"
+            app:layout_constraintTop_toTopOf="@id/tvFeedType"
+            tools:text="기아|다이소" />
 
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/large_text_size"
-        android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/tvDate"
-        app:layout_constraintStart_toStartOf="@id/glStart"
-        app:layout_constraintEnd_toEndOf="@id/glEnd"
-        android:layout_marginTop="@dimen/activity_small_margin"
-        android:maxLines="2"
-        android:text="@{feedData.title}"
-        tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_small_margin"
+            android:maxLines="2"
+            android:text="@{feedData.title}"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/large_text_size"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/tvMotorType"
+            tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
 
 
-    <TextView
-        android:id="@+id/tvTagList"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_small_margin"
-        android:gravity="start"
-        android:textColor="@color/grey_4"
-        android:textSize="@dimen/small_text_size"
-        app:tagList="@{feedData.feedTagList}"
-        app:layout_constraintEnd_toEndOf="@id/glEnd"
-        app:layout_constraintStart_toStartOf="@id/glStart"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        tools:text="#태그,#태그,#태그"
-        android:visibility="@{feedData.feedTagList !=null &amp;&amp; !feedData.feedTagList.empty ? View.VISIBLE : View.GONE}"
-        app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

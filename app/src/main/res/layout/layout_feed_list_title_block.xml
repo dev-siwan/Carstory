@@ -43,6 +43,7 @@
             android:id="@+id/containerTitleImg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,12 +77,77 @@
                     android:layout_marginTop="@dimen/activity_small_margin"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:lines="2"
                     android:text="@{feedData.content}"
                     android:textColor="@color/grey_4"
                     android:textSize="@dimen/normal_text_size"
                     android:textStyle="normal"
                     tools:text="가나다라마바사아자차카타파하하하아자차카타파하하아자차카타파하하하하하하하하하하하하하하하하" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_small_margin"
+                    android:gravity="start"
+                    android:text="@{String.format(@string/like_format_text,feedData.likeCount)}"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/small_text_size"
+                    tools:text="좋아요 0개" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:id="@+id/tvFeedType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{feedData.feedTypeStr}"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/small_text_size"
+                        android:textStyle="bold"
+                        android:visibility="@{feedData.feedTypeStr !=null ? View.VISIBLE:View.GONE}"
+                        app:layout_constraintEnd_toStartOf="@+id/tvMotorType"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="자유" />
+
+                    <TextView
+                        android:id="@+id/tvMotorType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/activity_x_small_margin"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/small_text_size"
+                        android:textStyle="bold"
+                        android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
+                        app:detailBrandName="@{feedData.brandName}"
+                        app:detailModelCode="@{feedData.modelCode}"
+                        app:detailModelName="@{feedData.modelName}"
+                        app:layout_constraintBottom_toBottomOf="@id/tvFeedType"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/tvFeedType"
+                        app:layout_constraintTop_toTopOf="@id/tvFeedType"
+                        tools:text="기아|다이소" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_x_small_margin"
+                    android:textColor="@color/grey_4"
+                    android:textSize="@dimen/small_text_size"
+                    app:formatTimeStr="@{feedData.updateDate}"
+                    app:layout_constraintBottom_toBottomOf="@id/glBottom"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFeedType"
+                    tools:text="2020.08.06" />
+
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,71 +189,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/tvLikeCount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_small_margin"
-            android:gravity="start"
-            android:text="@{String.format(@string/like_format_text,feedData.likeCount)}"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/small_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/containerTitleImg"
-            tools:text="좋아요 0개" />
-
-
-        <TextView
-            android:id="@+id/tvFeedType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textStyle="bold"
-            android:text="@{feedData.feedTypeStr}"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/small_text_size"
-            android:visibility="@{feedData.feedTypeStr !=null ? View.VISIBLE:View.GONE}"
-            app:layout_constraintEnd_toStartOf="@+id/tvMotorType"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvLikeCount"
-            tools:text="자유" />
-
-        <TextView
-            android:id="@+id/tvMotorType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_x_small_margin"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/small_text_size"
-            android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
-            app:detailBrandName="@{feedData.brandName}"
-            app:detailModelCode="@{feedData.modelCode}"
-            app:detailModelName="@{feedData.modelName}"
-            app:layout_constraintBottom_toBottomOf="@id/tvFeedType"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@id/tvFeedType"
-            app:layout_constraintTop_toTopOf="@id/tvFeedType"
-            tools:text="기아|다이소" />
-
-
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_x_small_margin"
-            android:textColor="@color/grey_4"
-            android:textSize="@dimen/small_text_size"
-            app:formatDate="@{feedData.updateDate}"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFeedType"
-            tools:text="2020.08.06" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

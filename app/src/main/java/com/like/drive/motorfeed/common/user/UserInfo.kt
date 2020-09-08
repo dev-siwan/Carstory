@@ -32,16 +32,17 @@ object UserInfo : KoinComponent {
         }
     }
 
-    fun updateFcm() {
+    fun updateFcm(fcmToken: String? = null) {
+
+        fcmToken?.let { userPref.fcmToken = it }
+
         CoroutineScope(Dispatchers.IO).launch {
-            if (userPref.isNewToken) {
-                userPref.fcmToken?.let {
-                    userApi.updateFcmToken(it).catch {error->
-                        error.printStackTrace()
-                    }.collect { isSuccess ->
-                        if (isSuccess) {
-                            userPref.isNewToken = false
-                        }
+            userPref.fcmToken?.let {
+                userApi.updateFcmToken(it).catch { error ->
+                    error.printStackTrace()
+                }.collect { isSuccess ->
+                    if (isSuccess) {
+                        userPref.fcmToken = fcmToken
                     }
                 }
             }

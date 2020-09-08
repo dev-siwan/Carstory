@@ -11,6 +11,7 @@
             type="com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel" />
 
         <import type="android.view.View" />
+        <import type="android.text.TextUtils"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -121,8 +122,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:feedData="@{vm.feedData}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/glEnd"
+                    app:layout_constraintStart_toStartOf="@id/glStart"
                     app:layout_constraintTop_toBottomOf="@id/containerDetailImg" />
 
 
@@ -165,6 +166,17 @@
                     app:layout_constraintTop_toBottomOf="@id/divide2"
                     tools:text="@string/feed_detail_content_tools_text" />
 
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_x_small_margin"
+                    android:textColor="@color/grey_4"
+                    android:textSize="@dimen/small_text_size"
+                    app:formatDate="@{vm.feedData.updateDate}"
+                    app:layout_constraintStart_toStartOf="@id/glStart"
+                    app:layout_constraintTop_toBottomOf="@id/tvContent"
+                    tools:text="2020.08.06" />
 
                 <include
                     android:id="@+id/containerDetailFunction"
@@ -175,7 +187,7 @@
                     app:feedData="@{vm.feedData}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDate"
                     app:vm="@{vm}" />
 
                 <TextView
@@ -242,7 +254,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:enabled="@{vm.comment !=null &amp;&amp; vm.comment !=``}"
+                android:enabled="@{!TextUtils.isEmpty(vm.comment)}"
                 android:gravity="center"
                 android:onClick="@{()->vm.addFeedComment(vm.feedData.fid,etComment.text)}"
                 android:padding="@dimen/activity_vertical_margin"

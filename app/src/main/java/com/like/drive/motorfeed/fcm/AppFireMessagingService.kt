@@ -13,8 +13,7 @@ class AppFireMessagingService : FirebaseMessagingService() {
     val context = MotorFeedApplication.getContext()
 
     override fun onNewToken(token: String) {
-        UserPref(context).isNewToken = true
-        UserPref(context).fcmToken = token
+        UserInfo.updateFcm(token)
         super.onNewToken(token)
     }
 

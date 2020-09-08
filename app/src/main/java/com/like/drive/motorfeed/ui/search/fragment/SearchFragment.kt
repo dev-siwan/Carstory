@@ -19,7 +19,6 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
-import com.like.drive.motorfeed.ui.base.binder.onEditorSearchAction
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
@@ -32,6 +31,7 @@ import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_search_list.*
+import kotlinx.android.synthetic.main.layout_search_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
@@ -45,6 +45,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             }
         }
     }
+    private val imm by lazy { requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager? }
 
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
@@ -74,7 +75,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         //피드 리스트 유무에 따른 검색창 visible/gone
         if (feedAdapter.feedList.isEmpty()) {
-            visibleSearchView()
+            etSearch.requestFocus()
+            imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         } else {
             goneSearchView()
         }
@@ -95,6 +97,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
             //검색창 소프트 키보드 올라왔을때 바텀네비 올라오는거 막기
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
+            incSearchList.swipeLayout.setOnRefreshListener {
+                feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
+                feedListViewModel.initDate(tagQuery = viewModel.tag.value)
+            }
 
         }
     }
@@ -132,8 +139,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
+            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
             feedListViewModel.initDate(tagQuery = it)
-            etSearch.setText(it)
             goneSearchView()
         })
     }
@@ -183,8 +190,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
             incRecentlyList.visibility = View.GONE
 
-            coordinator.requestFocus()
-            requireActivity().hideKeyboard(coordinator)
+            rootView.requestFocus()
+            requireActivity().hideKeyboard(rootView)
 
         }
     }

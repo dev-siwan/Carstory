@@ -76,12 +76,12 @@ class UserApiImpl(
     }
 
     override suspend fun updateFcmToken(token: String): Flow<Boolean> {
-        return  UserInfo.userInfo?.uid?.let {
+        return UserInfo.userInfo?.uid?.let {
             val document = fireStore.collection(USER).document(it)
             val map = mapOf("fcmToken" to token)
 
-             fireBaseTask.updateData(document ,map)
-        }?: emptyFlow()
+            fireBaseTask.updateData(document, map)
+        } ?: emptyFlow()
     }
 
     companion object{

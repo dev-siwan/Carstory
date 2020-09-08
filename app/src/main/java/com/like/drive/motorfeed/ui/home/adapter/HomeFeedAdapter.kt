@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.ui.base.BaseViewModel
+import com.like.drive.motorfeed.ui.feed.list.holder.FeedListAdvHolder
 import com.like.drive.motorfeed.ui.feed.list.holder.FeedListViewHolder
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.home.data.HomeTab
@@ -25,6 +26,7 @@ class HomeFeedAdapter(
 
     private val TYPE_HEADER = 0
     private val TYPE_ITEM = 1
+    private val TYPE_ADV = 2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -33,28 +35,32 @@ class HomeFeedAdapter(
                     HomeTab.NEWS_FEED -> NewsFeedHeaderViewHolder.from(parent)
                     else -> UserFilterHeaderViewHolder.from(parent)
                 }
-
             }
+            TYPE_ADV -> FeedListAdvHolder.from(parent)
             else -> FeedListViewHolder.from(parent)
         }
     }
 
-    override fun getItemCount() = feedList.size + FEED_LIST_START_POSITION
+    override fun getItemCount() =
+        (feedList.size + feedList.size.div(5) + FEED_LIST_START_POSITION)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is NewsFeedHeaderViewHolder -> holder.bind((viewModel as NewsFeedViewModel))
-            is UserFilterHeaderViewHolder-> holder.bind((viewModel as UserFilterViewModel))
+            is UserFilterHeaderViewHolder -> holder.bind((viewModel as UserFilterViewModel))
             is FeedListViewHolder -> holder.bind(
                 feedListViewModel,
-                feedList[position - FEED_LIST_START_POSITION]
+                feedList[(position - position.div(5)) - FEED_LIST_START_POSITION]
             )
+            is FeedListAdvHolder -> holder.bind()
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            TYPE_HEADER -> TYPE_HEADER
+        return when {
+            position == 0 -> TYPE_HEADER
+            position == 1 -> TYPE_ITEM
+            position.rem(5) == 1 -> TYPE_ADV
             else -> TYPE_ITEM
         }
     }
@@ -70,7 +76,7 @@ class HomeFeedAdapter(
     fun moreList(feedList: List<FeedData>) {
 
         this.feedList.run {
-            val beforePosition = (size + FEED_LIST_START_POSITION)
+            val beforePosition = (size + size.div(5)) + FEED_LIST_START_POSITION
             addAll(feedList)
             notifyItemRangeInserted(beforePosition, feedList.size + beforePosition)
         }
@@ -102,4 +108,5 @@ class HomeFeedAdapter(
     companion object {
         const val FEED_LIST_START_POSITION = 1
     }
+
 }
