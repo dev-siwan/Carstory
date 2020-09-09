@@ -43,6 +43,12 @@
     <string name="profile_error">프로필을 업데이트 할 수 없습니다. 다시 시도해주세요.</string>
     <string name="exist_nick_name_message">현재 존재하는 닉네임이 있습니다.</string>
 
+    <string name="confirm_text">확인</string>
+    <string name="cancel_text">취소</string>
+
+    <string name="login_confirm_title">알림</string>
+    <string name="login_confirm_message">로그인이 필요한 서비스 입니다.\n로그인 하시겠습니까?</string>
+
 
     <string name="menu_home">홈</string>
     <string name="menu_tag">태그</string>
@@ -172,9 +178,6 @@
     <string name="feed_list_filter_type">카테고리: %s</string>
     <string name="feed_list_filter_motor_brand">종류: %s</string>
     <string name="feed_list_filter_motor_brand_model">종류 : %s | %s</string>
-
-
-
 
 
     <string name="feed_list_filter_type_default">카테고리 선택</string>

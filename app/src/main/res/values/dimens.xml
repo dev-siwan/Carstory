@@ -16,4 +16,6 @@
     <dimen name="x_large_text_size">20sp</dimen>
     <dimen name="xx_large_text_size">24sp</dimen>
     <dimen name="xxx_large_text_size">32sp</dimen>
+
+    <dimen name="dialog_message_line_spacing_extra">6sp</dimen>
 </resources>

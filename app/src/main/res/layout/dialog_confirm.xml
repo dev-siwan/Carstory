@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_bg">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="30dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="30dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="30dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey_3"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvDescription"
+            app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+            app:layout_constraintRight_toRightOf="@+id/glRight"
+            app:layout_constraintTop_toTopOf="@+id/glTop" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/grey_3"
+            android:textSize="14sp"
+            android:lineSpacingExtra="@dimen/dialog_message_line_spacing_extra"
+            app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+            app:layout_constraintLeft_toLeftOf="@id/glLeft"
+            app:layout_constraintRight_toRightOf="@id/glRight"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_goneMarginTop="0dp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/grey_4"
+            android:includeFontPadding="false"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:stateListAnimator="@null"
+            android:text="@string/cancel_text"
+            android:textColor="@color/white_100"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btnConfirm"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@android:color/black"
+            android:includeFontPadding="false"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:stateListAnimator="@null"
+            android:text="@string/confirm_text"
+            android:textColor="@color/white_100"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/btnCancel"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

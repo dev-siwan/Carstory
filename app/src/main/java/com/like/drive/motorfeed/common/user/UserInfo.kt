@@ -18,7 +18,7 @@ object UserInfo : KoinComponent {
     private val userApi: UserApi by inject()
 
     var userInfo: UserData?
-        get() = userPref.userData?.run { this } ?: UserData()
+        get() = userPref.userData?.run { this }
         set(value) {
             userPref.userData = value
         }
