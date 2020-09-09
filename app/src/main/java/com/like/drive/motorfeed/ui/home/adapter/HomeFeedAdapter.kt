@@ -36,16 +36,16 @@ class HomeFeedAdapter(
     }
 
     override fun getItemCount() =
-        (feedList.size + feedList.size.div(5) + FEED_LIST_START_POSITION)
+        (feedList.size + feedList.size.div(FEED_ADV_POSITION) + FEED_LIST_START_POSITION)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is NewsFeedHeaderViewHolder -> holder.bind((viewModel as NewsFeedViewModel))
             is UserFilterHeaderViewHolder -> holder.bind((viewModel as UserFilterViewModel))
             is FeedListViewHolder -> holder.bind(
-                feedListViewModel,
-                feedList[(position - position.div(5)) - FEED_LIST_START_POSITION]
-            )
+            feedListViewModel,
+            feedList[(position - position.div(5)) - FEED_LIST_START_POSITION]
+        )
             is FeedListAdvHolder -> holder.bind()
         }
     }
