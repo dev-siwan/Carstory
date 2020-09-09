@@ -139,9 +139,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
+            setAppbarNotScroll()
             feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
             feedListViewModel.initDate(tagQuery = it)
-            setAppbarNotScroll()
             goneSearchView()
         })
     }
