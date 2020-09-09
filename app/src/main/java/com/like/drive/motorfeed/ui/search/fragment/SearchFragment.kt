@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -46,17 +47,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
     }
     private val imm by lazy { requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager? }
-    private val onCallback by lazy {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-
-            isEnabled = feedAdapter.feedList.isNotEmpty()
-
-            if (isEnabled) {
-                goneSearchView()
-            }
-
-        }
-    }
+    private lateinit var onCallback: OnBackPressedCallback
 
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
@@ -84,6 +75,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         //검색창 포커스
         etSearch.onFocusChangeListener = editFocusListener
 
+        requireActivity().apply {
+            //뒤로 가기 버튼 눌렸을 때 검색창이 뜨면 닫는다.
+            onCallback = onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                if (isEnabled) {
+                    goneSearchView()
+                }
+            }
+            //검색창 소프트 키보드 올라왔을때 바텀네비 올라오는거 막기
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
+            incSearchList.swipeLayout.setOnRefreshListener {
+                feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
+                feedListViewModel.initDate(tagQuery = viewModel.tag.value)
+            }
+        }
+
         //피드 리스트 유무에 따른 검색창 visible/gone
         if (feedAdapter.feedList.isEmpty()) {
             etSearch.requestFocus()
@@ -92,18 +99,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             goneSearchView()
         }
 
-        requireActivity().apply {
-            //뒤로 가기 버튼 눌렸을 때 검색창이 뜨면 닫는다.
-
-            //검색창 소프트 키보드 올라왔을때 바텀네비 올라오는거 막기
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-
-            incSearchList.swipeLayout.setOnRefreshListener {
-                feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
-                feedListViewModel.initDate(tagQuery = viewModel.tag.value)
-            }
-
-        }
     }
 
     private fun RecyclerView.paging() {
@@ -175,6 +170,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
             incRecentlyList.visibility = View.VISIBLE
 
+            onCallback.isEnabled = feedAdapter.feedList.isNotEmpty()
         }
     }
 
@@ -193,6 +189,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             rootView.requestFocus()
             requireActivity().hideKeyboard(rootView)
 
+            onCallback.isEnabled = false
         }
     }
 
