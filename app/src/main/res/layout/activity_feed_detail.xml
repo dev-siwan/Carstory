@@ -11,7 +11,8 @@
             type="com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel" />
 
         <import type="android.view.View" />
-        <import type="android.text.TextUtils"/>
+
+        <import type="android.text.TextUtils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -148,18 +149,20 @@
                     app:layout_constraintStart_toStartOf="@id/glStart"
                     app:layout_constraintTop_toBottomOf="@id/containerTitleBlock" />
 
-                <com.like.drive.motorfeed.util.tag.MentionEditText
+                <com.like.drive.motorfeed.util.tag.MentionTextView
                     android:id="@+id/tvContent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:enabled="false"
+                    android:autoLink="web"
+                    android:background="@null"
                     android:inputType="none"
+                    android:bufferType="editable"
                     android:lineSpacingExtra="@dimen/x_small_text_size"
+                    android:linksClickable="true"
                     android:text="@{vm.feedData.content}"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/normal_text_size"
-                    android:background="@null"
                     app:layout_constraintEnd_toEndOf="@id/glEnd"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@id/glStart"
@@ -170,7 +173,7 @@
                     android:id="@+id/tvDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_x_small_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:textColor="@color/grey_4"
                     android:textSize="@dimen/small_text_size"
                     app:formatDate="@{vm.feedData.updateDate}"
@@ -216,6 +219,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvBanner"
+                    app:layout_constraintVertical_bias="0"
                     tools:itemCount="3"
                     tools:listitem="@layout/holder_feed_comment" />
 

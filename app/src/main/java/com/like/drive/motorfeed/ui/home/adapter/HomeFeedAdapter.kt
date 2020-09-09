@@ -20,9 +20,7 @@ class HomeFeedAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val feedList = mutableListOf<FeedData>().apply {
-        sortByDescending { it.updateDate }
-    }
+    val feedList = mutableListOf<FeedData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -56,7 +54,7 @@ class HomeFeedAdapter(
         return when {
             position == 0 -> TYPE_HEADER
             position == 1 -> TYPE_ITEM
-            position.rem(5) == 0 -> TYPE_ADV
+            position.rem(FEED_ADV_POSITION) == 0 -> TYPE_ADV
             else -> TYPE_ITEM
         }
     }
@@ -72,10 +70,11 @@ class HomeFeedAdapter(
     fun moreList(feedList: List<FeedData>) {
 
         this.feedList.run {
-            val beforePosition = (size + size.div(5)) + FEED_LIST_START_POSITION
+            val beforePosition = (size + size.div(FEED_ADV_POSITION)) + FEED_LIST_START_POSITION
             addAll(feedList)
             notifyItemRangeInserted(beforePosition, feedList.size + beforePosition)
         }
+
     }
 
     fun addFeed(feed: FeedData) {
@@ -88,7 +87,8 @@ class HomeFeedAdapter(
         originData?.let {
             val index = feedList.indexOf(it)
             feedList[index] = feed
-            notifyItemChanged((index + feedList.size.div(5)) + FEED_LIST_START_POSITION)
+            val advIndex = index.div(FEED_ADV_POSITION)
+            notifyItemChanged((index + advIndex) + FEED_LIST_START_POSITION)
         }
     }
 
@@ -97,12 +97,17 @@ class HomeFeedAdapter(
         originData?.let {
             val index = feedList.indexOf(it)
             feedList.removeAt(index)
-            notifyItemRemoved((index + feedList.size.div(5))  + FEED_LIST_START_POSITION)
+            val advIndex = index.div(FEED_ADV_POSITION)
+            notifyItemRemoved((index + advIndex) + FEED_LIST_START_POSITION)
         }
     }
 
     companion object {
+        //Position
         const val FEED_LIST_START_POSITION = 1
+        const val FEED_ADV_POSITION = 5
+
+        //TYPE
         const val TYPE_HEADER = 0
         const val TYPE_ITEM = 1
         const val TYPE_ADV = 2

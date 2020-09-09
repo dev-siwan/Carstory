@@ -13,6 +13,7 @@ import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.motor.adapter.SelectMotorTypeAdapter
 import com.like.drive.motorfeed.ui.motor.viewmodel.MotorTypeViewModel
 import kotlinx.android.synthetic.main.activity_select_motor_type.*
+import kotlinx.android.synthetic.main.layout_motor_select_search_box.view.*
 import org.koin.android.ext.android.inject
 
 class SelectMotorTypeActivity : BaseActivity<ActivitySelectMotorTypeBinding>(R.layout.activity_select_motor_type) {
@@ -52,7 +53,7 @@ class SelectMotorTypeActivity : BaseActivity<ActivitySelectMotorTypeBinding>(R.l
                     0 -> getMotorTypeData()
                     else -> getBrandByList(it[position].brandCode)
                 }
-                etSearchBox.text = null
+                incMotorSearchBox.etSearchBox.text = null
             }
         })
     }

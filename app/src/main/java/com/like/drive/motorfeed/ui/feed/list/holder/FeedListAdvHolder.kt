@@ -45,19 +45,21 @@ class FeedListAdvHolder(val binding: HolderListAdvBinding) : RecyclerView.ViewHo
         adView: UnifiedNativeAdView
     ) {
 
-        adView.mediaView = binding.adMedia
-        adView.headlineView = binding.adHeadLine
-        adView.bodyView = binding.adBody
-        (adView.headlineView as TextView).text = nativeAd.headline
-        adView.mediaView.setMediaContent(nativeAd.mediaContent)
-        if (nativeAd.body == null) {
-            adView.bodyView.visibility = View.INVISIBLE
-        } else {
-            adView.bodyView.visibility = View.VISIBLE
-            (adView.bodyView as TextView).text = nativeAd.body
+        adView.apply {
+            mediaView = binding.adMedia
+            headlineView = binding.adHeadLine
+            bodyView = binding.adBody
+            (headlineView as TextView).text = nativeAd.headline
+            mediaView.setMediaContent(nativeAd.mediaContent)
+            if (nativeAd.body == null) {
+                adView.bodyView.visibility = View.INVISIBLE
+            } else {
+                bodyView.visibility = View.VISIBLE
+                (bodyView as TextView).text = nativeAd.body
+            }
+        }.run {
+            setNativeAd(nativeAd)
         }
-
-        adView.setNativeAd(nativeAd)
 
     }
 

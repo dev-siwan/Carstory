@@ -62,7 +62,7 @@
     <string name="feed_register">카테고리 선택</string>
     <string name="select_motor">자동차 모델 선택</string>
     <string name="select_motor_desc">찾으시는 모델이 없으신 경우 기타를 선택해주세요.</string>
-    <string name="select_motor_empty_desc"><![CDATA[찾으시는 모델이 없습니다 :(<br /><font color="#000000"><b>다시 한번 검색해보세요.</b></font>]]></string>
+    <string name="select_motor_empty_desc"><![CDATA[찾으시는 모델이 없습니다 <br /><font color="#000000"><b>다시 한번 검색해보세요.</b></font>]]></string>
     <string name="select_motor_brand"><![CDATA[* 브랜드별로 찾으시려면 <b>여기를 클릭해주세요.</b>]]></string>
     <string name="select_motor_search_box_hint">자동차 브랜드명 또는 자동차 모델 입력</string>
 

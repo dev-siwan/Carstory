@@ -62,7 +62,10 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
 
         swipeLayout.setOnRefreshListener {
             feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
-            feedListViewModel.initDate(feedTypeData = viewModel.feedType.value,motorTypeData = viewModel.motorType.value)
+            feedListViewModel.initDate(
+                feedTypeData = viewModel.feedType.value,
+                motorTypeData = viewModel.motorType.value
+            )
         }
 
     }

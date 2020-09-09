@@ -67,17 +67,17 @@
             android:text="필터 재검색"
             android:textColor="@color/white_100"
             android:textSize="@dimen/normal_text_size"
+            app:layout_constraintBottom_toTopOf="@id/hsFilter"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintTop_toTopOf="@id/glTop"
-            app:layout_constraintBottom_toBottomOf="@id/hsFilter"/>
+            app:layout_constraintTop_toTopOf="@id/glTop" />
 
 
         <HorizontalScrollView
             android:id="@+id/hsFilter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"

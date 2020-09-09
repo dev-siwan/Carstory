@@ -15,10 +15,10 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_upload"
-        android:enabled="true"
         android:icon="@null"
         android:title="@null"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:enabled="false"/>
     <item
         android:id="@+id/action_notification"
         android:enabled="true"

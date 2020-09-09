@@ -3,6 +3,7 @@ package com.like.drive.motorfeed.ui.feed.detail.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -46,6 +47,9 @@ class FeedDetailActivity :
         dataBinding.vm = viewModel
         dataBinding.rvImg.adapter = detailImgAdapter
         dataBinding.rvComment.adapter = commentAdapter
+        dataBinding.tvContent.apply {
+            movementMethod = LinkMovementMethod.getInstance()
+        }
 
     }
 
