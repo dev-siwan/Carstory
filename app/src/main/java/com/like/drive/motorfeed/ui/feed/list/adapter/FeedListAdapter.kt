@@ -19,7 +19,8 @@ class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<Recycler
         }
     }
 
-    override fun getItemCount() = feedList.size + feedList.size.div(HomeFeedAdapter.FEED_ADV_POSITION)
+    override fun getItemCount() =
+        feedList.size + feedList.size.div(HomeFeedAdapter.FEED_ADV_POSITION)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {

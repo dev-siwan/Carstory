@@ -27,66 +27,85 @@
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_100"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:orientation="vertical"
         tools:context=".ui.search.fragment.SearchFragment">
 
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etSearch"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="@string/search_tag_hint"
-            android:imeOptions="actionSearch"
-            android:maxLines="1"
-            android:paddingHorizontal="@dimen/activity_vertical_margin"
-            android:singleLine="true"
-            android:text="@={vm.tag}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:onEditorSearchAction="@{vm.searchFeedAction}"
-            app:parentRequestView="@{rootView}"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:clipToPadding="false"
+            app:elevation="0dp">
 
-        <View
+            <LinearLayout
+                android:id="@+id/containerSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@null"
+                    android:hint="@string/search_tag_hint"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/activity_vertical_margin"
+                    android:singleLine="true"
+                    android:text="@={vm.tag}"
+                    app:onEditorSearchAction="@{vm.searchFeedAction}"
+                    app:parentRequestView="@{rootView}"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_gery_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etSearch" />
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_gery_1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etSearch" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            android:id="@+id/incSearchList"
-            layout="@layout/layout_search_list"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:feedVm="@{feedVm}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etSearch"
-            app:vm="@{vm}" />
+            <include
+                android:id="@+id/incSearchList"
+                layout="@layout/layout_search_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:feedVm="@{feedVm}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vm="@{vm}" />
 
-        <include
-            android:id="@+id/incRecentlyList"
-            layout="@layout/layout_recently_search_list"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etSearch"
-            app:vm="@{vm}" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                android:id="@+id/incRecentlyList"
+                layout="@layout/layout_recently_search_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vm="@{vm}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
