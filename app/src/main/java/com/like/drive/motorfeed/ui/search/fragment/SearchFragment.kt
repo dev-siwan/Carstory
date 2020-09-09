@@ -46,6 +46,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
     }
     private val imm by lazy { requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager? }
+    private val onCallback by lazy {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+            isEnabled = feedAdapter.feedList.isNotEmpty()
+
+            if (isEnabled) {
+                goneSearchView()
+            }
+
+        }
+    }
 
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
@@ -81,19 +92,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             goneSearchView()
         }
 
-
-        requireActivity().run {
+        requireActivity().apply {
             //뒤로 가기 버튼 눌렸을 때 검색창이 뜨면 닫는다.
-            onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-
-                isEnabled = if (!isEnabled || incRecentlyList.isVisible) {
-                    goneSearchView()
-                    false
-                } else {
-                    true
-                }
-
-            }
 
             //검색창 소프트 키보드 올라왔을때 바텀네비 올라오는거 막기
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
