@@ -138,6 +138,7 @@
             android:layout_height="0dp"
             android:background="@null"
             android:gravity="top"
+            android:autoLink="web"
             app:hintFormatHtml="@{@string/input_content_hint}"
             android:paddingStart="@dimen/activity_vertical_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
