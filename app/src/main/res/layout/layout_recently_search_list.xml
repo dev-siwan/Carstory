@@ -49,20 +49,28 @@
             android:background="@color/grey_6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
+        
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/containerAdv"/>
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="최근 검색"
+            android:text="@string/latest_search"
             android:textColor="@android:color/black"
             android:textSize="@dimen/large_text_size"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/glStart"
-            app:layout_constraintTop_toBottomOf="@id/containerAdv" />
+            app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRecently"
@@ -75,6 +83,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             app:recentlyList="@{vm.recentlyList}"
+            android:overScrollMode="never"
             tools:listitem="@layout/holder_recently" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,10 +3,8 @@ package com.like.drive.motorfeed.ui.search.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.util.DisplayMetrics
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -17,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
+import com.google.android.gms.ads.*
 import com.google.android.material.appbar.AppBarLayout
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
@@ -33,11 +32,13 @@ import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.layout_recently_search_list.view.*
 import kotlinx.android.synthetic.main.layout_search_list.*
 import kotlinx.android.synthetic.main.layout_search_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+
     private val viewModel: SearchViewModel by viewModel()
     private val feedListViewModel: FeedListViewModel by viewModel()
     private val feedAdapter by lazy { FeedListAdapter(feedListViewModel) }
@@ -52,6 +53,27 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private lateinit var onCallback: OnBackPressedCallback
     private val params by lazy { containerSearch.layoutParams as AppBarLayout.LayoutParams }
     private val appbarPrams by lazy { appBarLayout.layoutParams as CoordinatorLayout.LayoutParams }
+    private var isScroll = false
+
+
+    private var adView:AdView?=null
+    private var initialLayoutComplete = false
+    private val adSize: AdSize
+        get() {
+            val display = requireActivity().windowManager.defaultDisplay
+            val outMetrics = DisplayMetrics()
+            display.getMetrics(outMetrics)
+
+            val density = outMetrics.density
+
+            var adWidthPixels = incRecentlyList.containerAdv.width.toFloat()
+            if (adWidthPixels == 0f) {
+                adWidthPixels = outMetrics.widthPixels.toFloat()
+            }
+
+            val adWidth = (adWidthPixels / density).toInt()
+            return AdSize.getPortraitAnchoredAdaptiveBannerAdSize(requireContext(), adWidth)
+        }
 
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
@@ -71,9 +93,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun initView() {
 
+        //광고 초기화
+        adView?:advInit()
+
         //리싸이클러뷰 페이징
         rvFeed.apply {
             paging()
+
         }
 
         //검색창 포커스
@@ -86,11 +112,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     goneSearchView()
                 }
             }
+
             //검색창 소프트 키보드 올라왔을때 바텀네비 올라오는거 막기
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
             incSearchList.swipeLayout.setOnRefreshListener {
                 setAppbarNotScroll()
+                isScroll = false
                 feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
                 feedListViewModel.initDate(tagQuery = viewModel.tag.value)
             }
@@ -101,6 +129,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             etSearch.requestFocus()
             imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         } else {
+            goneSearchView()
+        }
+
+        ivBackButton.setOnClickListener {
             goneSearchView()
         }
 
@@ -139,9 +171,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
+            setAppbarNotScroll()
+            isScroll = false
             feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
             feedListViewModel.initDate(tagQuery = it)
-            setAppbarNotScroll()
             goneSearchView()
         })
     }
@@ -159,6 +192,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     initList(it)
                     if (it.isNotEmpty()) {
                         setAppbarScroll()
+                        isScroll = true
                     }
                 } else {
                     moreList(it)
@@ -181,6 +215,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
             onCallback.isEnabled = feedAdapter.feedList.isNotEmpty()
             setAppbarNotScroll()
+
+            viewModel.isSearchStatus.set(true)
         }
     }
 
@@ -200,7 +236,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             requireActivity().hideKeyboard(rootView)
 
             onCallback.isEnabled = false
-            if (feedAdapter.feedList.isNotEmpty()) {
+
+            viewModel.isSearchStatus.set(false)
+
+            if (feedAdapter.feedList.isNotEmpty() && isScroll) {
                 setAppbarScroll()
             }
 
@@ -239,11 +278,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
     private fun setAppbarScroll() {
-
         params.scrollFlags =
-            AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-        appbarPrams.behavior = AppBarLayout.Behavior()
-        appBarLayout.layoutParams = appbarPrams
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            appbarPrams.behavior = AppBarLayout.Behavior()
+            appBarLayout.layoutParams = appbarPrams
 
     }
 
@@ -251,5 +289,69 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         params.scrollFlags = 0
         appbarPrams.behavior = null
         appBarLayout.layoutParams = appbarPrams
+    }
+
+    override fun onResume() {
+        adView?.resume()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        adView?.pause()
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        adView?.destroy()
+        adView = null
+        super.onDestroyView()
+    }
+
+    private fun advInit(){
+
+        initialLayoutComplete=false
+
+        MobileAds.initialize(requireContext())
+
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder()
+                .setTestDeviceIds(listOf("ABCDEF012345"))
+                .build()
+        )
+
+        adView = AdView(requireContext())
+        incRecentlyList.containerAdv.apply {
+            addView(adView)
+            viewTreeObserver.addOnGlobalLayoutListener {
+                if (!initialLayoutComplete) {
+                    initialLayoutComplete = true
+                    loadBanner()
+                }
+            }
+        }
+
+    }
+
+    private fun loadBanner() {
+        adView?.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+
+        adView?.adSize = adSize
+
+        // Create an ad request.
+        val adRequest = AdRequest.Builder().build()
+
+        // Start loading the ad in the background.
+        adView?.loadAd(adRequest)
+
+        adView?.run {
+            setAdListener(object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    incRecentlyList.containerAdv.isVisible = true
+
+                }
+            })
+        }
+
     }
 }

@@ -7,8 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
 
-@BindingAdapter("onEditorSearchAction", "parentRequestView")
-fun EditText.onEditorSearchAction(action: ((String?) -> Unit)?, view: View?) {
+@BindingAdapter("onEditorSearchAction")
+fun EditText.onEditorSearchAction(action: ((String?) -> Unit)?) {
     setOnEditorActionListener { v, actionId, _ ->
         when (actionId) {
             EditorInfo.IME_ACTION_SEARCH -> {

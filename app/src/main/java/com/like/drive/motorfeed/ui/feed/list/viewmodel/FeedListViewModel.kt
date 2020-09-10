@@ -27,6 +27,7 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
     val isRefresh = ObservableBoolean(false)
     val isLoading = ObservableBoolean(false)
     val isMore = ObservableBoolean(false)
+    val initEmpty = ObservableBoolean(false)
 
     val feedItemClickEvent = SingleLiveEvent<String>()
 
@@ -72,8 +73,11 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
                     errorEvent.call()
                     loadingStatus()
                 }.collect {
-                    feedList.value = it
+
                     loadingStatus()
+                    feedList.value = it
+                    initEmpty.set(isFirst && it.isEmpty())
+
                 }
         }
     }
