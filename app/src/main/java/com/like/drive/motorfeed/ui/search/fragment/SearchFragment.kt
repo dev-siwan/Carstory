@@ -55,8 +55,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private val appbarPrams by lazy { appBarLayout.layoutParams as CoordinatorLayout.LayoutParams }
     private var isScroll = false
 
-
-    private var adView:AdView?=null
+    private var adView: AdView? = null
     private var initialLayoutComplete = false
     private val adSize: AdSize
         get() {
@@ -94,7 +93,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun initView() {
 
         //광고 초기화
-        adView?:advInit()
+        adView ?: advInit()
 
         //리싸이클러뷰 페이징
         rvFeed.apply {
@@ -133,6 +132,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
 
         ivBackButton.setOnClickListener {
+            if(feedAdapter.feedList.isEmpty()){
+                requireContext().showShortToast(R.string.tag_empty_desc)
+                return@setOnClickListener
+            }
             goneSearchView()
         }
 
@@ -279,9 +282,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun setAppbarScroll() {
         params.scrollFlags =
-                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-            appbarPrams.behavior = AppBarLayout.Behavior()
-            appBarLayout.layoutParams = appbarPrams
+            AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+        appbarPrams.behavior = AppBarLayout.Behavior()
+        appBarLayout.layoutParams = appbarPrams
 
     }
 
@@ -307,9 +310,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         super.onDestroyView()
     }
 
-    private fun advInit(){
+    private fun advInit() {
 
-        initialLayoutComplete=false
+        initialLayoutComplete = false
 
         MobileAds.initialize(requireContext())
 

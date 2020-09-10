@@ -161,7 +161,7 @@
     <string name="add_text">추가</string>
     <string name="tag_desc">태그는 최대 5개까지 등록 가능합니다.</string>
     <string name="tag_equal">같은 태그값이 있습니다.</string>
-    <string name="tag_empty_desc">태그값이 없습니다.</string>
+    <string name="tag_empty_desc">검색결과가 없습니다.</string>
     <string name="sharp">#</string>
     <string name="search_tag"># 태그검색 (최대 8글자)</string>
     <string name="filter_complete">검색하기</string>
@@ -178,7 +178,6 @@
     <string name="feed_list_filter_type">카테고리: %s</string>
     <string name="feed_list_filter_motor_brand">종류: %s</string>
     <string name="feed_list_filter_motor_brand_model">종류 : %s | %s</string>
-
 
     <string name="feed_list_filter_type_default">카테고리 선택</string>
     <string name="feed_list_filter_motor_default">종류 선택</string>
