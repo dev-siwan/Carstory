@@ -28,7 +28,10 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                     when {
                         it.userBan -> userBan.invoke()
                         else -> {
-                            UserInfo.userInfo = it
+                            UserInfo.run{
+                                userInfo = it
+                                updateFcm(it.fcmToken)
+                            }
                             success.invoke()
                         }
                     }
@@ -57,7 +60,10 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             fail.invoke()
         }.collect { isComplete ->
             if (isComplete) {
-                UserInfo.userInfo = userData
+                UserInfo.run {
+                    userInfo = userData
+                    updateFcm(userData.fcmToken)
+                }
                 success.invoke()
             } else {
                 fail.invoke()
