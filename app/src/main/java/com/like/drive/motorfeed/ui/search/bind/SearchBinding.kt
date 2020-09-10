@@ -1,13 +1,13 @@
 package com.like.drive.motorfeed.ui.search.bind
 
-import android.view.View
-import android.widget.TextView
+import android.view.ViewGroup
+import android.widget.EditText
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import com.like.drive.motorfeed.R
-import com.like.drive.motorfeed.data.motor.MotorTypeData
-import com.like.drive.motorfeed.ui.base.ext.pixelToDp
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.motorfeed.ui.search.data.RecentlyData
 
@@ -21,43 +21,24 @@ fun RecyclerView.setRecentlyList(list: List<RecentlyData>?) {
     }
 }
 
-@BindingAdapter("filterType")
-fun TextView.setFilterType(feedTypeData: FeedTypeData?) {
-    if (feedTypeData != null) {
-        disableFilter(context.getString(R.string.feed_list_filter_type, feedTypeData.title))
-    } else {
-        visibility = View.GONE
+@BindingAdapter("searchViewStatus")
+fun EditText.setSearchViewStatus(isStatus:Boolean){
+
+    val params = layoutParams as ConstraintLayout.LayoutParams
+    if(isStatus){
+        background = null
+        params.width = 0
+    }else{
+        background = ContextCompat.getDrawable(context, R.drawable.rect_solid_white_stroke_black_conner_8dp)
+        params.width = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 }
 
-@BindingAdapter("filterMotor")
-fun TextView.setFilterBrand(motorTypeData: MotorTypeData?) {
-    if (motorTypeData != null) {
-        if (motorTypeData.modelCode == 0) {
-            disableFilter(
-                context.getString(
-                    R.string.feed_list_filter_motor_brand,
-                    motorTypeData.brandName
-                )
-            )
-        } else {
-            disableFilter(
-                context.getString(
-                    R.string.feed_list_filter_motor_brand_model,
-                    motorTypeData.brandName,
-                    motorTypeData.modelName
-                )
-            )
-
-        }
-    } else {
-        visibility = View.GONE
+@BindingAdapter("scrollViewStatus")
+fun AppBarLayout.setScrollViewStatus(isStatus:Boolean){
+    if(isStatus){
+        setBackgroundColor(ContextCompat.getColor(context,R.color.white_100))
+    }else{
+        setBackgroundColor(ContextCompat.getColor(context,android.R.color.transparent))
     }
-}
-
-fun TextView.disableFilter(str: String) {
-    background = context.getDrawable(R.drawable.rect_solid_light_1_conner_4dp)
-    setTextColor(context.getColor(android.R.color.black))
-    visibility = View.VISIBLE
-    text = str
 }

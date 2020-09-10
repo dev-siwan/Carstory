@@ -11,6 +11,7 @@ import org.koin.core.inject
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.annotation.StringRes
+import androidx.databinding.ObservableBoolean
 import com.like.drive.motorfeed.R
 
 class SearchViewModel : BaseViewModel(), KoinComponent {
@@ -26,6 +27,8 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
     val tagBlankMessageEvent = SingleLiveEvent<@StringRes Int>()
 
     val tag = MutableLiveData<String>()
+
+    val isSearchStatus = ObservableBoolean(true)
 
     val searchFeedAction: (String?) -> Unit = this::tagListener
 
