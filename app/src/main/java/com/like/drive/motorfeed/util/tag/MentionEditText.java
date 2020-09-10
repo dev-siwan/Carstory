@@ -315,7 +315,7 @@ public class MentionEditText extends AppCompatEditText {
             this.editText = editText;
         }
 
-        @Override
+      /*  @Override
         public boolean sendKeyEvent(KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
                 int selectionStart = editText.getSelectionStart();
@@ -347,7 +347,7 @@ public class MentionEditText extends AppCompatEditText {
                         && sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL));
             }
             return super.deleteSurroundingText(beforeLength, afterLength);
-        }
+        }*/
     }
 
     //helper class to record the position of mention string in EditText
