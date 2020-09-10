@@ -1,15 +1,13 @@
 package com.like.drive.motorfeed.common.user
 
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.remote.api.user.UserApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -32,22 +30,33 @@ object UserInfo : KoinComponent {
         }
     }
 
-    fun updateFcm(fcmToken: String? = null) {
-
-        fcmToken?.let { userPref.fcmToken = it }
+    fun updateFcm(token: String?) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            userPref.fcmToken?.let {
-                userApi.updateFcmToken(it).catch { error ->
-                    error.printStackTrace()
-                }.collect { isSuccess ->
-                    if (isSuccess) {
-                        userPref.fcmToken = fcmToken
+
+            val newToken = getToken()
+            if (token != newToken) {
+                userPref.fcmToken?.let {
+                    userApi.updateFcmToken(it).catch { error ->
+                        error.printStackTrace()
+                    }.collect {
+                        userPref.fcmToken = newToken
                     }
                 }
             }
             cancel()
         }
+    }
+
+    private suspend fun getToken(): String? {
+
+        if (userPref.fcmToken == null) {
+            withContext(Dispatchers.IO) {
+                userPref.fcmToken = FirebaseInstanceId.getInstance().instanceId.await().token
+            }
+        }
+
+        return userPref.fcmToken
     }
 
 }
