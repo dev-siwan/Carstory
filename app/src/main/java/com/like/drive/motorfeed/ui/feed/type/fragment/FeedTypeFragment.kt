@@ -34,6 +34,10 @@ class FeedTypeFragment : BaseFragmentDialog<FragmentFeedTypeBinding>(R.layout.fr
         containerFragment.setOnClickListener {
             dismiss()
         }
+
+        dialog?.window?.run {
+            attributes.windowAnimations = R.style.AnimationFeedTypeStyle
+        }
     }
 
 

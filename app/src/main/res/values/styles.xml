@@ -27,6 +27,11 @@
         <item name="android:windowExitAnimation">@anim/filter_close</item>
     </style>
 
+    <style name="AnimationFeedTypeStyle">
+        <item name="android:windowEnterAnimation">@anim/type_open</item>
+        <item name="android:windowExitAnimation">@anim/type_close</item>
+    </style>
+
     <style name="CustomMoreProgress" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:padding">0dp</item>
     </style>
