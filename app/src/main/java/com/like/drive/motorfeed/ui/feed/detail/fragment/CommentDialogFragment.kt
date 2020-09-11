@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.FragmentCommentDialogBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
+import com.like.drive.motorfeed.ui.base.ext.setOnScrollableTouchListener
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
 import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
@@ -43,7 +44,7 @@ class CommentDialogFragment :
         dialog?.window?.run {
             setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+            setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
     }
 
@@ -74,6 +75,8 @@ class CommentDialogFragment :
 
                 imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
+
+            etComment.setOnScrollableTouchListener()
 
             withViewModel()
 

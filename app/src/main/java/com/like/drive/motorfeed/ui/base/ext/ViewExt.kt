@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.base.ext
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -11,9 +12,11 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -26,20 +29,21 @@ import java.lang.Exception
 import java.util.*
 import kotlin.reflect.KClass
 
-
 fun Context.showShortToast(@StringRes resId: Int) = showToast(resId, Toast.LENGTH_SHORT)
 fun Context.showLongToast(@StringRes resId: Int) = showToast(resId, Toast.LENGTH_LONG)
 
 fun Context.showShortToast(text: String) {
     if (text.isNotBlank()) showToast(text, Toast.LENGTH_SHORT)
 }
+
 fun Context.showLongToast(text: String) = showToast(text, Toast.LENGTH_LONG)
 
 fun Context.showToast(text: String, duration: Int) = Toast.makeText(this, text, duration).show()
 fun Context.showToast(@StringRes resId: Int, duration: Int) =
     Toast.makeText(this, resId, duration).show()
 
-fun Context.showLongSnackbar(view:View,text:String) = Snackbar.make(view,text,Snackbar.LENGTH_LONG).show()
+fun Context.showLongSnackbar(view: View, text: String) =
+    Snackbar.make(view, text, Snackbar.LENGTH_LONG).show()
 
 fun Context.spToPixel(sp: Float): Float {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, resources.displayMetrics)
@@ -49,26 +53,29 @@ fun Context.dpToPixel(dp: Float): Float {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
 }
 
-fun Context.valueToDp(value:Int):Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value.toFloat(), resources.displayMetrics).toInt()
+fun Context.valueToDp(value: Int): Int {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        value.toFloat(),
+        resources.displayMetrics
+    ).toInt()
 }
 
 fun Context.pixelToDp(px: Float): Float {
     return px / Resources.getSystem().displayMetrics.density
 }
 
-fun Context.hideKeyboard(view:View){
-    val imm =  getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+fun Context.hideKeyboard(view: View) {
+    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Context.showKeyboard(view:View){
-    val imm =  getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+fun Context.showKeyboard(view: View) {
+    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(view, 0)
 }
 
-
-fun Context.showListDialog(list: Array<String>, title: String?=null, action: (Int) -> Unit) {
+fun Context.showListDialog(list: Array<String>, title: String? = null, action: (Int) -> Unit) {
     val builder = AlertDialog.Builder(this)
     title?.let {
         builder.setTitle(it)
@@ -83,7 +90,7 @@ fun Context.showListDialog(list: Array<String>, title: String?=null, action: (In
     }
 }
 
-fun Context.progressBar():Dialog{
+fun Context.progressBar(): Dialog {
     return LoadingProgressDialog(this)
 }
 
@@ -97,33 +104,32 @@ fun Context.openWebBrowser(url: String) {
     }
 }
 
-
 /**
  * datePicker 에 대한 설정이 변경될 가능성이 있어서, DatePicker 를 리턴.
  * 예) 날짜 선택 불가능/가능
  */
-fun Context.getDatePicker(separator: String, action: (String) -> Unit): DatePickerDialog{
+fun Context.getDatePicker(separator: String, action: (String) -> Unit): DatePickerDialog {
     val c = Calendar.getInstance()
     val calYear = c.get(Calendar.YEAR)
     val calMonth = c.get(Calendar.MONTH)
     val calDay = c.get(Calendar.DAY_OF_MONTH)
 
-    return DatePickerDialog(this,
+    return DatePickerDialog(
+        this,
         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
 
-            val displayMonth = if(month.plus(1)<10) "0${month.plus(1)}"
+            val displayMonth = if (month.plus(1) < 10) "0${month.plus(1)}"
             else month.plus(1)
 
-            val displayDay = if(dayOfMonth<10) "0${dayOfMonth}"
+            val displayDay = if (dayOfMonth < 10) "0${dayOfMonth}"
             else dayOfMonth
 
             action("$year$separator${displayMonth}$separator$displayDay")
-        },calYear, calMonth, calDay
+        }, calYear, calMonth, calDay
     )
 }
 
-
-fun NestedScrollView.setScrollPositionAndFocus(context: Context,view: View) {
+fun NestedScrollView.setScrollPositionAndFocus(context: Context, view: View) {
     this.smoothScrollTo(0, view.y.toInt())
     view.isFocusableInTouchMode = true
     view.requestFocus()
@@ -147,7 +153,11 @@ fun Context.startAct(clazz: KClass<*>, bundle: Bundle? = null) {
     }
 }
 
-fun Fragment.startToAct(clazz: KClass<*>, bundle: Bundle? = null, attachException:(()->Unit)?=null) {
+fun Fragment.startToAct(
+    clazz: KClass<*>,
+    bundle: Bundle? = null,
+    attachException: (() -> Unit)? = null
+) {
     try {
         Intent(requireContext(), clazz.java).apply {
             bundle?.let {
@@ -161,7 +171,12 @@ fun Fragment.startToAct(clazz: KClass<*>, bundle: Bundle? = null, attachExceptio
     }
 }
 
-fun Fragment.startActForResult(clazz: KClass<*>, requestCode: Int, bundle: Bundle? = null,attachException:(()->Unit)?=null) {
+fun Fragment.startActForResult(
+    clazz: KClass<*>,
+    requestCode: Int,
+    bundle: Bundle? = null,
+    attachException: (() -> Unit)? = null
+) {
     try {
 
         Intent(requireContext(), clazz.java).apply {
@@ -169,7 +184,7 @@ fun Fragment.startActForResult(clazz: KClass<*>, requestCode: Int, bundle: Bundl
                 putExtras(it)
             }
         }.run {
-            startActivityForResult(this,requestCode)
+            startActivityForResult(this, requestCode)
         }
     } catch (e: Exception) {
         attachException?.invoke()
@@ -189,7 +204,7 @@ fun Activity.startActForResult(clazz: KClass<*>, requestCode: Int, bundle: Bundl
 fun FragmentManager.currentNavigationFragment() =
     primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
-inline fun <T: View> T.afterMeasured(crossinline f: T.() -> Unit) {
+inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             if (measuredWidth > 0 && measuredHeight > 0) {
@@ -198,4 +213,20 @@ inline fun <T: View> T.afterMeasured(crossinline f: T.() -> Unit) {
             }
         }
     })
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun EditText.setOnScrollableTouchListener() {
+    setOnTouchListener { v, event ->
+        if (this.hasFocus()) {
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            when (event.action) {
+                MotionEvent.ACTION_SCROLL, MotionEvent.ACTION_MASK -> {
+                    v.parent.requestDisallowInterceptTouchEvent(false)
+                    return@setOnTouchListener true
+                }
+            }
+        }
+        return@setOnTouchListener false
+    }
 }
