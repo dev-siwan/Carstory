@@ -18,12 +18,10 @@ import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment_feed_list) {
 
     private val viewModel: FeedListViewModel by viewModel()
     private val feedListAdapter by lazy { FeedListAdapter(viewModel) }
-
 
     override fun onBind(dataBinding: FragmentFeedListBinding) {
         super.onBind(dataBinding)
@@ -53,8 +51,8 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
         initData()
     }
 
-    private fun initData(){
-        if(feedListAdapter.feedList.isEmpty()){
+    private fun initData() {
+        if (feedListAdapter.feedList.isEmpty()) {
             //viewModel.getFeedList()
         }
     }
@@ -81,7 +79,6 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
         })
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -107,7 +104,7 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
                         data?.getParcelableExtra<FeedData>(FeedUploadActivity.FEED_CREATE_KEY)
                             ?.let {
                                 feedListAdapter.run {
-                                   addFeed(it)
+                                    addFeed(it)
                                 }
                             }
                     }

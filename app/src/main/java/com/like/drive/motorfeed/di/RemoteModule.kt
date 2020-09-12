@@ -9,6 +9,8 @@ import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.api.img.ImageApiImpl
 import com.like.drive.motorfeed.remote.api.motor.MotorTypeApi
 import com.like.drive.motorfeed.remote.api.motor.MotorTypeApiImpl
+import com.like.drive.motorfeed.remote.api.notification.NotificationApi
+import com.like.drive.motorfeed.remote.api.notification.NotificationApiImpl
 import com.like.drive.motorfeed.remote.api.user.UserApi
 import com.like.drive.motorfeed.remote.api.user.UserApiImpl
 import com.like.drive.motorfeed.remote.api.version.VersionApi
@@ -17,11 +19,11 @@ import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.repository.version.VersionRepositoryImpl
 import org.koin.dsl.module
 
-val remoteModule= module {
+val remoteModule = module {
     val fireStoreInstance by lazy { FirebaseFirestore.getInstance() }
     val fireStorageInstance by lazy { FirebaseStorage.getInstance() }
     val fireBaseTask by lazy { FireBaseTask() }
-    val fireBaseAuth by lazy{ FirebaseAuth.getInstance() }
+    val fireBaseAuth by lazy { FirebaseAuth.getInstance() }
 
     single { fireStoreInstance }
     single { fireStorageInstance }
@@ -31,9 +33,10 @@ val remoteModule= module {
     /**
      * Api
      * **/
-    single<VersionApi> { VersionApiImpl(get(),get()) }
-    single<MotorTypeApi> { MotorTypeApiImpl(get(),get()) }
-    single<UserApi> { UserApiImpl(get(),get(),get()) }
-    single<ImageApi> { ImageApiImpl(get(),get()) }
-    single<FeedApi> { FeedApiImpl(get(),get()) }
+    single<VersionApi> { VersionApiImpl(get(), get()) }
+    single<MotorTypeApi> { MotorTypeApiImpl(get(), get()) }
+    single<UserApi> { UserApiImpl(get(), get(), get()) }
+    single<ImageApi> { ImageApiImpl(get(), get()) }
+    single<FeedApi> { FeedApiImpl(get(), get()) }
+    single<NotificationApi> { NotificationApiImpl(get())}
 }

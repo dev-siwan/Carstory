@@ -2,24 +2,29 @@ package com.like.drive.motorfeed.repository.feed
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctionsException
+import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.*
 import com.like.drive.motorfeed.data.motor.MotorTypeData
+import com.like.drive.motorfeed.data.notification.NotificationSendData
+import com.like.drive.motorfeed.data.notification.NotificationType
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.remote.api.feed.FeedApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
+import com.like.drive.motorfeed.remote.api.notification.NotificationApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
+import com.like.drive.motorfeed.ui.filter.dialog.FEED_TYPE
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
 class FeedRepositoryImpl(
     private val feedApi: FeedApi,
     private val imgApi: ImageApi,
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val notificationApi: NotificationApi
 ) : FeedRepository {
 
     private var photoFileList = ArrayList<PhotoData>()
@@ -164,13 +169,13 @@ class FeedRepositoryImpl(
         feedApi.getFeedList(date, motorTypeData, feedTypeData, tagStr)
 
     override suspend fun addComment(
-        fid: String,
+        feedData: FeedData,
         comment: String,
-        commentFunData: CommentFunData,
         success: (CommentData) -> Unit,
         fail: () -> Unit
     ) {
-        val commentData = CommentData().createComment(fid = fid, commentStr = comment)
+        val commentData =
+            CommentData().createComment(fid = feedData.fid ?: "", commentStr = comment)
 
         feedApi.addComment(commentData).catch { e ->
             e.printStackTrace()
@@ -178,26 +183,32 @@ class FeedRepositoryImpl(
         }.collect {
             success(commentData)
 
-            feedApi.setFuncComment(commentFunData).catch { e ->
-                if (e is FirebaseFunctionsException) {
-                    /*      val code = e.code
-                          val details = e.details*/
-
-                    Timber.i("functionError $e")
-                }
-            }.collect()
+            if (feedData.userInfo?.uid != UserInfo.userInfo?.uid) {
+                val data = NotificationSendData(
+                    notificationType = NotificationType.COMMENT.value,
+                    uid = feedData.userInfo?.uid,
+                    fid = feedData.fid,
+                    message = comment
+                )
+                notificationApi.sendNotification(data).catch { e ->
+                    if (e is FirebaseFunctionsException) {
+                        val code = e.code
+                        val details = e.details
+                    }
+                }.collect()
+            }
         }
     }
 
     override suspend fun addReComment(
-        fid: String,
+        feedData: FeedData,
         cid: String,
         comment: String,
         success: (ReCommentData) -> Unit,
         fail: () -> Unit
     ) {
         val reCommentData =
-            ReCommentData().createComment(fid = fid, cid = cid, commentStr = comment)
+            ReCommentData().createComment(fid = feedData.fid ?: "", cid = cid, commentStr = comment)
 
         feedApi.addReComment(reCommentData).catch {
             fail.invoke()

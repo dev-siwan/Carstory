@@ -7,6 +7,7 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.util.notification.NotificationUtil
+import timber.log.Timber
 
 class AppFireMessagingService : FirebaseMessagingService() {
 
@@ -22,11 +23,15 @@ class AppFireMessagingService : FirebaseMessagingService() {
 
         if (UserInfo.userInfo == null) return
 
-        remoteMessaging.notification?.let {
+        remoteMessaging.data.keys.forEach {
+            Timber.i(it)
+        }
+
+       /* remoteMessaging.notification?.let {
             val title = it.title ?: context.getString(R.string.app_name_kr)
             val body = it.body ?: ""
             handleNotification(title, body)
-        }
+        }*/
     }
 
     private fun handleNotification(title: String, message: String) {

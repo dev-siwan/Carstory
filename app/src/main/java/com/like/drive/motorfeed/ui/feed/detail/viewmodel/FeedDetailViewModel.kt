@@ -9,7 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.common.user.UserInfo
-import com.like.drive.motorfeed.data.feed.*
+import com.like.drive.motorfeed.data.feed.CommentData
+import com.like.drive.motorfeed.data.feed.CommentWrapData
+import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
@@ -62,6 +65,8 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
     val imgUrlClickEvent = SingleLiveEvent<String>()
 
+    val finishEvent = SingleLiveEvent<String>()
+
     fun initDate(feedData: FeedData) {
         feedData.let {
             _feedData.value = it
@@ -75,9 +80,10 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
                     commentCountObserver.set(commentWrapList?.size ?: 0)
                     likeCountObserver.set(likeCount ?: 0)
                     _feedData.value = feedData
-                }
-                _commentList.value =
-                    if (commentWrapList.isNullOrEmpty()) emptyList() else commentWrapList
+
+                    _commentList.value =
+                        if (commentWrapList.isNullOrEmpty()) emptyList() else commentWrapList
+                } ?: finishFeed(fid)
             }, fail = {
                 errorEvent.value = R.string.not_found_data
             })
@@ -138,22 +144,13 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     /**
      * Remote 댓글 추가
      */
-    fun addFeedComment(fid: String, comment: String?) {
+    fun addFeedComment(feedData: FeedData, comment: String?) {
 
         isProgressEvent.value = true
 
         comment?.let {
-            val commentFuncData =
-                CommentFunData(
-                    it,
-                    fid,
-                    0,
-                    feedData.value?.userInfo?.uid ?: "",
-                    feedData.value?.userInfo?.fcmToken ?: ""
-                )
-
             viewModelScope.launch {
-                feedRepository.addComment(fid, it, commentFuncData,
+                feedRepository.addComment(feedData, it,
                     success = { commentData ->
                         addCommentEvent.value = commentData
                         commentCountObserver.set(commentCountObserver.get() + 1)
@@ -169,13 +166,13 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     /**
      * Remote 대댓글 추가
      */
-    private fun addReFeedComment(commentData: CommentData, comment: String?) {
+    private fun addReFeedComment(commentData: CommentData, reCommentValue: String?) {
 
         isProgressEvent.value = true
 
-        comment?.let {
+        reCommentValue?.let {
             viewModelScope.launch {
-                feedRepository.addReComment(commentData.fid ?: "", commentData.cid ?: "", it,
+                feedRepository.addReComment(_feedData.value!!, commentData.cid ?: "", it,
                     success = {
                         completeCommentDialogEvent.call()
                         addReCommentEvent.value = it
@@ -313,6 +310,11 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
     fun setReComment(str: String?) {
         reComment.value = str
+    }
+
+    private fun finishFeed(fid: String) {
+        errorEvent.value = R.string.not_found_data
+        finishEvent.value = fid
     }
 
 }

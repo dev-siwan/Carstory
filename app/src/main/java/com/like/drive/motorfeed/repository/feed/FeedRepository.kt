@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.repository.feed
 
 import com.like.drive.motorfeed.data.feed.*
 import com.like.drive.motorfeed.data.motor.MotorTypeData
+import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
@@ -44,15 +45,14 @@ interface FeedRepository {
     suspend fun getFeedList(date:Date,motorTypeData: MotorTypeData? = null ,feedTypeData: FeedTypeData?=null,tagStr:String?=null): Flow<List<FeedData>>
 
     suspend fun addComment(
-        fid: String,
+        feedData: FeedData,
         comment: String,
-        commentFunData: CommentFunData,
         success: (CommentData) -> Unit,
         fail: () -> Unit
     )
 
     suspend fun addReComment(
-        fid: String,
+        feedData: FeedData,
         cid: String,
         comment: String,
         success: (ReCommentData) -> Unit,

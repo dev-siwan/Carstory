@@ -260,7 +260,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:enabled="@{!TextUtils.isEmpty(vm.comment)}"
                 android:gravity="center"
-                android:onClick="@{()->vm.addFeedComment(vm.feedData.fid,etComment.text)}"
+                android:onClick="@{()->vm.addFeedComment(vm.feedData,etComment.text)}"
                 android:padding="@dimen/activity_vertical_margin"
                 android:text="@string/enrollment_text"
                 android:textColor="@color/text_enable_color"

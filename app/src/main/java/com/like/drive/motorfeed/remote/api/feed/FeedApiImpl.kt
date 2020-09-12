@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.like.drive.motorfeed.common.define.FunctionDefine
 import com.like.drive.motorfeed.data.feed.CommentData
-import com.like.drive.motorfeed.data.feed.CommentFunData
+import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
@@ -128,10 +128,6 @@ class FeedApiImpl(
         commentData.cid = cid
 
         return fireBaseTask.setData(commentFeedCollection.document(cid), commentData)
-    }
-
-    override suspend fun setFuncComment(commentFunData: CommentFunData): Flow<String> {
-        return fireBaseTask.setFunction(commentFunData.getHashMap(), FunctionDefine.ADD_COMMENT)
     }
 
     override suspend fun updateCount(fid: String, flag: FeedCountEnum) {
