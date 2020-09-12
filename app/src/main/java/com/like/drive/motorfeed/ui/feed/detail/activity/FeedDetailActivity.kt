@@ -86,6 +86,7 @@ class FeedDetailActivity :
             showCommentFragmentDialog()
             showOptions()
             updateComment()
+            finishView()
         }
     }
 
@@ -201,10 +202,13 @@ class FeedDetailActivity :
 
     private fun FeedDetailViewModel.removeFeed() {
         removeFeedEvent.observe(this@FeedDetailActivity, Observer {
-            setResult(FEED_REMOVE_RES_CODE, Intent().apply {
-                putExtra(KEY_FEED_DATA, it)
-            })
-            finish()
+            resultRemoveFeed(it.fid)
+        })
+    }
+
+    private fun FeedDetailViewModel.finishView() {
+        finishEvent.observe(this@FeedDetailActivity, Observer {
+            resultRemoveFeed(it)
         })
     }
 
@@ -264,6 +268,8 @@ class FeedDetailActivity :
         })
     }
 
+
+
     private fun RecyclerView.setImagePosition() {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -279,6 +285,13 @@ class FeedDetailActivity :
         onFlingListener = null
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(this)
+    }
+
+    private fun resultRemoveFeed(fid:String?){
+        setResult(FEED_REMOVE_RES_CODE, Intent().apply {
+            putExtra(KEY_FEED_DATA, fid)
+        })
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

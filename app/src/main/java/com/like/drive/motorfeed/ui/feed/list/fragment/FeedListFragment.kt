@@ -95,7 +95,7 @@ class FeedListFragment : BaseFragment<FragmentFeedListBinding>(R.layout.fragment
                     }
                     FeedDetailActivity.FEED_REMOVE_RES_CODE -> {
                         data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {
-                            feedListAdapter.removeFeed(it)
+                            //feedListAdapter.removeFeed(it)
                         }
                     }
                 }

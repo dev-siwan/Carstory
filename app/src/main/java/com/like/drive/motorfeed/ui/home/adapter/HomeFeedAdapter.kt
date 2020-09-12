@@ -43,9 +43,9 @@ class HomeFeedAdapter(
             is NewsFeedHeaderViewHolder -> holder.bind((viewModel as NewsFeedViewModel))
             is UserFilterHeaderViewHolder -> holder.bind((viewModel as UserFilterViewModel))
             is FeedListViewHolder -> holder.bind(
-            feedListViewModel,
-            feedList[(position - position.div(5)) - FEED_LIST_START_POSITION]
-        )
+                feedListViewModel,
+                feedList[(position - position.div(5)) - FEED_LIST_START_POSITION]
+            )
             is FeedListAdvHolder -> holder.bind()
         }
     }
@@ -79,7 +79,7 @@ class HomeFeedAdapter(
 
     fun addFeed(feed: FeedData) {
         feedList.add(feed)
-        notifyItemInserted(0)
+        notifyItemInserted(FEED_LIST_START_POSITION)
     }
 
     fun updateFeed(feed: FeedData) {
@@ -92,8 +92,8 @@ class HomeFeedAdapter(
         }
     }
 
-    fun removeFeed(feed: FeedData) {
-        val originData = feedList.find { it.fid == feed.fid }
+    fun removeFeed(fid: String) {
+        val originData = feedList.find { it.fid == fid }
         originData?.let {
             val index = feedList.indexOf(it)
             feedList.removeAt(index)

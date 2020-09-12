@@ -63,8 +63,8 @@ class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<Recycler
         }
     }
 
-    fun removeFeed(feed: FeedData) {
-        val originData = feedList.find { it.fid == feed.fid }
+    fun removeFeed(fid: String) {
+        val originData = feedList.find { it.fid == fid }
         originData?.let {
             val index = feedList.indexOf(it)
             feedList.removeAt(index)

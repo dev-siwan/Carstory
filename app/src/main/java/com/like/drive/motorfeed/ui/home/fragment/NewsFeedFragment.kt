@@ -138,7 +138,7 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
                         }
                     }
                     FeedDetailActivity.FEED_REMOVE_RES_CODE -> {
-                        data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
                             newsFeedAdapter.removeFeed(it)
                         }
                     }
