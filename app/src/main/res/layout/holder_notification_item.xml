@@ -7,22 +7,53 @@
         <variable
             name="data"
             type="com.like.drive.motorfeed.data.notification.NotificationSendData" />
-
-        <import type="com.like.drive.motorfeed.data.notification.NotificationType" />
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_vertical_margin">
+        android:padding="@dimen/activity_vertical_margin"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{()->vm.onClickListener(data)}">
 
-        <TextView
+
+        <ImageView
+            android:id="@+id/ivIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_notification_circle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_small_margin"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivIcon"
+            app:layout_constraintTop_toTopOf="@id/ivIcon"
             app:notificationType="@{data.notificationType}"
-            tools:text="제목"/>
+            tools:text="제목" />
+
+        <TextView
+            android:id="@+id/tvDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_small_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{data.message}"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:text="내용" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
