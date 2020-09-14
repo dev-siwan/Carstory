@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -29,8 +32,10 @@ import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
 import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
+import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_recently_search_list.view.*
 import kotlinx.android.synthetic.main.layout_search_list.*
@@ -132,11 +137,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
 
         ivBackButton.setOnClickListener {
-            if(feedAdapter.feedList.isEmpty()){
-                requireContext().showShortToast(R.string.tag_empty_desc)
+            if (feedAdapter.feedList.isNotEmpty()) {
+                goneSearchView()
                 return@setOnClickListener
             }
-            goneSearchView()
+
+            rootView.requestFocus()
+            requireActivity().hideKeyboard(rootView)
+            moveHome()
+
         }
 
     }
@@ -294,6 +303,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         appBarLayout.layoutParams = appbarPrams
     }
 
+    private fun moveHome() {
+        (requireActivity() as MainActivity).navBottomView.selectedItemId = R.id.action_home
+    }
+
     override fun onResume() {
         adView?.resume()
         super.onResume()
@@ -347,13 +360,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         adView?.loadAd(adRequest)
 
         adView?.run {
-            setAdListener(object : AdListener() {
+            adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     super.onAdLoaded()
                     incRecentlyList.containerAdv.isVisible = true
 
                 }
-            })
+            }
         }
 
     }
