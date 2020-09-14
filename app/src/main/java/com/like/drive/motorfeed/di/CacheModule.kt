@@ -14,7 +14,8 @@ val cacheModule = module {
     /**
      * DAO
      * **/
-    single { get<AppDB>().MotorTypeDao() }
+    single { get<AppDB>().motorTypeDao() }
+    single { get<AppDB>().notificationDao() }
 
     /**
      * Preference

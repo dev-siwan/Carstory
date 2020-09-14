@@ -195,6 +195,13 @@
     <string name="tag_warning_message">태그를 입력해주세요.</string>
     <string name="list_empty_message">검색 결과가 없습니다.</string>
     <string name="latest_search">최근 검색</string>
+
+
+    <string name="fcm_notice_title">공지사항!</string>
+    <string name="fcm_event_title">이벤트!</string>
+    <string name="fcm_comment_title">고객님의 글에 댓글이 달렸습니다!</string>
+    <string name="fcm_re_comment_title">고객님의 글에 대댓글이 달렸습니다!</string>
+
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>
