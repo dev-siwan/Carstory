@@ -22,17 +22,14 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
     val errorEvent = SingleLiveEvent<Unit>()
     val signOut = SingleLiveEvent<Unit>()
     val completeEvent = SingleLiveEvent<Unit>()
-    val existNicknameEvent=SingleLiveEvent<Unit>()
+    val existNicknameEvent = SingleLiveEvent<Unit>()
 
     private var imgFile: File? = null
-
-
 
     fun setImageFile(file: File) {
         imgFile = file
         imgUrlObserver.set(file.path)
     }
-
 
     fun updateProfile() {
         isLoading.value = true
@@ -42,7 +39,6 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
                 imgFile = imgFile,
                 success = {
                     complete(nickObserver.get()!!, introObserver.get(), it?.toString())
-                    isLoading.value = false
                 },
                 fail = {
                     errorEvent.call()
@@ -58,20 +54,13 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
         }
     }
 
-
-    fun signOut(){
+    fun signOut() {
         UserInfo.signOut()
         signOut.call()
     }
 
-
-
     private fun complete(nickName: String, intro: String?, imgUrl: String?) {
-        UserInfo.userInfo?.let {
-            it.nickName = nickName
-            it.intro = intro
-            it.profileImgUrl = imgUrl
-        }
+        UserInfo.updateProfile(nickName, intro, imgUrl)
         completeEvent.call()
         isLoading.value = false
     }

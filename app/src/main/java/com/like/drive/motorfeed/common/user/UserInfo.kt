@@ -15,11 +15,11 @@ object UserInfo : KoinComponent {
     val userPref: UserPref by inject()
     private val userApi: UserApi by inject()
 
-    var userInfo: UserData?
-        get() = userPref.userData?.run { this }
-        set(value) {
-            userPref.userData = value
-        }
+    var userInfo: UserData? = null
+
+    init {
+        userInfo?.let { userPref.userData }
+    }
 
     fun signOut() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -45,6 +45,19 @@ object UserInfo : KoinComponent {
                 }
             }
             cancel()
+        }
+    }
+
+    fun setUserData(userData: UserData) {
+        userInfo = userData
+        userPref.userData = userData
+    }
+
+    fun updateProfile(nickName: String, intro: String?, imgUrl: String?) {
+        userInfo?.apply {
+            this.nickName = nickName
+            this.intro = intro
+            this.profileImgUrl = imgUrl
         }
     }
 

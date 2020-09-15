@@ -33,7 +33,6 @@ import java.io.File
 
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
 
-
     private var isNickName: Boolean = false
     private val viewModel: ProfileViewModel by viewModel()
 
@@ -52,9 +51,9 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     private fun initView() {
         UserInfo.userInfo?.nickName?.let {
             isNickName = true
-            initData()
         }
-
+        
+        initData()
         setCloseButtonToolbar(toolbar) { onBackPressed() }
     }
 
@@ -104,7 +103,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         })
     }
 
-    private fun ProfileViewModel.existNickname(){
+    private fun ProfileViewModel.existNickname() {
         existNicknameEvent.observe(this@ProfileActivity, Observer {
             showShortToast(R.string.exist_nick_name_message)
         })
@@ -121,7 +120,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             if (it) loadingProgress.show() else if (loadingProgress.isShowing) loadingProgress.dismiss()
         })
     }
-
 
     /**
      * 사진 선택 리스트
@@ -165,7 +163,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             .check()
     }
 
-
     /**
      * 갤러리 리스트로 향함
      */
@@ -205,7 +202,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         }
     }
 
-
     /**
      * 카메라 파일 리사이즈
      */
@@ -239,7 +235,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         } ?: imageError()
     }
 
-
     private suspend fun setResizeImage(file: File?) {
         file?.let {
             withContext(Dispatchers.IO) {
@@ -251,7 +246,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         } ?: imageError()
     }
 
-
     private fun imageError() {
         showShortToast(getString(R.string.error_not_load_image))
         loadingProgress.onDismiss()
@@ -262,7 +256,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             dismiss()
         }
     }
-
 
     override fun onBackPressed() {
         if (!isNickName) {

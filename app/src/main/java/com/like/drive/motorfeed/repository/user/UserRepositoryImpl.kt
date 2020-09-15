@@ -28,7 +28,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                     when {
                         it.userBan -> userBan.invoke()
                         else -> {
-                            UserInfo.run{
+                            UserInfo.run {
                                 userInfo = it
                                 updateFcm(it.fcmToken)
                             }
@@ -61,7 +61,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         }.collect { isComplete ->
             if (isComplete) {
                 UserInfo.run {
-                    userInfo = userData
+                    setUserData(userData)
                     updateFcm(userData.fcmToken)
                 }
                 success.invoke()
@@ -136,7 +136,6 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
     }
 
-
     override suspend fun signOut(success: () -> Unit, fail: () -> Unit) {
         try {
             userApi.signOut()
@@ -146,6 +145,5 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             fail.invoke()
         }
     }
-
 
 }
