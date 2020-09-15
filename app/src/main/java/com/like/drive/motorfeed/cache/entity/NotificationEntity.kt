@@ -14,6 +14,7 @@ class NotificationEntity(
     val eid: String? = null,
     val fid: String? = null,
     val uid: String? = null,
+    val title:String?=null,
     val message: String? = null,
     val createData: Date?=null
 ) {
@@ -23,6 +24,7 @@ class NotificationEntity(
         eid = data.eid,
         fid = data.fid,
         uid = data.uid,
+        title = data.title,
         message = data.message,
         createData = Date()
     )

@@ -17,6 +17,8 @@ data class NotificationSendData(
     val fid: String? = null,
     @SerializedName("uid")
     val uid: String? = null,
+    @SerializedName("title")
+    val title: String? = null,
     @SerializedName("message")
     val message: String? = null,
     @SerializedName("createDate")
@@ -29,6 +31,7 @@ data class NotificationSendData(
             "eid" to eid,
             "fid" to fid,
             "uid" to uid,
+            "title" to title,
             "message" to message
         )
 
@@ -38,6 +41,7 @@ data class NotificationSendData(
         eid = entity.eid,
         fid = entity.fid,
         uid = entity.uid,
+        title = entity.title,
         message = entity.message,
         createDate = entity.createData
     )
