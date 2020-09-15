@@ -10,6 +10,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.MediaStoreSignature
+import com.bumptech.glide.signature.ObjectKey
 import com.github.chrisbanes.photoview.PhotoView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.ui.base.ext.dpToPixel
@@ -52,7 +54,6 @@ fun PhotoView.fitLoadImage(photoData: PhotoData?) {
     }
 }
 
-
 @BindingAdapter("centerCropImage")
 fun ImageView.centerCrop(imageUrl: String?) {
     imageUrl?.let {
@@ -74,7 +75,7 @@ fun ImageView.setUri(uri: Uri?) {
     Glide.with(context)
         .load(uri)
         .transition(withCrossFade())
-       // .apply(glideOption)
+        // .apply(glideOption)
         .override(size)
         .into(this)
 }
@@ -88,7 +89,7 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
             .skipMemoryCache(true)
 
         Glide.with(context)
-            .load(it.file?:it.imgUrl)
+            .load(it.file ?: it.imgUrl)
             .transition(withCrossFade())
             .apply(
                 RequestOptions()
@@ -100,14 +101,15 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
     }
 }
 
-
 @BindingAdapter("profileImg")
 fun ImageView.setProfileImg(url: String?) {
     Glide.with(context).load(url).apply(
         RequestOptions()
             .error(R.drawable.ic_empty_profile)
             .placeholder(R.drawable.ic_empty_profile)
-            .transform(CircleCrop(),CenterCrop()))
+            .transform(CircleCrop(), CenterCrop())
+    )
+        .transition(withCrossFade())
         .into(this)
 }
 
