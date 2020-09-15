@@ -53,8 +53,8 @@ interface FeedRepository {
 
     suspend fun addReComment(
         feedData: FeedData,
-        cid: String,
-        comment: String,
+        commentData: CommentData,
+        reComment: String,
         success: (ReCommentData) -> Unit,
         fail: () -> Unit
     )

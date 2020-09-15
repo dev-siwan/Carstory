@@ -172,7 +172,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
         reCommentValue?.let {
             viewModelScope.launch {
-                feedRepository.addReComment(_feedData.value!!, commentData.cid ?: "", it,
+                feedRepository.addReComment(_feedData.value!!, commentData, it,
                     success = {
                         completeCommentDialogEvent.call()
                         addReCommentEvent.value = it

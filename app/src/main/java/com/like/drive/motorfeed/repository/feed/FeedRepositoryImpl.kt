@@ -17,6 +17,7 @@ import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import com.like.drive.motorfeed.ui.filter.dialog.FEED_TYPE
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -188,12 +189,12 @@ class FeedRepositoryImpl(
                     notificationType = NotificationType.COMMENT.value,
                     uid = feedData.userInfo?.uid,
                     fid = feedData.fid,
+                    title = feedData.title,
                     message = comment
                 )
                 notificationApi.sendNotification(data).catch { e ->
                     if (e is FirebaseFunctionsException) {
-                        val code = e.code
-                        val details = e.details
+                        e.message?.let { Timber.i(it) }
                     }
                 }.collect()
             }
@@ -202,18 +203,37 @@ class FeedRepositoryImpl(
 
     override suspend fun addReComment(
         feedData: FeedData,
-        cid: String,
-        comment: String,
+        commentData: CommentData,
+        reComment: String,
         success: (ReCommentData) -> Unit,
         fail: () -> Unit
     ) {
         val reCommentData =
-            ReCommentData().createComment(fid = feedData.fid ?: "", cid = cid, commentStr = comment)
+            ReCommentData().createComment(
+                fid = feedData.fid ?: "",
+                cid = commentData.cid ?: "",
+                commentStr = reComment
+            )
 
         feedApi.addReComment(reCommentData).catch {
             fail.invoke()
         }.collect {
             success(reCommentData)
+
+            if (commentData.userInfo?.uid != UserInfo.userInfo?.uid) {
+                val data = NotificationSendData(
+                    notificationType = NotificationType.RE_COMMENT.value,
+                    uid = commentData.userInfo?.uid,
+                    fid = feedData.fid,
+                    title = commentData.commentStr,
+                    message = reComment
+                )
+                notificationApi.sendNotification(data).catch { e ->
+                    if (e is FirebaseFunctionsException) {
+                        e.message?.let { Timber.i(it) }
+                    }
+                }.collect()
+            }
         }
     }
 

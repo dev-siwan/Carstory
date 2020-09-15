@@ -34,11 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_small_margin"
             android:textColor="@android:color/black"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivIcon"
             app:layout_constraintTop_toTopOf="@id/ivIcon"
-            app:notificationType="@{data.notificationType}"
+            app:notificationType="@{data}"
             tools:text="제목" />
 
         <TextView
