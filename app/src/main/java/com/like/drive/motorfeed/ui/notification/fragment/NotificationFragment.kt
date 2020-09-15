@@ -15,8 +15,10 @@ import com.like.drive.motorfeed.databinding.FragmentNotificationBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
+import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.notification.adapter.NotificationAdapter
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_notification.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -48,6 +50,8 @@ class NotificationFragment :
         super.onActivityCreated(savedInstanceState)
 
         viewModel.init()
+
+        (requireActivity() as MainActivity).navBottomView.removeBadge(R.id.action_notification)
     }
 
     private fun withViewModel() {
