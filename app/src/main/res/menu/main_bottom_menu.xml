@@ -26,7 +26,7 @@
         android:title="@string/menu_notification"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_user"
+        android:id="@+id/action_more"
         android:enabled="true"
         android:icon="@drawable/menu_user"
         android:title="@string/menu_user"

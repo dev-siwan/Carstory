@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userInfo"
+            type="com.like.drive.motorfeed.common.user.UserInfo" />
+
+        <import type="android.text.TextUtils" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="40dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+
+        <View
+            android:id="@+id/viewBackground"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:background="@color/gnt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivProfileImg"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toTopOf="@+id/glTop"
+            app:profileImg="@{userInfo.userInfo.profileImgUrl}"
+            tools:src="@drawable/profile_default_img_100" />
+
+
+        <LinearLayout
+            android:id="@+id/containerImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_small_margin"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/viewBackground"
+            app:layout_constraintStart_toEndOf="@id/ivProfileImg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:maxLength="8"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{userInfo.userInfo.nickName}"
+                android:textColor="@color/white_100"
+                android:textSize="@dimen/large_text_size"
+                android:textStyle="bold"
+                tools:text="가나다라마바사아" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

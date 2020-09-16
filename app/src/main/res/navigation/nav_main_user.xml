@@ -2,14 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/action_user"
+    android:id="@+id/action_more"
     app:startDestination="@id/userScreen">
 
     <fragment
         android:id="@+id/userScreen"
-        android:name="com.like.drive.motorfeed.ui.user.fragment.UserFragment"
+        android:name="com.like.drive.motorfeed.ui.more.fragment.MoreFragment"
         android:label="UserFragment"
-        tools:layout="@layout/fragment_user"/>
+        tools:layout="@layout/fragment_more"/>
 
 
 </navigation>

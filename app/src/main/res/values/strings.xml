@@ -100,7 +100,8 @@
     <string name="remain_count">남은 갯수 %d</string>
 
     <string name="nick_name_hint">닉네임을 입력해주세요.(최대 8글자)</string>
-    <string name="intro_text_hint">자기 소개를 간단히 입력해주세요. (최대 3줄)</string>
+    <string name="intro_text_hint">자기소개를 간단히 입력해주세요. (최대 3줄)</string>
+    <string name="intro_empty_desc">자기소개 글이 없습니다.</string>
 
     <string name="feed_list_photo_count_format">+%d</string>
 

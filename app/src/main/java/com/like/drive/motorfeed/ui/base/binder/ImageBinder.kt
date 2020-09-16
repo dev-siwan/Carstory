@@ -105,8 +105,8 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
 fun ImageView.setProfileImg(url: String?) {
     Glide.with(context).load(url).apply(
         RequestOptions()
-            .error(R.drawable.ic_empty_profile)
-            .placeholder(R.drawable.ic_empty_profile)
+            .error(R.drawable.profile_default_img_100)
+            .placeholder(R.drawable.profile_default_img_100)
             .transform(CircleCrop(), CenterCrop())
     )
         .transition(withCrossFade())
