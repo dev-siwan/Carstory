@@ -25,6 +25,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/menu_notification"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/large_text_size"
+                        android:textStyle="bold" />
+
+                </androidx.appcompat.widget.Toolbar>
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
 
                 <include
                     android:id="@+id/incProfile"
@@ -33,8 +62,71 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider"
                     app:userInfo="@{userInfo}" />
+
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/light_gery_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/incProfile"
+                    android:layout_marginHorizontal="@dimen/activity_vertical_margin"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2">
+
+                    <include
+                        layout="@layout/layout_more_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="@{@string/more_title_my_feed}" />
+
+                    <include
+                        layout="@layout/layout_more_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="@{@string/more_title_password}" />
+
+                    <include
+                        layout="@layout/layout_more_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="@{@string/more_title_push_setting}" />
+
+                    <include
+                        layout="@layout/layout_more_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="@{@string/more_title_push_notice}" />
+
+                    <include
+                        layout="@layout/layout_more_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="@{@string/more_title_push_terms_use}" />
+
+                    <include
+                        layout="@layout/layout_more_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="@{@string/more_title_push_terms_privacy}" />
+
+                    <include
+                        layout="@layout/layout_more_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="@{@string/more_title_logout}" />
+
+                </LinearLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

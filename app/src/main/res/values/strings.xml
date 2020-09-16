@@ -99,8 +99,8 @@
 
     <string name="remain_count">남은 갯수 %d</string>
 
-    <string name="nick_name_hint">닉네임을 입력해주세요.(최대 8글자)</string>
-    <string name="intro_text_hint">자기소개를 간단히 입력해주세요. (최대 3줄)</string>
+    <string name="nick_name_hint">닉네임을 입력해주세요.(최대 8자)</string>
+    <string name="intro_text_hint">간단 한줄 소개를 입력해주세요.(최대 20자)</string>
     <string name="intro_empty_desc">자기소개 글이 없습니다.</string>
 
     <string name="feed_list_photo_count_format">+%d</string>
@@ -205,6 +205,17 @@
 
     <string name="notification_comment_title"><![CDATA[회원님의 <b>"%s"</b>글에 댓글이 달렸습니다.]]></string>
     <string name="notification_re_comment_title"><![CDATA[회원님의 <b>"%s"</b>댓글에 대댓글이 달렸습니다.]]></string>
+
+
+    <string name="more_title_my_feed">내가 쓴 글</string>
+    <string name="more_title_password">패스워드 변경</string>
+    <string name="more_title_push_setting">알림 설정</string>
+    <string name="more_title_push_notice">공지사항</string>
+    <string name="more_title_push_terms_use">이용약관</string>
+    <string name="more_title_push_terms_privacy">개인정보 취급방침</string>
+    <string name="more_title_logout">로그아웃</string>
+
+
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>

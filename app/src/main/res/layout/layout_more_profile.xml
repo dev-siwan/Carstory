@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
             android:layout_width="wrap_content"
@@ -37,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="40dp" />
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glBottom"
@@ -46,53 +45,80 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
-        <View
-            android:id="@+id/viewBackground"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:background="@color/gnt_black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivProfileImg"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@+id/glTop"
             app:profileImg="@{userInfo.userInfo.profileImgUrl}"
             tools:src="@drawable/profile_default_img_100" />
 
 
-        <LinearLayout
-            android:id="@+id/containerImg"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_small_margin"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/viewBackground"
-            app:layout_constraintStart_toEndOf="@id/ivProfileImg">
+            app:layout_constraintBottom_toBottomOf="@+id/ivProfileImg"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toEndOf="@id/ivProfileImg"
+            app:layout_constraintTop_toTopOf="@+id/ivProfileImg">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_x_small_margin"
                 android:maxLength="8"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="@{userInfo.userInfo.nickName}"
-                android:textColor="@color/white_100"
-                android:textSize="@dimen/large_text_size"
+                android:textColor="@color/gnt_black"
+                android:textSize="@dimen/x_large_text_size"
                 android:textStyle="bold"
+                app:autoSizeMinTextSize="@dimen/normal_text_size"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="가나다라마바사아" />
-        </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvUpdate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_small_margin"
+                android:background="@drawable/rect_solid_black_conner_12dp"
+                android:gravity="center"
+                android:padding="@dimen/activity_small_margin"
+                android:text="프로필 수정"
+                android:textColor="@color/white_100"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNick" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvIntro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@{!TextUtils.isEmpty(userInfo.userInfo.intro) ? userInfo.userInfo.intro : @string/intro_empty_desc}"
+            android:textColor="@color/gnt_black"
+            android:textSize="@dimen/normal_text_size"
+            app:autoSizeMinTextSize="@dimen/small_text_size"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/ivProfileImg"
+            tools:text="가나다라마바사아" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>
