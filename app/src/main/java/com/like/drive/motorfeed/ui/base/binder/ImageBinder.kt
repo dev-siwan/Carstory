@@ -23,21 +23,6 @@ import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 import com.like.drive.motorfeed.data.photo.PhotoData
 import kotlinx.coroutines.tasks.await
 
-/*@BindingAdapter("loadImage")
-fun ImageView.setLoadImage(imageUrl: String?) {
-    //placeholder 이미지 가운데에 표시하기 위해
-    scaleType = ImageView.ScaleType.CENTER
-    setBackgroundColor(ContextCompat.getColor(context, R.color.pro_sky_pale))
-    Glide.with(context)
-        .load(imageUrl)
-        .apply(
-            RequestOptions()
-                .placeholder(R.drawable.ic_empty_popup)
-                .transform(CenterCrop(), RoundedCorners(context.dpToPixel(2.0f).toInt()))
-        )
-        .into(this)
-}*/
-
 @BindingAdapter("fitLoadImage")
 fun ImageView.fitLoadImage(photoData: PhotoData?) {
     photoData?.let {
@@ -74,14 +59,9 @@ fun ImageView.centerCrop(imageUrl: String?) {
 fun ImageView.setUri(uri: Uri?) {
     val size = context.dpToPixel(100f).toInt()
 
-    /*val glideOption: RequestOptions = RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .skipMemoryCache(true)
-*/
     Glide.with(context)
         .load(uri)
         .transition(withCrossFade())
-        // .apply(glideOption)
         .override(size)
         .into(this)
 }
