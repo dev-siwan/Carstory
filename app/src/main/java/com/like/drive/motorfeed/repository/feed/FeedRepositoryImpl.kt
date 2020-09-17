@@ -3,7 +3,10 @@ package com.like.drive.motorfeed.repository.feed
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctionsException
 import com.like.drive.motorfeed.common.user.UserInfo
-import com.like.drive.motorfeed.data.feed.*
+import com.like.drive.motorfeed.data.feed.CommentData
+import com.like.drive.motorfeed.data.feed.CommentWrapData
+import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.data.notification.NotificationType
@@ -15,7 +18,6 @@ import com.like.drive.motorfeed.remote.reference.CollectionName
 import com.like.drive.motorfeed.ui.feed.data.FeedCountEnum
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
-import com.like.drive.motorfeed.ui.filter.dialog.FEED_TYPE
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.util.*
@@ -168,6 +170,9 @@ class FeedRepositoryImpl(
         tagStr: String?
     ): Flow<List<FeedData>> =
         feedApi.getFeedList(date, motorTypeData, feedTypeData, tagStr)
+
+    override suspend fun getUserFeedList(date: Date, uid: String): Flow<List<FeedData>> =
+        feedApi.getUserFeedList(date, uid)
 
     override suspend fun addComment(
         feedData: FeedData,

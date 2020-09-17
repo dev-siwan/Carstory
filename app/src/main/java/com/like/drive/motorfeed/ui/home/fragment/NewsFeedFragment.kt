@@ -14,7 +14,7 @@ import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
-import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
+import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import com.like.drive.motorfeed.ui.home.adapter.HomeFeedAdapter
@@ -120,7 +120,7 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
         feedItemClickEvent.observe(viewLifecycleOwner, Observer {
             startForResult(
                 FeedDetailActivity::class,
-                FeedListFragment.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
+                FeedListActivity.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
                     putString(FeedDetailActivity.KEY_FEED_ID, it)
                 })
         })
@@ -130,7 +130,7 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            FeedListFragment.FEED_LIST_TO_DETAIL_REQ -> {
+            FeedListActivity.FEED_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
                     FeedDetailActivity.FEED_UPLOAD_RES_CODE -> {
                         data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {

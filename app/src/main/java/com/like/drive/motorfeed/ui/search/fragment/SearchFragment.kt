@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.ui.search.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -29,8 +30,8 @@ import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
+import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
-import com.like.drive.motorfeed.ui.feed.list.fragment.FeedListFragment
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
@@ -41,6 +42,7 @@ import kotlinx.android.synthetic.main.layout_recently_search_list.view.*
 import kotlinx.android.synthetic.main.layout_search_list.*
 import kotlinx.android.synthetic.main.layout_search_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
@@ -62,11 +64,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private var adView: AdView? = null
     private var initialLayoutComplete = false
+    @Suppress("DEPRECATION")
     private val adSize: AdSize
         get() {
-            val display = requireActivity().windowManager.defaultDisplay
+            val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                requireActivity().display
+            } else {
+                requireActivity().windowManager.defaultDisplay
+            }
             val outMetrics = DisplayMetrics()
-            display.getMetrics(outMetrics)
+            display?.getRealMetrics(outMetrics)
 
             val density = outMetrics.density
 
@@ -103,7 +110,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         //리싸이클러뷰 페이징
         rvFeed.apply {
             paging()
-
         }
 
         //검색창 포커스
@@ -262,7 +268,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         feedItemClickEvent.observe(viewLifecycleOwner, Observer {
             startForResult(
                 FeedDetailActivity::class,
-                FeedListFragment.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
+                FeedListActivity.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
                     putString(FeedDetailActivity.KEY_FEED_ID, it)
                 })
         })
@@ -272,7 +278,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            FeedListFragment.FEED_LIST_TO_DETAIL_REQ -> {
+            FeedListActivity.FEED_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
                     FeedDetailActivity.FEED_UPLOAD_RES_CODE -> {
                         data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {

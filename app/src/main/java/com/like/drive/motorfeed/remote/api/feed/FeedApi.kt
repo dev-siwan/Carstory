@@ -25,6 +25,9 @@ interface FeedApi {
         tagStr: String? = null
     ): Flow<List<FeedData>>
 
+
+    suspend fun getUserFeedList(date:Date,uid: String):Flow<List<FeedData>>
+
     suspend fun addComment(commentData: CommentData): Flow<Boolean>
     suspend fun updateCount(fid: String, flag: FeedCountEnum)
     suspend fun addReComment(reCommentData: ReCommentData): Flow<Boolean>

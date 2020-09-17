@@ -10,18 +10,12 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.MediaStoreSignature
-import com.bumptech.glide.signature.ObjectKey
 import com.github.chrisbanes.photoview.PhotoView
-import com.google.firebase.FirebaseException
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.like.drive.motorfeed.R
-import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 import com.like.drive.motorfeed.data.photo.PhotoData
-import kotlinx.coroutines.tasks.await
+import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 
 @BindingAdapter("fitLoadImage")
 fun ImageView.fitLoadImage(photoData: PhotoData?) {

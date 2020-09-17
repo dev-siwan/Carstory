@@ -3,9 +3,7 @@ package com.like.drive.motorfeed.remote.api.feed
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.like.drive.motorfeed.common.define.FunctionDefine
 import com.like.drive.motorfeed.data.feed.CommentData
-import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
@@ -113,6 +111,17 @@ class FeedApiImpl(
 
         return fireBaseTask.getData(
             tagQuery.whereLessThan(CREATE_DATE_FIELD, date)
+                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(INIT_SIZE.toLong()),
+            FeedData::class.java
+        )
+    }
+
+    override suspend fun getUserFeedList(date: Date, uid: String): Flow<List<FeedData>> {
+        val feedCollection =
+            fireStore.collection(CollectionName.USER).document(uid).collection(CollectionName.FEED)
+
+        return fireBaseTask.getData(
+            feedCollection.whereLessThan(CREATE_DATE_FIELD, date)
                 .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(INIT_SIZE.toLong()),
             FeedData::class.java
         )

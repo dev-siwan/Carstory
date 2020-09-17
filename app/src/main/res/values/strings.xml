@@ -216,6 +216,8 @@
     <string name="more_title_logout">로그아웃</string>
     <string name="more_title">더보기</string>
 
+    <string name="my_feed_title_format">%s의 글목록</string>
+
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

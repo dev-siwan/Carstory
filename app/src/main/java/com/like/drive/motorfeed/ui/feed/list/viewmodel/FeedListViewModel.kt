@@ -82,6 +82,44 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
         }
     }
 
+    fun initUserData(uid: String) {
+        isFirst = true
+        lastDate = null
+
+        loadingStatus()
+
+        getUserList(uid = uid)
+    }
+
+    fun moreUserData(date: Date? = null, uid: String) {
+        isFirst = false
+        lastDate = date
+
+        loadingStatus = LoadingStatus.MORE
+        loadingStatus()
+
+        getUserList(date, uid)
+    }
+
+    private fun getUserList(date: Date? = Date(), uid: String) {
+        viewModelScope.launch {
+            feedRepository.getUserFeedList(date ?: Date(), uid)
+                .catch {
+
+                    it.message
+                    errorEvent.call()
+                    loadingStatus()
+
+                }.collect {
+
+                    loadingStatus()
+                    feedList.value = it
+                    initEmpty.set(isFirst && it.isEmpty())
+
+                }
+        }
+    }
+
     fun getLastDate() =
         feedList.value?.lastOrNull()?.createDate == lastDate
 

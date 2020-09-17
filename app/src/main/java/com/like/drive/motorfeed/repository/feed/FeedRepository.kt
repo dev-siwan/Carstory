@@ -1,14 +1,15 @@
 package com.like.drive.motorfeed.repository.feed
 
-import com.like.drive.motorfeed.data.feed.*
+import com.like.drive.motorfeed.data.feed.CommentData
+import com.like.drive.motorfeed.data.feed.CommentWrapData
+import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
-import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.upload.data.FeedUploadField
 import kotlinx.coroutines.flow.Flow
 import java.util.*
-import kotlin.collections.ArrayList
 
 interface FeedRepository {
     suspend fun addFeed(
@@ -42,7 +43,14 @@ interface FeedRepository {
         fail: () -> Unit
     )
 
-    suspend fun getFeedList(date:Date,motorTypeData: MotorTypeData? = null ,feedTypeData: FeedTypeData?=null,tagStr:String?=null): Flow<List<FeedData>>
+    suspend fun getFeedList(
+        date: Date,
+        motorTypeData: MotorTypeData? = null,
+        feedTypeData: FeedTypeData? = null,
+        tagStr: String? = null
+    ): Flow<List<FeedData>>
+
+    suspend fun getUserFeedList(date: Date, uid: String): Flow<List<FeedData>>
 
     suspend fun addComment(
         feedData: FeedData,

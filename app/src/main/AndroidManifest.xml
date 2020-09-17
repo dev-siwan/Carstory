@@ -24,6 +24,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
+            android:name=".ui.feed.list.activity.FeedListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
             android:name=".ui.feed.comment.activity.FeedCommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
@@ -71,8 +75,8 @@
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:taskAffinity=""
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"
-            android:theme="@style/MaterialCustomTheme"/>
+            android:theme="@style/MaterialCustomTheme"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
 
         <!-- facebook -->
         <meta-data
