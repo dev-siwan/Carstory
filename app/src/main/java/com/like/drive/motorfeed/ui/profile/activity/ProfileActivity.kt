@@ -44,27 +44,11 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     override fun onBinding(dataBinding: ActivityProfileBinding) {
         super.onBinding(dataBinding)
-
         dataBinding.vm = viewModel
     }
 
     private fun initView() {
-        UserInfo.userInfo?.nickName?.let {
-            isNickName = true
-        }
-        
-        initData()
         setCloseButtonToolbar(toolbar) { onBackPressed() }
-    }
-
-    private fun initData() {
-        UserInfo.userInfo?.let {
-            viewModel.run {
-                nickObserver.set(it.nickName)
-                introObserver.set(it.intro)
-                imgUrlObserver.set(it.profileImgUrl)
-            }
-        }
     }
 
     private fun withViewModel() {

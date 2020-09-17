@@ -26,6 +26,17 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
 
     private var imgFile: File? = null
 
+    init {
+        UserInfo.userInfo?.let {
+
+            nickObserver.set(it.nickName)
+            introObserver.set(it.intro)
+            imgUrlObserver.set(it.profileImgUrl)
+
+        }
+
+    }
+
     fun setImageFile(file: File) {
         imgFile = file
         imgUrlObserver.set(file.path)

@@ -57,7 +57,10 @@ object UserInfo : KoinComponent {
         userInfo?.apply {
             this.nickName = nickName
             this.intro = intro
-            this.profileImgUrl = imgUrl
+            imgUrl?.let {
+                this.profileImgUrl = it
+            }
+
         }
     }
 
