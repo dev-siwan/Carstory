@@ -33,6 +33,10 @@ interface FeedRepository {
         fail: () -> Unit
     )
 
+    suspend fun removeUserFeed(
+        feedData: FeedData
+    )
+
     suspend fun setLike(fid: String, isUp: Boolean)
 
     suspend fun getFeedComment(fid: String): Flow<List<CommentData>>

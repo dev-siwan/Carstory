@@ -202,13 +202,19 @@ class FeedDetailActivity :
 
     private fun FeedDetailViewModel.removeFeed() {
         removeFeedEvent.observe(this@FeedDetailActivity, Observer {
-            resultRemoveFeed(it.fid)
+            setResult(FEED_REMOVE_RES_CODE, Intent().apply {
+                putExtra(KEY_FEED_DATA, it.fid)
+            })
+            finish()
         })
     }
 
     private fun FeedDetailViewModel.finishView() {
         finishEvent.observe(this@FeedDetailActivity, Observer {
-            resultRemoveFeed(it)
+            setResult(FEED_NOT_FOUND_RES_CODE, Intent().apply {
+                putExtra(KEY_FEED_DATA, it)
+            })
+            finish()
         })
     }
 
@@ -268,8 +274,6 @@ class FeedDetailActivity :
         })
     }
 
-
-
     private fun RecyclerView.setImagePosition() {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -285,13 +289,6 @@ class FeedDetailActivity :
         onFlingListener = null
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(this)
-    }
-
-    private fun resultRemoveFeed(fid:String?){
-        setResult(FEED_REMOVE_RES_CODE, Intent().apply {
-            putExtra(KEY_FEED_DATA, fid)
-        })
-        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -322,5 +319,6 @@ class FeedDetailActivity :
         const val FEED_UPLOAD_REQ_CODE = 1055
         const val FEED_UPLOAD_RES_CODE = 1056
         const val FEED_REMOVE_RES_CODE = 1057
+        const val FEED_NOT_FOUND_RES_CODE = 1058
     }
 }

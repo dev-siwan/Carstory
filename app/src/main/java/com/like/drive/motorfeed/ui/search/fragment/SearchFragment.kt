@@ -43,7 +43,6 @@ import kotlinx.android.synthetic.main.layout_search_list.*
 import kotlinx.android.synthetic.main.layout_search_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModel()
@@ -64,6 +63,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private var adView: AdView? = null
     private var initialLayoutComplete = false
+
     @Suppress("DEPRECATION")
     private val adSize: AdSize
         get() {
@@ -286,6 +286,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                         }
                     }
                     FeedDetailActivity.FEED_REMOVE_RES_CODE -> {
+                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                            feedAdapter.removeFeed(it)
+                        }
+                    }
+                    FeedDetailActivity.FEED_NOT_FOUND_RES_CODE -> {
                         data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
                             feedAdapter.removeFeed(it)
                         }

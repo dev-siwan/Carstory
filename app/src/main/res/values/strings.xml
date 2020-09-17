@@ -225,6 +225,8 @@
     <string name="password_complete_dialog_desc">비밀번호가 바뀌었습니다.\n보안을 위해 다시 재로그인을 해주세요.</string>
     <string name="password_error_dialog_desc">재인증 오류가 났습니다.\n 보안을 위해 다시 재로그인을 해주세요.\n계속해서 이런 문제가 발생하면 고객문의에 요청해주세요.</string>
 
+    <string name="remove_error_message">게시물을 삭제하는데 실패하였습니다. 다시 시도해주세요.</string>
+
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

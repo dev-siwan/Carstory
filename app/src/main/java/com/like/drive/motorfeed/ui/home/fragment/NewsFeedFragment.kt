@@ -142,6 +142,11 @@ class NewsFeedFragment : BaseFragment<FragmentNewsFeedBinding>(R.layout.fragment
                             newsFeedAdapter.removeFeed(it)
                         }
                     }
+                    FeedDetailActivity.FEED_NOT_FOUND_RES_CODE->{
+                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                            newsFeedAdapter.removeFeed(it)
+                        }
+                    }
                 }
             }
 

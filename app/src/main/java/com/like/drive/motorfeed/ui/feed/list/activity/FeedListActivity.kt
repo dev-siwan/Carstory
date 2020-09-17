@@ -145,6 +145,17 @@ class FeedListActivity : BaseActivity<ActivityFeedListBinding>(R.layout.activity
                             feedListAdapter.removeFeed(it)
                         }
                     }
+                    FeedDetailActivity.FEED_NOT_FOUND_RES_CODE -> {
+                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+
+                            feedListAdapter.getFeedData(it)?.let { feedData ->
+                                viewModel.removeFeed(feedData)
+                            }
+
+                            feedListAdapter.removeFeed(it)
+
+                        }
+                    }
                 }
             }
 

@@ -128,6 +128,12 @@ class FeedRepositoryImpl(
 
     }
 
+    override suspend fun removeUserFeed(
+        feedData: FeedData
+    ) {
+        feedApi.removeUserFeed(feedData).catch { Unit }.collect()
+    }
+
     override suspend fun setLike(fid: String, isUp: Boolean) {
         if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(
             fid,

@@ -172,6 +172,11 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
                             listAdapter.removeFeed(it)
                         }
                     }
+                    FeedDetailActivity.FEED_NOT_FOUND_RES_CODE->{
+                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                            listAdapter.removeFeed(it)
+                        }
+                    }
                 }
             }
 

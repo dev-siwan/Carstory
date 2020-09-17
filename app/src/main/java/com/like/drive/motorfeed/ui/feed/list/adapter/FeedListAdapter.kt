@@ -73,6 +73,9 @@ class FeedListAdapter(val vm: FeedListViewModel) : RecyclerView.Adapter<Recycler
         }
     }
 
+    fun getFeedData(fid: String) =
+        feedList.find { it.fid == fid }
+
     override fun getItemViewType(position: Int): Int {
         return when {
             position == 0 -> TYPE_ITEM

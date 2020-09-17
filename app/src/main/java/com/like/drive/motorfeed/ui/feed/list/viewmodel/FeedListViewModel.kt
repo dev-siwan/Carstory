@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.feed.list.viewmodel
 
+import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,7 +19,7 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
     val feedList = SingleLiveEvent<List<FeedData>>()
 
-    val errorEvent = SingleLiveEvent<Unit>()
+    val errorEvent = SingleLiveEvent<@StringRes Int>()
     val feedType = MutableLiveData<FeedTypeData>()
     val motorType = MutableLiveData<MotorTypeData>()
 
@@ -37,6 +38,9 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
     private var feedTypeData: FeedTypeData? = null
     private var motorTypeData: MotorTypeData? = null
     private var tagQuery: String? = null
+
+    val isProgressLoading = SingleLiveEvent<Boolean>()
+    val removeCompleteEvent = SingleLiveEvent<FeedData>()
 
     fun initDate(
         feedTypeData: FeedTypeData? = null,
@@ -70,6 +74,9 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
             feedRepository.getFeedList(date ?: Date(), motorTypeData, feedTypeData, tagQuery)
                 .catch {
                     it.message
+                    /**
+                     * @TODO 에러값
+                     * */
                     errorEvent.call()
                     loadingStatus()
                 }.collect {
@@ -107,6 +114,9 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
                 .catch {
 
                     it.message
+                    /**
+                     * @TODO 에러값
+                     * */
                     errorEvent.call()
                     loadingStatus()
 
@@ -140,6 +150,12 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
             else -> {
                 if (isMore.get()) isMore.set(false) else isMore.set(true)
             }
+        }
+    }
+
+    fun removeFeed(feedData: FeedData) {
+        viewModelScope.launch {
+            feedRepository.removeUserFeed(feedData)
         }
     }
 
