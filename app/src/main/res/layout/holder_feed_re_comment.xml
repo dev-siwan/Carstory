@@ -50,8 +50,8 @@
 
         <ImageView
             android:id="@+id/ivProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@id/glTop"
             app:profileImg="@{reCommentData.userInfo.profileImgUrl}"
@@ -77,13 +77,13 @@
             android:id="@+id/ivMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{()->vm.showReCommentOptions(reCommentData)}"
             android:src="@drawable/ic_black_more_vert"
             app:layout_constraintBottom_toBottomOf="@id/ivProfile"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toEndOf="@id/nickName"
-            app:layout_constraintTop_toTopOf="@id/ivProfile"
-            android:onClick="@{()->vm.showReCommentOptions(reCommentData)}"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
+            app:layout_constraintTop_toTopOf="@id/ivProfile" />
 
         <TextView
             android:id="@+id/tvComment"

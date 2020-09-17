@@ -1,8 +1,11 @@
 <layout>
+
     <data>
 
         <import type="android.text.InputType" />
-        <import type="android.text.TextUtils"/>
+
+        <import type="android.text.TextUtils" />
+
         <variable
             name="vm"
             type="com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel" />
@@ -44,22 +47,22 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:text="@string/complete_text"
-                android:padding="@dimen/activity_x_small_margin"
-                android:clickable="true"
-                android:textStyle="bold"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:textColor="@color/text_enable_color"
+                android:clickable="true"
+                android:enabled="@{vm.nickObserver !=null &amp;&amp; !TextUtils.isEmpty(vm.nickObserver)}"
                 android:focusable="true"
                 android:onClick="@{()->vm.updateProfile()}"
-                android:enabled="@{vm.nickObserver !=null &amp;&amp; !TextUtils.isEmpty(vm.nickObserver)}"/>
+                android:padding="@dimen/activity_x_small_margin"
+                android:text="@string/complete_text"
+                android:textColor="@color/text_enable_color"
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -98,17 +101,18 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            android:onClick="@{()->vm.doClickEvent(vm.imageClickEvent)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDesc"
-            app:profileImg="@{vm.imgUrlObserver}"
-            android:onClick="@{()->vm.doClickEvent(vm.imageClickEvent)}"/>
+            app:profileImg="@{vm.imgUrlObserver}" />
 
         <TextView
             android:id="@+id/tvProfileImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_x_small_margin"
+            android:onClick="@{()->vm.doClickEvent(vm.imageClickEvent)}"
             android:text="@string/pick_profile_img_desc"
             android:textColor="@android:color/black"
             android:textSize="@dimen/normal_text_size"
@@ -116,8 +120,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivProfileImg"
-            tools:text="@string/pick_profile_img_desc"
-            android:onClick="@{()->vm.doClickEvent(vm.imageClickEvent)}"/>
+            tools:text="@string/pick_profile_img_desc" />
 
 
         <include
@@ -127,34 +130,29 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_x_margin"
             app:hint="@{@string/nick_name_hint}"
-            app:value="@{vm.nickObserver}"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@id/tvProfileImg"
+            app:maxLength="@{8}"
             app:type="@{InputType.TYPE_CLASS_TEXT}"
-            app:maxLength="@{8}"/>
+            app:value="@{vm.nickObserver}" />
 
 
-        <EditText
+        <include
             android:id="@+id/incIntroEditText"
+            layout="@layout/layout_single_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_x_margin"
-            android:background="@null"
-            android:hint="@string/intro_text_hint"
-            android:textSize="@dimen/normal_text_size"
-            android:text="@={vm.introObserver}"
-            android:lines="3"
-            app:maxTextLine="@{3}"
+            app:value="@{vm.introObserver}"
+            app:hint="@{@string/intro_text_hint}"
+            app:maxLength="@{20}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@id/incNickNameEditText"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:padding="@dimen/activity_x_small_margin"
-            tools:hint="@string/intro_text_hint" />
+            app:type="@{InputType.TYPE_CLASS_TEXT}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
