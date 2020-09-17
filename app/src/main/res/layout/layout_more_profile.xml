@@ -5,11 +5,10 @@
 
     <data>
 
-        <variable
-            name="userInfo"
-            type="com.like.drive.motorfeed.common.user.UserInfo" />
+        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
 
         <import type="android.text.TextUtils" />
+
     </data>
 
 
@@ -63,14 +62,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:profileImg="@{userInfo.userInfo.profileImgUrl}"
+                app:profileImg="@{UserInfo.INSTANCE.userInfo.profileImgUrl}"
                 tools:src="@drawable/profile_default_img_100" />
 
 
             <ImageView
                 android:id="@+id/btnNotificationCount"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="@drawable/oval_solid_black_stroke_white"
                 android:padding="@dimen/activity_small_margin"
                 android:src="@drawable/top_bar_alarm_setting_icon"
@@ -101,7 +100,7 @@
                 android:maxLength="8"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{userInfo.userInfo.nickName}"
+                android:text="@{UserInfo.INSTANCE.userInfo.nickName}"
                 android:textColor="@color/gnt_black"
                 android:textSize="@dimen/x_large_text_size"
                 android:textStyle="bold"
@@ -117,9 +116,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_small_margin"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="@{!TextUtils.isEmpty(userInfo.userInfo.intro) ? userInfo.userInfo.intro : @string/intro_empty_desc}"
+                android:text="@{!TextUtils.isEmpty(UserInfo.INSTANCE.userInfo.intro) ? UserInfo.INSTANCE.userInfo.intro : @string/intro_empty_desc}"
                 android:textColor="@color/gnt_black"
                 android:textSize="@dimen/normal_text_size"
                 app:autoSizeMinTextSize="@dimen/small_text_size"

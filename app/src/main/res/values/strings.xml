@@ -214,6 +214,7 @@
     <string name="more_title_push_terms_use">이용약관</string>
     <string name="more_title_push_terms_privacy">개인정보 취급방침</string>
     <string name="more_title_logout">로그아웃</string>
+    <string name="more_title">더보기</string>
 
 
     <string-array name="empty_photo_type_array">

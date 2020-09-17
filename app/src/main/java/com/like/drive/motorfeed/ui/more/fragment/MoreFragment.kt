@@ -10,6 +10,5 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
     override fun onBind(dataBinding: FragmentMoreBinding) {
         super.onBind(dataBinding)
 
-        dataBinding.userInfo = UserInfo
     }
 }
