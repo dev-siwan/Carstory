@@ -13,6 +13,6 @@ interface UserRepository{
     suspend fun setUser(userData: UserData,success:()->Unit,fail:()->Unit)
     suspend fun signEmail(email:String,password:String,success:(FirebaseUser)->Unit,error:()->Unit)
     suspend fun loginEmail(email:String,password:String,success:(FirebaseUser)->Unit,error:()->Unit)
-    suspend fun updateProfile(nickName:String, imgFile: File?=null, intro:String?=null, existNickName: ()->Unit, success: (Uri?) -> Unit, fail: () -> Unit, notUser: () -> Unit)
+    suspend fun updateProfile(nickName:String, imgFile: File?=null, intro:String?=null, existNickName: ()->Unit, success: (String?) -> Unit, fail: () -> Unit, notUser: () -> Unit)
     suspend fun signOut(success: () -> Unit,fail : ()->Unit)
 }

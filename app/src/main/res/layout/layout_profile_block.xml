@@ -50,7 +50,7 @@
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/glTop"
-            app:profileImg="@{feedData.userInfo.profileImgUrl}"
+            app:profileImg="@{feedData.userInfo.profileImgPath}"
             tools:src="@drawable/ic_empty_profile" />
 
         <TextView

@@ -62,7 +62,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:profileImg="@{UserInfo.INSTANCE.userInfo.profileImgUrl}"
+                app:profileImg="@{UserInfo.INSTANCE.userInfo.profileImgPath}"
                 tools:src="@drawable/profile_default_img_100" />
 
 

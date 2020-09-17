@@ -1,10 +1,10 @@
 package com.like.drive.motorfeed.ui.profile.viewmodel
 
-import android.service.autofill.UserData
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.common.user.UserInfo
+import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.repository.user.UserRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -21,20 +21,24 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
     val isLoading = SingleLiveEvent<Boolean>()
     val errorEvent = SingleLiveEvent<Unit>()
     val signOut = SingleLiveEvent<Unit>()
-    val completeEvent = SingleLiveEvent<Unit>()
+    val completeEvent = SingleLiveEvent<ProfileStatus>()
     val existNicknameEvent = SingleLiveEvent<Unit>()
+
+    lateinit var profileStatus: ProfileStatus
 
     private var imgFile: File? = null
 
     init {
         UserInfo.userInfo?.let {
 
-            nickObserver.set(it.nickName)
-            introObserver.set(it.intro)
-            imgUrlObserver.set(it.profileImgUrl)
+            if (it.nickName == null) {
+                profileStatus = ProfileStatus.INIT
+                return@let
+            }
+
+            setData(it)
 
         }
-
     }
 
     fun setImageFile(file: File) {
@@ -49,7 +53,7 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
                 intro = introObserver.get(),
                 imgFile = imgFile,
                 success = {
-                    complete(nickObserver.get()!!, introObserver.get(), it?.toString())
+                    complete(nickObserver.get()!!, introObserver.get(), it)
                 },
                 fail = {
                     errorEvent.call()
@@ -65,15 +69,28 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
         }
     }
 
+    fun setData(userData: UserData) {
+
+        profileStatus = ProfileStatus.MODIFY
+
+        nickObserver.set(userData.nickName)
+        introObserver.set(userData.intro)
+        imgUrlObserver.set(userData.profileImgPath)
+    }
+
     fun signOut() {
         UserInfo.signOut()
         signOut.call()
     }
 
-    private fun complete(nickName: String, intro: String?, imgUrl: String?) {
-        UserInfo.updateProfile(nickName, intro, imgUrl)
-        completeEvent.call()
+    private fun complete(nickName: String, intro: String?, imgPath: String?) {
+        UserInfo.updateProfile(nickName, intro, imgPath)
+        completeEvent.value = profileStatus
         isLoading.value = false
+    }
+
+    enum class ProfileStatus {
+        INIT, MODIFY
     }
 
 }

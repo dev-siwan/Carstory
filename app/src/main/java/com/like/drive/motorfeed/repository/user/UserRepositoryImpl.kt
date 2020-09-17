@@ -108,7 +108,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         imgFile: File?,
         intro: String?,
         existNickName: () -> Unit,
-        success: (Uri?) -> Unit,
+        success: (String?) -> Unit,
         fail: () -> Unit,
         notUser: () -> Unit
     ) {
@@ -123,13 +123,13 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                 }
             }
 
-            var imgUri: Uri? = null
+            var imgUri: String? = null
 
             imgFile?.let {
                 imgUri = imageApi.profileImage(info.uid ?: "", it).catch { fail.invoke() }.single()
             }
 
-            userApi.setUserProfile(info.uid ?: "", nickName, imgUri?.toString(), intro)
+            userApi.setUserProfile(info.uid ?: "", nickName, imgUri ?: null, intro)
                 .catch { fail.invoke() }.collect { success(imgUri) }
 
         } ?: notUser.invoke()

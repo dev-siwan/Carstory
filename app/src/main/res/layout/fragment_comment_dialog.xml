@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@id/glStart"
                     app:layout_constraintTop_toTopOf="@id/glTop"
-                    app:profileImg="@{commentFragmentExtra.commentData.userInfo.profileImgUrl}"
+                    app:profileImg="@{commentFragmentExtra.commentData.userInfo.profileImgPath}"
                     tools:background="@drawable/oval_stroke_grey_6_size_32" />
 
                 <TextView

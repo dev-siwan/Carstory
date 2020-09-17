@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class UserData(
     val uid:String?=null,
     val email:String?=null,
-    var profileImgUrl:String?=null,
+    var profileImgPath:String?=null,
     var intro:String?=null,
     var nickName:String?=null,
     val fcmToken:String?=null,

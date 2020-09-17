@@ -38,7 +38,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
                     UserInfo.userInfo?.let {
 
                         incProfile.apply {
-                            ivProfileImg.setProfileImg(it.profileImgUrl)
+                            ivProfileImg.setProfileImg(it.profileImgPath)
                             tvNick.text = it.nickName
                             tvIntro.text = it.intro
                         }

@@ -54,7 +54,7 @@
             android:layout_height="32dp"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@id/glTop"
-            app:profileImg="@{reCommentData.userInfo.profileImgUrl}"
+            app:profileImg="@{reCommentData.userInfo.profileImgPath}"
             tools:background="@drawable/oval_stroke_grey_6_size_32" />
 
         <TextView

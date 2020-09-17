@@ -6,6 +6,6 @@ import java.io.File
 
 interface ImageApi{
     suspend fun uploadFeedImage(fid: String, imgFile: File,index:Int): Flow<Uri?>
-    suspend fun profileImage(uid:String, imgFile: File):Flow<Uri?>
+    suspend fun profileImage(uid:String, imgFile: File):Flow<String?>
     suspend fun deleteFeedImage(fid: String,index: Int):Flow<Boolean>
 }

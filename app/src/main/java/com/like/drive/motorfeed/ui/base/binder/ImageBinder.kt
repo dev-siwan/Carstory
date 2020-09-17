@@ -13,9 +13,15 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.MediaStoreSignature
 import com.bumptech.glide.signature.ObjectKey
 import com.github.chrisbanes.photoview.PhotoView
+import com.google.firebase.FirebaseException
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.ui.base.ext.dpToPixel
 import com.like.drive.motorfeed.data.photo.PhotoData
+import kotlinx.coroutines.tasks.await
 
 /*@BindingAdapter("loadImage")
 fun ImageView.setLoadImage(imageUrl: String?) {
@@ -102,15 +108,27 @@ fun ImageView.setPhotoData(photoData: PhotoData?) {
 }
 
 @BindingAdapter("profileImg")
-fun ImageView.setProfileImg(url: String?) {
-    Glide.with(context).load(url).apply(
+fun ImageView.setProfileImg(path: String?) {
+
+    val value = path?.let {
+        if (it.startsWith("/user/")) {
+            Firebase.storage.reference.child((it))
+        } else {
+            it
+        }
+    }
+
+    Glide.with(context).load(value).apply(
         RequestOptions()
             .error(R.drawable.profile_default_img_100)
             .placeholder(R.drawable.profile_default_img_100)
             .transform(CircleCrop(), CenterCrop())
     )
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
         .transition(withCrossFade())
         .into(this)
+
 }
 
 

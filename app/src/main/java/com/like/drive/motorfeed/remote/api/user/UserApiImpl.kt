@@ -39,17 +39,14 @@ class UserApiImpl(
     override suspend fun signEmail(email: String, password: String): Flow<AuthResult> =
         flow { emit(fireAuth.createUserWithEmailAndPassword(email, password).await()) }
 
-
     override suspend fun loginEmail(email: String, password: String): Flow<AuthResult> =
         flow { emit(fireAuth.signInWithEmailAndPassword(email, password).await()) }
-
 
     override suspend fun signOut() {
         fireAuth.currentUser?.let {
             fireAuth.signOut()
         }
     }
-
 
     override suspend fun setUserProfile(
         uid: String,
@@ -61,7 +58,7 @@ class UserApiImpl(
 
         val map = mutableMapOf("nickName" to nickName)
         imgPath?.let {
-            map.put("profileImgUrl", it)
+            map.put("profileImgPath", it)
         }
         intro?.let {
             map.put("intro", it)
@@ -84,7 +81,7 @@ class UserApiImpl(
         } ?: emptyFlow()
     }
 
-    companion object{
-        const val NICK_NAME_FIELD="nickName"
+    companion object {
+        const val NICK_NAME_FIELD = "nickName"
     }
 }

@@ -53,12 +53,12 @@ object UserInfo : KoinComponent {
         userPref.userData = userData
     }
 
-    fun updateProfile(nickName: String, intro: String?, imgUrl: String?) {
+    fun updateProfile(nickName: String, intro: String?, imgPath: String?) {
         userInfo?.apply {
             this.nickName = nickName
             this.intro = intro
-            imgUrl?.let {
-                this.profileImgUrl = it
+            imgPath?.let {
+                this.profileImgPath = it
             }
 
         }

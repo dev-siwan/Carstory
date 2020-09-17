@@ -12,7 +12,6 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.enum.PhotoSelectType
-import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.databinding.ActivityProfileBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
@@ -33,7 +32,6 @@ import java.io.File
 
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
 
-    private var isNickName: Boolean = false
     private val viewModel: ProfileViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +68,11 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     private fun ProfileViewModel.complete() {
         completeEvent.observe(this@ProfileActivity, Observer {
-            when {
-                isNickName -> finish()
+            when (it) {
+                ProfileViewModel.ProfileStatus.MODIFY -> {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
                 else -> {
                     finishAffinity()
                     startAct(MainActivity::class)
@@ -242,7 +243,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     }
 
     override fun onBackPressed() {
-        if (!isNickName) {
+
+        if (viewModel.profileStatus == ProfileViewModel.ProfileStatus.INIT) {
             viewModel.signOut()
             return
         }

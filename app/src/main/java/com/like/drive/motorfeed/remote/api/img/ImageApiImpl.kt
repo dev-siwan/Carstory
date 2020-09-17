@@ -11,15 +11,23 @@ class ImageApiImpl(
     private val firebaseStorage: FirebaseStorage,
     private val fireBaseTask: FireBaseTask
 ) : ImageApi {
-    override suspend fun uploadFeedImage(fid: String, imgFile: File,index:Int): Flow<Uri?> {
-          return  fireBaseTask.uploadImage(firebaseStorage.reference.child(CollectionName.FEED).child(fid).child("img$index"), imgFile)
-        }
-
-    override suspend fun profileImage(uid: String, imgFile: File): Flow<Uri?> {
-        return  fireBaseTask.uploadImage(firebaseStorage.reference.child(CollectionName.USER).child(uid).child("profileImg"), imgFile)
+    override suspend fun uploadFeedImage(fid: String, imgFile: File, index: Int): Flow<Uri?> {
+        return fireBaseTask.uploadImage(
+            firebaseStorage.reference.child(CollectionName.FEED).child(fid).child("img$index"),
+            imgFile
+        )
     }
 
-    override suspend fun deleteFeedImage(fid: String,index: Int):Flow<Boolean> {
-        return fireBaseTask.deleteImage(firebaseStorage.reference.child(CollectionName.FEED).child(fid).child("img$index"))
+    override suspend fun profileImage(uid: String, imgFile: File): Flow<String?> {
+        return fireBaseTask.uploadProfileImage(
+            firebaseStorage.reference.child(CollectionName.USER).child(uid).child("profileImg"),
+            imgFile
+        )
+    }
+
+    override suspend fun deleteFeedImage(fid: String, index: Int): Flow<Boolean> {
+        return fireBaseTask.deleteImage(
+            firebaseStorage.reference.child(CollectionName.FEED).child(fid).child("img$index")
+        )
     }
 }
