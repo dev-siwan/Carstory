@@ -1,6 +1,5 @@
 package com.like.drive.motorfeed.ui.base
 
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +13,13 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.ui.base.ext.progressBar
 
-abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: Int?) : AppCompatActivity() {
+abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: Int?) :
+    AppCompatActivity() {
 
     val loadingProgress by lazy { progressBar() }
 
-
     protected var binding: V? = null
-    protected var remoteConfig =  Firebase.remoteConfig.apply {
+    protected var remoteConfig = Firebase.remoteConfig.apply {
         setDefaultsAsync(R.xml.remote_config_defaults)
         setConfigSettingsAsync(remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
@@ -38,7 +37,7 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         }
     }
 
-    protected open fun onBinding(dataBinding: V)= dataBinding.run{
+    protected open fun onBinding(dataBinding: V) = dataBinding.run {
         lifecycleOwner = this@BaseActivity
         executePendingBindings()
     }
@@ -58,7 +57,11 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         setSupportActionBar(this)
     }
 
-    protected open fun setBackButtonToolbar(toolbar: Toolbar, title: String = "", action: () -> Unit) = toolbar.apply {
+    protected open fun setBackButtonToolbar(
+        toolbar: Toolbar,
+        title: String = "",
+        action: () -> Unit
+    ) = toolbar.apply {
         this.title = ""
         navigationIcon = getDrawable(R.drawable.ic_action_back)
     }.run {
@@ -66,7 +69,11 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         setNavigationOnClickListener { action.invoke() }
     }
 
-    protected open fun setCloseButtonToolbar(toolbar: Toolbar, title: String = "", action: () -> Unit) = toolbar.apply {
+    protected open fun setCloseButtonToolbar(
+        toolbar: Toolbar,
+        title: String = "",
+        action: () -> Unit
+    ) = toolbar.apply {
         this.title = ""
         navigationIcon = getDrawable(R.drawable.ic_action_close)
     }.run {
@@ -78,10 +85,16 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         this?.setNavigationOnClickListener { action.invoke() }
     }
 
-    private fun setStatusBar(){
+    private fun setStatusBar() {
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
     }
 
-
+    fun loadingStatus(isLoading: Boolean) {
+        if (isLoading) {
+            loadingProgress.show()
+        } else {
+            loadingProgress.dismiss()
+        }
+    }
 
 }

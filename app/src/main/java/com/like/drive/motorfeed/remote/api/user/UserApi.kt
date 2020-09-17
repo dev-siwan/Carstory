@@ -17,4 +17,6 @@ interface UserApi {
     suspend fun setUserProfile(uid:String,nickName:String,imgPath: String?=null,intro:String?=null):Flow<Boolean>
     suspend fun checkNickName(nickName: String):Flow<List<UserData>>
     suspend fun updateFcmToken(token:String):Flow<Boolean>
+    suspend fun resetPassword(email:String):Flow<Boolean>
+    suspend fun updatePassword(password:String):Flow<Boolean>
 }

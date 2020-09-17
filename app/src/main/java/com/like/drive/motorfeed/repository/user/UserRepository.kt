@@ -15,4 +15,6 @@ interface UserRepository{
     suspend fun loginEmail(email:String,password:String,success:(FirebaseUser)->Unit,error:()->Unit)
     suspend fun updateProfile(nickName:String, imgFile: File?=null, intro:String?=null, existNickName: ()->Unit, success: (String?) -> Unit, fail: () -> Unit, notUser: () -> Unit)
     suspend fun signOut(success: () -> Unit,fail : ()->Unit)
+    suspend fun resetPassword(email:String,success: () -> Unit,fail: () -> Unit)
+    suspend fun updatePassword(password:String,success: () -> Unit,fail: () -> Unit)
 }

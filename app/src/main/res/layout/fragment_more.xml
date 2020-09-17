@@ -84,6 +84,7 @@
                         app:title="@{@string/more_title_my_feed}" />
 
                     <include
+                        android:id="@+id/containerPasswordReset"
                         layout="@layout/layout_more_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

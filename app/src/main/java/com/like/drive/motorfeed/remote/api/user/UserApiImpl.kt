@@ -1,8 +1,10 @@
 package com.like.drive.motorfeed.remote.api.user
 
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
@@ -79,6 +81,27 @@ class UserApiImpl(
 
             fireBaseTask.updateData(document, map)
         } ?: emptyFlow()
+    }
+
+    override suspend fun resetPassword(email: String): Flow<Boolean> {
+        return flow {
+            val snapShot = fireAuth.sendPasswordResetEmail(email).await()
+            emit(Tasks.forResult(snapShot).isSuccessful)
+        }
+    }
+
+    override suspend fun updatePassword(password: String): Flow<Boolean> {
+        return flow {
+            fireAuth.currentUser?.let {
+                try {
+                    val snapShot = it.updatePassword(password).await()
+                    emit(Tasks.forResult(snapShot).isSuccessful)
+                } catch (e: FirebaseAuthRecentLoginRequiredException) {
+                    emit(false)
+                }
+
+            } ?: emit(false)
+        }
     }
 
     companion object {

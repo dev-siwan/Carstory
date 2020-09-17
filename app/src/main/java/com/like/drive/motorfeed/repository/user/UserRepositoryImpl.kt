@@ -1,6 +1,5 @@
 package com.like.drive.motorfeed.repository.user
 
-import android.net.Uri
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.like.drive.motorfeed.common.user.UserInfo
@@ -143,6 +142,26 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         } catch (e: Exception) {
             e.printStackTrace()
             fail.invoke()
+        }
+    }
+
+    override suspend fun resetPassword(email: String, success: () -> Unit, fail: () -> Unit) {
+        userApi.resetPassword(email).collect {
+            if (it) {
+                success.invoke()
+            } else {
+                fail.invoke()
+            }
+        }
+    }
+
+    override suspend fun updatePassword(password: String, success: () -> Unit, fail: () -> Unit) {
+        userApi.updatePassword(password).collect {
+            if (it) {
+                success.invoke()
+            } else {
+                fail.invoke()
+            }
         }
     }
 
