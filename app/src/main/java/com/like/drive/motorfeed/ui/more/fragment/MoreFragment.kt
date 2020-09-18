@@ -18,6 +18,7 @@ import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
 import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
 import com.like.drive.motorfeed.ui.sign.password.activity.PasswordUpdateActivity
+import com.like.drive.motorfeed.ui.terms.TermsActivity
 import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.android.synthetic.main.layout_more_profile.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -52,6 +53,11 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         }
         dataBinding.containerNotificationSetting.containerMoreItem.setOnClickListener {
             startAct(NotificationSettingActivity::class)
+        }
+        dataBinding.containerTermsPrivacy.containerMoreItem.setOnClickListener {
+            startAct(TermsActivity::class, Bundle().apply {
+                putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_PRIVACY_VALUE)
+            })
         }
     }
 
