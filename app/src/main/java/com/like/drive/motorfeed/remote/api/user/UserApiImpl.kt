@@ -80,6 +80,16 @@ class UserApiImpl(
         } ?: emptyFlow()
     }
 
+    override suspend fun updateCommentSubscribe(isSubscribe: Boolean): Flow<Boolean> =
+        flow {
+            UserInfo.userInfo?.uid?.let {
+                val document = fireStore.collection(USER).document(it)
+                val map = mapOf("isCommentSubscribe" to isSubscribe)
+
+                return@let (fireBaseTask.updateData(document, map))
+            } ?: emit(false)
+        }
+
     override suspend fun resetPassword(email: String): Flow<Boolean> {
         return flow {
             val snapShot = fireAuth.sendPasswordResetEmail(email).await()

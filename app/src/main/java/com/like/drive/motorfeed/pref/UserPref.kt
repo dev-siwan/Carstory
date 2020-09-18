@@ -26,6 +26,10 @@ class UserPref(application: Application) {
         get() = preferences.getBoolean(IS_SEND_FCM_TOKEN, false)
         set(value) = preferences.edit { putBoolean(IS_SEND_FCM_TOKEN, value) }
 
+    var isNoticeTopic: Boolean
+        get() = preferences.getBoolean(NOTICE_TOPIC, true)
+        set(value) = preferences.edit { putBoolean(NOTICE_TOPIC, value) }
+
     var motorTypeVersion: Int?
         get() = preferences.getInt(MOTOR_TYPE_VERSION, 0)
         set(value) = preferences.edit { putInt(MOTOR_TYPE_VERSION, value!!) }
@@ -71,5 +75,6 @@ class UserPref(application: Application) {
         const val IS_SEND_FCM_TOKEN = "IS_SEND_FCM_TOKEN"
         const val FEED_TYPE = "USER_FILTER"
         const val RECENTLY_LIST = "RECENTLY_LIST"
+        const val NOTICE_TOPIC="NOTICE_TOPIC"
     }
 }

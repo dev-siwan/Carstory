@@ -1,7 +1,7 @@
 package com.like.drive.motorfeed.common.define
 
 object FirebaseDefine {
-    const val TOPIC_ANDROID = "android"
+    const val TOPIC_NOTICE = "TOPIC_NOTICE"
     const val CHANNEL_ID  = "Notice"
     const val CHANNEL_NAME = "General"
 

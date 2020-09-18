@@ -20,7 +20,7 @@ class NotificationUtil(private val context: Context) {
 
         val intent = Intent(context, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra("Notification", true)
+            putExtra(FirebaseDefine.PUSH_NOTIFICATION, true)
         }
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)

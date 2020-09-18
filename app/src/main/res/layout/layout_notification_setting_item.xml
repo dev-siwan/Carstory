@@ -13,6 +13,18 @@
             name="description"
             type="String" />
 
+        <variable
+            name="subscribe"
+            type="Boolean" />
+
+        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
+
+        <!--<import type="java.lang.Boolean" />
+
+        <variable
+            name="subscribe"
+            type="LiveData&lt;Boolean&gt;" />-->
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,18 +65,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="@{title}"
             android:textColor="@color/grey_3"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/gl_start"
             app:layout_constraintTop_toTopOf="@id/gl_top"
-            android:text="@{title}"
             tools:text="공지사항 및 이벤트 알림" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="@{subscribe}"
             app:layout_constraintBottom_toBottomOf="@id/tvContent"
             app:layout_constraintEnd_toEndOf="@id/gl_end"
             app:layout_constraintTop_toTopOf="@id/tvContent" />
@@ -79,13 +92,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="10sp"
+            android:text="@{description}"
             android:textColor="@color/grey_3"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/gl_bottom"
             app:layout_constraintEnd_toStartOf="@id/switchItem"
             app:layout_constraintStart_toStartOf="@id/gl_start"
             app:layout_constraintTop_toBottomOf="@id/tvContent"
-            android:text="@{description}"
             tools:text="앱내에 공지사항 및 이벤트 안내 \n알림을 받을 수 있습니다." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

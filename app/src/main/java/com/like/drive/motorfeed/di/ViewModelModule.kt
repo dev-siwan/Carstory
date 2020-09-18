@@ -11,6 +11,7 @@ import com.like.drive.motorfeed.ui.home.viewmodel.UserFilterViewModel
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
 import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
 import com.like.drive.motorfeed.ui.motor.viewmodel.MotorTypeViewModel
+import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationSettingViewModel
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel
 import com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
@@ -42,4 +43,5 @@ val viewModelModule = module {
     viewModel { NotificationViewModel(get()) }
     viewModel { MoreViewModel(get()) }
     viewModel { PasswordUpdateViewModel(get()) }
+    viewModel { NotificationSettingViewModel() }
 }

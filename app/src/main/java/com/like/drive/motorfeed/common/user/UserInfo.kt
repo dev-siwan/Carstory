@@ -1,6 +1,8 @@
 package com.like.drive.motorfeed.common.user
 
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
+import com.like.drive.motorfeed.common.define.FirebaseDefine
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.remote.api.user.UserApi
@@ -16,9 +18,15 @@ object UserInfo : KoinComponent {
     private val userApi: UserApi by inject()
 
     var userInfo: UserData? = null
+    var isNoticeTopic: Boolean? = true
 
     init {
+
         userInfo?.let { userPref.userData }
+        isNoticeTopic = userPref.isNoticeTopic.also {
+            updateNoticeSubScribe(it)
+        }
+
     }
 
     fun signOut() {
@@ -61,6 +69,25 @@ object UserInfo : KoinComponent {
                 this.profileImgPath = it
             }
 
+        }
+    }
+
+    fun updateNoticeSubScribe(isSubScribe: Boolean) {
+        if (isSubScribe) {
+            FirebaseMessaging.getInstance().subscribeToTopic(FirebaseDefine.TOPIC_NOTICE)
+        } else {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseDefine.TOPIC_NOTICE)
+        }
+
+        isNoticeTopic = isSubScribe
+    }
+
+    fun updateCommentSubScribe(isSubScribe: Boolean) {
+        CoroutineScope(Dispatchers.IO).launch {
+            userApi.updateCommentSubscribe(isSubScribe).catch { error -> error.printStackTrace() }
+                .collect {
+                    userInfo?.isCommentSubscribe = isSubScribe
+                }
         }
     }
 
