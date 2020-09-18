@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.repository.user
 
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseUser
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
@@ -155,14 +156,37 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         }
     }
 
-    override suspend fun updatePassword(password: String, success: () -> Unit, fail: () -> Unit) {
-        userApi.updatePassword(password).collect {
-            if (it) {
-                success.invoke()
+    override suspend fun updatePassword(
+        nowPassword: String,
+        rePassword: String, success: () -> Unit, failCredential: () -> Unit, fail: () -> Unit
+    ) {
+
+        userApi.checkCredential(nowPassword).catch {
+
+            failCredential.invoke()
+
+        }.collect { credentialResult ->
+
+            if (credentialResult) {
+
+                userApi.updatePassword(rePassword).catch { error ->
+                    if (error is FirebaseAuthRecentLoginRequiredException) {
+                        failCredential.invoke()
+                    }
+                }.collect {
+                    if (it) {
+                        success.invoke()
+                    } else {
+                        fail.invoke()
+                    }
+                }
             } else {
-                fail.invoke()
+
+                failCredential.invoke()
             }
+
         }
+
     }
 
 }

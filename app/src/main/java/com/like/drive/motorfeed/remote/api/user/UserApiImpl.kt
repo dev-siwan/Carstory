@@ -1,10 +1,7 @@
 package com.like.drive.motorfeed.remote.api.user
 
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
@@ -93,14 +90,23 @@ class UserApiImpl(
     override suspend fun updatePassword(password: String): Flow<Boolean> {
         return flow {
             fireAuth.currentUser?.let {
-                try {
-                    val snapShot = it.updatePassword(password).await()
-                    emit(Tasks.forResult(snapShot).isSuccessful)
-                } catch (e: FirebaseAuthRecentLoginRequiredException) {
-                    emit(false)
-                }
-
+                val snapShot = it.updatePassword(password).await()
+                emit(Tasks.forResult(snapShot).isSuccessful)
             } ?: emit(false)
+        }
+    }
+
+    override suspend fun checkCredential(password: String): Flow<Boolean> {
+        return flow {
+
+            val credential =
+                EmailAuthProvider.getCredential(UserInfo.userInfo?.email!!, password)
+
+            fireAuth.currentUser?.run {
+                val snapShot = reauthenticate(credential).await()
+                emit(Tasks.forResult(snapShot).isComplete)
+            }
+
         }
     }
 

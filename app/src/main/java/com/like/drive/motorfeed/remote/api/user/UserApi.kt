@@ -19,4 +19,5 @@ interface UserApi {
     suspend fun updateFcmToken(token:String):Flow<Boolean>
     suspend fun resetPassword(email:String):Flow<Boolean>
     suspend fun updatePassword(password:String):Flow<Boolean>
+    suspend fun checkCredential(password:String):Flow<Boolean>
 }

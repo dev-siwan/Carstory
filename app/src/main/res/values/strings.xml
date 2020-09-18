@@ -206,6 +206,12 @@
     <string name="notification_comment_title"><![CDATA[회원님의 <b>"%s"</b>글에 댓글이 달렸습니다.]]></string>
     <string name="notification_re_comment_title"><![CDATA[회원님의 <b>"%s"</b>댓글에 대댓글이 달렸습니다.]]></string>
 
+    <string name="notification_setting_notice_title">공지사항 및 이벤트 알림</string>
+    <string name="notification_setting_notice_desc">앱내에 공지사항 및 이벤트 안내 \n알림을 받을 수 있습니다.</string>
+
+    <string name="notification_setting_comment_title">댓글 및 대댓글 알림</string>
+    <string name="notification_setting_comment_desc">회원님의 글에 댓글 및 대댓글 \n알림을 받을 수 있습니다.</string>
+
 
     <string name="more_title_my_feed">내가 쓴 글</string>
     <string name="more_title_password">패스워드 변경</string>
@@ -221,11 +227,18 @@
     <string name="password_update_dialog_title">비밀번호 변경</string>
 
     <string name="password_update_title">비밀번호 변경하기</string>
+    <string name="password_update_hint">현재 비밀번호를 입력해주세요.</string>
+    <string name="password_update_re_hint">새로운 비밀번호를 입력해주세요.</string>
+    <string name="password_update_re_valid_hint">새로운 비밀번호를 한번 더 입력해주세요.</string>
     <string name="password_update_desc">8자~20자 이내 영문+숫자+특수문자(~`!@#\$%^&amp;*()-)의 조합으로 입력해주세요.</string>
+    <string name="password_credential_fail">현재 비밀번호를 다시 확인해주세요.</string>
     <string name="password_complete_dialog_desc">비밀번호가 바뀌었습니다.\n보안을 위해 다시 재로그인을 해주세요.</string>
-    <string name="password_error_dialog_desc">재인증 오류가 났습니다.\n 보안을 위해 다시 재로그인을 해주세요.\n계속해서 이런 문제가 발생하면 고객문의에 요청해주세요.</string>
+    <string name="password_error_dialog_desc">비밀번호 변경에 실패하였습니다.\n계속해서 이런 문제가 발생하면 고객문의에 요청해주세요.</string>
 
     <string name="remove_error_message">게시물을 삭제하는데 실패하였습니다. 다시 시도해주세요.</string>
+    <string name="credential_dialog_title">회원 재인증</string>
+    <string name="credential_dialog_desc">비밀번호를 변경하기 위해 회원님을 재인증을 하셔야 합니다.\n이메일과 비밀번호를 입력해주세요.</string>
+    <string name="credential_confirm_text">재인증</string>
 
 
     <string-array name="empty_photo_type_array">

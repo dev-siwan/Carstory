@@ -19,6 +19,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
+        <activity android:name=".ui.notification.activity.NotificationSettingActivity"></activity>
         <activity
             android:name=".ui.sign.password.activity.PasswordUpdateActivity"
             android:screenOrientation="portrait"

@@ -11,6 +11,7 @@ import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.dialog.AlertDialog
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.motorfeed.ui.sign.password.viewmodel.PasswordUpdateViewModel
+import kotlinx.android.synthetic.main.activity_password_update.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PasswordUpdateActivity :
@@ -21,12 +22,19 @@ class PasswordUpdateActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         withViewModel()
+        initView()
     }
 
     override fun onBinding(dataBinding: ActivityPasswordUpdateBinding) {
         super.onBinding(dataBinding)
 
         dataBinding.vm = viewModel
+    }
+
+    private fun initView() {
+        setCloseButtonToolbar(toolbar) {
+            finish()
+        }
     }
 
     private fun withViewModel() {
@@ -65,15 +73,10 @@ class PasswordUpdateActivity :
         errorEvent.observe(this@PasswordUpdateActivity, Observer {
             AlertDialog.newInstance(
                 title = getString(R.string.password_update_dialog_title),
-                message = getString(R.string.password_error_dialog_desc)
+                message = getString(it)
             )
                 .apply {
-                    isCancelable = false
-                    action = {
-                        UserInfo.signOut()
-                        finishAffinity()
-                        startAct(SignInActivity::class)
-                    }
+                    isCancelable = true
                 }.show(supportFragmentManager, AlertDialog.TAG)
         })
     }
