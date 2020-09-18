@@ -18,7 +18,7 @@ object UserInfo : KoinComponent {
     private val userApi: UserApi by inject()
 
     var userInfo: UserData? = null
-    var isNoticeTopic: Boolean? = true
+    var isNoticeTopic: Boolean = true
 
     init {
 
@@ -73,10 +73,15 @@ object UserInfo : KoinComponent {
     }
 
     fun updateNoticeSubScribe(isSubScribe: Boolean) {
-        if (isSubScribe) {
-            FirebaseMessaging.getInstance().subscribeToTopic(FirebaseDefine.TOPIC_NOTICE)
-        } else {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseDefine.TOPIC_NOTICE)
+        CoroutineScope(Dispatchers.IO).launch {
+            if (isSubScribe) {
+                FirebaseMessaging.getInstance().subscribeToTopic(FirebaseDefine.TOPIC_NOTICE)
+                    .await()
+            } else {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseDefine.TOPIC_NOTICE)
+                    .await()
+            }
+            cancel()
         }
 
         isNoticeTopic = isSubScribe
@@ -84,10 +89,14 @@ object UserInfo : KoinComponent {
 
     fun updateCommentSubScribe(isSubScribe: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
-            userApi.updateCommentSubscribe(isSubScribe).catch { error -> error.printStackTrace() }
+            userApi.updateCommentSubscribe(isSubScribe)
+                .catch {
+                        error -> error.printStackTrace() }
                 .collect {
-                    userInfo?.isCommentSubscribe = isSubScribe
+                    userInfo?.commentSubscribe = isSubScribe
                 }
+
+            cancel()
         }
     }
 

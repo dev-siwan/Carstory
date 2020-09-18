@@ -9,6 +9,8 @@
             name="vm"
             type="com.like.drive.motorfeed.ui.notification.viewmodel.NotificationSettingViewModel" />
 
+        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
+
 
     </data>
 
@@ -46,17 +48,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-       
-            app:layout_constraintBottom_toBottomOf="@id/tvContent"
-            app:layout_constraintEnd_toEndOf="@id/gl_end"
-            app:layout_constraintTop_toTopOf="@id/tvContent" />
-
-
         <TextView
             android:id="@+id/tvWelcome"
             android:layout_width="0dp"
@@ -76,20 +67,24 @@
             layout="@layout/layout_notification_setting_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:checkAction="@{vm.checkNotice}"
             app:description="@{@string/notification_setting_notice_desc}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+            app:subscribe="@{UserInfo.INSTANCE.isNoticeTopic}"
             app:title="@{@string/notification_setting_notice_title}" />
 
         <include
             layout="@layout/layout_notification_setting_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:checkAction="@{vm.checkComment}"
             app:description="@{@string/notification_setting_comment_desc}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/incNoticeSetting"
+            app:subscribe="@{UserInfo.INSTANCE.userInfo.commentSubscribe}"
             app:title="@{@string/notification_setting_comment_title}" />
 
 

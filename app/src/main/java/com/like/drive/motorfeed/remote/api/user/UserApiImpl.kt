@@ -19,7 +19,7 @@ class UserApiImpl(
 ) : UserApi {
     override suspend fun getUser(): Flow<UserData?> {
         return fireBaseTask.getData(
-            fireStore.collection(USER).document(fireAuth.uid!!),
+            fireStore.collection(USER).document(fireAuth.uid ?: ""),
             UserData::class.java
         )
     }
@@ -80,15 +80,14 @@ class UserApiImpl(
         } ?: emptyFlow()
     }
 
-    override suspend fun updateCommentSubscribe(isSubscribe: Boolean): Flow<Boolean> =
-        flow {
-            UserInfo.userInfo?.uid?.let {
-                val document = fireStore.collection(USER).document(it)
-                val map = mapOf("isCommentSubscribe" to isSubscribe)
+    override suspend fun updateCommentSubscribe(isSubscribe: Boolean): Flow<Boolean> {
 
-                return@let (fireBaseTask.updateData(document, map))
-            } ?: emit(false)
-        }
+        val document = fireStore.collection(USER).document(UserInfo.userInfo?.uid ?: "")
+        val map = mapOf("commentSubscribe" to isSubscribe)
+
+        return fireBaseTask.updateData(document, map)
+
+    }
 
     override suspend fun resetPassword(email: String): Flow<Boolean> {
         return flow {

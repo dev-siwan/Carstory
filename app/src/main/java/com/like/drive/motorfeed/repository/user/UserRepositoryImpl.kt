@@ -22,7 +22,10 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         emptyUser: () -> Unit
     ) {
         userApi.getUser()
-            .catch { fail.invoke() }
+            .catch { e ->
+                e.printStackTrace()
+                fail.invoke()
+            }
             .collect { userData ->
                 userData?.let {
                     when {

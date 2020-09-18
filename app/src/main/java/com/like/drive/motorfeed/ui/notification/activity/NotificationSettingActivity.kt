@@ -17,7 +17,6 @@ class NotificationSettingActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        withViewModel()
         initView()
     }
 
@@ -29,25 +28,6 @@ class NotificationSettingActivity :
 
     private fun initView() {
         setCloseButtonToolbar(toolbar) { finish() }
-    }
-
-    private fun withViewModel() {
-        with(viewModel) {
-            noticeSubscribe()
-            commentSubscribe()
-        }
-    }
-
-    private fun NotificationSettingViewModel.noticeSubscribe() {
-        noticeCheck.observe(this@NotificationSettingActivity, Observer {
-            setNoticeSubscribe(it)
-        })
-    }
-
-    private fun NotificationSettingViewModel.commentSubscribe() {
-        commentCheck.observe(this@NotificationSettingActivity, Observer {
-            setCommentSubscribe(it)
-        })
     }
 
 }

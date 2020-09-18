@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <import type="kotlin.Unit" />
+
         <variable
             name="title"
             type="String" />
@@ -17,13 +21,9 @@
             name="subscribe"
             type="Boolean" />
 
-        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
-
-        <!--<import type="java.lang.Boolean" />
-
         <variable
-            name="subscribe"
-            type="LiveData&lt;Boolean&gt;" />-->
+            name="checkAction"
+            type="Function1&lt;Boolean, Unit&gt;" />
 
     </data>
 
@@ -80,11 +80,8 @@
             android:checked="@{subscribe}"
             app:layout_constraintBottom_toBottomOf="@id/tvContent"
             app:layout_constraintEnd_toEndOf="@id/gl_end"
-            app:layout_constraintTop_toTopOf="@id/tvContent" />
-
-        <!--android:checked="@{data.checked}"
-            android:onCheckedChanged="@{(switch, checked) -> data.settingType == NotificationSettingType.MARKETING ? vm.setMarketingSetting(data.sendType, checked) : vm.setNotificationSetting(switch, data.settingType, checked)}"-->
-
+            app:layout_constraintTop_toTopOf="@id/tvContent"
+            app:switchCompatListener="@{checkAction}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDesc"

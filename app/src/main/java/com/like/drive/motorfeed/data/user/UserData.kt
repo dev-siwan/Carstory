@@ -12,6 +12,6 @@ data class UserData(
     var nickName: String? = null,
     val fcmToken: String? = null,
     val userBan: Boolean = false,
-    var isCommentSubscribe: Boolean? = true,
-    val isAdmin: Boolean? = false
+    var commentSubscribe: Boolean = true,
+    val admin: Boolean = false
 ) : Parcelable
