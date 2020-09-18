@@ -19,7 +19,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
-        <activity android:name=".ui.notification.activity.NotificationSettingActivity"></activity>
+        <activity
+            android:name=".ui.terms.TermsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".ui.notification.activity.NotificationSettingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".ui.sign.password.activity.PasswordUpdateActivity"
             android:screenOrientation="portrait"
