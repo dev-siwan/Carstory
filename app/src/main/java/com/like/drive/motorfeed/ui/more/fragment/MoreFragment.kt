@@ -15,6 +15,7 @@ import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.dialog.AlertDialog
 import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
 import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
+import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
 import com.like.drive.motorfeed.ui.sign.password.activity.PasswordUpdateActivity
 import kotlinx.android.synthetic.main.fragment_more.*
@@ -48,6 +49,9 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         }
         dataBinding.containerPasswordReset.containerMoreItem.setOnClickListener {
             startAct(PasswordUpdateActivity::class)
+        }
+        dataBinding.containerNotificationSetting.containerMoreItem.setOnClickListener {
+            startAct(NotificationSettingActivity::class)
         }
     }
 
