@@ -27,10 +27,6 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
 
     private val viewModel: MoreViewModel by viewModel()
 
-    override fun onBind(dataBinding: FragmentMoreBinding) {
-        super.onBind(dataBinding)
-
-    }
 
     override fun onBindAfter(dataBinding: FragmentMoreBinding) {
         super.onBindAfter(dataBinding)
@@ -54,6 +50,13 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         dataBinding.containerNotificationSetting.containerMoreItem.setOnClickListener {
             startAct(NotificationSettingActivity::class)
         }
+
+        dataBinding.containerTermsUse.containerMoreItem.setOnClickListener {
+            startAct(TermsActivity::class, Bundle().apply {
+                putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_USE_VALUE)
+            })
+        }
+
         dataBinding.containerTermsPrivacy.containerMoreItem.setOnClickListener {
             startAct(TermsActivity::class, Bundle().apply {
                 putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_PRIVACY_VALUE)

@@ -217,8 +217,8 @@
     <string name="more_title_password">패스워드 변경</string>
     <string name="more_title_push_setting">알림 설정</string>
     <string name="more_title_push_notice">공지사항</string>
-    <string name="more_title_push_terms_use">이용약관</string>
-    <string name="more_title_push_terms_privacy">개인정보 취급방침</string>
+    <string name="more_title_push_terms_use">서비스 이용약관</string>
+    <string name="more_title_push_terms_privacy">개인정보 처리방침</string>
     <string name="more_title_logout">로그아웃</string>
     <string name="more_title">더보기</string>
 

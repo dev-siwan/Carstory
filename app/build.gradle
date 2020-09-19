@@ -198,7 +198,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$coroutine_retrofit_version"
-
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
 
     //coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$android_coroutine_version"
@@ -237,6 +237,10 @@ dependencies {
 
     // FirebaseUI Storage only
     implementation 'com.firebaseui:firebase-ui-storage:6.2.0'
+
+    //Github ReadMe
+    implementation 'com.github.GrenderG:MarkdownView:0.1.2'
+
 
     //ad template
     implementation project(path: ':nativetemplates')

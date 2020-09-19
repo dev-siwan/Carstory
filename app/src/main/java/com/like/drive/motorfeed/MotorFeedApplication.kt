@@ -6,7 +6,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.FirebaseApp
 import com.like.drive.motorfeed.common.define.FirebaseDefine
@@ -50,7 +49,15 @@ class MotorFeedApplication : Application() {
     private fun initKoin() {
         startKoin {
             androidContext(this@MotorFeedApplication)
-            modules(listOf(cacheModule, remoteModule, viewModelModule, repositoryModule))
+            modules(
+                listOf(
+                    cacheModule,
+                    remoteModule,
+                    viewModelModule,
+                    repositoryModule,
+                    networkModule
+                )
+            )
             logger(AndroidLogger(Level.DEBUG))
         }
     }
