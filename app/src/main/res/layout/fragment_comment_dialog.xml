@@ -70,8 +70,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     app:layout_constraintStart_toStartOf="@id/glStart"
                     app:layout_constraintTop_toTopOf="@id/glTop"
                     app:profileImg="@{commentFragmentExtra.commentData.userInfo.profileImgPath}"
