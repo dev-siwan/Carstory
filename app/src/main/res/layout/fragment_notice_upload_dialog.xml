@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.text.InputType" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_100"
+        tools:context=".ui.sign.in.activity.SignInActivity">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/notice_upload_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text_size"
+                android:textStyle="bold"
+                tools:text="@string/notice_upload_title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:enabled="@{!TextUtils.isEmpty(vm.title) &amp;&amp; !TextUtils.isEmpty(vm.message) &amp;&amp; !TextUtils.isEmpty(vm.mdFileName)}"
+                android:focusable="true"
+                android:onClick="@{()->vm.uploadNotice(vm.title,vm.message,vm.mdFileName)}"
+                android:padding="@dimen/activity_x_small_margin"
+                android:text="@string/complete_text"
+                android:textColor="@color/text_enable_color"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey_6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <!-- android:onClick="@{()->vm.updatePassword()}"-->
+
+
+        <EditText
+            android:id="@+id/etNoticeTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            android:background="@null"
+            android:hint="@string/notice_upload_title_hint"
+            android:text="@={vm.title}"
+            android:textSize="@dimen/large_text_size"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+
+        <EditText
+            android:id="@+id/etNoticeContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            android:background="@null"
+            android:hint="@string/notice_upload_content_hint"
+            android:text="@={vm.message}"
+            android:textSize="@dimen/large_text_size"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/etNoticeTitle" />
+
+
+        <EditText
+            android:id="@+id/etNoticeMdFile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            android:background="@null"
+            android:hint="@string/notice_upload_md_file_hint"
+            android:text="@={vm.mdFileName}"
+            android:textSize="@dimen/large_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/etNoticeContent"
+            app:layout_constraintVertical_bias="0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

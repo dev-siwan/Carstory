@@ -7,4 +7,5 @@ object CollectionName {
     const val FEED="feed"
     const val FEED_COMMENT="feed_comment"
     const val FEED_RE_COMMENT="feed_re_comment"
+    const val NOTICE="notice"
 }

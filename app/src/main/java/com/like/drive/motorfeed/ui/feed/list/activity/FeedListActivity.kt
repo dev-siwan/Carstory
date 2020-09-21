@@ -15,6 +15,7 @@ import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.withPaging
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
@@ -63,14 +64,14 @@ class FeedListActivity : BaseActivity<ActivityFeedListBinding>(R.layout.activity
 
         intent.getParcelableExtra<UserData>(FEED_DATE_KEY)?.let {
             uid = it.uid
-            viewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
+            viewModel.loadingStatus = LoadingStatus.INIT
             initData(uid)
             tvTitle.text = getString(R.string.my_feed_title_format, it.nickName)
         }
 
         swipeLayout.setOnRefreshListener {
             uid?.let {
-                viewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
+                viewModel.loadingStatus = LoadingStatus.REFRESH
                 viewModel.initUserData(it)
             }
         }

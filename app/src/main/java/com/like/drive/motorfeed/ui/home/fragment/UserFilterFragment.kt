@@ -14,6 +14,7 @@ import com.like.drive.motorfeed.databinding.FragmentUserFilterBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 import com.like.drive.motorfeed.ui.base.ext.withPaging
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
 import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
@@ -61,7 +62,7 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
         }
 
         swipeLayout.setOnRefreshListener {
-            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
+            feedListViewModel.loadingStatus = LoadingStatus.REFRESH
             feedListViewModel.initDate(
                 feedTypeData = viewModel.feedType.value,
                 motorTypeData = viewModel.motorType.value
@@ -114,7 +115,7 @@ class UserFilterFragment : BaseFragment<FragmentUserFilterBinding>(R.layout.frag
 
     private fun UserFilterViewModel.setFilter() {
         setUserFilterEvent.observe(viewLifecycleOwner, Observer {
-            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
+            feedListViewModel.loadingStatus = LoadingStatus.INIT
             feedListViewModel.initDate(motorTypeData = it.motorType, feedTypeData = it.feedType)
         })
     }

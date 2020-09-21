@@ -29,6 +29,7 @@ import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.withPaging
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
 import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
 import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
@@ -129,7 +130,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             incSearchList.swipeLayout.setOnRefreshListener {
                 setAppbarNotScroll()
                 isScroll = false
-                feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.REFRESH
+                feedListViewModel.loadingStatus = LoadingStatus.REFRESH
                 feedListViewModel.initDate(tagQuery = viewModel.tag.value)
             }
         }
@@ -191,7 +192,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         tagValueEvent.observe(viewLifecycleOwner, Observer {
             setAppbarNotScroll()
             isScroll = false
-            feedListViewModel.loadingStatus = FeedListViewModel.LoadingStatus.INIT
+            feedListViewModel.loadingStatus = LoadingStatus.INIT
             feedListViewModel.initDate(tagQuery = it)
             goneSearchView()
         })

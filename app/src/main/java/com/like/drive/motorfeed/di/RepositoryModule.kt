@@ -4,6 +4,8 @@ import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.repository.feed.FeedRepositoryImpl
 import com.like.drive.motorfeed.repository.motor.MotorTypeRepository
 import com.like.drive.motorfeed.repository.motor.MotorTypeRepositoryImpl
+import com.like.drive.motorfeed.repository.notice.NoticeRepository
+import com.like.drive.motorfeed.repository.notice.NoticeRepositoryImpl
 import com.like.drive.motorfeed.repository.notification.NotificationRepository
 import com.like.drive.motorfeed.repository.notification.NotificationRepositoryImpl
 import com.like.drive.motorfeed.repository.user.UserRepository
@@ -18,4 +20,5 @@ val repositoryModule = module {
     single<UserRepository> { UserRepositoryImpl(get(), get()) }
     single<FeedRepository> { FeedRepositoryImpl(get(), get(), get(), get()) }
     single<NotificationRepository> { NotificationRepositoryImpl(get()) }
+    single<NoticeRepository> { NoticeRepositoryImpl(get()) }
 }

@@ -15,6 +15,7 @@ import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.dialog.AlertDialog
 import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
 import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
+import com.like.drive.motorfeed.ui.notice.list.activity.NoticeListActivity
 import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
 import com.like.drive.motorfeed.ui.sign.password.activity.PasswordUpdateActivity
@@ -26,7 +27,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
 
     private val viewModel: MoreViewModel by viewModel()
-
 
     override fun onBindAfter(dataBinding: FragmentMoreBinding) {
         super.onBindAfter(dataBinding)
@@ -47,8 +47,13 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         dataBinding.containerPasswordReset.containerMoreItem.setOnClickListener {
             startAct(PasswordUpdateActivity::class)
         }
+
         dataBinding.containerNotificationSetting.containerMoreItem.setOnClickListener {
             startAct(NotificationSettingActivity::class)
+        }
+
+        dataBinding.containerNotice.containerMoreItem.setOnClickListener {
+            startAct(NoticeListActivity::class)
         }
 
         dataBinding.containerTermsUse.containerMoreItem.setOnClickListener {
@@ -56,6 +61,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
                 putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_USE_VALUE)
             })
         }
+
 
         dataBinding.containerTermsPrivacy.containerMoreItem.setOnClickListener {
             startAct(TermsActivity::class, Bundle().apply {

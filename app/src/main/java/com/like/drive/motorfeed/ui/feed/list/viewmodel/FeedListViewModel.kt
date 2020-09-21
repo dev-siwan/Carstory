@@ -9,6 +9,7 @@ import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -38,9 +39,6 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
     private var feedTypeData: FeedTypeData? = null
     private var motorTypeData: MotorTypeData? = null
     private var tagQuery: String? = null
-
-    val isProgressLoading = SingleLiveEvent<Boolean>()
-    val removeCompleteEvent = SingleLiveEvent<FeedData>()
 
     fun initDate(
         feedTypeData: FeedTypeData? = null,
@@ -159,7 +157,4 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
         }
     }
 
-    enum class LoadingStatus {
-        REFRESH, INIT, MORE
-    }
 }

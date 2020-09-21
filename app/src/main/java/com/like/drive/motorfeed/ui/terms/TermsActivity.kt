@@ -33,7 +33,7 @@ class TermsActivity : BaseActivity<ActivityTermsBinding>(R.layout.activity_terms
         intent.getStringExtra(TERMS_KEY)?.let {
             when (it) {
                 TERMS_USE_VALUE -> {
-                    tvWelcome.text = getString(R.string.more_title_push_terms_use)
+                    tvWelcome.text = getString(R.string.more_title_terms_use)
                     lifecycleScope.launch {
                         retrofit.create(TermsApi::class.java).getTermsUser().body()?.let { body ->
                             load(body)
@@ -42,7 +42,7 @@ class TermsActivity : BaseActivity<ActivityTermsBinding>(R.layout.activity_terms
                 }
 
                 else -> {
-                    tvWelcome.text = getString(R.string.more_title_push_terms_privacy)
+                    tvWelcome.text = getString(R.string.more_title_terms_privacy)
                     lifecycleScope.launch {
                         retrofit.create(TermsApi::class.java).getTermsPrivacy().body()
                             ?.let { body ->

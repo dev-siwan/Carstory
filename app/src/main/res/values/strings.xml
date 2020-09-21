@@ -216,9 +216,9 @@
     <string name="more_title_my_feed">내가 쓴 글</string>
     <string name="more_title_password">패스워드 변경</string>
     <string name="more_title_push_setting">알림 설정</string>
-    <string name="more_title_push_notice">공지사항</string>
-    <string name="more_title_push_terms_use">서비스 이용약관</string>
-    <string name="more_title_push_terms_privacy">개인정보 처리방침</string>
+    <string name="more_title_notice">공지사항</string>
+    <string name="more_title_terms_use">서비스 이용약관</string>
+    <string name="more_title_terms_privacy">개인정보 처리방침</string>
     <string name="more_title_logout">로그아웃</string>
     <string name="more_title">더보기</string>
 
@@ -240,6 +240,10 @@
     <string name="credential_dialog_desc">비밀번호를 변경하기 위해 회원님을 재인증을 하셔야 합니다.\n이메일과 비밀번호를 입력해주세요.</string>
     <string name="credential_confirm_text">재인증</string>
 
+    <string name="notice_upload_title">공지사항 업로드</string>
+    <string name="notice_upload_title_hint">제목을 입력해주세요.</string>
+    <string name="notice_upload_content_hint">컨텐츠를 입력해주세요.</string>
+    <string name="notice_upload_md_file_hint">md 파일명을 입력해주세요.</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

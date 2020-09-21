@@ -62,17 +62,6 @@
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@id/glTop">
 
-
-          <!--  <include
-                android:id="@+id/containerProfile"
-                layout="@layout/layout_profile_block"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:feedData="@{data}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />-->
-
             <include
                 android:id="@+id/containerTitleBlock"
                 layout="@layout/layout_feed_list_title_block"
