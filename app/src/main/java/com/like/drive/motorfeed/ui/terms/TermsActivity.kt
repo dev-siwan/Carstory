@@ -2,19 +2,17 @@ package com.like.drive.motorfeed.ui.terms
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.common.define.GitDefine
+import com.like.drive.motorfeed.common.interceptor.GitHubInterceptor
 import com.like.drive.motorfeed.databinding.ActivityTermsBinding
-import com.like.drive.motorfeed.remote.api.terms.TermsApi
 import com.like.drive.motorfeed.ui.base.BaseActivity
+import es.dmoral.markdownview.Config
+import es.dmoral.markdownview.MarkdownView
 import kotlinx.android.synthetic.main.activity_terms.*
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import retrofit2.Retrofit
+import okhttp3.OkHttpClient
 
 class TermsActivity : BaseActivity<ActivityTermsBinding>(R.layout.activity_terms) {
-
-    private val retrofit: Retrofit by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,29 +32,37 @@ class TermsActivity : BaseActivity<ActivityTermsBinding>(R.layout.activity_terms
             when (it) {
                 TERMS_USE_VALUE -> {
                     tvWelcome.text = getString(R.string.more_title_terms_use)
-                    lifecycleScope.launch {
-                        retrofit.create(TermsApi::class.java).getTermsUser().body()?.let { body ->
-                            load(body)
-                        }
-                    }
+                    load(GitDefine.TERMS_USE_URL)
                 }
 
                 else -> {
                     tvWelcome.text = getString(R.string.more_title_terms_privacy)
-                    lifecycleScope.launch {
-                        retrofit.create(TermsApi::class.java).getTermsPrivacy().body()
-                            ?.let { body ->
-                                load(body)
-                            }
-                    }
+                    load(GitDefine.PRIVACY_URL)
                 }
             }
         }
     }
 
-    private fun load(body: String) {
+    private fun load(url: String) {
+        webView.run {
+            setCurrentConfig(Config.getDefaultConfig().apply {
+                defaultOkHttpClient =
+                    OkHttpClient().newBuilder().addInterceptor(GitHubInterceptor()).build()
+            })
 
-        webView.loadFromText(body)
+            loadFromUrl(url)
+
+            setOnMarkdownRenderingListener(object:MarkdownView.OnMarkdownRenderingListener{
+                override fun onMarkdownRenderError() {
+                    progressBar.isVisible = false
+                }
+
+                override fun onMarkdownFinishedRendering() {
+                    progressBar.isVisible = false
+                }
+
+            })
+        }
     }
 
     companion object {

@@ -15,7 +15,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.notice.detail.activity.NoticeDetailActivity">
+        tools:context=".ui.notice.detail.activity.NoticeDetailActivity"
+        android:background="@color/white_100">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
