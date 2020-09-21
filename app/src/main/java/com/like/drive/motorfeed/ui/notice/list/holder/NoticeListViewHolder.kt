@@ -7,11 +7,13 @@ import com.like.drive.motorfeed.data.notice.NoticeData
 import com.like.drive.motorfeed.databinding.HolderFeedListBinding
 import com.like.drive.motorfeed.databinding.HolderNoticeListItemBinding
 import com.like.drive.motorfeed.ui.feed.list.holder.FeedListViewHolder
+import com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel
 
 class NoticeListViewHolder(val binding: HolderNoticeListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(noticeData: NoticeData) {
+    fun bind(vm: NoticeListViewModel, noticeData: NoticeData) {
+        binding.vm = vm
         binding.data = noticeData
         binding.executePendingBindings()
     }

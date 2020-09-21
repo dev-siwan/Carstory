@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
-        <activity android:name=".ui.notice.upload.activity.NoticeUploadActivity"></activity>
+        <activity android:name=".ui.notice.detail.activity.NoticeDetailActivity"></activity>
+        <activity android:name=".ui.notice.upload.activity.NoticeUploadActivity" />
         <activity android:name=".ui.notice.list.activity.NoticeListActivity" />
         <activity
             android:name=".ui.terms.TermsActivity"

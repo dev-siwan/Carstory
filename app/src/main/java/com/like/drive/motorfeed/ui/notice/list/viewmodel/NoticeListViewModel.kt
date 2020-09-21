@@ -31,6 +31,8 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
     var isFirst = true
     var lastDate: Date? = null
 
+    val clickNoticeDataEvent = SingleLiveEvent<NoticeData>()
+
     val title = ObservableField<String>()
     val message = ObservableField<String>()
     val mdFileName = ObservableField<String>()
@@ -120,6 +122,10 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
                     loadingEvent.value = true
                 })
         }
+    }
+
+    fun setOnNoticeClickListener(noticeData: NoticeData) {
+        clickNoticeDataEvent.value = noticeData
     }
 
 }

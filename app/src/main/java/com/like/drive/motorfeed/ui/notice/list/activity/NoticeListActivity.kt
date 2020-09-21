@@ -9,7 +9,9 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.ActivityNoticeListBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.ext.withPaging
+import com.like.drive.motorfeed.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.motorfeed.ui.notice.list.adapter.NoticeListAdapter
 import com.like.drive.motorfeed.ui.notice.list.fragment.NoticeUploadFragmentDialog
 import com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel
@@ -19,7 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.activity_notice_list) {
 
     private val viewModel: NoticeListViewModel by viewModel()
-    private val noticeAdapter by lazy { NoticeListAdapter() }
+    private val noticeAdapter by lazy { NoticeListAdapter(viewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +91,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
     private fun withViewModel() {
         with(viewModel) {
             getNoticeList()
+            clickListener()
         }
     }
 
@@ -101,6 +104,14 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
                     moreList(it)
                 }
             }
+        })
+    }
+
+    private fun NoticeListViewModel.clickListener() {
+        clickNoticeDataEvent.observe(this@NoticeListActivity, Observer {
+            startAct(NoticeDetailActivity::class, Bundle().apply {
+                putParcelable(NoticeDetailActivity.NOTICE_DATA_KEY, it)
+            })
         })
     }
 }

@@ -7,8 +7,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 
 interface TermsApi {
-    @GET("terms_user.md")
+    @GET("document/terms_user.md")
     suspend fun getTermsUser(): Response<String>
-    @GET("terms_privacy.md")
+    @GET("document/terms_privacy.md")
     suspend fun getTermsPrivacy(): Response<String>
 }
