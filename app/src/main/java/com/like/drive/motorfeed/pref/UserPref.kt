@@ -34,12 +34,6 @@ class UserPref(application: Application) {
         get() = preferences.getInt(MOTOR_TYPE_VERSION, 0)
         set(value) = preferences.edit { putInt(MOTOR_TYPE_VERSION, value!!) }
 
-    var userFilter: UserFilter?
-        get() = modelPref.get(FEED_TYPE)
-        set(value) {
-            modelPref.put(value, FEED_TYPE)
-        }
-
     var userData: UserData?
         get() = modelPref.get(USER_INFO)
         set(value) {

@@ -25,13 +25,11 @@ import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
-import com.like.drive.motorfeed.ui.filter.dialog.FeedListFilterDialog
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.rvFeedList
-import kotlinx.android.synthetic.main.fragment_home.swipeLayout
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_home_filter.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,13 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     val viewModel: HomeViewModel by viewModel()
     private val feedVM: FeedListViewModel by viewModel()
-
-    private val listAdapter by lazy {
-        FeedListAdapter(
-            vm = feedVM
-        )
-    }
-    private val filterDialog by lazy { FeedListFilterDialog }
+    private val listAdapter by lazy { FeedListAdapter(vm = feedVM) }
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
@@ -82,6 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         setOnItemClick()
 
+        initData()
     }
 
     private fun setOnItemClick() {
@@ -92,6 +85,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         tvMotorType.setOnClickListener {
             showMotorType()
+        }
+    }
+
+    private fun initData() {
+        if (listAdapter.feedList.isEmpty()) {
+            feedVM.loadingStatus = LoadingStatus.INIT
+            feedVM.initDate()
         }
     }
 
@@ -115,10 +115,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    fun withViewModel() {
+    private fun withViewModel() {
         with(viewModel) {
             searchClick()
-            showFilterDialog()
             setFilter()
         }
 
@@ -162,21 +161,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 FeedListActivity.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
                     putString(FeedDetailActivity.KEY_FEED_ID, it)
                 })
-        })
-    }
-
-    private fun HomeViewModel.showFilterDialog() {
-        filterClickEvent.observe(viewLifecycleOwner, Observer {
-            val filterDialog = it?.let {
-                filterDialog.newInstance(it.feedType, it.motorType)
-            } ?: filterDialog.newInstance(null, null)
-
-            filterDialog.apply {
-                setFilter = { feedType, motorType ->
-                    this@HomeFragment.viewModel.setFilterData(feedType, motorType)
-                    dismiss()
-                }
-            }.show(requireActivity().supportFragmentManager, "")
         })
     }
 
