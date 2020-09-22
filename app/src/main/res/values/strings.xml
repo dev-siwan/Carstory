@@ -255,6 +255,7 @@
     <string name="and_text">및</string>
     <string name="at_text">에</string>
     <string name="profile_terms_agree_desc">동의한걸로 간주됩니다.</string>
+    <string name="share_text">공유하기</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

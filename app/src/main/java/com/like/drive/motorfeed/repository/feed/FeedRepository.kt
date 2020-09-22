@@ -44,6 +44,7 @@ interface FeedRepository {
     suspend fun getFeed(
         fid: String,
         success: (FeedData?, List<CommentWrapData>?) -> Unit,
+        isLike: (Boolean) -> Unit,
         fail: () -> Unit
     )
 
@@ -94,4 +95,6 @@ interface FeedRepository {
         success: () -> Unit,
         fail: () -> Unit
     )
+
+    suspend fun isLikeFeed(fid: String): Boolean
 }

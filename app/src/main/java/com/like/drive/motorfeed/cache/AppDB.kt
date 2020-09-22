@@ -9,14 +9,16 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.like.drive.motorfeed.cache.AppDB.Companion.DB_VERSION
 import com.like.drive.motorfeed.cache.common.Converters
+import com.like.drive.motorfeed.cache.dao.like.LikeDao
 import com.like.drive.motorfeed.cache.dao.motor.MotorTypeDao
 import com.like.drive.motorfeed.cache.dao.notification.NotificationDao
+import com.like.drive.motorfeed.cache.entity.LikeEntity
 import com.like.drive.motorfeed.cache.entity.MotorTypeEntity
 import com.like.drive.motorfeed.cache.entity.NotificationEntity
 
 /*RoomDB 설정*/
 @Database(
-    entities = [MotorTypeEntity::class,NotificationEntity::class],
+    entities = [MotorTypeEntity::class, NotificationEntity::class, LikeEntity::class],
     version = DB_VERSION,
     exportSchema = false
 )
@@ -25,6 +27,7 @@ abstract class AppDB : RoomDatabase() {
 
     abstract fun motorTypeDao(): MotorTypeDao
     abstract fun notificationDao(): NotificationDao
+    abstract fun likeDao(): LikeDao
 
     /*싱글턴 패턴*/
     companion object {

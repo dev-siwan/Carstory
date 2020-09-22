@@ -2,12 +2,16 @@ package com.like.drive.motorfeed.ui.feed.detail.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.util.DisplayMetrics
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.*
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.enum.OptionsSelectType
 import com.like.drive.motorfeed.common.user.UserInfo
@@ -35,11 +39,36 @@ class FeedDetailActivity :
     private val commentAdapter by lazy { CommentAdapter(viewModel) }
     private val detailImgAdapter by lazy { DetailImgAdapter(viewModel) }
 
+    @Suppress("DEPRECATION")
+    private val adSize: AdSize
+        get() {
+            val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                display
+            } else {
+                windowManager.defaultDisplay
+            }
+            val outMetrics = DisplayMetrics()
+            display?.getRealMetrics(outMetrics)
+
+            val density = outMetrics.density
+
+            var adWidthPixels = containerBanner.width.toFloat()
+            if (adWidthPixels == 0f) {
+                adWidthPixels = outMetrics.widthPixels.toFloat()
+            }
+
+            val adWidth = (adWidthPixels / density).toInt()
+            return AdSize.getPortraitAnchoredAdaptiveBannerAdSize(this, adWidth)
+        }
+    private var initialLayoutComplete = false
+    private var adView: AdView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initData()
         initView()
         withViewModel()
+        advInit()
     }
 
     override fun onBinding(dataBinding: ActivityFeedDetailBinding) {
@@ -302,6 +331,69 @@ class FeedDetailActivity :
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        adView?.resume()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        adView?.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        adView?.destroy()
+        super.onDestroy()
+    }
+
+    private fun advInit() {
+
+        initialLayoutComplete = false
+
+        MobileAds.initialize(this)
+
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder()
+                .setTestDeviceIds(listOf("ABCDEF012345"))
+                .build()
+        )
+
+        adView = AdView(this)
+
+        containerBanner.apply {
+            addView(adView)
+            viewTreeObserver.addOnGlobalLayoutListener {
+                if (!initialLayoutComplete) {
+                    initialLayoutComplete = true
+                    loadBanner()
+                }
+            }
+        }
+
+    }
+
+    private fun loadBanner() {
+        adView?.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+
+        adView?.adSize = adSize
+
+        // Create an ad request.
+        val adRequest = AdRequest.Builder().build()
+
+        // Start loading the ad in the background.
+        adView?.loadAd(adRequest)
+
+        adView?.run {
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    containerBanner.isVisible = true
+                }
+            }
+        }
+
     }
 
     override fun onBackPressed() {

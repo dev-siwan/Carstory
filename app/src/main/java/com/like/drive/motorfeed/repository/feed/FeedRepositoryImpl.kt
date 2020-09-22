@@ -2,6 +2,8 @@ package com.like.drive.motorfeed.repository.feed
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctionsException
+import com.like.drive.motorfeed.cache.dao.like.LikeDao
+import com.like.drive.motorfeed.cache.entity.LikeEntity
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.feed.CommentData
 import com.like.drive.motorfeed.data.feed.CommentWrapData
@@ -27,7 +29,8 @@ class FeedRepositoryImpl(
     private val feedApi: FeedApi,
     private val imgApi: ImageApi,
     private val firestore: FirebaseFirestore,
-    private val notificationApi: NotificationApi
+    private val notificationApi: NotificationApi,
+    private val likeDao: LikeDao
 ) : FeedRepository {
 
     private var photoFileList = ArrayList<PhotoData>()
@@ -135,10 +138,13 @@ class FeedRepositoryImpl(
     }
 
     override suspend fun setLike(fid: String, isUp: Boolean) {
-        if (isUp) feedApi.updateCount(fid, FeedCountEnum.LIKE) else feedApi.updateCount(
-            fid,
-            FeedCountEnum.UNLIKE
-        )
+        if (isUp) {
+            feedApi.updateCount(fid, FeedCountEnum.LIKE)
+            likeDao.insertFid(LikeEntity(fid = fid))
+        } else {
+            likeDao.deleteFid(fid)
+            feedApi.updateCount(fid, FeedCountEnum.UNLIKE)
+        }
     }
 
     override suspend fun getFeedComment(fid: String): Flow<List<CommentData>> {
@@ -148,6 +154,7 @@ class FeedRepositoryImpl(
     override suspend fun getFeed(
         fid: String,
         success: (FeedData?, List<CommentWrapData>?) -> Unit,
+        isLike: (Boolean) -> Unit,
         fail: () -> Unit
     ) {
         feedApi.getFeed(fid)
@@ -159,10 +166,21 @@ class FeedRepositoryImpl(
                     val reCommentList =
                         reComment.filter { reCommentData -> reCommentData.cid == it.cid }
                             .toMutableList()
+
+                    reCommentList.sortBy { item -> item.createDate }
+
                     list.add(CommentWrapData(commentData = it, reCommentList = reCommentList))
                 }
+
+                list.sortBy { it.commentData.createDate }
+
                 return@zip list
             }) { feedData, commentWrapList ->
+
+                feedData?.fid?.let {
+                    isLike(isLikeFeed(fid))
+                }
+
                 success.invoke(feedData, commentWrapList)
             }.catch {
                 fail.invoke()
@@ -294,6 +312,10 @@ class FeedRepositoryImpl(
         }.collect {
             success()
         }
+    }
+
+    override suspend fun isLikeFeed(fid: String): Boolean {
+        return likeDao.isFeedEmpty(fid).isNotEmpty()
     }
 
     private suspend fun checkImgUpload(): Flow<Int> =

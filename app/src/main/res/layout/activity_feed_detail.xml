@@ -24,9 +24,7 @@
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:minHeight="?attr/actionBarSize"
-            app:layout_constraintBottom_toTopOf="@id/nestedScrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,8 +36,16 @@
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{()->vm.showFeedOptions(vm.feedData)}"
-                android:src="@drawable/ic_black_more_vert" />
+                android:src="@drawable/ic_black_more_vert"
+                tools:ignore="ContentDescription" />
         </androidx.appcompat.widget.Toolbar>
+
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{!vm.isShimmerVisible}"
+            app:constraint_referenced_ids="nestedScrollView,containerCommentEdit" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
@@ -156,8 +162,8 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:autoLink="web"
                     android:background="@null"
-                    android:inputType="none"
                     android:bufferType="editable"
+                    android:inputType="none"
                     android:lineSpacingExtra="@dimen/x_small_text_size"
                     android:linksClickable="true"
                     android:text="@{vm.feedData.content}"
@@ -181,30 +187,31 @@
                     app:layout_constraintTop_toBottomOf="@id/tvContent"
                     tools:text="2020.08.06" />
 
-                <include
-                    android:id="@+id/containerDetailFunction"
-                    layout="@layout/layout_detail_function_block"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    app:feedData="@{vm.feedData}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvDate"
-                    app:vm="@{vm}" />
+                    <include
+                        android:id="@+id/containerDetailFunction"
+                        layout="@layout/layout_detail_function_block"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        app:feedData="@{vm.feedData}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvDate"
+                        app:vm="@{vm}" />
 
-                <TextView
-                    android:id="@+id/tvBanner"
+
+
+
+                <FrameLayout
+                    android:id="@+id/containerBanner"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:background="@color/grey_7"
-                    android:padding="@dimen/activity_vertical_margin"
-                    android:textColor="@color/grey_4"
+                    android:background="@color/grey_6"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/containerDetailFunction"
-                    tools:text="배너공간" />
+                    app:layout_constraintTop_toBottomOf="@id/containerDetailFunction" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -213,12 +220,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:orientation="vertical"
+                    android:overScrollMode="never"
                     app:commentList="@{vm.commentList}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="@id/glBottom"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvBanner"
+                    app:layout_constraintTop_toBottomOf="@id/containerBanner"
                     app:layout_constraintVertical_bias="0"
                     tools:itemCount="3"
                     tools:listitem="@layout/holder_feed_comment" />
@@ -273,5 +281,15 @@
                 tools:enabled="false" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <include
+            android:id="@+id/incShimmerFeed"
+            layout="@layout/shimmer_feed"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{vm.isShimmerVisible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
