@@ -6,8 +6,6 @@ import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
 import com.like.drive.motorfeed.ui.filter.viewmodel.FilterViewModel
 import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
-import com.like.drive.motorfeed.ui.home.viewmodel.NewsFeedViewModel
-import com.like.drive.motorfeed.ui.home.viewmodel.UserFilterViewModel
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
 import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
 import com.like.drive.motorfeed.ui.motor.viewmodel.MotorTypeViewModel
@@ -40,8 +38,6 @@ val viewModelModule = module {
     viewModel { LargeThanViewModel() }
     viewModel { SearchViewModel() }
     viewModel { FilterViewModel() }
-    viewModel { UserFilterViewModel() }
-    viewModel { NewsFeedViewModel() }
     viewModel { NotificationViewModel(get()) }
     viewModel { MoreViewModel(get()) }
     viewModel { PasswordUpdateViewModel(get()) }

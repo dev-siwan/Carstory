@@ -12,7 +12,7 @@ fun TextView.setFilterType(feedTypeData: FeedTypeData?) {
     if (feedTypeData != null) {
         disableFilter(context.getString(R.string.feed_list_filter_type, feedTypeData.title))
     } else {
-        visibility = View.GONE
+        disableFilter(context.getString(R.string.feed_list_filter_type_default))
     }
 }
 
@@ -37,13 +37,12 @@ fun TextView.setFilterBrand(motorTypeData: MotorTypeData?) {
 
         }
     } else {
-        visibility = View.GONE
+        disableFilter(context.getString(R.string.feed_list_filter_motor_default))
     }
 }
 
 fun TextView.disableFilter(str: String) {
     background = context.getDrawable(R.drawable.rect_solid_light_1_conner_4dp)
     setTextColor(context.getColor(android.R.color.black))
-    visibility = View.VISIBLE
     text = str
 }

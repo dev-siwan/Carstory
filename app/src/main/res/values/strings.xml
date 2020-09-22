@@ -181,7 +181,7 @@
     <string name="feed_list_filter_motor_brand_model">종류 : %s | %s</string>
 
     <string name="feed_list_filter_type_default">카테고리 선택</string>
-    <string name="feed_list_filter_motor_default">종류 선택</string>
+    <string name="feed_list_filter_motor_default">차량종류 선택</string>
 
     <string name="filter_feed_type_desc"><![CDATA[<font color="#8f8f8f">카테리를 선택해주세요.</font><br /><br />%s]]></string>
     <string name="filter_motor_type_desc"><![CDATA[<font color="#8f8f8f">자동차 종류를 선택해주세요.</font><br /><br />%s]]></string>

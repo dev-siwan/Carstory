@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.ui.feed.list.viewmodel
 
 import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
@@ -29,7 +30,8 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
     val isRefresh = ObservableBoolean(false)
     val isLoading = ObservableBoolean(false)
     val isMore = ObservableBoolean(false)
-    val initEmpty = ObservableBoolean(false)
+    private val _initEmpty = MutableLiveData<Boolean>()
+    val initEmpty: LiveData<Boolean> get() = _initEmpty
 
     val feedItemClickEvent = SingleLiveEvent<String>()
 
@@ -81,7 +83,8 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
                     loadingStatus()
                     feedList.value = it
-                    initEmpty.set(isFirst && it.isEmpty())
+
+                    _initEmpty.value = isFirst && it.isEmpty()
 
                 }
         }
@@ -122,7 +125,7 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
                     loadingStatus()
                     feedList.value = it
-                    initEmpty.set(isFirst && it.isEmpty())
+                    _initEmpty.value = isFirst && it.isEmpty()
 
                 }
         }
