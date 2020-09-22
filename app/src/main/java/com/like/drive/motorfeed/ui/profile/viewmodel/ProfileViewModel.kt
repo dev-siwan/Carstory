@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.profile.viewmodel
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
@@ -26,6 +27,8 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
 
     lateinit var profileStatus: ProfileStatus
 
+    val isInit = ObservableBoolean(false)
+
     private var imgFile: File? = null
 
     init {
@@ -33,6 +36,7 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
 
             if (it.nickName == null) {
                 profileStatus = ProfileStatus.INIT
+                isInit.set(true)
                 return@let
             }
 

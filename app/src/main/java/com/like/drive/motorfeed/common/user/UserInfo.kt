@@ -6,6 +6,7 @@ import com.like.drive.motorfeed.common.define.FirebaseDefine
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.remote.api.user.UserApi
+import com.like.drive.motorfeed.repository.notification.NotificationRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -16,6 +17,7 @@ import org.koin.core.inject
 object UserInfo : KoinComponent {
     val userPref: UserPref by inject()
     private val userApi: UserApi by inject()
+    private val notificationRepo: NotificationRepository by inject()
 
     var userInfo: UserData? = null
     var isNoticeTopic: Boolean = true
@@ -33,6 +35,7 @@ object UserInfo : KoinComponent {
         CoroutineScope(Dispatchers.IO).launch {
             userApi.signOut()
             userPref.removeUserInfo()
+            notificationRepo.allDelete()
             userInfo = null
             cancel()
         }
@@ -90,8 +93,7 @@ object UserInfo : KoinComponent {
     fun updateCommentSubScribe(isSubScribe: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
             userApi.updateCommentSubscribe(isSubScribe)
-                .catch {
-                        error -> error.printStackTrace() }
+                .catch { error -> error.printStackTrace() }
                 .collect {
                     userInfo?.commentSubscribe = isSubScribe
                 }

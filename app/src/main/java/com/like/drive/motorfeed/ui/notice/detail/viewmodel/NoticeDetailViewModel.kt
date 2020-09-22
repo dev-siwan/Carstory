@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.data.notice.NoticeData
-import com.like.drive.motorfeed.remote.api.notice.NoticeApi
 import com.like.drive.motorfeed.remote.api.notice.NoticeConvertApi
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.launch

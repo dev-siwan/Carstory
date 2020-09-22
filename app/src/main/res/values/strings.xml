@@ -220,6 +220,7 @@
     <string name="more_title_terms_use">서비스 이용약관</string>
     <string name="more_title_terms_privacy">개인정보 처리방침</string>
     <string name="more_title_logout">로그아웃</string>
+
     <string name="more_title">더보기</string>
 
     <string name="my_feed_title_format">%s의 글목록</string>
@@ -244,6 +245,16 @@
     <string name="notice_upload_title_hint">제목을 입력해주세요.</string>
     <string name="notice_upload_content_hint">컨텐츠를 입력해주세요.</string>
     <string name="notice_upload_md_file_hint">md 파일명을 입력해주세요.</string>
+
+    <string name="logout_text">로그아웃</string>
+    <string name="drop_out_text">회원탈퇴</string>
+
+    <string name="logout_message"><![CDATA[로그아웃 하시겠습니까?<br />저장되어 있던 회원정보 및 알림정보는 사라집니다.]]></string>
+    <string name="profile_init_logout_message"><![CDATA[확인을 누르면 프로필을 저장하지 않고 로그인 페이지로 돌아갑니다.]]></string>
+    <string name="profile_init_terms_desc1">프로필 작성과 동시에</string>
+    <string name="and_text">및</string>
+    <string name="at_text">에</string>
+    <string name="profile_terms_agree_desc">동의한걸로 간주됩니다.</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

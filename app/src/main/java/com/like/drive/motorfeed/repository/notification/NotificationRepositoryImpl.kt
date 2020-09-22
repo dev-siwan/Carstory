@@ -14,4 +14,8 @@ class NotificationRepositoryImpl(private val dao: NotificationDao) : Notificatio
         return dao.getList().map { NotificationSendData().entityToData(it) }
     }
 
+    override suspend fun allDelete() {
+        dao.deleteList()
+    }
+
 }

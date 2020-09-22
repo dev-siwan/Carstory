@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Message
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.gun0912.tedpermission.PermissionListener
@@ -18,10 +19,12 @@ import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
+import com.like.drive.motorfeed.ui.dialog.ConfirmDialog
 import com.like.drive.motorfeed.ui.gallery.activity.GalleryActivity
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
+import com.like.drive.motorfeed.ui.terms.TermsActivity
 import com.like.drive.motorfeed.util.photo.PickImageUtil
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +50,23 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     private fun initView() {
         setCloseButtonToolbar(toolbar) { onBackPressed() }
+        clickListener()
+    }
+
+    private fun clickListener() {
+        tvLogout.setOnClickListener {
+            showSignOutDialog(getString(R.string.logout_message))
+        }
+        tvTermsPrivacy.setOnClickListener {
+            startAct(TermsActivity::class, Bundle().apply {
+                putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_PRIVACY_VALUE)
+            })
+        }
+        tvTermsUse.setOnClickListener {
+            startAct(TermsActivity::class, Bundle().apply {
+                putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_USE_VALUE)
+            })
+        }
     }
 
     private fun withViewModel() {
@@ -242,10 +262,17 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
         }
     }
 
+    private fun showSignOutDialog(message: String) {
+        ConfirmDialog.newInstance(message = message).apply {
+            confirmAction = { viewModel.signOut() }
+            cancelAction = { dismiss() }
+        }.show(supportFragmentManager, "")
+    }
+
     override fun onBackPressed() {
 
         if (viewModel.profileStatus == ProfileViewModel.ProfileStatus.INIT) {
-            viewModel.signOut()
+            showSignOutDialog(getString(R.string.profile_init_logout_message))
             return
         }
 

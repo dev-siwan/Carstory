@@ -2,8 +2,9 @@ package com.like.drive.motorfeed.repository.notification
 
 import com.like.drive.motorfeed.data.notification.NotificationSendData
 
-interface NotificationRepository{
+interface NotificationRepository {
 
-    suspend fun insert(notificationSendData: NotificationSendData):Long
-    suspend fun getList():List<NotificationSendData>
+    suspend fun insert(notificationSendData: NotificationSendData): Long
+    suspend fun getList(): List<NotificationSendData>
+    suspend fun allDelete()
 }
