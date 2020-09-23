@@ -43,66 +43,91 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:clipToPadding="false"
+            android:fitsSystemWindows="true"
             app:elevation="0dp"
-            app:scrollViewStatus="@{vm.isSearchStatus}"
-            android:fitsSystemWindows="true">
+            app:scrollViewStatus="@{vm.isSearchStatus}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_scrollFlags="scroll|enterAlways">
+                app:layout_scrollFlags="noScroll">
 
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivBackButton"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerSearchImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_back"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/etSearch"
                     app:layout_constraintBottom_toBottomOf="@id/etSearch"
-                    android:padding="@dimen/activity_vertical_margin"
-                    android:visibility="@{vm.isSearchStatus}"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/etSearch">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBackButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_vertical_margin"
+                        android:src="@drawable/ic_action_back"
+                        android:visibility="@{vm.isSearchStatus}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivSearchButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_vertical_margin"
+                        android:src="@drawable/ic_search_light"
+                        android:visibility="@{!vm.isSearchStatus}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etSearch"
                     android:layout_width="0dp"
                     android:layout_height="?attr/actionBarSize"
+                    android:layout_marginEnd="@dimen/activity_vertical_x_margin"
                     android:background="@null"
-                    android:hint="@string/search_tag_hint"
                     android:gravity="center_vertical"
+                    android:hint="@string/search_tag_hint"
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
-                    android:layout_marginEnd="@dimen/activity_vertical_x_margin"
-                    android:singleLine="true"
                     android:paddingHorizontal="@dimen/small_text_size"
+                    android:singleLine="true"
                     android:text="@={vm.tag}"
-                    app:onEditorSearchAction="@{vm.searchFeedAction}"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:layout_constraintStart_toEndOf="@id/ivBackButton"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-                
+                    app:layout_constraintStart_toEndOf="@id/containerSearchImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:onEditorSearchAction="@{vm.searchFeedAction}"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:background="@color/light_gery_1"
-                    app:layout_constraintTop_toBottomOf="@id/etSearch"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="@{!vm.isSearchStatus}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="@{!vm.isSearchStatus}"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etSearch" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
+            android:id="@+id/frameView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_below="@id/appBarLayout">
+            android:layout_below="@id/appBarLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <include
                 android:id="@+id/incSearchList"
@@ -110,8 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:feedVm="@{feedVm}"
-                app:vm="@{vm}"
-               />
+                app:vm="@{vm}" />
 
             <include
                 android:id="@+id/incRecentlyList"

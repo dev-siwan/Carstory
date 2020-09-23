@@ -8,7 +8,7 @@ import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 import org.koin.core.KoinComponent
 
-class HomeViewModel : BaseViewModel(){
+class HomeViewModel : BaseViewModel() {
 
     val moveSearchEvent = SingleLiveEvent<Unit>()
 

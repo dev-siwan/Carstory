@@ -38,6 +38,8 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
     var isFirst = true
     var lastDate: Date? = null
 
+    var isFirstLoad = true
+
     private var feedTypeData: FeedTypeData? = null
     private var motorTypeData: MotorTypeData? = null
     private var tagQuery: String? = null
@@ -83,8 +85,8 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
 
                     loadingStatus()
                     feedList.value = it
-
                     _initEmpty.value = isFirst && it.isEmpty()
+                    isFirstLoad = false
 
                 }
         }

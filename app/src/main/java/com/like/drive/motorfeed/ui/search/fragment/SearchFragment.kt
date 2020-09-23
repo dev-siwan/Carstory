@@ -12,15 +12,16 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.google.android.gms.ads.*
-import com.google.android.material.appbar.AppBarLayout
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
@@ -58,10 +59,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
     private val imm by lazy { requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager? }
     private lateinit var onCallback: OnBackPressedCallback
-    private val params by lazy { containerSearch.layoutParams as AppBarLayout.LayoutParams }
-    private val appbarPrams by lazy { appBarLayout.layoutParams as CoordinatorLayout.LayoutParams }
-    private var isScroll = false
-
     private var adView: AdView? = null
     private var initialLayoutComplete = false
 
@@ -110,6 +107,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         //리싸이클러뷰 페이징
         rvFeed.apply {
+
+            val dividerItemDecoration =
+                DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
+                        setDrawable(it)
+                    }
+                }
+
+            addItemDecoration(dividerItemDecoration)
+            
             paging()
         }
 
@@ -128,8 +135,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
             incSearchList.swipeLayout.setOnRefreshListener {
-                setAppbarNotScroll()
-                isScroll = false
                 feedListViewModel.loadingStatus = LoadingStatus.REFRESH
                 feedListViewModel.initDate(tagQuery = viewModel.tag.value)
             }
@@ -141,6 +146,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         } else {
             goneSearchView()
+            appBarLayout.setExpanded(true)
         }
 
         ivBackButton.setOnClickListener {
@@ -190,8 +196,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
-            setAppbarNotScroll()
-            isScroll = false
             feedListViewModel.loadingStatus = LoadingStatus.INIT
             feedListViewModel.initDate(tagQuery = it)
             goneSearchView()
@@ -209,10 +213,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             feedAdapter.run {
                 if (isFirst) {
                     initList(it)
-                    if (it.isNotEmpty()) {
-                        setAppbarScroll()
-                        isScroll = true
-                    }
                 } else {
                     moreList(it)
                 }
@@ -233,8 +233,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             incRecentlyList.visibility = View.VISIBLE
 
             onCallback.isEnabled = feedAdapter.feedList.isNotEmpty()
-            setAppbarNotScroll()
-
             viewModel.isSearchStatus.set(true)
         }
     }
@@ -257,10 +255,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             onCallback.isEnabled = false
 
             viewModel.isSearchStatus.set(false)
-
-            if (feedAdapter.feedList.isNotEmpty() && isScroll) {
-                setAppbarScroll()
-            }
 
         }
     }
@@ -299,20 +293,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                 }
             }
         }
-    }
-
-    private fun setAppbarScroll() {
-        params.scrollFlags =
-            AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-        appbarPrams.behavior = AppBarLayout.Behavior()
-        appBarLayout.layoutParams = appbarPrams
-
-    }
-
-    private fun setAppbarNotScroll() {
-        params.scrollFlags = 0
-        appbarPrams.behavior = null
-        appBarLayout.layoutParams = appbarPrams
     }
 
     private fun moveHome() {

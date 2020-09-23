@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_x_x_small_margin"
-            android:background="@color/light_gery_1"
+            android:background="@drawable/rect_solid_light_1_conner_8dp"
             android:text="@{feedData.feedTypeStr}"
             android:textColor="@color/grey_4"
             android:textSize="@dimen/small_text_size"
@@ -54,13 +54,14 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="parent"
+            android:padding="@dimen/activity_x_small_margin"
             tools:text="자유" />
 
         <TextView
             android:id="@+id/tvMotorType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/light_gery_1"
+            android:background="@drawable/rect_solid_light_1_conner_8dp"
             android:textColor="@color/grey_4"
             android:textSize="@dimen/small_text_size"
             android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
@@ -72,7 +73,8 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/tvFeedType"
             app:layout_constraintTop_toTopOf="@id/tvFeedType"
-            tools:text="기아|다이소" />
+            android:padding="@dimen/activity_x_small_margin"
+            tools:text="람보르기니|무르시엘라" />
 
 
         <TextView

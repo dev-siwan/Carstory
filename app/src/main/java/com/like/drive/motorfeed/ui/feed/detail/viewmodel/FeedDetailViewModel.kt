@@ -15,6 +15,7 @@ import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.feed.ReCommentData
 import com.like.drive.motorfeed.repository.feed.FeedRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,11 +64,14 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     val isLikeEnable = ObservableBoolean()
 
     val isProgressEvent = SingleLiveEvent<Boolean>()
-    val isShimmerVisible = ObservableBoolean(true)
+    val isShimmerVisible = ObservableBoolean()
+    val isRefresh = ObservableBoolean(false)
 
     val imgUrlClickEvent = SingleLiveEvent<String>()
 
     val finishEvent = SingleLiveEvent<String>()
+
+    var loadingStatus: LoadingStatus? = null
 
     fun initDate(feedData: FeedData) {
         feedData.let {
@@ -76,6 +80,9 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
     }
 
     fun initDate(fid: String) {
+
+        loadingStatus()
+
         viewModelScope.launch {
             feedRepository.getFeed(fid, success = { feedData, commentWrapList ->
                 feedData?.run {
@@ -86,12 +93,15 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
                     _commentList.value =
                         if (commentWrapList.isNullOrEmpty()) emptyList() else commentWrapList
-                    delayTime(false)
+
+                    delayTime()
 
                 } ?: finishFeed(fid)
             }, fail = {
+
                 errorEvent.value = R.string.not_found_data
-                delayTime(true)
+                delayTime()
+
             }, isLike = {
                 isLikeEnable.set(it)
             })
@@ -296,8 +306,10 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
         isLikeEnable.get().let {
             val isLike = !it
-            viewModelScope.launch { feedRepository.setLike(fid, isLike) }
-            setLikeCount(isLike)
+
+            setLikeCount(isLike) {
+                viewModelScope.launch { feedRepository.setLike(fid, isLike) }
+            }
             isLikeEnable.set(isLike)
         }
 
@@ -307,26 +319,48 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
         imgUrlClickEvent.value = url
     }
 
-    private fun setLikeCount(isUp: Boolean) {
+    private fun setLikeCount(isUp: Boolean, action: () -> Unit) {
         if (isUp) {
+
             likeCountObserver.set(likeCountObserver.get().plus(1))
             _feedData.value?.likeCount?.plus(1)
+            action()
+
         } else {
+
             if (_feedData.value?.likeCount ?: 0 > 0) {
+
                 likeCountObserver.set(likeCountObserver.get().minus(1))
                 _feedData.value?.likeCount?.minus(1)
+                action()
+
             }
         }
+
     }
 
     fun setReComment(str: String?) {
         reComment.value = str
     }
 
-    private fun delayTime(isVisible: Boolean) {
+    private fun delayTime() {
         viewModelScope.launch {
-            delay(1000)
-            isShimmerVisible.set(isVisible)
+            delay(500)
+            loadingStatus()
+        }
+    }
+
+    private fun loadingStatus() {
+        when (loadingStatus) {
+            LoadingStatus.INIT -> {
+                if (isShimmerVisible.get()) isShimmerVisible.set(false) else isShimmerVisible.set(
+                    true
+                )
+            }
+            LoadingStatus.REFRESH -> {
+                if (isRefresh.get()) isRefresh.set(false) else isRefresh.set(true)
+            }
+            else -> Unit
         }
     }
 

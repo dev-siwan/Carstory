@@ -42,6 +42,9 @@ fun RecyclerView.setDetailPhotoList(list: List<String>?) {
 fun RecyclerView.setCommentList(list: List<CommentWrapData>?) {
     list?.let {
         (adapter as CommentAdapter).run {
+            if (commentList.isNotEmpty()) {
+                commentList.clear()
+            }
             commentList.addAll(list)
             notifyDataSetChanged()
         }

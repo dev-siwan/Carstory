@@ -20,6 +20,7 @@ import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.databinding.ActivityFeedDetailBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.*
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.feed.detail.adapter.CommentAdapter
 import com.like.drive.motorfeed.ui.feed.detail.adapter.DetailImgAdapter
 import com.like.drive.motorfeed.ui.feed.detail.fragment.CommentDialogFragment
@@ -27,6 +28,7 @@ import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
 import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
 import com.like.drive.motorfeed.ui.view.large.activity.LargeThanActivity
 import kotlinx.android.synthetic.main.activity_feed_detail.*
+import kotlinx.android.synthetic.main.layout_detail_function_block.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedDetailActivity :
@@ -90,7 +92,10 @@ class FeedDetailActivity :
             }
             getStringExtra(KEY_FEED_ID)?.let {
                 fid = it
-                viewModel.initDate(it)
+                viewModel.run {
+                    loadingStatus = LoadingStatus.INIT
+                    initDate(it)
+                }
             }
         }
     }
@@ -102,6 +107,25 @@ class FeedDetailActivity :
         }
 
         setBackButtonToolbar(toolbar) { onBackPressed() }
+
+        containerDetailFunction.containerShare.setOnClickListener {
+            Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, viewModel.feedData.value?.title)
+            }.run {
+                val sharing = Intent.createChooser(this, "공유하기")
+                startActivity(sharing)
+            }
+        }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.run {
+                loadingStatus = LoadingStatus.REFRESH
+                feedData.value?.fid?.let {
+                    initDate(it)
+                } ?: isRefresh.set(false)
+            }
+        }
     }
 
     private fun withViewModel() {

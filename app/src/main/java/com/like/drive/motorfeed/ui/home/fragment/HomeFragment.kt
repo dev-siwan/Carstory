@@ -89,9 +89,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initData() {
-        if (listAdapter.feedList.isEmpty()) {
-            feedVM.loadingStatus = LoadingStatus.INIT
-            feedVM.initDate()
+        if (feedVM.isFirstLoad) {
+
+            feedVM.run {
+                loadingStatus = LoadingStatus.INIT
+                feedVM.initDate(viewModel.feedType.value, viewModel.motorType.value)
+            }
         }
     }
 
