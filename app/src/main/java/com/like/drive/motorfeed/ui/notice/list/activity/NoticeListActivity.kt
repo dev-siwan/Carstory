@@ -67,7 +67,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
 
             val dividerItemDecoration =
                 DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(this@NoticeListActivity, R.drawable.divider_feed_list)
+                    ContextCompat.getDrawable(this@NoticeListActivity, R.drawable.divider_board_list)
                         ?.let {
                             setDrawable(it)
                         }

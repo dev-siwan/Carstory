@@ -11,7 +11,7 @@
 
         <variable
             name="feedVm"
-            type="com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel" />
+            type="com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel" />
 
         <import type="android.view.View" />
 
@@ -62,7 +62,7 @@
             android:visibility="@{feedVm.initEmpty &amp;&amp; !feedVm.isRefresh() &amp;&amp; !feedVm.isMore() &amp;&amp; !feedVm.isLoading()}"/>
 
         <include
-            layout="@layout/shimmer_feed_list"
+            layout="@layout/shimmer_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="@{feedVm.isLoading? View.VISIBLE : View.GONE}" />

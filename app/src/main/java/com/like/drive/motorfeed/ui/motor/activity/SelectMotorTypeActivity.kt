@@ -48,7 +48,7 @@ class SelectMotorTypeActivity : BaseActivity<ActivitySelectMotorTypeBinding>(R.l
 
     private fun MotorTypeViewModel.showBrandList(){
         motorTypeListBrand.observe(this@SelectMotorTypeActivity, Observer {
-            showListDialog(it.map {value -> value.brandName }.toTypedArray(),"브랜드 목록"){position->
+            showListDialog(it.map {value -> value.brandName }.toTypedArray(),getString(R.string.brand_list_title)){ position->
                 when(position){
                     0 -> getMotorTypeData()
                     else -> getBrandByList(it[position].brandCode)

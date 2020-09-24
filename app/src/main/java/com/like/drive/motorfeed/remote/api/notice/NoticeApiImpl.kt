@@ -1,14 +1,11 @@
 package com.like.drive.motorfeed.remote.api.notice
 
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.like.drive.motorfeed.data.notice.NoticeData
-import com.like.drive.motorfeed.remote.api.feed.FeedApiImpl
 import com.like.drive.motorfeed.remote.common.FireBaseTask
 import com.like.drive.motorfeed.remote.reference.CollectionName
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 import java.util.*
 
 class NoticeApiImpl(

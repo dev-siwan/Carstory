@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MotorFeed</string>
+    <string name="app_name">타소</string>
     <string name="app_name_kr">타소</string>
     <string name="blank_text">""</string>
     <string name="hyphen">-</string>
@@ -68,7 +68,7 @@
     <string name="feed_register">카테고리 선택</string>
     <string name="select_motor">자동차 모델 선택</string>
     <string name="select_motor_desc">찾으시는 모델이 없으신 경우 기타를 선택해주세요.</string>
-    <string name="select_motor_empty_desc"><![CDATA[찾으시는 모델이 없습니다 <br /><font color="#000000"><b>다시 한번 검색해보세요.</b></font>]]></string>
+    <string name="select_motor_empty_desc"><![CDATA[찾으시는 모델이 없습니다 <br /><font color="#000000"><b>현존하고 있는 모델이면\n문의사항에 남겨주세요.</b></font>]]></string>
     <string name="select_motor_brand"><![CDATA[* 브랜드별로 찾으시려면 <b>여기를 클릭해주세요.</b>]]></string>
     <string name="select_motor_search_box_hint">자동차 브랜드명 또는 자동차 모델 입력</string>
 
@@ -92,7 +92,7 @@
     <string name="error_not_load_image">이미지를 불러오지 못했습니다. 다시 시도해주세요.</string>
 
     <string name="upload_progress_img_format">이미지 업로드 중 %d/%d</string>
-    <string name="upload_progress_feed_update">피드를 업데이트 중 입니다.</string>
+    <string name="upload_progress_feed_update">글을 업데이트 중 입니다.</string>
 
     <string name="motorType_format_text">%s | %s</string>
     <string name="motorType_brand_all_format_text">브랜드: %s</string>
@@ -114,8 +114,8 @@
         이에 대한 트럼프 대통령의 반응은 그의 틱톡 공격이 국가안보 때문인지, 단순 협상 전략인지 가늠하게 해줄 것이라고 보도했다. 바이트댄스는 틱톡의 미국내 사업을 완전히 넘기는 안을 내놓은 뒤 마이크로소프트 외 다른 기업과의 협상 여지도 열어놨다고 통신은 전했다. 또 바이트댄스가 틱톡의 미국 사업을 매각하더라도 미국인 투자자들은 지분을 계속 유지할 수 있을 것이라고 는 전했다. 틱톡의 외부 투자자 중 약 70%가 미국인이다.
     </string>
 
-    <string name="denied_permission_storage">접근을 거부하여 사진을 추가할 수 없습니다. 허용을 원하시면 설정>모터피드에서 \'저장공간\'을 켜주세요</string>
-    <string name="denied_permission_camera">접근을 거부하여 사진을 추가할 수 없습니다. 허용을 원하시면 설정>모터피드에서 \'저장공간\'과 \'카메라\'를 켜주세요</string>
+    <string name="denied_permission_storage">접근을 거부하여 사진을 추가할 수 없습니다. 허용을 원하시면 설정>타소에서 \'저장공간\'을 켜주세요</string>
+    <string name="denied_permission_camera">접근을 거부하여 사진을 추가할 수 없습니다. 허용을 원하시면 설정>타소에서 \'저장공간\'과 \'카메라\'를 켜주세요</string>
     <string name="re_comment_text">답글 달기</string>
 
     <string name="profile_welcome_title">프로필을 작성해주세요</string>
@@ -124,12 +124,12 @@
     <string name="like_text">좋아요</string>
     <string name="like_format_text">좋아요 %d개</string>
     <string name="comment_text">댓글</string>
-    <string name="like_self_message">자신의 피드에 좋아요를 눌릴 수 없습니다.</string>
+    <string name="like_self_message">자신의 글에 좋아요를 눌릴 수 없습니다.</string>
 
     <string name="comment_add_error_message">댓글을 다는데 실패 하였습니다.</string>
     <string name="comment_update_error_message">댓글을 수정하는데 실패 하였습니다.</string>
     <string name="comment_remove_error_message">댓글을 삭제하는데 실패 하였습니다.</string>
-    <string name="feed_remove_error_message">피드를 삭제하는데 실패 하였습니다.</string>
+    <string name="feed_remove_error_message">글을 삭제하는데 실패 하였습니다.</string>
 
     <string name="feed_type_title_1">자유</string>
     <string name="feed_type_title_2">신차</string>
@@ -146,7 +146,7 @@
     <string name="feed_type_content_5">세차에 관련 된 정보를 적어주세요.</string>
     <string name="feed_type_content_6">자동차 사고 관련 된 정보를 적어주세요.</string>
     <string name="feed_type_content_7">교통 상황 및 교통 정보에 대해 적어주세요.</string>
-    <string name="feed_type_title">피드의 카테고리를 선택해주세요.</string>
+    <string name="feed_type_title">카테고리를 선택해주세요.</string>
     <string name="enrollment_text">등록</string>
     <string name="comment_hint">댓글을 남겨주세요.</string>
 
@@ -173,7 +173,7 @@
     <string name="photo_menu_show">크게보기</string>
     <string name="photo_menu_delete">삭제하기</string>
 
-    <string name="update_photo_desc">피드를 수정 할 때는 이미지를 수정 할 수 없습니다.\n해당 이미지를 선택하면 크게 볼 수 있습니다.</string>
+    <string name="update_photo_desc">글을 수정 할 때는 이미지를 수정 할 수 없습니다.\n해당 이미지를 선택하면 크게 볼 수 있습니다.</string>
     <string name="not_update_photo_desc">해당 이미지를 선택하면 삭제 또는 크게 볼 수 있습니다.</string>
 
     <string name="feed_list_filter_type">카테고리: %s</string>
@@ -190,7 +190,7 @@
     <string name="setting_complete">적용하기</string>
     <string name="home_search_tag_hint">#태그로 검색이 가능합니다</string>
     <string name="search_filter_complete">조건 검색 완료</string>
-    <string name="filter_not_message">카테고리와 모터종류를 통하여\n정보를 얻어보세요</string>
+    <string name="filter_not_message">카테고리와 차량을 통하여\n정보를 얻어보세요</string>
     <string name="filter_search_btn">필터로 글 찾기</string>
     <string name="search_tag_hint">태그로 입력하세요.</string>
     <string name="tag_warning_message">태그를 입력해주세요.</string>
@@ -258,6 +258,9 @@
     <string name="share_text">공유하기</string>
     <string name="notification_empty_message">알림이 없습니다.</string>
     <string name="filter_empty_list_message"><![CDATA[카테고리: <b>%s</b><br />차량종류: <b>%s</b><br />에 대한 글이 없습니다.]]></string>
+    <string name="brand_list_title">브랜드 목록</string>
+    <string name="re_filter_search">필터 재 설정하기</string>
+    <string name="filter_empty_upload_message"><![CDATA[*<u>현재 필터 조건으로 글쓰기</u>]]></string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
@@ -268,15 +271,5 @@
         <item>삭제하기</item>
         <item>크게보기</item>
     </string-array>
-
-    <string-array name="pick_feed_type">
-        <item>자유</item>
-        <item>신차</item>
-        <item>시승</item>
-        <item>세차</item>
-        <item>사고</item>
-        <item>교통</item>
-    </string-array>
-
 
 </resources>

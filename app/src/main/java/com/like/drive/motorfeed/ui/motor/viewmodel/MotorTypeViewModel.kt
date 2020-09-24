@@ -5,45 +5,42 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
+import com.like.drive.motorfeed.MotorFeedApplication
+import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.motor.MotorTypeRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 
-class MotorTypeViewModel(private val motorTypeRepository: MotorTypeRepository) :BaseViewModel(){
+class MotorTypeViewModel(private val motorTypeRepository: MotorTypeRepository) : BaseViewModel() {
 
     private val _motorTypeList = MutableLiveData<List<MotorTypeData>>()
-    val motorTypeList :LiveData<List<MotorTypeData>> get() = _motorTypeList
+    val motorTypeList: LiveData<List<MotorTypeData>> get() = _motorTypeList
 
     private val _motorTypeListBrand = MutableLiveData<List<MotorTypeData>>()
-    val motorTypeListBrand :LiveData<List<MotorTypeData>> get() = _motorTypeListBrand
+    val motorTypeListBrand: LiveData<List<MotorTypeData>> get() = _motorTypeListBrand
 
     val isSearchEmpty = ObservableBoolean()
-    var brandList = ArrayList<MotorTypeData>()
+    private var brandList = ArrayList<MotorTypeData>()
 
-    var clearSearch :Boolean = true
+    private var clearSearch: Boolean = true
 
     val motorTypeDataCallbackEvent = SingleLiveEvent<MotorTypeData>()
-
 
     init {
         getMotorTypeData()
     }
 
-     fun getMotorTypeData(){
+    fun getMotorTypeData() {
         viewModelScope.launch {
             setMotorTypeListValue(motorTypeRepository.getMotorTypeList())
         }
     }
 
     fun searchMotorType(keyword: Editable?) {
-        if(clearSearch) {
+        if (clearSearch) {
             keyword?.let {
                 viewModelScope.launch {
                     setMotorTypeListValue(motorTypeRepository.searchMotorTypeList(it.toString()))
@@ -52,32 +49,37 @@ class MotorTypeViewModel(private val motorTypeRepository: MotorTypeRepository) :
         }
     }
 
-    private fun setMotorTypeListValue(list:List<MotorTypeData>){
+    private fun setMotorTypeListValue(list: List<MotorTypeData>) {
         isSearchEmpty.set(list.isNullOrEmpty())
-        _motorTypeList.value =list
+        _motorTypeList.value = list
     }
 
     fun setMotorBrandListValue() {
         viewModelScope.launch {
             if (brandList.isEmpty()) {
-                brandList.add(MotorTypeData("전체"))
+                brandList.add(
+                    MotorTypeData(
+                        MotorFeedApplication.getContext().getString(R.string.all)
+                    )
+                )
                 brandList.addAll(
-                    motorTypeRepository.getMotorTypeList().distinctBy { motorTypeData -> motorTypeData.brandCode })
+                    motorTypeRepository.getMotorTypeList()
+                        .distinctBy { motorTypeData -> motorTypeData.brandCode })
             }
             _motorTypeListBrand.value = brandList
         }
     }
 
     fun getBrandByList(brandCode: Int) {
-        clearSearch=false
+        clearSearch = false
         viewModelScope.launch {
             setMotorTypeListValue(motorTypeRepository.brandCodeByList(brandCode))
             delay(100)
-            clearSearch=true
+            clearSearch = true
         }
     }
 
-    fun setData(data:MotorTypeData){
+    fun setData(data: MotorTypeData) {
         motorTypeDataCallbackEvent.value = data
     }
 

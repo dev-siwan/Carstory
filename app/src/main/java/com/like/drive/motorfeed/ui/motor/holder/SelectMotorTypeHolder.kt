@@ -7,11 +7,13 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.HolderSelectMotorTypeItemBinding
 import com.like.drive.motorfeed.ui.motor.viewmodel.MotorTypeViewModel
 
-class SelectMotorTypeHolder(val binding:HolderSelectMotorTypeItemBinding) :RecyclerView.ViewHolder(binding.root){
+class SelectMotorTypeHolder(val binding: HolderSelectMotorTypeItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(viewModel:MotorTypeViewModel,item:MotorTypeData){
+    fun bind(viewModel: MotorTypeViewModel, item: MotorTypeData) {
         binding.vm = viewModel
         binding.motorData = item
+        binding.executePendingBindings()
     }
 
     companion object {

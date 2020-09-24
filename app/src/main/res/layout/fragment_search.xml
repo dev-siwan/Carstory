@@ -23,7 +23,7 @@
 
         <variable
             name="feedVm"
-            type="com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel" />
+            type="com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel" />
     </data>
 
 

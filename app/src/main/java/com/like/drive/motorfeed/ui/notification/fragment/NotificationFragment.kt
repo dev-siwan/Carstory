@@ -9,13 +9,12 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.notification.NotificationType
 import com.like.drive.motorfeed.databinding.FragmentNotificationBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
-import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
+import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.motorfeed.ui.notification.adapter.NotificationAdapter
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_notification.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationFragment :
@@ -32,7 +31,7 @@ class NotificationFragment :
 
             val dividerItemDecoration =
                 DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
+                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_board_list)?.let {
                         setDrawable(it)
                     }
                 }
@@ -77,8 +76,8 @@ class NotificationFragment :
         clickItemEvent.observe(viewLifecycleOwner, Observer {
             when (it.notificationType) {
                 NotificationType.COMMENT.value, NotificationType.RE_COMMENT.value -> {
-                    startAct(FeedDetailActivity::class, Bundle().apply {
-                        putString(FeedDetailActivity.KEY_FEED_ID, it.fid)
+                    startAct(BoardDetailActivity::class, Bundle().apply {
+                        putString(BoardDetailActivity.KEY_BOARD_ID, it.fid)
                     })
                 }
             }

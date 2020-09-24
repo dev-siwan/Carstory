@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel" />
+            type="com.like.drive.motorfeed.ui.board.upload.viewmodel.UploadViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_100"
-        tools:context=".ui.feed.upload.activity.FeedUploadActivity">
+        tools:context=".ui.board.upload.activity.UploadActivity">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
@@ -56,7 +56,7 @@
                 android:drawablePadding="@dimen/activity_x_small_margin"
                 android:gravity="center_vertical"
                 android:onClick="@{()->vm.doClickEvent(vm.showFeedItemPage)}"
-                android:text="@{vm.feedTypeData !=null? vm.feedTypeData.title : @string/feed_register}"
+                android:text="@{vm.categoryData !=null? vm.categoryData.title : @string/feed_register}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
                 android:textStyle="bold"

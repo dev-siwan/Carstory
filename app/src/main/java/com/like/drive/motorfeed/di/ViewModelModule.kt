@@ -1,8 +1,8 @@
 package com.like.drive.motorfeed.di
 
-import com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel
-import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
-import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
+import com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel
+import com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel
+import com.like.drive.motorfeed.ui.board.upload.viewmodel.UploadViewModel
 import com.like.drive.motorfeed.ui.filter.viewmodel.FilterViewModel
 import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
@@ -31,10 +31,10 @@ val viewModelModule = module {
     viewModel { HomeViewModel() }
     viewModel { MotorTypeViewModel(get()) }
     viewModel { GalleryViewModel() }
-    viewModel { FeedUploadViewModel(get()) }
-    viewModel { FeedDetailViewModel(get()) }
+    viewModel { UploadViewModel(get()) }
+    viewModel { BoardDetailViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
-    viewModel { FeedListViewModel(get()) }
+    viewModel { ListViewModel(get()) }
     viewModel { LargeThanViewModel() }
     viewModel { SearchViewModel() }
     viewModel { FilterViewModel() }

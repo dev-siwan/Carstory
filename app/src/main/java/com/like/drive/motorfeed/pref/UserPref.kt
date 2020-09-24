@@ -2,12 +2,11 @@ package com.like.drive.motorfeed.pref
 
 import android.app.Application
 import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.like.drive.motorfeed.data.user.UserData
-import com.like.drive.motorfeed.data.user.UserFilter
 import com.like.drive.motorfeed.pref.util.ModelPreferencesManager
 import com.like.drive.motorfeed.ui.search.data.RecentlyData
 
@@ -40,22 +39,22 @@ class UserPref(application: Application) {
             modelPref.put(value, USER_INFO)
         }
 
-    var recentlyData:ArrayList<RecentlyData>
+    var recentlyData: ArrayList<RecentlyData>
         get() {
 
-            val jsonPref = preferences.getString(RECENTLY_LIST,"")
+            val jsonPref = preferences.getString(RECENTLY_LIST, "")
 
-            return if(jsonPref.isNullOrEmpty()){
+            return if (jsonPref.isNullOrEmpty()) {
                 ArrayList()
-            }else{
-                val type = object :TypeToken<ArrayList<RecentlyData>>(){}.type
-                Gson().fromJson(jsonPref,type)
+            } else {
+                val type = object : TypeToken<ArrayList<RecentlyData>>() {}.type
+                Gson().fromJson(jsonPref, type)
 
             }
         }
         set(value) {
             val tagList = Gson().toJson(value)
-            preferences.edit { putString(RECENTLY_LIST,tagList) }
+            preferences.edit { putString(RECENTLY_LIST, tagList) }
         }
 
     fun removeUserInfo() {
@@ -67,8 +66,7 @@ class UserPref(application: Application) {
         const val USER_INFO = "USER_INFO_KEY"
         const val FCM_TOKEN = "FCM_TOKEN"
         const val IS_SEND_FCM_TOKEN = "IS_SEND_FCM_TOKEN"
-        const val FEED_TYPE = "USER_FILTER"
         const val RECENTLY_LIST = "RECENTLY_LIST"
-        const val NOTICE_TOPIC="NOTICE_TOPIC"
+        const val NOTICE_TOPIC = "NOTICE_TOPIC"
     }
 }

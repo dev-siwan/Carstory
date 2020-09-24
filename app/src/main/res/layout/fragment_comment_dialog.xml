@@ -7,11 +7,11 @@
 
         <variable
             name="commentFragmentExtra"
-            type="com.like.drive.motorfeed.ui.feed.data.CommentFragmentExtra" />
+            type="com.like.drive.motorfeed.ui.board.data.CommentFragmentExtra" />
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel" />
+            type="com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel" />
 
         <import type="android.view.View" />
     </data>

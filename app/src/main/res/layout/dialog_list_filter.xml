@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="feedType"
+            type="com.like.drive.motorfeed.ui.board.category.data.CategoryData" />
+        <variable
+            name="motorType"
+            type="com.like.drive.motorfeed.data.motor.MotorTypeData" />
+
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.filter.viewmodel.FilterViewModel"/>
+    </data>
+    
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/containerFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.filter.dialog.ListFilterDialog"
+    android:background="@android:color/transparent">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/black">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feed_filter_title"
+        android:layout_gravity="top|start"
+        android:textSize="@dimen/large_text_size"
+        android:textColor="@color/white_100"/>
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@drawable/rect_solid_white_bottom_conner">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white_100"
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:padding="@dimen/activity_vertical_margin"
+            app:filterCategory="@{feedType}"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{()->vm.doClickEvent(vm.filterCategoryClickEvent)}"
+            tools:text="@string/filter_feed_type_desc"/>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/light_gery_1"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/tvCategory"/>
+
+        <TextView
+            android:id="@+id/tvMotorType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white_100"
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:padding="@dimen/activity_vertical_margin"
+            app:filterMotorType="@{motorType}"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            android:onClick="@{()->vm.doClickEvent(vm.filterMotorTypeClickEvent)}"
+            tools:text="@string/filter_motor_type_desc" />
+
+        <Button
+            android:id="@+id/btnComplete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_complete"
+            app:layout_constraintTop_toBottomOf="@id/tvMotorType"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textSize="@dimen/normal_text_size"
+            android:enabled="@{feedType != vm.feedType || motorType!= vm.motorType }"
+            android:textColor="@color/btn_text_enable_color"
+            android:background="@drawable/enable_button_rect_true_solid_black_false_light_grey3_conner"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

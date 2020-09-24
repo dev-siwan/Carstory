@@ -4,13 +4,13 @@ import android.view.ViewGroup
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.DialogUploadProgressBinding
 import com.like.drive.motorfeed.ui.base.BaseFragmentDialog
-import com.like.drive.motorfeed.ui.feed.upload.viewmodel.FeedUploadViewModel
+import com.like.drive.motorfeed.ui.board.upload.viewmodel.UploadViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class UploadProgressDialog: BaseFragmentDialog<DialogUploadProgressBinding>(R.layout.dialog_upload_progress){
 
-    private val viewModelFeed : FeedUploadViewModel by sharedViewModel()
+    private val viewModel : UploadViewModel by sharedViewModel()
 
     override fun onStart() {
         super.onStart()
@@ -31,7 +31,7 @@ class UploadProgressDialog: BaseFragmentDialog<DialogUploadProgressBinding>(R.la
     override fun onBind(dataBinding: DialogUploadProgressBinding) {
         super.onBind(dataBinding)
 
-        dataBinding.vm = viewModelFeed
+        dataBinding.vm = viewModel
     }
 
 }

@@ -2,9 +2,7 @@ package com.like.drive.motorfeed.ui.notice.list.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.like.drive.motorfeed.data.feed.FeedData
 import com.like.drive.motorfeed.data.notice.NoticeData
-import com.like.drive.motorfeed.ui.home.adapter.HomeFeedAdapter
 import com.like.drive.motorfeed.ui.notice.list.holder.NoticeListViewHolder
 import com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel
 

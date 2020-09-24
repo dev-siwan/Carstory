@@ -1,10 +1,8 @@
 package com.like.drive.motorfeed.ui.base.binder
 
-import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.databinding.BindingAdapter

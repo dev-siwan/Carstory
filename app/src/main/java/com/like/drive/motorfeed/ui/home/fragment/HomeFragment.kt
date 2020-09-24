@@ -4,13 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
-import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.FragmentHomeBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
@@ -19,31 +18,29 @@ import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.common.data.LoadingStatus
-import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
-import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
-import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
-import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
-import com.like.drive.motorfeed.ui.feed.type.data.getFeedTypeList
-import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
-import com.like.drive.motorfeed.ui.filter.dialog.FeedListFilterDialog
+import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
+import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
+import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
+import com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel
+import com.like.drive.motorfeed.ui.board.category.data.CategoryData
+import com.like.drive.motorfeed.ui.board.category.data.getCategoryList
+import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
+import com.like.drive.motorfeed.ui.filter.dialog.ListFilterDialog
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_home_filter.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     val viewModel: HomeViewModel by viewModel()
-    private val feedVM: FeedListViewModel by viewModel()
-    private val listAdapter by lazy { FeedListAdapter(vm = feedVM) }
+    private val VM: ListViewModel by viewModel()
+    private val listAdapter by lazy { BoardListAdapter(vm = VM) }
     private val filterDialog by lazy {
-        FeedListFilterDialog.newInstance(
+        ListFilterDialog.newInstance(
             feedTypeData = viewModel.feedType.value,
             motorTypeData = viewModel.motorType.value
         )
@@ -51,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
-        dataBinding.feedVm = feedVM
+        dataBinding.feedVm = VM
         dataBinding.vm = viewModel
         dataBinding.rvFeedList.adapter = listAdapter
     }
@@ -69,7 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
             val dividerItemDecoration =
                 DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
+                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_board_list)?.let {
                         setDrawable(it)
                     }
                 }
@@ -78,8 +75,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         swipeLayout.setOnRefreshListener {
-            feedVM.loadingStatus = LoadingStatus.REFRESH
-            feedVM.initDate(viewModel.feedType.value, viewModel.motorType.value)
+            VM.loadingStatus = LoadingStatus.REFRESH
+            VM.initDate(viewModel.feedType.value, viewModel.motorType.value)
         }
 
         setOnItemClick()
@@ -89,7 +86,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         btnFilterSearch.setOnClickListener {
             filterDialog.apply {
                 setFilter = { feedType, motorType ->
-                    viewModel.setFilter(feedType, motorType)
+                    this@HomeFragment.viewModel.setFilterData(feedType, motorType)
                     dismiss()
                 }
             }.show(requireActivity().supportFragmentManager, "")
@@ -98,8 +95,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun setOnItemClick() {
 
-        tvFeedType.setOnClickListener {
-            showFeedTypeList()
+        tvCategory.setOnClickListener {
+            showCategoryList()
         }
 
         tvMotorType.setOnClickListener {
@@ -108,11 +105,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initData() {
-        if (feedVM.isFirstLoad) {
+        if (VM.isFirstLoad) {
 
-            feedVM.run {
+            VM.run {
                 loadingStatus = LoadingStatus.INIT
-                feedVM.initDate(viewModel.feedType.value, viewModel.motorType.value)
+                VM.initDate(viewModel.feedType.value, viewModel.motorType.value)
             }
         }
     }
@@ -121,7 +118,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         withPaging(object : PagingCallback {
             override fun requestMoreList() {
 
-                with(feedVM) {
+                with(VM) {
                     if (!getLastDate()) {
                         feedList.value?.lastOrNull()?.let {
                             moreData(
@@ -143,7 +140,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             setFilter()
         }
 
-        with(feedVM) {
+        with(VM) {
             completeFeedList()
             pageToDetailAct()
             initEmpty()
@@ -156,7 +153,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    private fun FeedListViewModel.completeFeedList() {
+    private fun ListViewModel.completeFeedList() {
         feedList.observe(viewLifecycleOwner, Observer {
             listAdapter.run {
                 if (isFirst) {
@@ -168,35 +165,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    private fun FeedListViewModel.initEmpty() {
+    private fun ListViewModel.initEmpty() {
 
         initEmpty.observe(viewLifecycleOwner, Observer {
-
             appBar.setExpanded(!it)
         })
 
     }
 
-    private fun FeedListViewModel.pageToDetailAct() {
+    private fun ListViewModel.pageToDetailAct() {
         feedItemClickEvent.observe(viewLifecycleOwner, Observer {
             startForResult(
-                FeedDetailActivity::class,
-                FeedListActivity.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
-                    putString(FeedDetailActivity.KEY_FEED_ID, it)
+                BoardDetailActivity::class,
+                BoardListActivity.BOARD_LIST_TO_DETAIL_REQ, Bundle().apply {
+                    putString(BoardDetailActivity.KEY_BOARD_ID, it)
                 })
         })
     }
 
     private fun HomeViewModel.setFilter() {
         setFilterEvent.observe(viewLifecycleOwner, Observer {
-            feedVM.loadingStatus = LoadingStatus.INIT
-            feedVM.initDate(motorTypeData = it.motorType, feedTypeData = it.feedType)
+            VM.loadingStatus = LoadingStatus.INIT
+            VM.initDate(motorTypeData = it.motorType, categoryData = it.feedType)
         })
     }
 
-    private fun showFeedTypeList() {
-        getFeedTypeList(requireContext()).toMutableList().apply {
-            add(0, FeedTypeData(getString(R.string.all), "", 0))
+    private fun showCategoryList() {
+        getCategoryList(requireContext()).toMutableList().apply {
+            add(0, CategoryData(getString(R.string.all), "", 0))
         }.let {
             requireActivity().showListDialog(it.map { data -> data.title }
                 .toTypedArray()) { position ->
@@ -217,20 +213,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            FeedListActivity.FEED_LIST_TO_DETAIL_REQ -> {
+            BoardListActivity.BOARD_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
-                    FeedDetailActivity.FEED_UPLOAD_RES_CODE -> {
-                        data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                    BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
+                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)?.let {
                             listAdapter.updateFeed(it)
                         }
                     }
-                    FeedDetailActivity.FEED_REMOVE_RES_CODE -> {
-                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                    BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
+                        data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
                             listAdapter.removeFeed(it)
                         }
                     }
-                    FeedDetailActivity.FEED_NOT_FOUND_RES_CODE -> {
-                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                    BoardDetailActivity.BOARD_NOT_FOUND_RES_CODE -> {
+                        data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
                             listAdapter.removeFeed(it)
                         }
                     }
@@ -240,7 +236,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             MainActivity.UPLOAD_FEED_REQ -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
-                        data?.getParcelableExtra<FeedData>(FeedUploadActivity.FEED_CREATE_KEY)
+                        data?.getParcelableExtra<BoardData>(UploadActivity.BOARD_CREATE_KEY)
                             ?.let {
                                 listAdapter.run {
                                     addFeed(it)

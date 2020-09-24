@@ -5,11 +5,11 @@
 
         <variable
             name="feedData"
-            type="com.like.drive.motorfeed.data.feed.FeedData" />
+            type="com.like.drive.motorfeed.data.board.BoardData" />
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.feed.detail.viewmodel.FeedDetailViewModel" />
+            type="com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

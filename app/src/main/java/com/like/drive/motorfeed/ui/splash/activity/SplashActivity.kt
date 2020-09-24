@@ -1,16 +1,10 @@
 package com.like.drive.motorfeed.ui.splash.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.google.firebase.perf.internal.RemoteConfigManager
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
-import com.google.firebase.remoteconfig.ktx.get
-import com.like.drive.motorfeed.BuildConfig
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.databinding.ActivitySplashBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
-import com.like.drive.motorfeed.ui.base.ext.showLongToast
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
@@ -44,7 +38,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun SplashViewModel.complete(){
         completeEvent.observe(this@SplashActivity, Observer {
             when(it){
-                SplashCompleteType.FEED->moveToActivity(MainActivity::class)
+                SplashCompleteType.HOME->moveToActivity(MainActivity::class)
                 else-> moveToActivity(SignInActivity::class)
             }
         })

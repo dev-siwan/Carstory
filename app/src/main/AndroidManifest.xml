@@ -39,11 +39,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.feed.list.activity.FeedListActivity"
+            android:name=".ui.board.list.activity.BoardListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.feed.comment.activity.FeedCommentActivity"
+            android:name=".ui.board.comment.activity.FeedCommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
@@ -51,7 +51,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.feed.detail.activity.FeedDetailActivity"
+            android:name=".ui.board.detail.activity.BoardDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
@@ -63,7 +63,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.feed.upload.activity.FeedUploadActivity"
+            android:name=".ui.board.upload.activity.UploadActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity

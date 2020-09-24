@@ -49,22 +49,6 @@
             app:layout_constraintStart_toStartOf="@id/glStartMargin"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
-            android:id="@+id/tvDesc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_small_margin"
-            android:text="@string/select_motor_desc"
-            android:textColor="@color/grey_4"
-            android:textSize="@dimen/small_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/glEndMargin"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@id/glStartMargin"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSearchBox"
             android:layout_width="0dp"
@@ -73,7 +57,7 @@
             android:background="@drawable/rect_stork_black"
             app:layout_constraintEnd_toEndOf="@id/glEndMargin"
             app:layout_constraintStart_toStartOf="@id/glStartMargin"
-            app:layout_constraintTop_toBottomOf="@id/tvDesc">
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etSearchBox"

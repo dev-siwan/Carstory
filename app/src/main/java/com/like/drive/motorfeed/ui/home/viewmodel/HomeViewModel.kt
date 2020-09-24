@@ -5,8 +5,7 @@ import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.user.UserFilter
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
-import org.koin.core.KoinComponent
+import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 
 class HomeViewModel : BaseViewModel() {
 
@@ -14,10 +13,10 @@ class HomeViewModel : BaseViewModel() {
 
     val setFilterEvent = SingleLiveEvent<UserFilter>()
 
-    val feedType = MutableLiveData<FeedTypeData>()
+    val feedType = MutableLiveData<CategoryData>()
     val motorType = MutableLiveData<MotorTypeData>()
 
-    fun setFilterData(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
+    fun setFilterData(feedTypeData: CategoryData?, motorTypeData: MotorTypeData?) {
 
         val motorType: MotorTypeData? = if (motorTypeData?.brandCode == 0) {
             null
@@ -25,7 +24,7 @@ class HomeViewModel : BaseViewModel() {
             motorTypeData
         }
 
-        val feedType: FeedTypeData? = if (feedTypeData?.typeCode == 0) {
+        val feedType: CategoryData? = if (feedTypeData?.typeCode == 0) {
             null
         } else {
             feedTypeData

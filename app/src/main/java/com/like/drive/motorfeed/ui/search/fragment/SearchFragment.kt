@@ -25,7 +25,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.google.android.gms.ads.*
 import com.like.drive.motorfeed.R
-import com.like.drive.motorfeed.data.feed.FeedData
+import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
@@ -33,10 +33,10 @@ import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.common.data.LoadingStatus
-import com.like.drive.motorfeed.ui.feed.detail.activity.FeedDetailActivity
-import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
-import com.like.drive.motorfeed.ui.feed.list.adapter.FeedListAdapter
-import com.like.drive.motorfeed.ui.feed.list.viewmodel.FeedListViewModel
+import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
+import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
+import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
+import com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
@@ -50,8 +50,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModel()
-    private val feedListViewModel: FeedListViewModel by viewModel()
-    private val feedAdapter by lazy { FeedListAdapter(feedListViewModel) }
+    private val listViewModel: ListViewModel by viewModel()
+    private val feedAdapter by lazy { BoardListAdapter(listViewModel) }
     private val editFocusListener by lazy {
         View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -91,7 +91,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
         dataBinding.vm = viewModel
-        dataBinding.feedVm = feedListViewModel
+        dataBinding.feedVm = listViewModel
         dataBinding.incSearchList.rvFeed.adapter = feedAdapter
         dataBinding.incRecentlyList.rvRecently.adapter = RecentlyListAdapter(viewModel)
 
@@ -144,7 +144,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         withPaging(object : PagingCallback {
             override fun requestMoreList() {
 
-                with(feedListViewModel) {
+                with(listViewModel) {
                     if (!getLastDate()) {
                         feedList.value?.lastOrNull()?.createDate?.let {
                             moreData(it)
@@ -159,7 +159,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
+                ContextCompat.getDrawable(requireContext(), R.drawable.divider_board_list)?.let {
                     setDrawable(it)
                 }
             }
@@ -185,8 +185,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SwipeRefreshLayout.listener() {
         setOnRefreshListener {
-            feedListViewModel.loadingStatus = LoadingStatus.REFRESH
-            feedListViewModel.initDate(tagQuery = viewModel.tag.value)
+            listViewModel.loadingStatus = LoadingStatus.REFRESH
+            listViewModel.initDate(tagQuery = viewModel.tag.value)
         }
     }
 
@@ -195,7 +195,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             searchComplete()
             tagNullBlankWarningMessage()
         }
-        with(feedListViewModel) {
+        with(listViewModel) {
             listComplete()
             pageToDetailAct()
         }
@@ -203,8 +203,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
-            feedListViewModel.loadingStatus = LoadingStatus.INIT
-            feedListViewModel.initDate(tagQuery = it)
+            listViewModel.loadingStatus = LoadingStatus.INIT
+            listViewModel.initDate(tagQuery = it)
             goneSearchView()
         })
     }
@@ -215,7 +215,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         })
     }
 
-    private fun FeedListViewModel.listComplete() {
+    private fun ListViewModel.listComplete() {
         feedList.observe(viewLifecycleOwner, Observer {
 
             feedAdapter.run {
@@ -270,12 +270,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         viewModel.isSearchStatus.set(false)
     }
 
-    private fun FeedListViewModel.pageToDetailAct() {
+    private fun ListViewModel.pageToDetailAct() {
         feedItemClickEvent.observe(viewLifecycleOwner, Observer {
             startForResult(
-                FeedDetailActivity::class,
-                FeedListActivity.FEED_LIST_TO_DETAIL_REQ, Bundle().apply {
-                    putString(FeedDetailActivity.KEY_FEED_ID, it)
+                BoardDetailActivity::class,
+                BoardListActivity.BOARD_LIST_TO_DETAIL_REQ, Bundle().apply {
+                    putString(BoardDetailActivity.KEY_BOARD_ID, it)
                 })
         })
     }
@@ -284,20 +284,20 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            FeedListActivity.FEED_LIST_TO_DETAIL_REQ -> {
+            BoardListActivity.BOARD_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
-                    FeedDetailActivity.FEED_UPLOAD_RES_CODE -> {
-                        data?.getParcelableExtra<FeedData>(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                    BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
+                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)?.let {
                             feedAdapter.updateFeed(it)
                         }
                     }
-                    FeedDetailActivity.FEED_REMOVE_RES_CODE -> {
-                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                    BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
+                        data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
                             feedAdapter.removeFeed(it)
                         }
                     }
-                    FeedDetailActivity.FEED_NOT_FOUND_RES_CODE -> {
-                        data?.getStringExtra(FeedDetailActivity.KEY_FEED_DATA)?.let {
+                    BoardDetailActivity.BOARD_NOT_FOUND_RES_CODE -> {
+                        data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
                             feedAdapter.removeFeed(it)
                         }
                     }

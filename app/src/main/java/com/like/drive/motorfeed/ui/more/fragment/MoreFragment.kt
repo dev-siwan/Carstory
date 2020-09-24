@@ -13,7 +13,7 @@ import com.like.drive.motorfeed.ui.base.binder.setProfileImg
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.dialog.AlertDialog
-import com.like.drive.motorfeed.ui.feed.list.activity.FeedListActivity
+import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
 import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
 import com.like.drive.motorfeed.ui.notice.list.activity.NoticeListActivity
 import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
@@ -40,8 +40,8 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
             startActForResult(ProfileActivity::class, RequestDefine.TO_PROFILE_ACTIVITY)
         }
         dataBinding.containerMyFeed.containerMoreItem.setOnClickListener {
-            startAct(FeedListActivity::class, Bundle().apply {
-                putParcelable(FeedListActivity.FEED_DATE_KEY, UserInfo.userInfo)
+            startAct(BoardListActivity::class, Bundle().apply {
+                putParcelable(BoardListActivity.BOARD_DATE_KEY, UserInfo.userInfo)
             })
         }
         dataBinding.containerPasswordReset.containerMoreItem.setOnClickListener {

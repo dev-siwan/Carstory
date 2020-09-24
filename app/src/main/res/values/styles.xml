@@ -27,7 +27,7 @@
         <item name="android:windowExitAnimation">@anim/filter_close</item>
     </style>
 
-    <style name="AnimationFeedTypeStyle">
+    <style name="AnimationCategoryStyle">
         <item name="android:windowEnterAnimation">@anim/type_open</item>
         <item name="android:windowExitAnimation">@anim/type_close</item>
     </style>

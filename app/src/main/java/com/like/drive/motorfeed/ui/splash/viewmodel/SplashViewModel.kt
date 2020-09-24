@@ -65,7 +65,7 @@ class SplashViewModel(
                 userRepository.getUser(
                     success = {
                         UserInfo.userInfo?.nickName?.let {
-                            setCompleteEvent(SplashCompleteType.FEED)
+                            setCompleteEvent(SplashCompleteType.HOME)
                         } ?: emptyNickNameEvent.call()
                     }, fail = {
                         setErrorEvent(SplashErrorType.USER_ERROR)
@@ -96,5 +96,5 @@ enum class SplashErrorType {
 }
 
 enum class SplashCompleteType {
-    LOGIN, FEED
+    LOGIN, HOME
 }

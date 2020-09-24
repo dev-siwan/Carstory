@@ -4,19 +4,19 @@ import androidx.lifecycle.MutableLiveData
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
+import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 
 class FilterViewModel : BaseViewModel() {
 
-    val filterFeedTypeClickEvent = SingleLiveEvent<Unit>()
+    val filterCategoryClickEvent = SingleLiveEvent<Unit>()
     val filterMotorTypeClickEvent = SingleLiveEvent<Unit>()
 
-    val feedType = MutableLiveData<FeedTypeData>()
+    val feedType = MutableLiveData<CategoryData>()
     val motorType = MutableLiveData<MotorTypeData>()
 
     val motorTypeEvent = SingleLiveEvent<MotorTypeData>()
 
-    fun setFilter(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
+    fun setFilter(feedTypeData: CategoryData?, motorTypeData: MotorTypeData?) {
         feedType.value = feedTypeData
         motorType.value = motorTypeData
     }

@@ -14,7 +14,7 @@ import com.like.drive.motorfeed.common.define.FirebaseDefine
 import com.like.drive.motorfeed.databinding.ActivityMainBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.*
-import com.like.drive.motorfeed.ui.feed.upload.activity.FeedUploadActivity
+import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
 import com.like.drive.motorfeed.ui.home.fragment.HomeFragment
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
@@ -65,7 +65,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun MainViewModel.moveToUploadPage() {
         uploadClickEvent.observe(this@MainActivity, Observer {
-            startActForResult(FeedUploadActivity::class, UPLOAD_FEED_REQ)
+            startActForResult(UploadActivity::class, UPLOAD_FEED_REQ)
         })
     }
 
