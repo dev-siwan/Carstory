@@ -308,7 +308,12 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
             val isLike = !it
 
             setLikeCount(isLike) {
-                viewModelScope.launch { feedRepository.setLike(fid, isLike) }
+                viewModelScope.launch {
+                    feedRepository.setLike(
+                        fid,
+                        isLike
+                    )
+                }
             }
             isLikeEnable.set(isLike)
         }

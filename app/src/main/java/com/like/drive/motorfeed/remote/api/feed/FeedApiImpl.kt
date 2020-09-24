@@ -142,21 +142,13 @@ class FeedApiImpl(
     override suspend fun updateCount(fid: String, flag: FeedCountEnum) {
         val document = fireStore.collection(CollectionName.FEED).document(fid)
         when (flag) {
-            FeedCountEnum.ADD_COMMENT -> {
-                document.update(COMMENT_COUNT_FIELD, FieldValue.increment(1))
-            }
-            FeedCountEnum.DELETE_COMMENT -> {
-                document.update(COMMENT_COUNT_FIELD, FieldValue.increment(-1))
-            }
             FeedCountEnum.LIKE -> {
                 document.update(LIKE_COUNT_FIELD, FieldValue.increment(1))
             }
             FeedCountEnum.UNLIKE -> {
                 document.update(LIKE_COUNT_FIELD, FieldValue.increment(-1))
             }
-            FeedCountEnum.VIEW -> {
-                document.update(VIEW_COUNT_FIELD, FieldValue.increment(1))
-            }
+            else -> Unit
         }
 
     }
@@ -206,9 +198,7 @@ class FeedApiImpl(
     }
 
     companion object {
-        const val COMMENT_COUNT_FIELD = "commentCount"
         const val LIKE_COUNT_FIELD = "likeCount"
-        const val VIEW_COUNT_FIELD = "viewCount"
         const val BRAND_CODE_FIELD = "brandCode"
         const val MODE_CODE_FIELD = "modelCode"
         const val FEED_TYPE_CODE_FIELD = "feedTypeCode"
