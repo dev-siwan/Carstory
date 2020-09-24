@@ -17,7 +17,7 @@ import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
-import com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel
+import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
 import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
@@ -26,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activity_board_list) {
 
-    private val viewModel: ListViewModel by viewModel()
+    private val viewModel: BoardListViewModel by viewModel()
     private val boardListAdapter by lazy { BoardListAdapter(viewModel) }
     private var uid: String? = null
 
@@ -110,7 +110,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
 
     }
 
-    private fun ListViewModel.completeFeedList() {
+    private fun BoardListViewModel.completeFeedList() {
         feedList.observe(this@BoardListActivity, Observer {
             boardListAdapter.run {
                 if (isFirst) {
@@ -122,7 +122,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
         })
     }
 
-    private fun ListViewModel.pageToDetailAct() {
+    private fun BoardListViewModel.pageToDetailAct() {
         feedItemClickEvent.observe(this@BoardListActivity, Observer {
             startActForResult(BoardDetailActivity::class, BOARD_LIST_TO_DETAIL_REQ, Bundle().apply {
                 putString(BoardDetailActivity.KEY_BOARD_ID, it)

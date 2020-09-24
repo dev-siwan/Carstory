@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ListViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
+class BoardListViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
 
     val feedList = SingleLiveEvent<List<BoardData>>()
 

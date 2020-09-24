@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.databinding.HolderListBinding
-import com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel
+import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
 
 class ListViewHolder(val binding: HolderListBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(vm: ListViewModel, boardData: BoardData) {
+    fun bind(vm: BoardListViewModel, boardData: BoardData) {
         binding.vm = vm
         binding.data = boardData
         binding.executePendingBindings()

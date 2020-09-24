@@ -11,7 +11,7 @@
 
         <variable
             name="feedVm"
-            type="com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel" />
+            type="com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel" />
 
         <import type="android.view.View" />
 

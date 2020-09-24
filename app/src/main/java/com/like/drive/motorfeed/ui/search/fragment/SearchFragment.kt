@@ -36,7 +36,7 @@ import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
 import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
-import com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel
+import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
@@ -50,8 +50,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModel()
-    private val listViewModel: ListViewModel by viewModel()
-    private val feedAdapter by lazy { BoardListAdapter(listViewModel) }
+    private val boardListViewModel: BoardListViewModel by viewModel()
+    private val feedAdapter by lazy { BoardListAdapter(boardListViewModel) }
     private val editFocusListener by lazy {
         View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -91,7 +91,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     override fun onBind(dataBinding: FragmentSearchBinding) {
         super.onBind(dataBinding)
         dataBinding.vm = viewModel
-        dataBinding.feedVm = listViewModel
+        dataBinding.feedVm = boardListViewModel
         dataBinding.incSearchList.rvFeed.adapter = feedAdapter
         dataBinding.incRecentlyList.rvRecently.adapter = RecentlyListAdapter(viewModel)
 
@@ -144,7 +144,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         withPaging(object : PagingCallback {
             override fun requestMoreList() {
 
-                with(listViewModel) {
+                with(boardListViewModel) {
                     if (!getLastDate()) {
                         feedList.value?.lastOrNull()?.createDate?.let {
                             moreData(it)
@@ -185,8 +185,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SwipeRefreshLayout.listener() {
         setOnRefreshListener {
-            listViewModel.loadingStatus = LoadingStatus.REFRESH
-            listViewModel.initDate(tagQuery = viewModel.tag.value)
+            boardListViewModel.loadingStatus = LoadingStatus.REFRESH
+            boardListViewModel.initDate(tagQuery = viewModel.tag.value)
         }
     }
 
@@ -195,7 +195,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             searchComplete()
             tagNullBlankWarningMessage()
         }
-        with(listViewModel) {
+        with(boardListViewModel) {
             listComplete()
             pageToDetailAct()
         }
@@ -203,8 +203,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
-            listViewModel.loadingStatus = LoadingStatus.INIT
-            listViewModel.initDate(tagQuery = it)
+            boardListViewModel.loadingStatus = LoadingStatus.INIT
+            boardListViewModel.initDate(tagQuery = it)
             goneSearchView()
         })
     }
@@ -215,7 +215,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         })
     }
 
-    private fun ListViewModel.listComplete() {
+    private fun BoardListViewModel.listComplete() {
         feedList.observe(viewLifecycleOwner, Observer {
 
             feedAdapter.run {
@@ -270,7 +270,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         viewModel.isSearchStatus.set(false)
     }
 
-    private fun ListViewModel.pageToDetailAct() {
+    private fun BoardListViewModel.pageToDetailAct() {
         feedItemClickEvent.observe(viewLifecycleOwner, Observer {
             startForResult(
                 BoardDetailActivity::class,

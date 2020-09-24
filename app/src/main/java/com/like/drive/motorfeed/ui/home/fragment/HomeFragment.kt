@@ -21,7 +21,7 @@ import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
 import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
-import com.like.drive.motorfeed.ui.board.list.viewmodel.ListViewModel
+import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
 import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 import com.like.drive.motorfeed.ui.board.category.data.getCategoryList
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
@@ -37,8 +37,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     val viewModel: HomeViewModel by viewModel()
-    private val VM: ListViewModel by viewModel()
-    private val listAdapter by lazy { BoardListAdapter(vm = VM) }
+    private val boardListViewModel: BoardListViewModel by viewModel()
+    private val listAdapter by lazy { BoardListAdapter(vm = boardListViewModel) }
     private val filterDialog by lazy {
         ListFilterDialog.newInstance(
             feedTypeData = viewModel.feedType.value,
@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
-        dataBinding.feedVm = VM
+        dataBinding.feedVm = boardListViewModel
         dataBinding.vm = viewModel
         dataBinding.rvFeedList.adapter = listAdapter
     }
@@ -75,8 +75,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         swipeLayout.setOnRefreshListener {
-            VM.loadingStatus = LoadingStatus.REFRESH
-            VM.initDate(viewModel.feedType.value, viewModel.motorType.value)
+            boardListViewModel.loadingStatus = LoadingStatus.REFRESH
+            boardListViewModel.initDate(viewModel.feedType.value, viewModel.motorType.value)
         }
 
         setOnItemClick()
@@ -105,11 +105,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initData() {
-        if (VM.isFirstLoad) {
+        if (boardListViewModel.isFirstLoad) {
 
-            VM.run {
+            boardListViewModel.run {
                 loadingStatus = LoadingStatus.INIT
-                VM.initDate(viewModel.feedType.value, viewModel.motorType.value)
+                boardListViewModel.initDate(viewModel.feedType.value, viewModel.motorType.value)
             }
         }
     }
@@ -118,7 +118,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         withPaging(object : PagingCallback {
             override fun requestMoreList() {
 
-                with(VM) {
+                with(boardListViewModel) {
                     if (!getLastDate()) {
                         feedList.value?.lastOrNull()?.let {
                             moreData(
@@ -140,7 +140,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             setFilter()
         }
 
-        with(VM) {
+        with(boardListViewModel) {
             completeFeedList()
             pageToDetailAct()
             initEmpty()
@@ -153,7 +153,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    private fun ListViewModel.completeFeedList() {
+    private fun BoardListViewModel.completeFeedList() {
         feedList.observe(viewLifecycleOwner, Observer {
             listAdapter.run {
                 if (isFirst) {
@@ -165,7 +165,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    private fun ListViewModel.initEmpty() {
+    private fun BoardListViewModel.initEmpty() {
 
         initEmpty.observe(viewLifecycleOwner, Observer {
             appBar.setExpanded(!it)
@@ -173,7 +173,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     }
 
-    private fun ListViewModel.pageToDetailAct() {
+    private fun BoardListViewModel.pageToDetailAct() {
         feedItemClickEvent.observe(viewLifecycleOwner, Observer {
             startForResult(
                 BoardDetailActivity::class,
@@ -185,8 +185,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun HomeViewModel.setFilter() {
         setFilterEvent.observe(viewLifecycleOwner, Observer {
-            VM.loadingStatus = LoadingStatus.INIT
-            VM.initDate(motorTypeData = it.motorType, categoryData = it.feedType)
+            boardListViewModel.loadingStatus = LoadingStatus.INIT
+            boardListViewModel.initDate(motorTypeData = it.motorType, categoryData = it.feedType)
         })
     }
 
