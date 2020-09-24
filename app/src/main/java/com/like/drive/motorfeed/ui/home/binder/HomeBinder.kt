@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.motor.MotorTypeData
+import com.like.drive.motorfeed.ui.base.binder.setFormatHtml
 import com.like.drive.motorfeed.ui.feed.type.data.FeedTypeData
 
 @BindingAdapter("filterType")
@@ -39,6 +40,19 @@ fun TextView.setFilterBrand(motorTypeData: MotorTypeData?) {
     } else {
         disableFilter(context.getString(R.string.feed_list_filter_motor_default))
     }
+}
+
+@BindingAdapter(value = ["emptyFeedType", "emptyMotorType"])
+fun TextView.setEmptyMessage(feedTypeData: FeedTypeData?, motorTypeData: MotorTypeData?) {
+
+    val feedTypeStr =
+        feedTypeData?.let { it.title } ?: context.getString(R.string.all)
+    val motorTypeStr =
+        motorTypeData?.let { if (it.modelCode == 0) it.brandName else "${it.brandName} | ${it.modelName}" }
+            ?: context.getString(R.string.all)
+
+    setFormatHtml(context.getString(R.string.filter_empty_list_message, feedTypeStr, motorTypeStr))
+
 }
 
 fun TextView.disableFilter(str: String) {
