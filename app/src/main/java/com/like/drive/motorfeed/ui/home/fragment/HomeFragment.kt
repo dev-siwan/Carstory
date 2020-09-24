@@ -39,12 +39,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     val viewModel: HomeViewModel by viewModel()
     private val boardListViewModel: BoardListViewModel by viewModel()
     private val listAdapter by lazy { BoardListAdapter(vm = boardListViewModel) }
-    private val filterDialog by lazy {
-        ListFilterDialog.newInstance(
-            feedTypeData = viewModel.feedType.value,
-            motorTypeData = viewModel.motorType.value
-        )
-    }
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
@@ -84,7 +78,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initData()
 
         btnFilterSearch.setOnClickListener {
-            filterDialog.apply {
+            ListFilterDialog.newInstance(
+                feedTypeData = viewModel.feedType.value,
+                motorTypeData = viewModel.motorType.value
+            ).apply {
                 setFilter = { feedType, motorType ->
                     this@HomeFragment.viewModel.setFilterData(feedType, motorType)
                     dismiss()
