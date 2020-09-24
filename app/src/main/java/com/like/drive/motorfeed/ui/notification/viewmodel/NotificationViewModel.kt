@@ -1,5 +1,6 @@
 package com.like.drive.motorfeed.ui.notification.viewmodel
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,9 +19,15 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
 
     val clickItemEvent = SingleLiveEvent<NotificationSendData>()
 
+    val isEmptyObservable = ObservableBoolean(false)
+
     fun init() {
         viewModelScope.launch {
             repository.getList().distinctUntilChanged().collect {
+                if (it.isEmpty()) {
+                    isEmptyObservable.set(true)
+                    return@collect
+                }
                 _notificationList.value =
                     it.map { data -> NotificationSendData().entityToData(data) }
             }
