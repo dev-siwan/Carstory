@@ -84,8 +84,9 @@ class FeedListViewModel(private val feedRepository: FeedRepository) : BaseViewMo
                 }.collect {
 
                     loadingStatus()
-                    feedList.value = it
                     _initEmpty.value = isFirst && it.isEmpty()
+
+                    feedList.value = it
                     isFirstLoad = false
 
                 }

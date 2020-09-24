@@ -102,7 +102,7 @@
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/small_text_size"
                     android:singleLine="true"
-                    android:text="@={vm.tag}"
+                    android:text="@{vm.tag}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/containerSearchImage"
                     app:layout_constraintTop_toTopOf="parent"

@@ -55,6 +55,7 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
     }
 
     fun tagListener(str: String?) {
+
         if (str.isNullOrBlank()) {
             tagBlankMessageEvent.value = R.string.tag_warning_message
             return

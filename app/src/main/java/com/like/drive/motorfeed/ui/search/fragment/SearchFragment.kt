@@ -12,12 +12,14 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -61,6 +63,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private lateinit var onCallback: OnBackPressedCallback
     private var adView: AdView? = null
     private var initialLayoutComplete = false
+
+    private var tagValue: String? = null
 
     @Suppress("DEPRECATION")
     private val adSize: AdSize
@@ -106,19 +110,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         adView ?: advInit()
 
         //리싸이클러뷰 페이징
-        rvFeed.apply {
-
-            val dividerItemDecoration =
-                DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
-                        setDrawable(it)
-                    }
-                }
-
-            addItemDecoration(dividerItemDecoration)
-            
-            paging()
-        }
+        rvFeed.init()
 
         //검색창 포커스
         etSearch.onFocusChangeListener = editFocusListener
@@ -134,36 +126,20 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             //검색창 소프트 키보드 올라왔을때 바텀네비 올라오는거 막기
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
-            incSearchList.swipeLayout.setOnRefreshListener {
-                feedListViewModel.loadingStatus = LoadingStatus.REFRESH
-                feedListViewModel.initDate(tagQuery = viewModel.tag.value)
-            }
         }
+
+        //새로고침 리스너
+        incSearchList.swipeLayout.listener()
 
         //피드 리스트 유무에 따른 검색창 visible/gone
-        if (feedAdapter.feedList.isEmpty()) {
-            etSearch.requestFocus()
-            imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        } else {
-            goneSearchView()
-            appBarLayout.setExpanded(true)
-        }
+        isListItemEmpty()
 
-        ivBackButton.setOnClickListener {
-            if (feedAdapter.feedList.isNotEmpty()) {
-                goneSearchView()
-                return@setOnClickListener
-            }
-
-            rootView.requestFocus()
-            requireActivity().hideKeyboard(rootView)
-            moveHome()
-
-        }
+        //뒤로가기 버튼
+        ivBackButton.init()
 
     }
 
-    private fun RecyclerView.paging() {
+    private fun RecyclerView.init() {
 
         withPaging(object : PagingCallback {
             override fun requestMoreList() {
@@ -181,6 +157,37 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         })
 
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                ContextCompat.getDrawable(requireContext(), R.drawable.divider_feed_list)?.let {
+                    setDrawable(it)
+                }
+            }
+
+        addItemDecoration(dividerItemDecoration)
+
+    }
+
+    private fun AppCompatImageView.init() {
+
+        setOnClickListener {
+            if (feedAdapter.feedList.isNotEmpty()) {
+                goneSearchView()
+                return@setOnClickListener
+            }
+
+            rootView.requestFocus()
+            requireActivity().hideKeyboard(rootView)
+            moveHome()
+
+        }
+    }
+
+    private fun SwipeRefreshLayout.listener() {
+        setOnRefreshListener {
+            feedListViewModel.loadingStatus = LoadingStatus.REFRESH
+            feedListViewModel.initDate(tagQuery = viewModel.tag.value)
+        }
     }
 
     private fun withViewModel() {
@@ -210,9 +217,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun FeedListViewModel.listComplete() {
         feedList.observe(viewLifecycleOwner, Observer {
+
             feedAdapter.run {
                 if (isFirst) {
                     initList(it)
+                    if (it.isNotEmpty()) {
+                        tagValue = viewModel.tag.value
+                    }
+
                 } else {
                     moreList(it)
                 }
@@ -232,9 +244,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
             incRecentlyList.visibility = View.VISIBLE
 
-            onCallback.isEnabled = feedAdapter.feedList.isNotEmpty()
-            viewModel.isSearchStatus.set(true)
         }
+        onCallback.isEnabled = feedAdapter.feedList.isNotEmpty()
+
+        viewModel.isSearchStatus.set(true)
     }
 
     private fun goneSearchView() {
@@ -251,12 +264,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
             rootView.requestFocus()
             requireActivity().hideKeyboard(rootView)
-
-            onCallback.isEnabled = false
-
-            viewModel.isSearchStatus.set(false)
-
         }
+        onCallback.isEnabled = false
+
+        viewModel.isSearchStatus.set(false)
     }
 
     private fun FeedListViewModel.pageToDetailAct() {
@@ -312,6 +323,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     override fun onDestroyView() {
         adView?.destroy()
         adView = null
+
+        viewModel.tag.value = tagValue
+
         super.onDestroyView()
     }
 
@@ -361,5 +375,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             }
         }
 
+    }
+
+    private fun isListItemEmpty() {
+        //피드 리스트 유무에 따른 검색창 visible/gone
+        if (feedAdapter.feedList.isEmpty()) {
+            etSearch.requestFocus()
+            imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            viewModel.tag.value = null
+        } else {
+            goneSearchView()
+        }
     }
 }
