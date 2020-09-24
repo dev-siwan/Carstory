@@ -61,7 +61,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_small_margin"
-            android:padding="@dimen/activity_x_small_margin"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
@@ -73,14 +72,13 @@
                 android:orientation="horizontal">
 
 
-                <androidx.appcompat.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btnCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/activity_small_margin"
-                    android:background="@drawable/rect_solid_white_100_conner"
+                    android:background="@drawable/rect_stroke_black_conner_4dp"
                     android:drawableEnd="@drawable/ic_black_down_arrow"
-                    android:elevation="@dimen/activity_x_small_margin"
                     android:gravity="center_vertical"
                     android:padding="@dimen/activity_small_margin"
                     android:textColor="@color/gnt_black"
@@ -89,11 +87,11 @@
                     tools:text="카테고리" />
 
 
-                <androidx.appcompat.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btnMotorType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_solid_white_100_conner"
+                    android:background="@drawable/rect_stroke_black_conner_4dp"
                     android:drawableEnd="@drawable/ic_black_down_arrow"
                     android:elevation="@dimen/activity_x_small_margin"
                     android:gravity="center_vertical"
