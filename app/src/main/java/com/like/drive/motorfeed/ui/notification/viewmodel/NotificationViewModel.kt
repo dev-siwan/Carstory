@@ -7,6 +7,8 @@ import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.repository.notification.NotificationRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class NotificationViewModel(val repository: NotificationRepository) : BaseViewModel() {
@@ -18,7 +20,10 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
 
     fun init() {
         viewModelScope.launch {
-            _notificationList.value = repository.getList()
+            repository.getList().distinctUntilChanged().collect {
+                _notificationList.value =
+                    it.map { data -> NotificationSendData().entityToData(data) }
+            }
         }
     }
 

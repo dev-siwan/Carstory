@@ -2,6 +2,7 @@ package com.like.drive.motorfeed.cache.dao.notification
 
 import androidx.room.*
 import com.like.drive.motorfeed.cache.entity.NotificationEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotificationDao {
@@ -9,7 +10,7 @@ interface NotificationDao {
     suspend fun insert(data: NotificationEntity): Long
 
     @Query("SELECT * FROM NotificationEntity ORDER BY createData DESC")
-    suspend fun getList(): List<NotificationEntity>
+    fun getList(): Flow<List<NotificationEntity>>
 
     @Query("DELETE FROM NotificationEntity")
     suspend fun deleteList()

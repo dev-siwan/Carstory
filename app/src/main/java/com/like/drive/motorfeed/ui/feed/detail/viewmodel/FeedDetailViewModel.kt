@@ -328,7 +328,7 @@ class FeedDetailViewModel(private val feedRepository: FeedRepository) : BaseView
 
         } else {
 
-            if (_feedData.value?.likeCount ?: 0 > 0) {
+            if (_feedData.value?.likeCount ?: 0 >= 0) {
 
                 likeCountObserver.set(likeCountObserver.get().minus(1))
                 _feedData.value?.likeCount?.minus(1)
