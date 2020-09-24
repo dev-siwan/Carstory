@@ -144,7 +144,7 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin">
 
                     <TextView
-                        android:id="@+id/tvCategory"
+                        android:id="@+id/btnCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{feedData.categoryStr}"
@@ -152,7 +152,7 @@
                         android:textSize="@dimen/small_text_size"
                         android:textStyle="bold"
                         android:visibility="@{feedData.categoryStr !=null ? View.VISIBLE:View.GONE}"
-                        app:layout_constraintEnd_toStartOf="@+id/tvMotorType"
+                        app:layout_constraintEnd_toStartOf="@+id/btnMotorType"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +160,7 @@
                         tools:text="자유" />
 
                     <TextView
-                        android:id="@+id/tvMotorType"
+                        android:id="@+id/btnMotorType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/activity_x_small_margin"
@@ -171,11 +171,11 @@
                         app:detailBrandName="@{feedData.brandName}"
                         app:detailModelCode="@{feedData.modelCode}"
                         app:detailModelName="@{feedData.modelName}"
-                        app:layout_constraintBottom_toBottomOf="@id/tvCategory"
+                        app:layout_constraintBottom_toBottomOf="@id/btnCategory"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/tvCategory"
-                        app:layout_constraintTop_toTopOf="@id/tvCategory"
+                        app:layout_constraintStart_toEndOf="@id/btnCategory"
+                        app:layout_constraintTop_toTopOf="@id/btnCategory"
                         tools:text="기아|다이소" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

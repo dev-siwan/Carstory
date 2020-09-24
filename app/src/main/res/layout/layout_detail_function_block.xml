@@ -83,30 +83,21 @@
             app:layout_constraintStart_toEndOf="@id/containerLike"
             app:layout_constraintTop_toTopOf="@id/glTop">
 
-            <ImageView
-                android:id="@+id/ivComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_comment_black"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvComment"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_comment_black"
+                android:drawablePadding="@dimen/activity_x_small_margin"
                 android:gravity="center"
                 android:text="@{String.valueOf(vm.commentCountObserver)}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
-                app:layout_constraintBottom_toBottomOf="@id/ivComment"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivComment"
-                app:layout_constraintTop_toTopOf="@id/ivComment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -121,32 +112,20 @@
             app:layout_constraintStart_toEndOf="@id/containerComment"
             app:layout_constraintTop_toTopOf="@id/glTop">
 
-            <ImageView
-                android:id="@+id/ivShare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_share_black"
-                android:visibility="gone"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvShare"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/tvShare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_share_black"
+                android:drawablePadding="@dimen/activity_x_small_margin"
                 android:gravity="center"
                 android:text="@string/share_text"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
-                app:layout_constraintBottom_toBottomOf="@id/ivShare"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivShare"
-                app:layout_constraintTop_toTopOf="@id/ivShare" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

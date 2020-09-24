@@ -5,30 +5,30 @@
         android:id="@+id/action_home"
         android:enabled="true"
         android:icon="@drawable/menu_feed"
-        android:title="@string/menu_home"
+        android:title="@null"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_search"
         android:enabled="true"
         android:icon="@drawable/menu_hash_tag"
-        android:title="@string/menu_tag"
+        android:title="@null"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_upload"
+        android:enabled="false"
         android:icon="@null"
         android:title="@null"
-        app:showAsAction="ifRoom"
-        android:enabled="false"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_notification"
         android:enabled="true"
         android:icon="@drawable/menu_notification"
-        android:title="@string/menu_notification"
+        android:title="@null"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_more"
         android:enabled="true"
         android:icon="@drawable/menu_user"
-        android:title="@string/menu_user"
+        android:title="@null"
         app:showAsAction="ifRoom" />
 </menu>

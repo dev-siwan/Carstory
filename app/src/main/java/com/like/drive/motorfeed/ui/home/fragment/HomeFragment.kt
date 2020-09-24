@@ -77,6 +77,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         initData()
 
+    }
+
+    private fun setOnItemClick() {
+
+        btnCategory.setOnClickListener {
+            showCategoryList()
+        }
+
+        btnMotorType.setOnClickListener {
+            showMotorType()
+        }
+
+
         btnFilterSearch.setOnClickListener {
             ListFilterDialog.newInstance(
                 feedTypeData = viewModel.feedType.value,
@@ -87,17 +100,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     dismiss()
                 }
             }.show(requireActivity().supportFragmentManager, "")
-        }
-    }
-
-    private fun setOnItemClick() {
-
-        tvCategory.setOnClickListener {
-            showCategoryList()
-        }
-
-        tvMotorType.setOnClickListener {
-            showMotorType()
         }
     }
 
