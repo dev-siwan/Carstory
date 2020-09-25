@@ -89,11 +89,7 @@ class FireBaseTask {
     suspend fun uploadProfileImage(ref: StorageReference, file: File): Flow<Boolean> =
         flow {
             val uploadTask = ref.putStream(FileInputStream(file)).await()
-            if (uploadTask.task.isComplete) {
-                emit(true)
-            } else {
-                emit(false)
-            }
+            emit(uploadTask.task.isComplete)
         }
 
     suspend fun deleteImage(ref: StorageReference): Flow<Boolean> =
