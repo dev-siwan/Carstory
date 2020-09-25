@@ -160,7 +160,7 @@
             android:layout_marginBottom="@dimen/activity_x_small_margin"
             android:text="@{vm.isUpdate ? @string/update_photo_desc : @string/not_update_photo_desc}"
             android:textSize="@dimen/small_text_size"
-            android:visibility="@{(vm.isUpdate &amp;&amp; !vm.photoListData.empty) || (!vm.isUpdate &amp;&amp; vm.pickPhotoCount>0) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{(vm.isUpdate &amp;&amp; !vm.photoListData.empty) || (!vm.isUpdate &amp;&amp; vm.pickPhotoCount>0)}"
             app:layout_constraintBottom_toTopOf="@id/rvPhotos"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"

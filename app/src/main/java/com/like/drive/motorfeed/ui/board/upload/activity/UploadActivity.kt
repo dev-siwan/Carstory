@@ -18,6 +18,7 @@ import com.like.drive.motorfeed.common.enum.PhotoSelectType
 import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.data.user.FilterData
 import com.like.drive.motorfeed.databinding.ActivityUploadBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
@@ -62,7 +63,18 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     override fun onBinding(dataBinding: ActivityUploadBinding) {
         super.onBinding(dataBinding)
         dataBinding.vm = viewModel
-        dataBinding.rvPhotos.adapter = uploadAdapter
+        dataBinding.rvPhotos.apply {
+            adapter = uploadAdapter
+
+            DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL).apply {
+                ContextCompat.getDrawable(
+                    this@UploadActivity, R.drawable.line_solid_empty
+                )?.let { setDrawable(it) }
+            }.run {
+                addItemDecoration(this)
+            }
+
+        }
     }
 
     private fun withViewModel() {
@@ -80,19 +92,14 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     private fun initView() {
 
         intent.getParcelableExtra<BoardData>(BOARD_UPDATE_KEY)?.let {
-            viewModel.getFeedData(it)
-        } ?: showCategoryDialog()
-
-        val divider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL).apply {
-            ContextCompat.getDrawable(
-                this@UploadActivity, R.drawable.line_solid_empty
-            )?.let { setDrawable(it) }
-        }
-        rvPhotos.run {
-            addItemDecoration(divider)
+            viewModel.getBoardData(it)
         }
 
-        viewModel.setCategoryItem(getCategoryList(this)[0])
+        intent.getParcelableExtra<FilterData>(FILTER_DATA_KEY)?.let {
+            viewModel.setFilterData(it)
+        }
+
+        showCategoryDialog()
     }
 
     /**
@@ -185,17 +192,17 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
      * 업로드 완료
      */
     private fun UploadViewModel.uploadComplete() {
-        completeEvent.observe(this@UploadActivity, Observer { feedData ->
+        completeEvent.observe(this@UploadActivity, Observer { boardData ->
             if (isUpdate.get()) {
                 setResult(
                     Activity.RESULT_OK,
-                    Intent().apply { putExtra(BOARD_UPDATE_KEY, feedData) })
+                    Intent().apply { putExtra(BOARD_UPDATE_KEY, boardData) })
             } else {
                 setResult(Activity.RESULT_OK, Intent().apply {
-                    putExtra(BOARD_CREATE_KEY, feedData)
+                    putExtra(BOARD_CREATE_KEY, boardData)
                 })
                 startAct(BoardDetailActivity::class, Bundle().apply {
-                    putParcelable(BOARD_CREATE_KEY, feedData)
+                    putParcelable(BOARD_CREATE_KEY, boardData)
                 })
             }
             finish()
@@ -366,7 +373,12 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     }
 
     private fun showCategoryDialog() {
-        categoryDialog.show(supportFragmentManager, "")
+
+        if (viewModel.categoryData.value == null) {
+            categoryDialog.show(supportFragmentManager, "")
+            viewModel.setCategoryItem(getCategoryList(this)[0])
+        }
+
     }
 
     private fun dismissCategoryDialog() {
@@ -389,6 +401,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     companion object {
         const val BOARD_CREATE_KEY = "CREATE_FEED"
         const val BOARD_UPDATE_KEY = "UPDATE_FEED"
+        const val FILTER_DATA_KEY = "FILTER_DATA_KEY"
     }
 
 }

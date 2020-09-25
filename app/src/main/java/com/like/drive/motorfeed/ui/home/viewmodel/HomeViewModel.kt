@@ -3,7 +3,7 @@ package com.like.drive.motorfeed.ui.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.motor.MotorTypeData
-import com.like.drive.motorfeed.data.user.UserFilter
+import com.like.drive.motorfeed.data.user.FilterData
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 
@@ -11,9 +11,9 @@ class HomeViewModel : BaseViewModel() {
 
     val moveSearchEvent = SingleLiveEvent<Unit>()
 
-    val setFilterEvent = SingleLiveEvent<UserFilter>()
+    val setFilterEvent = SingleLiveEvent<FilterData>()
 
-    val feedType = MutableLiveData<CategoryData>()
+    val category = MutableLiveData<CategoryData>()
     val motorType = MutableLiveData<MotorTypeData>()
 
     fun setFilterData(feedTypeData: CategoryData?, motorTypeData: MotorTypeData?) {
@@ -30,9 +30,9 @@ class HomeViewModel : BaseViewModel() {
             feedTypeData
         }
 
-        val userFilter = UserFilter(feedType, motorType)
+        val userFilter = FilterData(feedType, motorType)
 
-        this.feedType.value = feedType
+        this.category.value = feedType
         this.motorType.value = motorType
 
         setFilterEvent.value = userFilter

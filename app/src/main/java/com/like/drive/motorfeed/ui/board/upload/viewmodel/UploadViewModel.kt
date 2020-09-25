@@ -1,6 +1,5 @@
 package com.like.drive.motorfeed.ui.board.upload.viewmodel
 
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,8 +16,9 @@ import kotlinx.coroutines.launch
 import java.io.File
 import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
+import com.like.drive.motorfeed.data.user.FilterData
 
-class UploadViewModel(private val boardRepository: BoardRepository):BaseViewModel(){
+class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
 
     val selectPhotoClickEvent = SingleLiveEvent<Unit>()
     val photoItemClickEvent = SingleLiveEvent<PhotoData>()
@@ -33,9 +33,6 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
 
     private val _motorType = MutableLiveData<MotorTypeData>()
     val motorTypeData: LiveData<MotorTypeData> get() = _motorType
-
-    private val _tagList = MutableLiveData<ArrayList<String>>()
-    val tagList: LiveData<ArrayList<String>> get() = _tagList
 
     val title = MutableLiveData<String>()
     val content = MutableLiveData<String>()
@@ -57,7 +54,6 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
     val closeFeedItemPage = SingleLiveEvent<Unit>()
     val showFeedItemPage = SingleLiveEvent<Unit>()
 
-
     val isFieldEnable = MediatorLiveData<Boolean>().apply {
         addSource(title) {
             value = isResultFieldValue(it, content.value, _categoryData.value)
@@ -78,10 +74,10 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
      * 이미 업로드 된 이미지 있으면 표시
      * 없으면 빈 리스트로 초기화
      */
-    fun getFeedData(boardData: BoardData?) {
+    fun getBoardData(boardData: BoardData?) {
         boardData?.let {
 
-            this.boardData= it
+            this.boardData = it
 
             _photoListData.value = it.imageUrls?.map { url -> PhotoData(imgUrl = url) }
             _pickPhotoCount.value = it.imageUrls?.size
@@ -94,7 +90,6 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
             ) else null
 
             _categoryData.value = CategoryData(it.categoryStr ?: "", "", it.categoryCode ?: 0)
-            _tagList.value = it.tagList?.let { list-> list as ArrayList<String> }
 
             title.value = it.title
             content.value = it.content
@@ -103,13 +98,12 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
         }
     }
 
-
-    fun addFile(file:File){
+    fun addFile(file: File) {
         originFileList.add(PhotoData().apply { this.file = file })
         setPhotoSize()
     }
 
-    fun removeFile(photoData: PhotoData){
+    fun removeFile(photoData: PhotoData) {
         originFileList.remove(photoData)
         setPhotoSize()
     }
@@ -121,7 +115,7 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
         photoItemClickEvent.value = photoData
     }
 
-    fun upload(tagList:List<String>) {
+    fun upload(tagList: List<String>) {
 
         isUploadLoading.value = true
         _isPhotoUpload.value = originFileList.isNotEmpty()
@@ -134,7 +128,7 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
             tagList = tagList as ArrayList<String>
         )
 
-        if(isUpdate.get()) updateFeed(feedField,boardData) else addFeed(feedField)
+        if (isUpdate.get()) updateFeed(feedField, boardData) else addFeed(feedField)
     }
 
     /*
@@ -175,23 +169,24 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
         } ?: setError()
     }
 
-
-    private fun setError(resID:Int?=null){
+    private fun setError(resID: Int? = null) {
         isUploadLoading.value = false
         resID?.let {
             errorEvent.postValue(resID)
-        }?:errorEvent.call()
+        } ?: errorEvent.call()
     }
 
-    fun setCategoryItem(feedItemType: CategoryData?){
-        _categoryData.value =feedItemType
+    fun setCategoryItem(category: CategoryData?) {
+        _categoryData.value = category
         closeFeedItemPage.call()
     }
 
-    private fun isResultFieldValue(title:String?,content:String?,feedItemType:CategoryData?) =
-        !title.isNullOrBlank() && !content.isNullOrBlank() && feedItemType!=null
+    private fun isResultFieldValue(title: String?, content: String?, feedItemType: CategoryData?) =
+        !title.isNullOrBlank() && !content.isNullOrBlank() && feedItemType != null
 
-    private fun setPhotoSize(){ _pickPhotoCount.postValue(originFileList.size) }
+    private fun setPhotoSize() {
+        _pickPhotoCount.postValue(originFileList.size)
+    }
 
     fun isPhotoLimitSize() = originFileList.size < PHOTO_MAX_SIZE
 
@@ -203,10 +198,12 @@ class UploadViewModel(private val boardRepository: BoardRepository):BaseViewMode
         _motorType.value = motorTypeData
     }
 
-    fun setTagList(tagList:ArrayList<String>){ _tagList.value = tagList}
+    fun setFilterData(filterData: FilterData) {
+        _categoryData.value = filterData.categoryData
+        _motorType.value = filterData.motorType
+    }
 
-
-    companion object{
+    companion object {
         val PHOTO_MAX_SIZE = 5
     }
 

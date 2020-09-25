@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
+import com.like.drive.motorfeed.data.motor.MotorTypeList
+import com.like.drive.motorfeed.data.user.FilterData
 import com.like.drive.motorfeed.databinding.FragmentHomeBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
@@ -40,6 +41,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     val viewModel: HomeViewModel by viewModel()
     private val boardListViewModel: BoardListViewModel by viewModel()
     private val listAdapter by lazy { BoardListAdapter(vm = boardListViewModel) }
+    private val emptySnackBar by lazy {
+        Snackbar.make(
+            requireView(),
+            getString(R.string.filter_empty_upload_message),
+            Snackbar.LENGTH_INDEFINITE
+        ).apply {
+            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white_100))
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.gnt_black))
+            setActionTextColor(ContextCompat.getColor(requireContext(), R.color.grey_4))
+        }
+    }
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
@@ -66,7 +78,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         swipeLayout.setOnRefreshListener {
             boardListViewModel.loadingStatus = LoadingStatus.REFRESH
-            boardListViewModel.initDate(viewModel.feedType.value, viewModel.motorType.value)
+            boardListViewModel.initDate(viewModel.category.value, viewModel.motorType.value)
         }
 
         setOnItemClick()
@@ -87,7 +99,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         btnFilterSearch.setOnClickListener {
             ListFilterDialog.newInstance(
-                feedTypeData = viewModel.feedType.value,
+                feedTypeData = viewModel.category.value,
                 motorTypeData = viewModel.motorType.value
             ).apply {
                 setFilter = { feedType, motorType ->
@@ -103,8 +115,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
             boardListViewModel.run {
                 loadingStatus = LoadingStatus.INIT
-                boardListViewModel.initDate(viewModel.feedType.value, viewModel.motorType.value)
+                boardListViewModel.initDate(viewModel.category.value, viewModel.motorType.value)
             }
+
         }
     }
 
@@ -163,6 +176,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         initEmpty.observe(viewLifecycleOwner, Observer {
             appBar.setExpanded(!it)
+            if (it) {
+                emptySnackBar.setAction(
+                    "실행"
+                ) {
+                    (requireActivity() as MainActivity).moveToFilterUploadPage(
+                        FilterData(
+                            viewModel.category.value,
+                            viewModel.motorType.value
+                        )
+                    )
+                }.show()
+            } else {
+                emptySnackBar.dismiss()
+            }
         })
 
     }
@@ -180,7 +207,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun HomeViewModel.setFilter() {
         setFilterEvent.observe(viewLifecycleOwner, Observer {
             boardListViewModel.loadingStatus = LoadingStatus.INIT
-            boardListViewModel.initDate(motorTypeData = it.motorType, categoryData = it.feedType)
+            boardListViewModel.initDate(
+                motorTypeData = it.motorType,
+                categoryData = it.categoryData
+            )
         })
     }
 
@@ -233,8 +263,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Activity.RESULT_OK -> {
                         data?.getParcelableExtra<BoardData>(UploadActivity.BOARD_CREATE_KEY)
                             ?.let {
-                                listAdapter.run {
-                                    addFeed(it)
+
+                                boardListViewModel.run {
+
+                                    isFirstLoad = true
+                                    loadingStatus = LoadingStatus.INIT
+
+                                    val categoryData =
+                                        getCategoryList(requireContext()).find { code -> code.typeCode == it.categoryCode }
+                                    val motorTypeData =
+                                        MotorTypeList().motorTypeList.find { code -> code.brandCode == it.brandCode && code.modelCode == it.modelCode }
+
+                                    viewModel.setFilterData(categoryData, motorTypeData)
                                 }
                             }
                     }
@@ -245,7 +285,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 if (resultCode == Activity.RESULT_OK) {
                     data?.getParcelableExtra<MotorTypeData>(SelectMotorTypeActivity.RESULT_KEY)
                         ?.let {
-                            viewModel.setFilterData(viewModel.feedType.value, it)
+                            viewModel.setFilterData(viewModel.category.value, it)
                         }
                 }
             }

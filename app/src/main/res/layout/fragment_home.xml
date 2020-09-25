@@ -99,13 +99,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+
                 <TextView
                     android:id="@+id/tvEmptyMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gnt_black"
                     android:textSize="@dimen/large_text_size"
-                    app:emptyCategory="@{vm.feedType}"
+                    app:emptyCategory="@{vm.category}"
                     app:emptyMotorType="@{vm.motorType}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -122,18 +123,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvEmptyMessage" />
-
-                <TextView
-                    android:id="@+id/tvNowFilterWriteDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:textColor="@color/grey_4"
-                    app:formatHtml="@{@string/filter_empty_upload_message}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnFilterSearch" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

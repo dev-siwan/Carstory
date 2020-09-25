@@ -11,6 +11,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.define.FirebaseDefine
+import com.like.drive.motorfeed.data.user.FilterData
 import com.like.drive.motorfeed.databinding.ActivityMainBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.*
@@ -81,6 +82,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         when (val currentFragment = supportFragmentManager.currentNavigationFragment()) {
             is HomeFragment -> currentFragment.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    fun moveToFilterUploadPage(filterData: FilterData) {
+
+        startActForResult(UploadActivity::class, UPLOAD_FEED_REQ, Bundle().apply {
+            putParcelable(UploadActivity.FILTER_DATA_KEY, filterData)
+        })
+
     }
 
     override fun onResume() {

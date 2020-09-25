@@ -7,7 +7,8 @@ import com.like.drive.motorfeed.ui.board.list.holder.ListAdvHolder
 import com.like.drive.motorfeed.ui.board.list.holder.ListViewHolder
 import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
 
-class BoardListAdapter(val vm: BoardListViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class BoardListAdapter(val vm: BoardListViewModel) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val feedList = mutableListOf<BoardData>()
 
@@ -48,8 +49,8 @@ class BoardListAdapter(val vm: BoardListViewModel) : RecyclerView.Adapter<Recycl
     }
 
     fun addFeed(board: BoardData) {
-        feedList.add(board)
-        notifyItemInserted(feedList.size - 1)
+        feedList.add(0, board)
+        notifyItemInserted(0)
     }
 
     fun updateFeed(board: BoardData) {

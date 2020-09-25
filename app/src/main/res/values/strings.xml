@@ -260,7 +260,7 @@
     <string name="filter_empty_list_message"><![CDATA[카테고리: <b>%s</b><br />차량종류: <b>%s</b><br />검색결과가 없습니다.]]></string>
     <string name="brand_list_title">브랜드 목록</string>
     <string name="re_filter_search">필터 재설정</string>
-    <string name="filter_empty_upload_message"><![CDATA[*<u>현재 필터 조건으로 글쓰기</u>]]></string>
+    <string name="filter_empty_upload_message">현재 필터 조건으로 글쓰기</string>
     <string name="terms_dialog_desc">프로필 작성과 동시에 이용약관 및 개인정보처리방침에 동의한걸로 간주 됩니다.</string>
 
     <string-array name="empty_photo_type_array">
