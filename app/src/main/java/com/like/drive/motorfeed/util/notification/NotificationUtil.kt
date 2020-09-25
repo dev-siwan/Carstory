@@ -16,7 +16,7 @@ import com.like.drive.motorfeed.ui.splash.activity.SplashActivity
 class NotificationUtil(private val context: Context) {
 
     fun showNotificationMessageEmptyIntent(title: String, message: String) {
-        if (message.isBlank()) return
+        //if (message.isBlank()) return
 
         val intent = Intent(context, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -38,8 +38,8 @@ class NotificationUtil(private val context: Context) {
 
     private fun showNotification(
         mBuilder: NotificationCompat.Builder,
-        title: String,
-        message: String,
+        title: String? = "",
+        message: String? = "",
         pendingIntent: PendingIntent
     ) {
         val inboxStyle = NotificationCompat.InboxStyle()
