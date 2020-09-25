@@ -266,9 +266,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                                 boardListViewModel.run {
 
-                                    isFirstLoad = true
-                                    loadingStatus = LoadingStatus.INIT
-
                                     val categoryData =
                                         getCategoryList(requireContext()).find { code -> code.typeCode == it.categoryCode }
                                     val motorTypeData =
