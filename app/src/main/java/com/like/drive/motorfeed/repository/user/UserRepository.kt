@@ -36,7 +36,7 @@ interface UserRepository {
         error: () -> Unit
     )
 
-    suspend fun updateProfile(
+    suspend fun  updateProfile(
         nickName: String,
         imgFile: File? = null,
         intro: String? = null,

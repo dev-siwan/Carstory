@@ -126,14 +126,15 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                 }
             }
 
-            var imgUri: String? = null
-
             imgFile?.let {
-                imgUri = imageApi.profileImage(info.uid ?: "", it).catch { fail.invoke() }.single()
+
+                imageApi.profileImage(info.uid ?: "", it).catch { fail.invoke() }.single()
             }
 
-            userApi.setUserProfile(info.uid ?: "", nickName, imgUri ?: null, intro)
-                .catch { fail.invoke() }.collect { success(imgUri) }
+            val profilePath = info.profileImgPath ?: "/user/${info.uid}/profileImg"
+
+            userApi.setUserProfile(info.uid ?: "", nickName, profilePath, intro)
+                .catch { fail.invoke() }.collect { success(profilePath) }
 
         } ?: notUser.invoke()
 

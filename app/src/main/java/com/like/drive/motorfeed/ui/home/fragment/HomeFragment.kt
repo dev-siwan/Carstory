@@ -14,6 +14,7 @@ import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.databinding.FragmentHomeBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.dividerItemDecoration
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.withPaging
@@ -42,9 +43,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
+
         dataBinding.feedVm = boardListViewModel
         dataBinding.vm = viewModel
-        dataBinding.rvFeedList.adapter = listAdapter
+        dataBinding.rvFeedList.apply {
+
+            adapter = listAdapter
+            paging()
+            addItemDecoration(dividerItemDecoration())
+
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,26 +64,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     fun initView() {
 
-        rvFeedList.run {
-            paging()
-
-            val dividerItemDecoration =
-                DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_board_list)?.let {
-                        setDrawable(it)
-                    }
-                }
-
-            addItemDecoration(dividerItemDecoration)
-        }
-
         swipeLayout.setOnRefreshListener {
             boardListViewModel.loadingStatus = LoadingStatus.REFRESH
             boardListViewModel.initDate(viewModel.feedType.value, viewModel.motorType.value)
         }
 
         setOnItemClick()
-
         initData()
 
     }
@@ -215,9 +210,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             BoardListActivity.BOARD_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
                     BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
-                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            listAdapter.updateFeed(it)
-                        }
+                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)
+                            ?.let {
+                                listAdapter.updateFeed(it)
+                            }
                     }
                     BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {

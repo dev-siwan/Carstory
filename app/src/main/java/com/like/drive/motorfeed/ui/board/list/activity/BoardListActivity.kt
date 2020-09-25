@@ -13,6 +13,7 @@ import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.databinding.ActivityBoardListBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.dividerItemDecoration
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.withPaging
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
@@ -45,28 +46,23 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     }
 
     private fun initView() {
-        val decorationItem = DividerItemDecoration(
-            this, DividerItemDecoration.VERTICAL
-        ).apply {
-            ContextCompat.getDrawable(
-                this@BoardListActivity, R.drawable.line_solid_grey_6
-            )?.let { setDrawable(it) }
-        }
-        rvFeedList?.run {
-            addItemDecoration(decorationItem)
+
+        rvFeedList.run {
+            addItemDecoration(dividerItemDecoration())
             paging()
         }
 
         setCloseButtonToolbar(toolbar) {
             finish()
-
         }
 
         intent.getParcelableExtra<UserData>(BOARD_DATE_KEY)?.let {
+
             uid = it.uid
             viewModel.loadingStatus = LoadingStatus.INIT
             initData(uid)
             tvTitle.text = getString(R.string.my_feed_title_format, it.nickName)
+
         }
 
         swipeLayout.setOnRefreshListener {
@@ -137,9 +133,10 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
             BOARD_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
                     BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
-                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            boardListAdapter.updateFeed(it)
-                        }
+                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)
+                            ?.let {
+                                boardListAdapter.updateFeed(it)
+                            }
                     }
                     BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {

@@ -1,10 +1,14 @@
 package com.like.drive.motorfeed.ui.base.ext
 
+import android.content.Context
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
 
-fun RecyclerView.withPaging(callback: PagingCallback, isScroll:((Boolean)->Unit)?=null) {
+fun RecyclerView.withPaging(callback: PagingCallback, isScroll: ((Boolean) -> Unit)? = null) {
     val visibleThreshold = 3
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -38,3 +42,10 @@ fun RecyclerView.withPaging(callback: PagingCallback, isScroll:((Boolean)->Unit)
         }
     })
 }
+
+fun RecyclerView.dividerItemDecoration() =
+    DividerItemDecoration(context, LinearLayoutManager.VERTICAL).apply {
+        ContextCompat.getDrawable(context, R.drawable.divider_board_list)?.let {
+            setDrawable(it)
+        }
+    }

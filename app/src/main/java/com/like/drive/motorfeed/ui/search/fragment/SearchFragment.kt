@@ -13,11 +13,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Slide
@@ -29,14 +26,15 @@ import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.dividerItemDecoration
 import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.withPaging
-import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
 import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
 import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
@@ -157,15 +155,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         })
 
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                ContextCompat.getDrawable(requireContext(), R.drawable.divider_board_list)?.let {
-                    setDrawable(it)
-                }
-            }
-
-        addItemDecoration(dividerItemDecoration)
-
+        addItemDecoration(dividerItemDecoration())
     }
 
     private fun AppCompatImageView.init() {
@@ -287,9 +277,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             BoardListActivity.BOARD_LIST_TO_DETAIL_REQ -> {
                 when (resultCode) {
                     BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
-                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            feedAdapter.updateFeed(it)
-                        }
+                        data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)
+                            ?.let {
+                                feedAdapter.updateFeed(it)
+                            }
                     }
                     BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {

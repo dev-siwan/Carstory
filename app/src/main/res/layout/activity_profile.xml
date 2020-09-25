@@ -154,7 +154,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/light_gery_1"
-            android:visibility="@{!vm.isInit}"
+            android:visibility="@{!vm.isFirstProfile}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -200,89 +200,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_weight="1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/light_gery_1"
-            android:paddingHorizontal="@dimen/activity_vertical_margin"
-            android:paddingVertical="@dimen/activity_small_margin"
-            android:visibility="@{vm.isInit}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:id="@+id/tvTermsDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile_init_terms_desc1"
-                android:textSize="@dimen/normal_text_size"
-                app:layout_constraintBottom_toTopOf="@id/tvTermsUse"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvTermsUse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_title_terms_use"
-                android:textColor="@color/gnt_black"
-                android:textSize="@dimen/normal_text_size"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTermsDesc" />
-
-            <TextView
-                android:id="@+id/tvAnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_x_small_margin"
-                android:text="@string/and_text"
-                android:textSize="@dimen/normal_text_size"
-                app:layout_constraintBottom_toBottomOf="@id/tvTermsUse"
-                app:layout_constraintStart_toEndOf="@id/tvTermsUse"
-                app:layout_constraintTop_toTopOf="@id/tvTermsUse" />
-
-            <TextView
-                android:id="@+id/tvTermsPrivacy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_x_small_margin"
-                android:text="@string/more_title_terms_privacy"
-                android:textColor="@color/gnt_black"
-                android:textSize="@dimen/normal_text_size"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/tvTermsUse"
-                app:layout_constraintStart_toEndOf="@id/tvAnd"
-                app:layout_constraintTop_toTopOf="@id/tvTermsUse" />
-
-            <TextView
-                android:id="@+id/tvAt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_x_small_margin"
-                android:text="@string/at_text"
-                android:textSize="@dimen/normal_text_size"
-                app:layout_constraintBottom_toBottomOf="@id/tvTermsUse"
-                app:layout_constraintStart_toEndOf="@id/tvTermsPrivacy"
-                app:layout_constraintTop_toTopOf="@id/tvTermsUse" />
-
-
-            <TextView
-                android:id="@+id/tvTermsAgreeDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile_terms_agree_desc"
-                android:textSize="@dimen/normal_text_size"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTermsUse" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
