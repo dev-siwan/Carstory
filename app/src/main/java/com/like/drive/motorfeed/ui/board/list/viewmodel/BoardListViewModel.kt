@@ -159,10 +159,6 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         }
     }
 
-    fun setInitEmpty(isEmpty: Boolean) {
-        _initEmpty.value = isEmpty
-    }
-
     fun removeFeed(boardData: BoardData) {
         viewModelScope.launch {
             boardRepository.removeUserFeed(boardData)

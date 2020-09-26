@@ -19,14 +19,14 @@ import com.like.drive.motorfeed.ui.base.ext.dividerItemDecoration
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
 import com.like.drive.motorfeed.ui.base.ext.withPaging
-import com.like.drive.motorfeed.ui.common.data.LoadingStatus
+import com.like.drive.motorfeed.ui.board.category.data.CategoryData
+import com.like.drive.motorfeed.ui.board.category.data.getCategoryList
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
 import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
 import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
-import com.like.drive.motorfeed.ui.board.category.data.CategoryData
-import com.like.drive.motorfeed.ui.board.category.data.getCategoryList
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.filter.dialog.ListFilterDialog
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
@@ -41,17 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     val viewModel: HomeViewModel by viewModel()
     private val boardListViewModel: BoardListViewModel by viewModel()
     private val listAdapter by lazy { BoardListAdapter(vm = boardListViewModel) }
-    private val emptySnackBar by lazy {
-        Snackbar.make(
-            requireView(),
-            getString(R.string.filter_empty_upload_message),
-            Snackbar.LENGTH_INDEFINITE
-        ).apply {
-            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white_100))
-            setTextColor(ContextCompat.getColor(requireContext(), R.color.gnt_black))
-            setActionTextColor(ContextCompat.getColor(requireContext(), R.color.grey_4))
-        }
-    }
+    private var emptySnackBar: Snackbar? = null
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
@@ -83,6 +73,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         setOnItemClick()
         initData()
+
+        emptySnackBar = Snackbar.make(
+            requireView(),
+            getString(R.string.filter_empty_upload_message),
+            Snackbar.LENGTH_INDEFINITE
+        ).apply {
+            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white_100))
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.gnt_black))
+            setActionTextColor(ContextCompat.getColor(requireContext(), R.color.grey_4))
+        }
 
     }
 
@@ -177,7 +177,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initEmpty.observe(viewLifecycleOwner, Observer {
             appBar.setExpanded(!it)
             if (it) {
-                emptySnackBar.setAction(
+                emptySnackBar?.setAction(
                     "실행"
                 ) {
                     (requireActivity() as MainActivity).moveToFilterUploadPage(
@@ -186,9 +186,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                             viewModel.motorType.value
                         )
                     )
-                }.show()
+                }?.show()
             } else {
-                emptySnackBar.dismiss()
+                emptySnackBar?.dismiss()
             }
         })
 

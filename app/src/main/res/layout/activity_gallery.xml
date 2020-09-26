@@ -75,7 +75,7 @@
             android:enabled="@{vm.enableStatus}"
             android:onClick="@{()->vm.doClickEvent(vm.completeClickEvent)}"
             android:stateListAnimator="@null"
-            android:text="@{vm.pickPhotoCount != null &amp;&amp; vm.pickPhotoCount > 0 ? String.format(@string/complete_count_text,vm.pickPhotoCount) : @string/no_pick_message}"
+            android:text="@{vm.pickPhotoCount != null &amp;&amp; vm.pickPhotoCount > 0 ? @string/complete_text : @string/no_pick_message}"
             android:textColor="@color/btn_text_enable_color"
             android:textSize="@dimen/normal_text_size"
             android:textStyle="bold"
