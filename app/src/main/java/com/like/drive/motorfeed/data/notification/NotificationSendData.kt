@@ -28,7 +28,6 @@ data class NotificationSendData(
         mapOf(
             "notificationType" to notificationType,
             "gid" to gid,
-            "eid" to eid,
             "bid" to bid,
             "uid" to uid,
             "title" to title,

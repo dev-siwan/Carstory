@@ -6,7 +6,7 @@ import java.util.*
 
 @Parcelize
 data class NoticeData(
-    var gid: String? = null,
+    var nid: String? = null,
     val title: String? = null,
     val message: String? = null,
     val mdFile: String? = null,

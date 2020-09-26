@@ -28,14 +28,14 @@ class NoticeApiImpl(
 
         val gid = ref.document().id
 
-        noticeData.gid = gid
+        noticeData.nid = gid
 
         return fireBaseTask.setData(ref, noticeData)
     }
 
     override suspend fun removeNotice(noticeData: NoticeData): Flow<Boolean> {
         return fireBaseTask.delete(
-            fireStore.collection(CollectionName.NOTICE).document(noticeData.gid ?: "")
+            fireStore.collection(CollectionName.NOTICE).document(noticeData.nid ?: "")
         )
     }
 
