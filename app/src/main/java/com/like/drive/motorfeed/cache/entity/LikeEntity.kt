@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class LikeEntity(
     @PrimaryKey(autoGenerate = true)
     val mID: Int?=null,
-    val fid: String? = null
+    val bid: String? = null
 )

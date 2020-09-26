@@ -54,7 +54,7 @@ class BoardRepositoryImpl(
         }
 
         val creteFeedData = BoardData().createData(
-            fid = documentID,
+            bid = documentID,
             boardUploadField = boardField,
             motorTypeData = boardField.motorTypeData,
             imgList = photoFileList,
@@ -115,7 +115,7 @@ class BoardRepositoryImpl(
 
         if (boardData.imageUrls?.isNotEmpty() == true) {
             boardData.imageUrls.forEachIndexed { index, _ ->
-                imgApi.deleteFeedImage(boardData.fid ?: "", index).catch { fail.invoke() }.collect()
+                imgApi.deleteFeedImage(boardData.bid ?: "", index).catch { fail.invoke() }.collect()
             }
         }
 
@@ -137,28 +137,28 @@ class BoardRepositoryImpl(
         boardApi.removeUserFeed(boardData).catch { Unit }.collect()
     }
 
-    override suspend fun setLike(fid: String, isUp: Boolean) {
+    override suspend fun setLike(bid: String, isUp: Boolean) {
         if (isUp) {
-            boardApi.updateCount(fid, LikeCountEnum.LIKE)
-            likeDao.insertFid(LikeEntity(fid = fid))
+            boardApi.updateCount(bid, LikeCountEnum.LIKE)
+            likeDao.insertFid(LikeEntity(bid = bid))
         } else {
-            likeDao.deleteFid(fid)
-            boardApi.updateCount(fid, LikeCountEnum.UNLIKE)
+            likeDao.deleteFid(bid)
+            boardApi.updateCount(bid, LikeCountEnum.UNLIKE)
         }
     }
 
-    override suspend fun getFeedComment(fid: String): Flow<List<CommentData>> {
-        return boardApi.getComment(fid)
+    override suspend fun getFeedComment(bid: String): Flow<List<CommentData>> {
+        return boardApi.getComment(bid)
     }
 
     override suspend fun getFeed(
-        fid: String,
+        bid: String,
         success: (BoardData?, List<CommentWrapData>?) -> Unit,
         isLike: (Boolean) -> Unit,
         fail: () -> Unit
     ) {
-        boardApi.getFeed(fid)
-            .zip(boardApi.getComment(fid).zip(boardApi.getReComment(fid)) { comment, reComment ->
+        boardApi.getFeed(bid)
+            .zip(boardApi.getComment(bid).zip(boardApi.getReComment(bid)) { comment, reComment ->
 
                 val list = mutableListOf<CommentWrapData>()
 
@@ -177,8 +177,8 @@ class BoardRepositoryImpl(
                 return@zip list
             }) { feedData, commentWrapList ->
 
-                feedData?.fid?.let {
-                    isLike(isLikeFeed(fid))
+                feedData?.bid?.let {
+                    isLike(isLikeFeed(bid))
                 }
 
                 success.invoke(feedData, commentWrapList)
@@ -205,7 +205,7 @@ class BoardRepositoryImpl(
         fail: () -> Unit
     ) {
         val commentData =
-            CommentData().createComment(fid = boardData.fid ?: "", commentStr = comment)
+            CommentData().createComment(bid = boardData.bid ?: "", commentStr = comment)
 
         boardApi.addComment(commentData).catch { e ->
             e.printStackTrace()
@@ -217,7 +217,7 @@ class BoardRepositoryImpl(
                 val data = NotificationSendData(
                     notificationType = NotificationType.COMMENT.value,
                     uid = boardData.userInfo?.uid,
-                    fid = boardData.fid,
+                    bid = boardData.bid,
                     title = boardData.title,
                     message = comment
                 )
@@ -239,7 +239,7 @@ class BoardRepositoryImpl(
     ) {
         val reCommentData =
             ReCommentData().createComment(
-                fid = boardData.fid ?: "",
+                bid = boardData.bid ?: "",
                 cid = commentData.cid ?: "",
                 commentStr = reComment
             )
@@ -253,7 +253,7 @@ class BoardRepositoryImpl(
                 val data = NotificationSendData(
                     notificationType = NotificationType.RE_COMMENT.value,
                     uid = commentData.userInfo?.uid,
-                    fid = boardData.fid,
+                    bid = boardData.bid,
                     title = commentData.commentStr,
                     message = reComment
                 )
@@ -314,8 +314,8 @@ class BoardRepositoryImpl(
         }
     }
 
-    override suspend fun isLikeFeed(fid: String): Boolean {
-        return likeDao.isFeedEmpty(fid).isNotEmpty()
+    override suspend fun isLikeFeed(bid: String): Boolean {
+        return likeDao.isFeedEmpty(bid).isNotEmpty()
     }
 
     private suspend fun checkImgUpload(): Flow<Int> =

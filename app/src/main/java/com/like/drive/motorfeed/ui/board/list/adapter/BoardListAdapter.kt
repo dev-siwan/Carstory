@@ -54,7 +54,7 @@ class BoardListAdapter(val vm: BoardListViewModel) :
     }
 
     fun updateFeed(board: BoardData) {
-        val originData = feedList.find { it.fid == board.fid }
+        val originData = feedList.find { it.bid == board.bid }
         originData?.let {
             val index = feedList.indexOf(it)
             feedList[index] = board
@@ -63,8 +63,8 @@ class BoardListAdapter(val vm: BoardListViewModel) :
         }
     }
 
-    fun removeFeed(fid: String) {
-        val originData = feedList.find { it.fid == fid }
+    fun removeFeed(bid: String) {
+        val originData = feedList.find { it.bid == bid }
         originData?.let {
             val index = feedList.indexOf(it)
             feedList.removeAt(index)
@@ -73,8 +73,8 @@ class BoardListAdapter(val vm: BoardListViewModel) :
         }
     }
 
-    fun getFeedData(fid: String) =
-        feedList.find { it.fid == fid }
+    fun getFeedData(bid: String) =
+        feedList.find { it.bid == bid }
 
     override fun getItemViewType(position: Int): Int {
         return when {

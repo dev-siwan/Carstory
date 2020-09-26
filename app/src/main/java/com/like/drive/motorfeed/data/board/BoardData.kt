@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
 
 @Parcelize
 data class BoardData(
-    var fid: String? = null,
+    var bid: String? = null,
     val title: String? = null,
     val content: String? = null,
     val categoryStr: String? = null,
@@ -29,13 +29,13 @@ data class BoardData(
     val updateDate: Date? = null
 ) : Parcelable {
     fun createData(
-        fid: String,
+        bid: String,
         boardUploadField: BoardUploadField,
         motorTypeData: MotorTypeData?,
         boardTagList: ArrayList<String>?,
         imgList: ArrayList<PhotoData>
     ) = BoardData(
-        fid = fid,
+        bid = bid,
         title = boardUploadField.title,
         content = boardUploadField.content,
         categoryStr = boardUploadField.category.title,
@@ -57,7 +57,7 @@ data class BoardData(
         boardTagList: ArrayList<String>?,
         boardData: BoardData
     ) = BoardData(
-        fid = boardData.fid,
+        bid = boardData.bid,
         title = boardUploadField.title,
         content = boardUploadField.content,
         categoryStr = boardUploadField.category.title,

@@ -79,12 +79,12 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         }
     }
 
-    fun initDate(fid: String) {
+    fun initDate(bid: String) {
 
         loadingStatus()
 
         viewModelScope.launch {
-            boardRepository.getFeed(fid, success = { feedData, commentWrapList ->
+            boardRepository.getFeed(bid, success = { feedData, commentWrapList ->
                 feedData?.run {
                     commentCountObserver.set(commentWrapList?.size ?: 0)
                     likeCountObserver.set(likeCount ?: 0)
@@ -96,7 +96,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
                     delayTime()
 
-                } ?: finishFeed(fid)
+                } ?: finishFeed(bid)
             }, fail = {
 
                 errorEvent.value = R.string.not_found_data
@@ -297,7 +297,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         optionFeedEvent.value = boardData
     }
 
-    fun addFeedLike(fid: String, uid: String) {
+    fun addFeedLike(bid: String, uid: String) {
 
         if (UserInfo.userInfo?.uid == uid) {
             warningSelfLikeEvent.value = R.string.like_self_message
@@ -310,7 +310,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
             setLikeCount(isLike) {
                 viewModelScope.launch {
                     boardRepository.setLike(
-                        fid,
+                        bid,
                         isLike
                     )
                 }
@@ -369,9 +369,9 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         }
     }
 
-    private fun finishFeed(fid: String) {
+    private fun finishFeed(bid: String) {
         errorEvent.value = R.string.not_found_data
-        finishEvent.value = fid
+        finishEvent.value = bid
     }
 
 }

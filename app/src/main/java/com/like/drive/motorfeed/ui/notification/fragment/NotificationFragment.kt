@@ -77,7 +77,7 @@ class NotificationFragment :
             when (it.notificationType) {
                 NotificationType.COMMENT.value, NotificationType.RE_COMMENT.value -> {
                     startAct(BoardDetailActivity::class, Bundle().apply {
-                        putString(BoardDetailActivity.KEY_BOARD_ID, it.fid)
+                        putString(BoardDetailActivity.KEY_BOARD_ID, it.bid)
                     })
                 }
             }

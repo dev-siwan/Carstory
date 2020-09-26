@@ -37,12 +37,12 @@ interface BoardRepository {
         boardData: BoardData
     )
 
-    suspend fun setLike(fid: String, isUp: Boolean)
+    suspend fun setLike(bid: String, isUp: Boolean)
 
-    suspend fun getFeedComment(fid: String): Flow<List<CommentData>>
+    suspend fun getFeedComment(bid: String): Flow<List<CommentData>>
 
     suspend fun getFeed(
-        fid: String,
+        bid: String,
         success: (BoardData?, List<CommentWrapData>?) -> Unit,
         isLike: (Boolean) -> Unit,
         fail: () -> Unit
@@ -96,5 +96,5 @@ interface BoardRepository {
         fail: () -> Unit
     )
 
-    suspend fun isLikeFeed(fid: String): Boolean
+    suspend fun isLikeFeed(bid: String): Boolean
 }

@@ -35,7 +35,7 @@ class BoardDetailActivity :
     BaseActivity<ActivityBoardDetailBinding>((R.layout.activity_board_detail)) {
 
     private var boardData: BoardData? = null
-    private var fid: String? = null
+    private var bid: String? = null
     private val viewModel: BoardDetailViewModel by viewModel()
 
     private val commentAdapter by lazy { CommentAdapter(viewModel) }
@@ -91,7 +91,7 @@ class BoardDetailActivity :
                 viewModel.initDate(it)
             }
             getStringExtra(KEY_BOARD_ID)?.let {
-                fid = it
+                bid = it
                 viewModel.run {
                     loadingStatus = LoadingStatus.INIT
                     initDate(it)
@@ -121,7 +121,7 @@ class BoardDetailActivity :
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.run {
                 loadingStatus = LoadingStatus.REFRESH
-                boardData.value?.fid?.let {
+                boardData.value?.bid?.let {
                     initDate(it)
                 } ?: isRefresh.set(false)
             }
@@ -256,7 +256,7 @@ class BoardDetailActivity :
     private fun BoardDetailViewModel.removeFeed() {
         removeFeedEvent.observe(this@BoardDetailActivity, Observer {
             setResult(BOARD_REMOVE_RES_CODE, Intent().apply {
-                putExtra(KEY_BOARD_DATA, it.fid)
+                putExtra(KEY_BOARD_DATA, it.bid)
             })
             finish()
         })

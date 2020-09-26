@@ -141,7 +141,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
 
     fun feedItemClickListener(boardData: BoardData?) {
         boardData?.let {
-            feedItemClickEvent.postValue(it.fid)
+            feedItemClickEvent.postValue(it.bid)
         }
     }
 

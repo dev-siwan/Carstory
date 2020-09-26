@@ -22,20 +22,20 @@ class BoardApiImpl(
 ) : BoardApi {
     override suspend fun setFeed(boardData: BoardData): Flow<Boolean> {
         return fireBaseTask.setData(
-            fireStore.collection(CollectionName.BOARD).document(boardData.fid ?: ""), boardData
+            fireStore.collection(CollectionName.BOARD).document(boardData.bid ?: ""), boardData
         )
     }
 
     override suspend fun setUserFeed(uid: String, boardData: BoardData): Flow<Boolean> {
         return fireBaseTask.setData(
             fireStore.collection(CollectionName.USER).document(uid).collection(CollectionName.BOARD)
-                .document(boardData.fid ?: ""), boardData
+                .document(boardData.bid ?: ""), boardData
         )
     }
 
     override suspend fun removeFeed(boardData: BoardData): Flow<Boolean> {
         return fireBaseTask.delete(
-            fireStore.collection(CollectionName.BOARD).document(boardData.fid ?: "")
+            fireStore.collection(CollectionName.BOARD).document(boardData.bid ?: "")
         )
     }
 
@@ -43,24 +43,24 @@ class BoardApiImpl(
         return fireBaseTask.delete(
             fireStore.collection(CollectionName.USER).document(boardData.userInfo?.uid ?: "")
                 .collection(CollectionName.BOARD)
-                .document(boardData.fid ?: "")
+                .document(boardData.bid ?: "")
         )
     }
 
-    override suspend fun getComment(fid: String): Flow<List<CommentData>> {
+    override suspend fun getComment(bid: String): Flow<List<CommentData>> {
         val collection =
-            fireStore.collection(CollectionName.BOARD).document(fid).collection(BOARD_COMMENT)
+            fireStore.collection(CollectionName.BOARD).document(bid).collection(BOARD_COMMENT)
         return fireBaseTask.getData(collection, CommentData::class.java)
     }
 
-    override suspend fun getReComment(fid: String): Flow<List<ReCommentData>> {
+    override suspend fun getReComment(bid: String): Flow<List<ReCommentData>> {
         val collection =
-            fireStore.collection(CollectionName.BOARD).document(fid).collection(BOARD_RE_COMMENT)
+            fireStore.collection(CollectionName.BOARD).document(bid).collection(BOARD_RE_COMMENT)
         return fireBaseTask.getData(collection, ReCommentData::class.java)
     }
 
-    override suspend fun getFeed(fid: String): Flow<BoardData?> {
-        val document = fireStore.collection(CollectionName.BOARD).document(fid)
+    override suspend fun getFeed(bid: String): Flow<BoardData?> {
+        val document = fireStore.collection(CollectionName.BOARD).document(bid)
         return fireBaseTask.getData(document, BoardData::class.java)
     }
 
@@ -129,7 +129,7 @@ class BoardApiImpl(
 
     override suspend fun addComment(commentData: CommentData): Flow<Boolean> {
         val commentFeedCollection =
-            fireStore.collection(CollectionName.BOARD).document(commentData.fid ?: "")
+            fireStore.collection(CollectionName.BOARD).document(commentData.bid ?: "")
                 .collection(BOARD_COMMENT)
 
         val cid = commentFeedCollection.document().id
@@ -139,8 +139,8 @@ class BoardApiImpl(
         return fireBaseTask.setData(commentFeedCollection.document(cid), commentData)
     }
 
-    override suspend fun updateCount(fid: String, flag: LikeCountEnum) {
-        val document = fireStore.collection(CollectionName.BOARD).document(fid)
+    override suspend fun updateCount(bid: String, flag: LikeCountEnum) {
+        val document = fireStore.collection(CollectionName.BOARD).document(bid)
         when (flag) {
             LikeCountEnum.LIKE -> {
                 document.update(LIKE_COUNT_FIELD, FieldValue.increment(1))
@@ -155,7 +155,7 @@ class BoardApiImpl(
 
     override suspend fun addReComment(reCommentData: ReCommentData): Flow<Boolean> {
         val reCommentFeedCollection =
-            fireStore.collection(CollectionName.BOARD).document(reCommentData.fid ?: "")
+            fireStore.collection(CollectionName.BOARD).document(reCommentData.bid ?: "")
                 .collection(BOARD_RE_COMMENT)
 
         val rcId = reCommentFeedCollection.document().id
@@ -166,7 +166,7 @@ class BoardApiImpl(
 
     override suspend fun updateComment(commentData: CommentData): Flow<Boolean> {
         val document =
-            fireStore.collection(CollectionName.BOARD).document(commentData.fid ?: "")
+            fireStore.collection(CollectionName.BOARD).document(commentData.bid ?: "")
                 .collection(BOARD_COMMENT)
                 .document(commentData.cid ?: "")
         return fireBaseTask.setData(document, commentData)
@@ -176,14 +176,14 @@ class BoardApiImpl(
         reCommentData: ReCommentData
     ): Flow<Boolean> {
         val document =
-            fireStore.collection(CollectionName.BOARD).document(reCommentData.fid ?: "")
+            fireStore.collection(CollectionName.BOARD).document(reCommentData.bid ?: "")
                 .collection(BOARD_RE_COMMENT)
                 .document(reCommentData.cid ?: "")
         return fireBaseTask.setData(document, reCommentData)
     }
 
     override suspend fun removeComment(commentData: CommentData): Flow<Boolean> {
-        val document = fireStore.collection(CollectionName.BOARD).document(commentData.fid ?: "")
+        val document = fireStore.collection(CollectionName.BOARD).document(commentData.bid ?: "")
             .collection(BOARD_COMMENT).document(commentData.cid ?: "")
 
         return fireBaseTask.delete(document)
@@ -191,7 +191,7 @@ class BoardApiImpl(
 
     override suspend fun removeReComment(reCommentData: ReCommentData): Flow<Boolean> {
         val document =
-            fireStore.collection(CollectionName.BOARD).document(reCommentData.fid ?: "").collection(
+            fireStore.collection(CollectionName.BOARD).document(reCommentData.bid ?: "").collection(
                 BOARD_RE_COMMENT
             ).document(reCommentData.rcId ?: "")
         return fireBaseTask.delete(document)

@@ -9,15 +9,15 @@ import java.util.*
 @Parcelize
 data class CommentData(
     var cid: String? = null,
-    val fid: String? = null,
+    val bid: String? = null,
     val userInfo: UserData? = null,
     var commentStr: String? = null,
     var reCommentCount: Int? = 0,
     val createDate: Date? = null,
     var updateDate: Date? = null
 ) : Parcelable {
-    fun createComment(fid: String, commentStr: String) = CommentData(
-        fid = fid,
+    fun createComment(bid: String, commentStr: String) = CommentData(
+        bid = bid,
         userInfo = UserInfo.userInfo,
         commentStr = commentStr,
         createDate = Date(),
@@ -29,14 +29,14 @@ data class CommentData(
 data class ReCommentData(
     var cid: String? = null,
     var rcId: String? = null,
-    val fid: String? = null,
+    val bid: String? = null,
     val userInfo: UserData? = null,
     var commentStr: String? = null,
     val createDate: Date? = null,
     var updateDate: Date? = null
 ) : Parcelable {
-    fun createComment(fid: String, cid: String, commentStr: String) = ReCommentData(
-        fid = fid,
+    fun createComment(bid: String, cid: String, commentStr: String) = ReCommentData(
+        bid = bid,
         cid = cid,
         userInfo = UserInfo.userInfo,
         commentStr = commentStr,
