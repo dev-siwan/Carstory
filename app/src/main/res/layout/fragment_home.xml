@@ -139,7 +139,7 @@
                 app:refreshing="@{feedVm.isRefresh}">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvFeedList"
+                    android:id="@+id/rvBoardList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"

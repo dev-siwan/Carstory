@@ -9,14 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.common.user.UserInfo
+import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.board.CommentData
 import com.like.drive.motorfeed.data.board.CommentWrapData
-import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.board.ReCommentData
 import com.like.drive.motorfeed.repository.board.BoardRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.board.data.CommentFragmentExtra
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -32,7 +32,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     private val _photoIndex = MutableLiveData(1)
     val photoIndex: LiveData<Int> get() = _photoIndex
 
-    val optionFeedEvent = SingleLiveEvent<BoardData>()
+    val optionEvent = SingleLiveEvent<BoardData>()
 
     val comment = MutableLiveData<String>()
     val reComment = MutableLiveData<String>()
@@ -54,7 +54,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     val completeCommentDialogEvent = SingleLiveEvent<Unit>()
 
     //피드 삭제 이벤트
-    val removeFeedEvent = SingleLiveEvent<BoardData>()
+    val removeBoardEvent = SingleLiveEvent<BoardData>()
 
     val errorEvent = SingleLiveEvent<@StringRes Int>()
     val warningSelfLikeEvent = SingleLiveEvent<@StringRes Int>()
@@ -84,7 +84,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         loadingStatus()
 
         viewModelScope.launch {
-            boardRepository.getFeed(bid, success = { feedData, commentWrapList ->
+            boardRepository.getBoard(bid, success = { feedData, commentWrapList ->
                 feedData?.run {
                     commentCountObserver.set(commentWrapList?.size ?: 0)
                     likeCountObserver.set(likeCount ?: 0)
@@ -96,7 +96,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
                     delayTime()
 
-                } ?: finishFeed(bid)
+                } ?: finishBoard(bid)
             }, fail = {
 
                 errorEvent.value = R.string.not_found_data
@@ -108,12 +108,12 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         }
     }
 
-    fun removeFeedListener() {
+    fun removeBoardListener() {
         isProgressEvent.value = true
         _feedData.value?.let {
             viewModelScope.launch {
-                boardRepository.removeFeed(it,
-                    success = { removeFeedEvent.value = it },
+                boardRepository.removeBoard(it,
+                    success = { removeBoardEvent.value = it },
                     fail = { setFailProcess(R.string.feed_remove_error_message) })
             }
         }
@@ -148,13 +148,13 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         commentFragmentExtra?.run {
             if (commentUpdate == true) {
                 commentData?.let {
-                    updateFeedComment(it, commentStrValue!!)
+                    updateComment(it, commentStrValue!!)
                 }
                 reCommentData?.let {
-                    updateFeedReComment(it, commentStrValue!!)
+                    updateReComment(it, commentStrValue!!)
                 }
             } else {
-                addReFeedComment(commentFragmentExtra.commentData!!, commentStrValue)
+                addReComment(commentFragmentExtra.commentData!!, commentStrValue)
             }
         }
     }
@@ -162,7 +162,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     /**
      * Remote 댓글 추가
      */
-    fun addFeedComment(boardData: BoardData, comment: String?) {
+    fun addComment(boardData: BoardData, comment: String?) {
 
         isProgressEvent.value = true
 
@@ -184,7 +184,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     /**
      * Remote 대댓글 추가
      */
-    private fun addReFeedComment(commentData: CommentData, reCommentValue: String?) {
+    private fun addReComment(commentData: CommentData, reCommentValue: String?) {
 
         isProgressEvent.value = true
 
@@ -206,7 +206,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     /**
      * Remote 댓글 수정
      */
-    private fun updateFeedComment(commentData: CommentData, commentValue: String) {
+    private fun updateComment(commentData: CommentData, commentValue: String) {
         isProgressEvent.value = true
 
         viewModelScope.launch {
@@ -224,7 +224,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     /**
      * Remote 대댓글 수정
      */
-    private fun updateFeedReComment(reCommentData: ReCommentData, commentValue: String) {
+    private fun updateReComment(reCommentData: ReCommentData, commentValue: String) {
         isProgressEvent.value = true
 
         viewModelScope.launch {
@@ -242,7 +242,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     /**
      * Remote 댓글 삭제
      */
-    fun removeFeedComment(commentData: CommentData) {
+    fun removeBoardComment(commentData: CommentData) {
 
         isProgressEvent.value = true
 
@@ -261,7 +261,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     /**
      * Remote 대댓글 삭제
      */
-    fun removeFeedReComment(reCommentData: ReCommentData) {
+    fun removeBoardReComment(reCommentData: ReCommentData) {
 
         isProgressEvent.value = true
 
@@ -293,11 +293,11 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         optionsReCommentEvent.value = reCommentData
     }
 
-    fun showFeedOptions(boardData: BoardData) {
-        optionFeedEvent.value = boardData
+    fun showBoardOptions(boardData: BoardData) {
+        optionEvent.value = boardData
     }
 
-    fun addFeedLike(bid: String, uid: String) {
+    fun addBoardLike(bid: String, uid: String) {
 
         if (UserInfo.userInfo?.uid == uid) {
             warningSelfLikeEvent.value = R.string.like_self_message
@@ -369,7 +369,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         }
     }
 
-    private fun finishFeed(bid: String) {
+    private fun finishBoard(bid: String) {
         errorEvent.value = R.string.not_found_data
         finishEvent.value = bid
     }

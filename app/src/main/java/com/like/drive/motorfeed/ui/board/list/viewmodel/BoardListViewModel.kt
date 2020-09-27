@@ -58,7 +58,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         this.motorTypeData = motorTypeData
         this.tagQuery = if (!tagQuery.isNullOrBlank()) tagQuery else null
 
-        getFeedList()
+        getBoardList()
     }
 
     fun moreData(date: Date? = null) {
@@ -68,12 +68,12 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         loadingStatus = LoadingStatus.MORE
         loadingStatus()
 
-        getFeedList(date)
+        getBoardList(date)
     }
 
-    private fun getFeedList(date: Date? = Date()) {
+    private fun getBoardList(date: Date? = Date()) {
         viewModelScope.launch {
-            boardRepository.getFeedList(date ?: Date(), motorTypeData, categoryData, tagQuery)
+            boardRepository.getBoardList(date ?: Date(), motorTypeData, categoryData, tagQuery)
                 .catch {
                     it.message
                     /**
@@ -116,7 +116,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
 
     private fun getUserList(date: Date? = Date(), uid: String) {
         viewModelScope.launch {
-            boardRepository.getUserFeedList(date ?: Date(), uid)
+            boardRepository.getUserBoardList(date ?: Date(), uid)
                 .catch {
 
                     it.message
@@ -159,9 +159,9 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         }
     }
 
-    fun removeFeed(boardData: BoardData) {
+    fun removeBoard(boardData: BoardData) {
         viewModelScope.launch {
-            boardRepository.removeUserFeed(boardData)
+            boardRepository.removeEmptyBoard(boardData)
         }
     }
 

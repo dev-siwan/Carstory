@@ -36,7 +36,7 @@ class BoardRepositoryImpl(
     private var photoFileList = ArrayList<PhotoData>()
     private lateinit var documentID: String
 
-    override suspend fun addFeed(
+    override suspend fun addBoard(
         boardField: BoardUploadField,
         photoFileList: ArrayList<PhotoData>,
         photoSuccessCount: (Int) -> Unit,
@@ -53,7 +53,7 @@ class BoardRepositoryImpl(
             }
         }
 
-        val creteFeedData = BoardData().createData(
+        val creteBoardData = BoardData().createData(
             bid = documentID,
             boardUploadField = boardField,
             motorTypeData = boardField.motorTypeData,
@@ -61,10 +61,10 @@ class BoardRepositoryImpl(
             boardTagList = boardField.tagList
         )
 
-        boardApi.setFeed(creteFeedData)
-            .zip(boardApi.setUserFeed(creteFeedData.userInfo?.uid ?: "", creteFeedData)) { t1, t2 ->
+        boardApi.setBoard(creteBoardData)
+            .zip(boardApi.setUserBoard(creteBoardData.userInfo?.uid ?: "", creteBoardData)) { t1, t2 ->
                 if (t1 && t2) {
-                    success(creteFeedData)
+                    success(creteBoardData)
                 } else {
                     fail.invoke()
                 }
@@ -75,7 +75,7 @@ class BoardRepositoryImpl(
             .collect()
     }
 
-    override suspend fun updateFeed(
+    override suspend fun updateBoard(
         boardField: BoardUploadField,
         boardData: BoardData,
         success: (BoardData) -> Unit,
@@ -88,9 +88,9 @@ class BoardRepositoryImpl(
             boardTagList = boardField.tagList
         )
 
-        boardApi.setFeed(updateFeedData)
+        boardApi.setBoard(updateFeedData)
             .zip(
-                boardApi.setUserFeed(
+                boardApi.setUserBoard(
                     updateFeedData.userInfo?.uid ?: "",
                     updateFeedData
                 )
@@ -107,7 +107,7 @@ class BoardRepositoryImpl(
             .collect()
     }
 
-    override suspend fun removeFeed(
+    override suspend fun removeBoard(
         boardData: BoardData,
         success: (BoardData) -> Unit,
         fail: () -> Unit
@@ -115,11 +115,11 @@ class BoardRepositoryImpl(
 
         if (boardData.imageUrls?.isNotEmpty() == true) {
             boardData.imageUrls.forEachIndexed { index, _ ->
-                imgApi.deleteFeedImage(boardData.bid ?: "", index).catch { fail.invoke() }.collect()
+                imgApi.deleteBoardImage(boardData.bid ?: "", index).catch { fail.invoke() }.collect()
             }
         }
 
-        boardApi.removeFeed(boardData).zip(boardApi.removeUserFeed(boardData)) { t1, t2 ->
+        boardApi.removeBoard(boardData).zip(boardApi.removeUserBoard(boardData)) { t1, t2 ->
             if (t1 && t2) {
                 success(boardData)
             } else {
@@ -131,33 +131,33 @@ class BoardRepositoryImpl(
 
     }
 
-    override suspend fun removeUserFeed(
+    override suspend fun removeEmptyBoard(
         boardData: BoardData
     ) {
-        boardApi.removeUserFeed(boardData).catch { Unit }.collect()
+        boardApi.removeUserBoard(boardData).catch { Unit }.collect()
     }
 
     override suspend fun setLike(bid: String, isUp: Boolean) {
         if (isUp) {
             boardApi.updateCount(bid, LikeCountEnum.LIKE)
-            likeDao.insertFid(LikeEntity(bid = bid))
+            likeDao.insertBid(LikeEntity(bid = bid))
         } else {
-            likeDao.deleteFid(bid)
+            likeDao.deleteBid(bid)
             boardApi.updateCount(bid, LikeCountEnum.UNLIKE)
         }
     }
 
-    override suspend fun getFeedComment(bid: String): Flow<List<CommentData>> {
+    override suspend fun getBoardComment(bid: String): Flow<List<CommentData>> {
         return boardApi.getComment(bid)
     }
 
-    override suspend fun getFeed(
+    override suspend fun getBoard(
         bid: String,
         success: (BoardData?, List<CommentWrapData>?) -> Unit,
         isLike: (Boolean) -> Unit,
         fail: () -> Unit
     ) {
-        boardApi.getFeed(bid)
+        boardApi.getBoard(bid)
             .zip(boardApi.getComment(bid).zip(boardApi.getReComment(bid)) { comment, reComment ->
 
                 val list = mutableListOf<CommentWrapData>()
@@ -178,7 +178,7 @@ class BoardRepositoryImpl(
             }) { feedData, commentWrapList ->
 
                 feedData?.bid?.let {
-                    isLike(isLikeFeed(bid))
+                    isLike(isLikeBoard(bid))
                 }
 
                 success.invoke(feedData, commentWrapList)
@@ -187,16 +187,16 @@ class BoardRepositoryImpl(
             }.collect()
     }
 
-    override suspend fun getFeedList(
+    override suspend fun getBoardList(
         date: Date,
         motorTypeData: MotorTypeData?,
         feedTypeData: CategoryData?,
         tagStr: String?
     ): Flow<List<BoardData>> =
-        boardApi.getFeedList(date, motorTypeData, feedTypeData, tagStr)
+        boardApi.getBoardList(date, motorTypeData, feedTypeData, tagStr)
 
-    override suspend fun getUserFeedList(date: Date, uid: String): Flow<List<BoardData>> =
-        boardApi.getUserFeedList(date, uid)
+    override suspend fun getUserBoardList(date: Date, uid: String): Flow<List<BoardData>> =
+        boardApi.getUserBoardList(date, uid)
 
     override suspend fun addComment(
         boardData: BoardData,
@@ -314,8 +314,8 @@ class BoardRepositoryImpl(
         }
     }
 
-    override suspend fun isLikeFeed(bid: String): Boolean {
-        return likeDao.isFeedEmpty(bid).isNotEmpty()
+    override suspend fun isLikeBoard(bid: String): Boolean {
+        return likeDao.isBoardLike(bid).isNotEmpty()
     }
 
     override suspend fun removeAllLike() {
@@ -335,7 +335,7 @@ class BoardRepositoryImpl(
     private suspend fun imgUpload(): Flow<Int> = flow {
         photoFileList.forEachIndexed { index, photoData ->
             if (photoData.imgUrl == null) {
-                imgApi.uploadFeedImage(documentID, photoData.file!!, index)
+                imgApi.uploadBoardImage(documentID, photoData.file!!, index)
                     .catch { photoFileList[index].imgUrl = null }
                     .collect {
                         photoFileList[index].imgUrl = it.toString()

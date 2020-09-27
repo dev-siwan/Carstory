@@ -35,7 +35,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="@{()->vm.showFeedOptions(vm.boardData)}"
+                android:onClick="@{()->vm.showBoardOptions(vm.boardData)}"
                 android:src="@drawable/ic_black_more_vert"
                 tools:ignore="ContentDescription" />
         </androidx.appcompat.widget.Toolbar>
@@ -273,7 +273,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:enabled="@{!TextUtils.isEmpty(vm.comment)}"
                 android:gravity="center"
-                android:onClick="@{()->vm.addFeedComment(vm.boardData,etComment.text)}"
+                android:onClick="@{()->vm.addComment(vm.boardData,etComment.text)}"
                 android:padding="@dimen/activity_vertical_margin"
                 android:text="@string/enrollment_text"
                 android:textColor="@color/text_enable_color"
@@ -287,7 +287,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            android:id="@+id/incShimmerFeed"
+            android:id="@+id/incShimmerBoard"
             layout="@layout/shimmer_detail"
             android:layout_width="0dp"
             android:layout_height="0dp"

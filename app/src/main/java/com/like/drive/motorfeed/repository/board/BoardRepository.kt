@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface BoardRepository {
-    suspend fun addFeed(
+    suspend fun addBoard(
         boardField: BoardUploadField,
         photoFileList: ArrayList<PhotoData>,
         photoSuccessCount: (Int) -> Unit,
@@ -20,42 +20,42 @@ interface BoardRepository {
         fail: () -> Unit
     )
 
-    suspend fun updateFeed(
+    suspend fun updateBoard(
         boardField: BoardUploadField,
         boardData: BoardData,
         success: (BoardData) -> Unit,
         fail: () -> Unit
     )
 
-    suspend fun removeFeed(
+    suspend fun removeBoard(
         boardData: BoardData,
         success: (BoardData) -> Unit,
         fail: () -> Unit
     )
 
-    suspend fun removeUserFeed(
+    suspend fun removeEmptyBoard(
         boardData: BoardData
     )
 
     suspend fun setLike(bid: String, isUp: Boolean)
 
-    suspend fun getFeedComment(bid: String): Flow<List<CommentData>>
+    suspend fun getBoardComment(bid: String): Flow<List<CommentData>>
 
-    suspend fun getFeed(
+    suspend fun getBoard(
         bid: String,
         success: (BoardData?, List<CommentWrapData>?) -> Unit,
         isLike: (Boolean) -> Unit,
         fail: () -> Unit
     )
 
-    suspend fun getFeedList(
+    suspend fun getBoardList(
         date: Date,
         motorTypeData: MotorTypeData? = null,
         feedTypeData: CategoryData? = null,
         tagStr: String? = null
     ): Flow<List<BoardData>>
 
-    suspend fun getUserFeedList(date: Date, uid: String): Flow<List<BoardData>>
+    suspend fun getUserBoardList(date: Date, uid: String): Flow<List<BoardData>>
 
     suspend fun addComment(
         boardData: BoardData,
@@ -96,7 +96,7 @@ interface BoardRepository {
         fail: () -> Unit
     )
 
-    suspend fun isLikeFeed(bid: String): Boolean
+    suspend fun isLikeBoard(bid: String): Boolean
 
     suspend fun removeAllLike()
 }

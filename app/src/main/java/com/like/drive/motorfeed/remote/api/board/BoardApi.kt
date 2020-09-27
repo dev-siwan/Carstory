@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface BoardApi {
-    suspend fun setFeed(boardData: BoardData): Flow<Boolean>
-    suspend fun setUserFeed(uid: String, boardData: BoardData): Flow<Boolean>
-    suspend fun removeFeed(boardData: BoardData): Flow<Boolean>
-    suspend fun removeUserFeed(boardData: BoardData): Flow<Boolean>
+    suspend fun setBoard(boardData: BoardData): Flow<Boolean>
+    suspend fun setUserBoard(uid: String, boardData: BoardData): Flow<Boolean>
+    suspend fun removeBoard(boardData: BoardData): Flow<Boolean>
+    suspend fun removeUserBoard(boardData: BoardData): Flow<Boolean>
     suspend fun getComment(bid: String): Flow<List<CommentData>>
     suspend fun getReComment(bid: String): Flow<List<ReCommentData>>
-    suspend fun getFeed(bid: String): Flow<BoardData?>
-    suspend fun getFeedList(
+    suspend fun getBoard(bid: String): Flow<BoardData?>
+    suspend fun getBoardList(
         date: Date,
         motorTypeData: MotorTypeData? = null,
         feedTypeData: CategoryData? = null,
@@ -25,7 +25,7 @@ interface BoardApi {
     ): Flow<List<BoardData>>
 
 
-    suspend fun getUserFeedList(date:Date,uid: String):Flow<List<BoardData>>
+    suspend fun getUserBoardList(date:Date, uid: String):Flow<List<BoardData>>
 
     suspend fun addComment(commentData: CommentData): Flow<Boolean>
     suspend fun updateCount(bid: String, flag: LikeCountEnum)

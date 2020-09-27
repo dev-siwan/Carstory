@@ -10,14 +10,14 @@ import com.like.drive.motorfeed.cache.entity.LikeEntity
 interface LikeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFid(bid: LikeEntity)
+    suspend fun insertBid(bid: LikeEntity)
 
     @Query("DELETE FROM LikeEntity WHERE bid =:bid")
-    suspend fun deleteFid(bid: String)
+    suspend fun deleteBid(bid: String)
 
     @Query("DELETE FROM LikeEntity")
     suspend fun deleteLike()
 
     @Query("SELECT * FROM LikeEntity WHERE bid =:bid")
-    suspend fun isFeedEmpty(bid: String): List<LikeEntity>
+    suspend fun isBoardLike(bid: String): List<LikeEntity>
 }

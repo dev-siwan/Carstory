@@ -58,7 +58,6 @@
     <string name="upload">업로드</string>
     <string name="filter">필터</string>
 
-    <string name="label_feed_list">FeedListFragment</string>
     <string name="label_home">HomeFragment</string>
     <string name="label_upload_activity">UploadActivity</string>
 

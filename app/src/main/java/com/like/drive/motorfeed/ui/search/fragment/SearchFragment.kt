@@ -90,7 +90,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         super.onBind(dataBinding)
         dataBinding.vm = viewModel
         dataBinding.feedVm = boardListViewModel
-        dataBinding.incSearchList.rvFeed.adapter = feedAdapter
+        dataBinding.incSearchList.rvBoard.adapter = feedAdapter
         dataBinding.incRecentlyList.rvRecently.adapter = RecentlyListAdapter(viewModel)
 
     }
@@ -108,7 +108,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         adView ?: advInit()
 
         //리싸이클러뷰 페이징
-        rvFeed.init()
+        rvBoard.init()
 
         //검색창 포커스
         etSearch.onFocusChangeListener = editFocusListener
@@ -279,17 +279,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
                         data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)
                             ?.let {
-                                feedAdapter.updateFeed(it)
+                                feedAdapter.updateBoard(it)
                             }
                     }
                     BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            feedAdapter.removeFeed(it)
+                            feedAdapter.removeBoard(it)
                         }
                     }
                     BoardDetailActivity.BOARD_NOT_FOUND_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            feedAdapter.removeFeed(it)
+                            feedAdapter.removeBoard(it)
                         }
                     }
                 }

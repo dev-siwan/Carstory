@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         dataBinding.feedVm = boardListViewModel
         dataBinding.vm = viewModel
-        dataBinding.rvFeedList.apply {
+        dataBinding.rvBoardList.apply {
 
             adapter = listAdapter
             paging()
@@ -148,7 +148,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         with(boardListViewModel) {
-            completeFeedList()
+            completeBoardList()
             pageToDetailAct()
             initEmpty()
         }
@@ -160,7 +160,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    private fun BoardListViewModel.completeFeedList() {
+    private fun BoardListViewModel.completeBoardList() {
         feedList.observe(viewLifecycleOwner, Observer {
             listAdapter.run {
                 if (isFirst) {
@@ -242,17 +242,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
                         data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)
                             ?.let {
-                                listAdapter.updateFeed(it)
+                                listAdapter.updateBoard(it)
                             }
                     }
                     BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            listAdapter.removeFeed(it)
+                            listAdapter.removeBoard(it)
                         }
                     }
                     BoardDetailActivity.BOARD_NOT_FOUND_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            listAdapter.removeFeed(it)
+                            listAdapter.removeBoard(it)
                         }
                     }
                 }

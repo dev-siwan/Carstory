@@ -99,7 +99,9 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
             viewModel.setFilterData(it)
         }
 
-        showCategoryDialog()
+        if (viewModel.categoryData.value == null) {
+            showCategoryDialog()
+        }
     }
 
     /**
@@ -222,7 +224,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
      * 피드카테고리 다이아로그 실행
      * */
     private fun UploadViewModel.showCategoryDialogEvent() {
-        showFeedItemPage.observe(this@UploadActivity, Observer {
+        showCategoryItemPage.observe(this@UploadActivity, Observer {
             showCategoryDialog()
         })
     }
@@ -231,7 +233,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
      * 피드카테고리 다이아로그 끔
      * */
     private fun UploadViewModel.closeCategoryDialogEvent() {
-        closeFeedItemPage.observe(this@UploadActivity, Observer {
+        closeCategoryItemPage.observe(this@UploadActivity, Observer {
             dismissCategoryDialog()
         })
     }
@@ -373,11 +375,8 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     }
 
     private fun showCategoryDialog() {
-
-        if (viewModel.categoryData.value == null) {
-            categoryDialog.show(supportFragmentManager, "")
-            viewModel.setCategoryItem(getCategoryList(this)[0])
-        }
+        categoryDialog.show(supportFragmentManager, "")
+        viewModel.setCategoryItem(getCategoryList(this)[0])
 
     }
 

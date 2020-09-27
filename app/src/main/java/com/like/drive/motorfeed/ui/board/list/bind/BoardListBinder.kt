@@ -11,14 +11,6 @@ import com.like.drive.motorfeed.ui.base.ext.setMotorType
 import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
 
-@BindingAdapter("feedList")
-fun RecyclerView.setFeedList(boardList: List<BoardData>?) {
-    boardList?.let {
-        (adapter as BoardListAdapter).run {
-            initList(it)
-        }
-    }
-}
 
 @BindingAdapter("filterCategory")
 fun TextView.setFilterCategory(feedTypeData: CategoryData?) {

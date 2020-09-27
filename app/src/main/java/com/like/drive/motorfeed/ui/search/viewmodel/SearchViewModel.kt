@@ -30,7 +30,7 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
 
     val isSearchStatus = ObservableBoolean(true)
 
-    val searchFeedAction: (String?) -> Unit = this::tagListener
+    val searchTagAction: (String?) -> Unit = this::tagListener
 
     init {
         setRecentlyData()

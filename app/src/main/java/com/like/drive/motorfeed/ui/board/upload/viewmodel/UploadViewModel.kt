@@ -51,8 +51,8 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
     val completeEvent = SingleLiveEvent<BoardData>()
     val errorEvent = SingleLiveEvent<@StringRes Int>()
 
-    val closeFeedItemPage = SingleLiveEvent<Unit>()
-    val showFeedItemPage = SingleLiveEvent<Unit>()
+    val closeCategoryItemPage = SingleLiveEvent<Unit>()
+    val showCategoryItemPage = SingleLiveEvent<Unit>()
 
     val isFieldEnable = MediatorLiveData<Boolean>().apply {
         addSource(title) {
@@ -128,14 +128,14 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
             tagList = tagList as ArrayList<String>
         )
 
-        if (isUpdate.get()) updateFeed(feedField, boardData) else addFeed(feedField)
+        if (isUpdate.get()) updateBoard(feedField, boardData) else addBoard(feedField)
     }
 
     /*
        * TODO 에러메세지 넣어야함*/
-    private fun addFeed(boardField: BoardUploadField) {
+    private fun addBoard(boardField: BoardUploadField) {
         viewModelScope.launch {
-            boardRepository.addFeed(boardField, originFileList,
+            boardRepository.addBoard(boardField, originFileList,
                 photoSuccessCount = { count ->
                     _uploadPhotoCount.postValue(count)
                     if (count == originFileList.size) {
@@ -154,10 +154,10 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
 
     /*
     * TODO 에러메세지 넣어야함*/
-    private fun updateFeed(boardField: BoardUploadField, boardData: BoardData?) {
+    private fun updateBoard(boardField: BoardUploadField, boardData: BoardData?) {
         boardData?.let {
             viewModelScope.launch {
-                boardRepository.updateFeed(boardField, boardData,
+                boardRepository.updateBoard(boardField, boardData,
                     success = {
                         isUploadLoading.postValue(false)
                         completeEvent.value = it
@@ -178,7 +178,7 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
 
     fun setCategoryItem(category: CategoryData?) {
         _categoryData.value = category
-        closeFeedItemPage.call()
+        closeCategoryItemPage.call()
     }
 
     private fun isResultFieldValue(title: String?, content: String?, feedItemType: CategoryData?) =

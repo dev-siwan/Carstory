@@ -55,7 +55,7 @@
                 android:drawableEnd="@drawable/ic_black_down"
                 android:drawablePadding="@dimen/activity_x_small_margin"
                 android:gravity="center_vertical"
-                android:onClick="@{()->vm.doClickEvent(vm.showFeedItemPage)}"
+                android:onClick="@{()->vm.doClickEvent(vm.showCategoryItemPage)}"
                 android:text="@{vm.categoryData !=null? vm.categoryData.title : @string/feed_register}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"

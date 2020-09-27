@@ -133,7 +133,7 @@ class BoardDetailActivity :
             error()
             imgClick()
             isProgress()
-            removeFeed()
+            removeBoard()
             addComment()
             removeComment()
             showCommentFragmentDialog()
@@ -208,10 +208,10 @@ class BoardDetailActivity :
     private fun BoardDetailViewModel.showOptions() {
 
         //게시물
-        optionFeedEvent.observe(this@BoardDetailActivity, Observer { feedData ->
+        optionEvent.observe(this@BoardDetailActivity, Observer { feedData ->
             showOptionsList(feedData.userInfo?.uid,
                 reportCallback = {},
-                deleteCallback = { viewModel.removeFeedListener() },
+                deleteCallback = { viewModel.removeBoardListener() },
                 updateCallback = {
                     startActForResult(
                         UploadActivity::class,
@@ -231,7 +231,7 @@ class BoardDetailActivity :
 
                 },
                 deleteCallback = {
-                    removeFeedComment(commentData)
+                    removeBoardComment(commentData)
                 },
                 updateCallback = {
                     showCommentDialogListener(true, commentData, null)
@@ -245,7 +245,7 @@ class BoardDetailActivity :
 
                 },
                 deleteCallback = {
-                    removeFeedReComment(reCommentData)
+                    removeBoardReComment(reCommentData)
                 },
                 updateCallback = {
                     showCommentDialogListener(true, null, reCommentData)
@@ -253,8 +253,8 @@ class BoardDetailActivity :
         })
     }
 
-    private fun BoardDetailViewModel.removeFeed() {
-        removeFeedEvent.observe(this@BoardDetailActivity, Observer {
+    private fun BoardDetailViewModel.removeBoard() {
+        removeBoardEvent.observe(this@BoardDetailActivity, Observer {
             setResult(BOARD_REMOVE_RES_CODE, Intent().apply {
                 putExtra(KEY_BOARD_DATA, it.bid)
             })

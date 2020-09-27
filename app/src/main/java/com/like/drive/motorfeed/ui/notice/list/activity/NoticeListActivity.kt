@@ -34,7 +34,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
         tvNoticeUpload.setOnClickListener {
             NoticeUploadFragmentDialog.newInstance().apply {
                 onComplete = {
-                    noticeAdapter.addFeed(it)
+                    noticeAdapter.addNotice(it)
                     dismiss()
                 }
             }.show(supportFragmentManager, "")

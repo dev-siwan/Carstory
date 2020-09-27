@@ -106,7 +106,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/containerSearchImage"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:onEditorSearchAction="@{vm.searchFeedAction}"
+                    app:onEditorSearchAction="@{vm.searchTagAction}"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
                 <View

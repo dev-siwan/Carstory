@@ -3,9 +3,7 @@ package com.like.drive.motorfeed.ui.board.list.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.board.BoardData
@@ -42,12 +40,12 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
         super.onBinding(dataBinding)
 
         dataBinding.vm = viewModel
-        dataBinding.rvFeedList.adapter = boardListAdapter
+        dataBinding.rvBoardList.adapter = boardListAdapter
     }
 
     private fun initView() {
 
-        rvFeedList.run {
+        rvBoardList.run {
             addItemDecoration(dividerItemDecoration())
             paging()
         }
@@ -101,12 +99,12 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     private fun withViewModel() {
         with(viewModel) {
             pageToDetailAct()
-            completeFeedList()
+            completeBoardList()
         }
 
     }
 
-    private fun BoardListViewModel.completeFeedList() {
+    private fun BoardListViewModel.completeBoardList() {
         feedList.observe(this@BoardListActivity, Observer {
             boardListAdapter.run {
                 if (isFirst) {
@@ -135,22 +133,22 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
                     BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
                         data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)
                             ?.let {
-                                boardListAdapter.updateFeed(it)
+                                boardListAdapter.updateBoard(it)
                             }
                     }
                     BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            boardListAdapter.removeFeed(it)
+                            boardListAdapter.removeBoard(it)
                         }
                     }
                     BoardDetailActivity.BOARD_NOT_FOUND_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
 
-                            boardListAdapter.getFeedData(it)?.let { feedData ->
-                                viewModel.removeFeed(feedData)
+                            boardListAdapter.getBoardData(it)?.let { feedData ->
+                                viewModel.removeBoard(feedData)
                             }
 
-                            boardListAdapter.removeFeed(it)
+                            boardListAdapter.removeBoard(it)
 
                         }
                     }
@@ -163,7 +161,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
                         data?.getParcelableExtra<BoardData>(UploadActivity.BOARD_CREATE_KEY)
                             ?.let {
                                 boardListAdapter.run {
-                                    addFeed(it)
+                                    addBoard(it)
                                 }
                             }
                     }

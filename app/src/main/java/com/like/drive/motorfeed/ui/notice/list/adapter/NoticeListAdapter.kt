@@ -35,12 +35,12 @@ class NoticeListAdapter(val vm:NoticeListViewModel) : RecyclerView.Adapter<Notic
         }
     }
 
-    fun addFeed(noticeData: NoticeData) {
+    fun addNotice(noticeData: NoticeData) {
         noticeList.add(0, noticeData)
         notifyItemInserted(0)
     }
 
-    fun updateFeed(noticeData: NoticeData) {
+    fun updateNotice(noticeData: NoticeData) {
         val originData = noticeList.find { it.nid == noticeData.nid }
         originData?.let {
             val index = noticeList.indexOf(it)
@@ -49,7 +49,7 @@ class NoticeListAdapter(val vm:NoticeListViewModel) : RecyclerView.Adapter<Notic
         }
     }
 
-    fun removeFeed(gid: String) {
+    fun removeNotice(gid: String) {
         val originData = noticeList.find { it.nid == gid }
         originData?.let {
             val index = noticeList.indexOf(it)
