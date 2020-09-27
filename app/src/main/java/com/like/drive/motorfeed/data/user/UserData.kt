@@ -13,5 +13,6 @@ data class UserData(
     val fcmToken: String? = null,
     val userBan: Boolean = false,
     var commentSubscribe: Boolean = true,
-    val admin: Boolean = false
+    val admin: Boolean = false,
+    val emailSignUp: Boolean = true
 ) : Parcelable

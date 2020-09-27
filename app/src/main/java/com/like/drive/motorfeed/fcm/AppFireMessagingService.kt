@@ -51,11 +51,13 @@ class AppFireMessagingService : FirebaseMessagingService(), KoinComponent {
                 }
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
                 NotificationUtil.playNotificationSound(this)
-                return
-            }
 
-            val notificationUtil = NotificationUtil(applicationContext)
-            notificationUtil.showNotificationMessageEmptyIntent(title, message)
+            } else {
+
+                val notificationUtil = NotificationUtil(applicationContext)
+                notificationUtil.showNotificationMessageEmptyIntent(it)
+
+            }
 
             CoroutineScope(Dispatchers.IO).launch {
                 repo.insert(it)

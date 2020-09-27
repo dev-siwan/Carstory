@@ -49,7 +49,7 @@
             android:id="@+id/containerProfileImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@+id/glTop">
 
@@ -58,7 +58,6 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -87,10 +86,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_small_margin"
-            app:layout_constraintBottom_toBottomOf="@+id/containerProfileImg"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
-            app:layout_constraintStart_toEndOf="@id/containerProfileImg"
-            app:layout_constraintTop_toTopOf="@+id/containerProfileImg">
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@+id/containerProfileImg">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_x_small_margin"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{UserInfo.INSTANCE.userInfo.email}"
+                android:textColor="@color/grey_4"
+                android:textSize="@dimen/normal_text_size"
+                app:autoSizeMinTextSize="@dimen/normal_text_size"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="가나다라마바사아" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNick"
@@ -106,14 +122,15 @@
                 android:textStyle="bold"
                 app:autoSizeMinTextSize="@dimen/normal_text_size"
                 app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvEmail"
                 tools:text="가나다라마바사아" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvIntro"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_small_margin"
                 android:text="@{!TextUtils.isEmpty(UserInfo.INSTANCE.userInfo.intro) ? UserInfo.INSTANCE.userInfo.intro : @string/intro_empty_desc}"

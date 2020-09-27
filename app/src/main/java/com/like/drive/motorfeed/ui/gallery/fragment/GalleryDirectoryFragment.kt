@@ -12,7 +12,8 @@ import com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel
 import kotlinx.android.synthetic.main.fragment_gallery_directory.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class GalleryDirectoryFragment : BaseFragmentDialog<FragmentGalleryDirectoryBinding>(R.layout.fragment_gallery_directory) {
+class GalleryDirectoryFragment :
+    BaseFragmentDialog<FragmentGalleryDirectoryBinding>(R.layout.fragment_gallery_directory) {
 
     private val galleryViewModel: GalleryViewModel by sharedViewModel()
     private val directoryAdapter: GalleryDirectoryAdapter by lazy {
@@ -38,16 +39,9 @@ class GalleryDirectoryFragment : BaseFragmentDialog<FragmentGalleryDirectoryBind
     }
 
     private fun initView() {
-        val decorationItem = DividerItemDecoration(
-            rvGalleryDirectory.context, DividerItemDecoration.VERTICAL
-        ).apply {
-            ContextCompat.getDrawable(
-                requireContext(), R.drawable.line_solid_grey_6
-            )?.let { setDrawable(it) }
-        }
+
         rvGalleryDirectory?.run {
             adapter = directoryAdapter
-            //addItemDecoration(decorationItem)
         }
 
         galleryViewModel.getGalleryDirectory()

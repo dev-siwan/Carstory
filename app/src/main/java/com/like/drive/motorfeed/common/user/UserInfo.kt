@@ -6,6 +6,7 @@ import com.like.drive.motorfeed.common.define.FirebaseDefine
 import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.pref.UserPref
 import com.like.drive.motorfeed.remote.api.user.UserApi
+import com.like.drive.motorfeed.repository.board.BoardRepository
 import com.like.drive.motorfeed.repository.notification.NotificationRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
@@ -18,6 +19,7 @@ object UserInfo : KoinComponent {
     val userPref: UserPref by inject()
     private val userApi: UserApi by inject()
     private val notificationRepo: NotificationRepository by inject()
+    private val boardRepository: BoardRepository by inject()
 
     var userInfo: UserData? = null
     var isNoticeTopic: Boolean = true
@@ -36,6 +38,7 @@ object UserInfo : KoinComponent {
             userApi.signOut()
             userPref.removeUserInfo()
             notificationRepo.allDelete()
+            boardRepository.removeAllLike()
             userInfo = null
             cancel()
         }

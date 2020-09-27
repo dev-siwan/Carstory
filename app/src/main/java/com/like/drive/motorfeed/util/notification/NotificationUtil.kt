@@ -9,22 +9,23 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.like.drive.motorfeed.MotorFeedApplication
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.define.FirebaseDefine
+import com.like.drive.motorfeed.data.notification.NotificationSendData
+import com.like.drive.motorfeed.data.notification.NotificationType
 import com.like.drive.motorfeed.ui.splash.activity.SplashActivity
 
 class NotificationUtil(private val context: Context) {
 
-    fun showNotificationMessageEmptyIntent(title: String, message: String) {
-        //if (message.isBlank()) return
-
+    fun showNotificationMessageEmptyIntent(fcmSendData: NotificationSendData) {
         val intent = Intent(context, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra(FirebaseDefine.PUSH_NOTIFICATION, true)
+            putExtra(FirebaseDefine.PUSH_NOTIFICATION, fcmSendData)
         }
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        showNotification(getBuilder(), title, message, pendingIntent)
+        showNotification(getBuilder(), fcmSendData, pendingIntent)
     }
 
     @Suppress("DEPRECATION")
@@ -38,12 +39,19 @@ class NotificationUtil(private val context: Context) {
 
     private fun showNotification(
         mBuilder: NotificationCompat.Builder,
-        title: String? = "",
-        message: String? = "",
+        data: NotificationSendData,
         pendingIntent: PendingIntent
     ) {
+
+        val title =
+            NotificationType.values()
+                .find { type -> type.value == data.notificationType }?.title
+                ?: MotorFeedApplication.getContext().getString(R.string.app_name_kr)
+        val message = data.message ?: ""
+
         val inboxStyle = NotificationCompat.InboxStyle()
         inboxStyle.addLine(message)
+
         val notification = mBuilder
             .setTicker(title)
             .setAutoCancel(true)

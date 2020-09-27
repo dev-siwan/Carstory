@@ -97,4 +97,6 @@ interface BoardRepository {
     )
 
     suspend fun isLikeFeed(bid: String): Boolean
+
+    suspend fun removeAllLike()
 }

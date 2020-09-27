@@ -430,8 +430,8 @@ class BoardDetailActivity :
     }
 
     companion object {
-        const val KEY_BOARD_ID = "FEED_ID"
-        const val KEY_BOARD_DATA = "FEED_DATA"
+        const val KEY_BOARD_ID = "BOARD_ID"
+        const val KEY_BOARD_DATA = "BOARD_DATA"
         const val BOARD_UPLOAD_REQ_CODE = 1055
         const val BOARD_UPLOAD_RES_CODE = 1056
         const val BOARD_REMOVE_RES_CODE = 1057

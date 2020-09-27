@@ -13,7 +13,7 @@ import com.like.drive.motorfeed.ui.base.ext.isPassword
 import com.like.drive.motorfeed.ui.base.ext.isPasswordValid
 import kotlinx.coroutines.launch
 
-class SignUpViewModel(private val userRepository: UserRepository) :BaseViewModel(){
+class SignUpViewModel(private val userRepository: UserRepository) : BaseViewModel() {
     val email = ObservableField<String>()
     val password = ObservableField<String>()
     val passwordValid = ObservableField<String>()
@@ -25,12 +25,12 @@ class SignUpViewModel(private val userRepository: UserRepository) :BaseViewModel
 
     val isLoading = SingleLiveEvent<Boolean>()
 
-
     private fun validCheck(): Boolean {
         when {
             !email.get()!!.isEmail() -> setFieldValid(FieldValidEnum.EMAIL)
             !password.get()!!.isPassword() -> setFieldValid(FieldValidEnum.PASSWORD)
-            !passwordValid.get()!!.isPasswordValid(password.get()!!) -> setFieldValid(FieldValidEnum.PASSWORD_VALID)
+            !passwordValid.get()!!
+                .isPasswordValid(password.get()!!) -> setFieldValid(FieldValidEnum.PASSWORD_VALID)
         }
         return true
     }
@@ -54,33 +54,33 @@ class SignUpViewModel(private val userRepository: UserRepository) :BaseViewModel
         }
     }
 
-    private fun setEmail(user:FirebaseUser){
+    private fun setEmail(user: FirebaseUser) {
         viewModelScope.launch {
-            userRepository.setUser(UserData(uid = user.uid,email = user.email),
+            userRepository.setUser(UserData(uid = user.uid, email = user.email, emailSignUp = true),
                 success = {
                     setComplete()
                 },
-                fail ={
+                fail = {
                     setError()
                 })
         }
     }
 
-    private fun setComplete(){
+    private fun setComplete() {
         completeEvent.call()
         isLoading.value = false
     }
-    private fun setError(){
+
+    private fun setError() {
         errorEvent.call()
         isLoading.value = false
     }
 
-    private fun setFieldValid(type:FieldValidEnum):Boolean{
+    private fun setFieldValid(type: FieldValidEnum): Boolean {
         fieldWarning.value = type
         return false
     }
 
-
-    fun checkEnable(email:String?,password:String?,passwordValid:String?) =
+    fun checkEnable(email: String?, password: String?, passwordValid: String?) =
         !email.isNullOrBlank() && !password.isNullOrBlank() && !passwordValid.isNullOrBlank()
 }

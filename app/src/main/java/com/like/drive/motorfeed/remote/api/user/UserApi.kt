@@ -21,4 +21,5 @@ interface UserApi {
     suspend fun resetPassword(email:String):Flow<Boolean>
     suspend fun updatePassword(password:String):Flow<Boolean>
     suspend fun checkCredential(password:String):Flow<Boolean>
+    fun checkProvider():Boolean
 }

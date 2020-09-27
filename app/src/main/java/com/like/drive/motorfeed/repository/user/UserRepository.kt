@@ -1,6 +1,5 @@
 package com.like.drive.motorfeed.repository.user
 
-import android.net.Uri
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.like.drive.motorfeed.data.user.UserData
@@ -36,7 +35,7 @@ interface UserRepository {
         error: () -> Unit
     )
 
-    suspend fun  updateProfile(
+    suspend fun updateProfile(
         nickName: String,
         imgFile: File? = null,
         intro: String? = null,
@@ -55,4 +54,6 @@ interface UserRepository {
         failCredential: () -> Unit,
         fail: () -> Unit
     )
+
+    fun isProvider(): Boolean
 }

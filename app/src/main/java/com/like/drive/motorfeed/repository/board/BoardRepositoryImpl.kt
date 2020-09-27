@@ -318,6 +318,10 @@ class BoardRepositoryImpl(
         return likeDao.isFeedEmpty(bid).isNotEmpty()
     }
 
+    override suspend fun removeAllLike() {
+        likeDao.deleteLike()
+    }
+
     private suspend fun checkImgUpload(): Flow<Int> =
         flow {
             if (photoFileList.any { it.imgUrl == null }) {

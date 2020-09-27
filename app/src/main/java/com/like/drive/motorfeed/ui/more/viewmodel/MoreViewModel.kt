@@ -1,6 +1,7 @@
 package com.like.drive.motorfeed.ui.more.viewmodel
 
 import androidx.annotation.StringRes
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.viewModelScope
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
@@ -13,6 +14,7 @@ class MoreViewModel(private val userRepository: UserRepository) : BaseViewModel(
 
     val resetPasswordCompleteEvent = SingleLiveEvent<Unit>()
     val errorEvent = SingleLiveEvent<@StringRes Int>()
+
 
     fun resetPassword() {
         UserInfo.userInfo?.email?.let {

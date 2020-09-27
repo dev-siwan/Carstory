@@ -91,7 +91,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     private fun SignInViewModel.isLoading() {
         isLoading.observe(this@SignInActivity, Observer {
             if (it) loadingProgress.show() else loadingProgress.dismiss()
-
         })
     }
 

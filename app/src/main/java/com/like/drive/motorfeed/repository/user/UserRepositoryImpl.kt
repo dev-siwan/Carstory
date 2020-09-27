@@ -193,4 +193,8 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
     }
 
+    override fun isProvider(): Boolean {
+        return userApi.checkProvider()
+    }
+
 }

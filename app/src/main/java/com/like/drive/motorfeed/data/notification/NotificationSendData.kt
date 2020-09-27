@@ -1,18 +1,19 @@
 package com.like.drive.motorfeed.data.notification
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.like.drive.motorfeed.MotorFeedApplication
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.cache.entity.NotificationEntity
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class NotificationSendData(
     @SerializedName("notificationType")
     val notificationType: String? = null,
     @SerializedName("gid")
-    val gid: String? = null,
-    @SerializedName("eid")
-    val eid: String? = null,
+    val nid: String? = null,
     @SerializedName("bid")
     val bid: String? = null,
     @SerializedName("uid")
@@ -23,11 +24,11 @@ data class NotificationSendData(
     val message: String? = null,
     @SerializedName("createDate")
     val createDate: Date? = null
-) {
+) : Parcelable {
     fun getHashMap() =
         mapOf(
             "notificationType" to notificationType,
-            "gid" to gid,
+            "nid" to nid,
             "bid" to bid,
             "uid" to uid,
             "title" to title,
@@ -36,8 +37,7 @@ data class NotificationSendData(
 
     fun entityToData(entity: NotificationEntity) = NotificationSendData(
         notificationType = entity.notificationType,
-        gid = entity.gid,
-        eid = entity.eid,
+        nid = entity.nid,
         bid = entity.bid,
         uid = entity.uid,
         title = entity.title,

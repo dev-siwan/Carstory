@@ -10,18 +10,16 @@ class NotificationEntity(
     @PrimaryKey(autoGenerate = true)
     val mID: Int? = null,
     val notificationType: String? = null,
-    val gid: String? = null,
-    val eid: String? = null,
+    val nid: String? = null,
     val bid: String? = null,
     val uid: String? = null,
-    val title:String?=null,
+    val title: String? = null,
     val message: String? = null,
-    val createData: Date?=null
+    val createData: Date? = null
 ) {
     fun dataToEntity(data: NotificationSendData) = NotificationEntity(
         notificationType = data.notificationType,
-        gid = data.gid,
-        eid = data.eid,
+        nid = data.nid,
         bid = data.bid,
         uid = data.uid,
         title = data.title,

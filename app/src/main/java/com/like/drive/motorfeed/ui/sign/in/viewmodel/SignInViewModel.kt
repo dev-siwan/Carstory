@@ -12,10 +12,10 @@ import com.like.drive.motorfeed.repository.user.UserRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
-class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel(){
+class SignInViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
     val email = ObservableField<String>()
-    val password =ObservableField<String>()
+    val password = ObservableField<String>()
 
     val loginFacebookClickEvent = SingleLiveEvent<Unit>()
 
@@ -27,12 +27,11 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
 
     val moveToSignUpEvent = SingleLiveEvent<Unit>()
 
-
     /**
-    * 페이스북 토큰 핸들러
+     * 페이스북 토큰 핸들러
      * @param accessToken 을 이용하여
      * @param credential 값에 AuthCredential 생성
-    * */
+     * */
     fun handleFacebookAccessToken(accessToken: AccessToken) {
 
         val credential = FacebookAuthProvider.getCredential(accessToken.token)
@@ -50,32 +49,35 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
         }
     }
 
-    fun loginEmail(){
+    fun loginEmail() {
         isLoading.value = true
 
         viewModelScope.launch {
-            userRepository.loginEmail(email.get()!!,password.get()!!,
-            success = {
-                getUser(it)
-            },
-            error = {
-                setErrorEvent(SignInErrorType.LOGIN_ERROR)
-            })
+            userRepository.loginEmail(email.get()!!, password.get()!!,
+                success = {
+                    getUser(it)
+                },
+                error = {
+                    setErrorEvent(SignInErrorType.LOGIN_ERROR)
+                })
         }
     }
 
-    private fun saveUser(user:FirebaseUser){
+    private fun saveUser(user: FirebaseUser) {
         viewModelScope.launch {
-            userRepository.setUser(UserData(uid = user.uid,email = user.email),
-            success = {
-                completeEvent.call()
-            },
-            fail = {
-                setErrorEvent(SignInErrorType.USER_ERROR)
-            })
+            userRepository.setUser(UserData(
+                uid = user.uid,
+                email = user.email,
+                emailSignUp = false
+            ),
+                success = {
+                    emptyNickNameEvent.call()
+                },
+                fail = {
+                    setErrorEvent(SignInErrorType.USER_ERROR)
+                })
         }
     }
-
 
     private fun getUser(user: FirebaseUser) {
         viewModelScope.launch {
@@ -93,24 +95,22 @@ class SignInViewModel(private val userRepository: UserRepository) :BaseViewModel
         }
     }
 
-
-    private fun setErrorEvent(type:SignInErrorType){
+    private fun setErrorEvent(type: SignInErrorType) {
         errorEvent.value = type
         isLoading.value = false
     }
 
-    private fun successUser(){
+    private fun successUser() {
         UserInfo.userInfo?.nickName?.let {
             completeEvent.call()
         } ?: emptyNickNameEvent.call()
         isLoading.value = false
     }
 
-
-    fun checkEnable(email:String?,password:String?) =
+    fun checkEnable(email: String?, password: String?) =
         !email.isNullOrBlank() && !password.isNullOrBlank()
 }
 
-enum class SignInErrorType{
-    USER_ERROR,USER_BAN,LOGIN_ERROR,FACEBOOK_ERROR
+enum class SignInErrorType {
+    USER_ERROR, USER_BAN, LOGIN_ERROR, FACEBOOK_ERROR
 }

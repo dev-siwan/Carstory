@@ -1,7 +1,10 @@
 package com.like.drive.motorfeed.remote.api.user
 
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.*
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.user.UserData
@@ -119,7 +122,12 @@ class UserApiImpl(
         }
     }
 
+    override fun checkProvider(): Boolean {
+        return fireAuth.currentUser?.providerId == FIREBASE_PROVIDER_ID
+    }
+
     companion object {
         const val NICK_NAME_FIELD = "nickName"
+        const val FIREBASE_PROVIDER_ID = "firebase"
     }
 }
