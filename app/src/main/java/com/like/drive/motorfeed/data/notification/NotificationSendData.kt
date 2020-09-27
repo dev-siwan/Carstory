@@ -12,7 +12,7 @@ import java.util.*
 data class NotificationSendData(
     @SerializedName("notificationType")
     val notificationType: String? = null,
-    @SerializedName("gid")
+    @SerializedName("nid")
     val nid: String? = null,
     @SerializedName("bid")
     val bid: String? = null,

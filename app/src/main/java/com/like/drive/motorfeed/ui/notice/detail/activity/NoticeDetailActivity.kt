@@ -1,14 +1,18 @@
 package com.like.drive.motorfeed.ui.notice.detail.activity
 
 import android.os.Bundle
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.define.GitDefine
 import com.like.drive.motorfeed.common.interceptor.GitHubInterceptor
 import com.like.drive.motorfeed.data.notice.NoticeData
 import com.like.drive.motorfeed.databinding.ActivityNoticeDetailBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
+import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.notice.detail.viewmodel.NoticeDetailViewModel
 import es.dmoral.markdownview.Config
+import es.dmoral.markdownview.MarkdownView
 import kotlinx.android.synthetic.main.activity_notice_detail.*
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,28 +22,66 @@ class NoticeDetailActivity :
 
     val viewModel: NoticeDetailViewModel by viewModel()
 
-    private var noticeData: NoticeData? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initView()
+        initData()
+        withViewModel()
 
+    }
+
+    private fun initData() {
         intent.getParcelableExtra<NoticeData>(NOTICE_DATA_KEY)?.let {
-            noticeData = it
             binding?.data = it
-
-            webView.run {
-                setCurrentConfig(Config.getDefaultConfig().apply {
-                    defaultOkHttpClient =
-                        OkHttpClient().newBuilder().addInterceptor(GitHubInterceptor()).build()
-                })
-
-                it.mdFile?.also { file -> loadFromUrl(GitDefine.getNoticeFile(file)) }
-
-            }
+            setMarkDown(it)
         }
 
+        intent.getStringExtra(NOTICE_ID_KEY)?.let {
+            viewModel.getNotice(it)
+        }
+    }
+
+    private fun withViewModel() {
+        with(viewModel) {
+            completeNotice()
+            error()
+        }
+    }
+
+    private fun NoticeDetailViewModel.completeNotice() {
+        noticeData.observe(this@NoticeDetailActivity, Observer {
+            binding?.data = it
+            setMarkDown(it)
+        })
+    }
+
+    private fun NoticeDetailViewModel.error() {
+        errorEvent.observe(this@NoticeDetailActivity, Observer {
+            showShortToast(it)
+        })
+    }
+
+    private fun setMarkDown(data: NoticeData) {
+        webView.run {
+            setCurrentConfig(Config.getDefaultConfig().apply {
+                defaultOkHttpClient =
+                    OkHttpClient().newBuilder().addInterceptor(GitHubInterceptor()).build()
+            })
+
+            data.mdFile?.also { file -> loadFromUrl(GitDefine.getNoticeFile(file)) }
+
+            setOnMarkdownRenderingListener(object:MarkdownView.OnMarkdownRenderingListener{
+                override fun onMarkdownRenderError() {
+                    progressBar.isVisible = false
+                }
+
+                override fun onMarkdownFinishedRendering() {
+                    progressBar.isVisible = false
+                }
+
+            })
+        }
     }
 
     private fun initView() {
@@ -50,6 +92,7 @@ class NoticeDetailActivity :
 
     companion object {
         const val NOTICE_DATA_KEY = "NoticeDataKey"
+        const val NOTICE_ID_KEY = "NoticeId"
     }
 
 }

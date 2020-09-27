@@ -11,6 +11,7 @@ import com.like.drive.motorfeed.databinding.FragmentNotificationBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
+import com.like.drive.motorfeed.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.motorfeed.ui.notification.adapter.NotificationAdapter
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel
@@ -31,9 +32,10 @@ class NotificationFragment :
 
             val dividerItemDecoration =
                 DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_board_list)?.let {
-                        setDrawable(it)
-                    }
+                    ContextCompat.getDrawable(requireContext(), R.drawable.divider_board_list)
+                        ?.let {
+                            setDrawable(it)
+                        }
                 }
 
             addItemDecoration(dividerItemDecoration)
@@ -78,6 +80,11 @@ class NotificationFragment :
                 NotificationType.COMMENT.value, NotificationType.RE_COMMENT.value -> {
                     startAct(BoardDetailActivity::class, Bundle().apply {
                         putString(BoardDetailActivity.KEY_BOARD_ID, it.bid)
+                    })
+                }
+                NotificationType.NOTICE.value -> {
+                    startAct(NoticeDetailActivity::class, Bundle().apply {
+                        putString(NoticeDetailActivity.NOTICE_ID_KEY, it.nid)
                     })
                 }
             }

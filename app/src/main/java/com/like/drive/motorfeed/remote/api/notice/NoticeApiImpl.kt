@@ -25,18 +25,23 @@ class NoticeApiImpl(
 
     override suspend fun setNotice(noticeData: NoticeData): Flow<Boolean> {
         val ref = fireStore.collection(CollectionName.NOTICE)
+        val nid = ref.document().id
 
-        val gid = ref.document().id
+        noticeData.nid = nid
 
-        noticeData.nid = gid
-
-        return fireBaseTask.setData(ref, noticeData)
+        return fireBaseTask.setData(ref.document(nid), noticeData)
     }
 
     override suspend fun removeNotice(noticeData: NoticeData): Flow<Boolean> {
         return fireBaseTask.delete(
             fireStore.collection(CollectionName.NOTICE).document(noticeData.nid ?: "")
         )
+    }
+
+    override suspend fun getNotice(nid: String): Flow<NoticeData?> {
+        val ref = fireStore.collection(CollectionName.NOTICE).document(nid)
+
+        return fireBaseTask.getData(ref, NoticeData::class.java)
     }
 
     companion object {

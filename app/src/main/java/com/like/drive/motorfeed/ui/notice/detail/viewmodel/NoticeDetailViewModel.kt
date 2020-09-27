@@ -1,30 +1,32 @@
 package com.like.drive.motorfeed.ui.notice.detail.viewmodel
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.notice.NoticeData
-import com.like.drive.motorfeed.remote.api.notice.NoticeConvertApi
+import com.like.drive.motorfeed.repository.notice.NoticeRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
-import org.koin.core.inject
-import retrofit2.Retrofit
 
-class NoticeDetailViewModel : BaseViewModel(), KoinComponent {
+class NoticeDetailViewModel(private val repository: NoticeRepository) : BaseViewModel(),
+    KoinComponent {
 
-    private val retrofit: Retrofit by inject()
+    private val _noticeData = MutableLiveData<NoticeData>()
+    val noticeData: LiveData<NoticeData> get() = _noticeData
 
-    private val _mdFileContent = MutableLiveData<String>()
-    val mdFileContent: LiveData<String> get() = _mdFileContent
+    val errorEvent = SingleLiveEvent<@StringRes Int>()
 
-    fun getFile(data: NoticeData) {
+    fun getNotice(nid: String) {
         viewModelScope.launch {
-            retrofit.create(NoticeConvertApi::class.java).getNoticeContent(data.mdFile ?: "").body()
-                ?.let {
-                    _mdFileContent.value = it
-
-                }
+            repository.getNotice(nid,
+                success = {
+                    _noticeData.value = it
+                },
+                fail = { errorEvent.value = R.string.notice_error_message })
         }
     }
 }

@@ -101,6 +101,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
         if (viewModel.categoryData.value == null) {
             showCategoryDialog()
+            viewModel.setCategoryItem(getCategoryList(this).first())
         }
     }
 
@@ -376,8 +377,6 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
     private fun showCategoryDialog() {
         categoryDialog.show(supportFragmentManager, "")
-        viewModel.setCategoryItem(getCategoryList(this)[0])
-
     }
 
     private fun dismissCategoryDialog() {

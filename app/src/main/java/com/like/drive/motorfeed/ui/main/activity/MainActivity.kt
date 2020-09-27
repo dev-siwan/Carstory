@@ -17,6 +17,7 @@ import com.like.drive.motorfeed.data.user.FilterData
 import com.like.drive.motorfeed.databinding.ActivityMainBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.*
+import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
 import com.like.drive.motorfeed.ui.home.fragment.HomeFragment
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
@@ -72,10 +73,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             when (it.notificationType) {
                 NotificationType.NOTICE.value -> {
                     startAct(NoticeDetailActivity::class, Bundle().apply {
-                        putString(NoticeDetailActivity.NOTICE_DATA_KEY, it.nid)
+                        putString(NoticeDetailActivity.NOTICE_ID_KEY, it.nid)
                     })
                 }
                 else -> {
+                    startAct(BoardDetailActivity::class, Bundle().apply {
+                        putString(BoardDetailActivity.KEY_BOARD_ID, it.bid)
+                    })
                 }
             }
         }

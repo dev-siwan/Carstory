@@ -7,7 +7,8 @@ import java.util.*
 interface NoticeRepository {
     suspend fun getList(date: Date): Flow<List<NoticeData>>
     suspend fun setNotice(
-        noticeData: NoticeData, success: (NoticeData) -> Unit,
+        noticeData: NoticeData,
+        success: (NoticeData) -> Unit,
         fail: () -> Unit
     )
 
@@ -17,4 +18,10 @@ interface NoticeRepository {
     )
 
     suspend fun sendNotification(noticeData: NoticeData)
+
+    suspend fun getNotice(
+        nid:String,
+        success: (NoticeData) -> Unit,
+        fail: () -> Unit
+    )
 }

@@ -50,4 +50,14 @@ class NoticeRepositoryImpl(
         ).catch { Unit }.collect()
     }
 
+    override suspend fun getNotice(nid: String, success: (NoticeData) -> Unit, fail: () -> Unit) {
+        noticeApi.getNotice(nid).catch { e ->
+            e.message
+            fail.invoke()
+        }
+            .collect { data ->
+                data?.let { success(it) } ?: fail.invoke()
+            }
+    }
+
 }

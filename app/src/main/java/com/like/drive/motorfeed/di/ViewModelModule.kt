@@ -43,5 +43,5 @@ val viewModelModule = module {
     viewModel { PasswordUpdateViewModel(get()) }
     viewModel { NotificationSettingViewModel() }
     viewModel { NoticeListViewModel(get()) }
-    viewModel { NoticeDetailViewModel() }
+    viewModel { NoticeDetailViewModel(get()) }
 }
