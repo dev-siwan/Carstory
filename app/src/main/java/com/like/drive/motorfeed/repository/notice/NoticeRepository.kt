@@ -15,4 +15,6 @@ interface NoticeRepository {
         noticeData: NoticeData, success: (NoticeData) -> Unit,
         fail: () -> Unit
     )
+
+    suspend fun sendNotification(noticeData: NoticeData)
 }

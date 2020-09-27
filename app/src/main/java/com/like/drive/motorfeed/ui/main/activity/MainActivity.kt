@@ -11,6 +11,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.define.FirebaseDefine
+import com.like.drive.motorfeed.data.notification.NotificationSendData
+import com.like.drive.motorfeed.data.notification.NotificationType
 import com.like.drive.motorfeed.data.user.FilterData
 import com.like.drive.motorfeed.databinding.ActivityMainBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
@@ -18,6 +20,7 @@ import com.like.drive.motorfeed.ui.base.ext.*
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
 import com.like.drive.motorfeed.ui.home.fragment.HomeFragment
 import com.like.drive.motorfeed.ui.main.viewmodel.MainViewModel
+import com.like.drive.motorfeed.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.motorfeed.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.motorfeed.util.notification.NotificationUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -31,18 +34,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        getNotificationData()
         withViewModel()
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         }
 
-
-        intent.getBooleanExtra("Notification", false).run {
-            if (this) {
-                navBottomView.selectedItemId = R.id.action_notification
-            }
-        }
+        /*  intent.getBooleanExtra("Notification", false).run {
+              if (this) {
+                  navBottomView.selectedItemId = R.id.action_notification
+              }
+          }*/
         initFcmBroadcastReceiver()
     }
 
@@ -61,6 +63,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         with(viewModel) {
             signOut()
             moveToUploadPage()
+        }
+    }
+
+    private fun getNotificationData() {
+
+        intent.getParcelableExtra<NotificationSendData>(FirebaseDefine.PUSH_NOTIFICATION)?.let {
+            when (it.notificationType) {
+                NotificationType.NOTICE.value -> {
+                    startAct(NoticeDetailActivity::class, Bundle().apply {
+                        putString(NoticeDetailActivity.NOTICE_DATA_KEY, it.nid)
+                    })
+                }
+                else -> {
+                }
+            }
         }
     }
 
@@ -105,16 +122,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             R.navigation.nav_main_search,
             R.navigation.nav_main_notification,
             R.navigation.nav_main_user
-        ) //graph들의 id
-        // Setup the bottom navigation view with a list of navigation graphs
+        )
         val controller = navBottomView.setupWithNavController(
             navGraphIds = navGraphIds,
             fragmentManager = supportFragmentManager,
             containerId = R.id.mainNavFragment, //FragmentContainerView의 id
             intent = intent
         )
-        // Whenever the selected controller changes, setup the action bar.
-        /*controller.observe(this, Observer { navController -> setupActionBarWithNavController(navController) })*/ //액션바 관련 코드 (액션바를 사용하지 않기 때문에 주석처리)
         currentNavController = controller
     }
 

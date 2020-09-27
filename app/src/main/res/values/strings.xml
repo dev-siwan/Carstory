@@ -153,6 +153,7 @@
     <string name="report_text">신고하기</string>
     <string name="delete_text">삭제하기</string>
     <string name="update_text">수정하기</string>
+    <string name="send_notification_text">알람보냄</string>
 
     <string name="not_found_data">데이터를 찾을 수 없습니다.</string>
 
@@ -243,7 +244,7 @@
 
     <string name="notice_upload_title">공지사항 업로드</string>
     <string name="notice_upload_title_hint">제목을 입력해주세요.</string>
-    <string name="notice_upload_content_hint">컨텐츠를 입력해주세요.</string>
+    <string name="notice_upload_message_hint">알림 메세지를 입력해주세요</string>
     <string name="notice_upload_md_file_hint">md 파일명을 입력해주세요.</string>
 
     <string name="logout_text">로그아웃</string>
@@ -262,6 +263,9 @@
     <string name="re_filter_search">필터 재설정</string>
     <string name="filter_empty_upload_message">현재 필터 조건으로 글쓰기</string>
     <string name="terms_dialog_desc">프로필 작성과 동시에 이용약관 및 개인정보처리방침에 동의한걸로 간주 됩니다.</string>
+    <string name="menu_text">메뉴</string>
+
+    <string name="send_notification_message"><![CDATA[%s<br />알림을 보내시겠습니까?]]></string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

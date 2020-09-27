@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_x_margin"
             android:background="@null"
-            android:hint="@string/notice_upload_content_hint"
+            android:hint="@string/notice_upload_message_hint"
             android:text="@={vm.message}"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintEnd_toEndOf="@id/glEnd"

@@ -2,6 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="com.like.drive.motorfeed.common.user.UserInfo"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +30,8 @@
                 android:padding="@dimen/activity_vertical_margin"
                 android:text="@string/upload"
                 android:textColor="@color/gnt_black"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="@{UserInfo.INSTANCE.userInfo.admin}" />
 
         </androidx.appcompat.widget.Toolbar>
 

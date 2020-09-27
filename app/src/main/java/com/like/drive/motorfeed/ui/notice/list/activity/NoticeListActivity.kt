@@ -6,11 +6,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.common.enum.NoticeSelectType
 import com.like.drive.motorfeed.databinding.ActivityNoticeListBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.ext.withPaging
+import com.like.drive.motorfeed.ui.dialog.ConfirmDialog
 import com.like.drive.motorfeed.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.motorfeed.ui.notice.list.adapter.NoticeListAdapter
 import com.like.drive.motorfeed.ui.notice.list.fragment.NoticeUploadFragmentDialog
@@ -67,7 +70,10 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
 
             val dividerItemDecoration =
                 DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(this@NoticeListActivity, R.drawable.divider_board_list)
+                    ContextCompat.getDrawable(
+                        this@NoticeListActivity,
+                        R.drawable.divider_board_list
+                    )
                         ?.let {
                             setDrawable(it)
                         }
@@ -92,6 +98,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
         with(viewModel) {
             getNoticeList()
             clickListener()
+            menuClick()
         }
     }
 
@@ -105,6 +112,32 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
                 }
             }
         })
+    }
+
+    private fun NoticeListViewModel.menuClick() {
+        clickMenuEvent.observe(this@NoticeListActivity, Observer {
+            showListDialog(
+                NoticeSelectType.values().map { getString(it.resID) }.toTypedArray()
+                , getString(R.string.menu_text)
+            ) { position ->
+                when (position) {
+                    0 -> {
+                        showConfirmDialog(getString(R.string.send_notification_message, it.title)) {
+                            viewModel.sendNotification(it)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun showConfirmDialog(message: String, confirm: () -> Unit) {
+        ConfirmDialog.newInstance(message = message).apply {
+            confirmAction = {
+                confirm.invoke()
+                dismiss()
+            }
+        }.show(supportFragmentManager, ConfirmDialog.TAG)
     }
 
     private fun NoticeListViewModel.clickListener() {

@@ -48,8 +48,7 @@ data class NotificationSendData(
 
 enum class NotificationType(val value: String, val title: String) {
     NOTICE("0", MotorFeedApplication.getContext().getString(R.string.fcm_notice_title)),
-    EVENT("1", MotorFeedApplication.getContext().getString(R.string.fcm_event_title)),
-    COMMENT("2", MotorFeedApplication.getContext().getString(R.string.fcm_comment_title)),
-    RE_COMMENT("3", MotorFeedApplication.getContext().getString(R.string.fcm_re_comment_title));
+    COMMENT("1", MotorFeedApplication.getContext().getString(R.string.fcm_comment_title)),
+    RE_COMMENT("2", MotorFeedApplication.getContext().getString(R.string.fcm_re_comment_title));
 
 }

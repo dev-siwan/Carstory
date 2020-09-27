@@ -6,16 +6,12 @@ import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.data.notification.NotificationType
 import com.like.drive.motorfeed.ui.base.binder.setFormatHtml
-import com.like.drive.motorfeed.ui.base.ext.htmlFormat
 
 @BindingAdapter("notificationType")
 fun TextView.setNotificationTitle(data: NotificationSendData?) {
     data?.let {
         when (NotificationType.values().find { type -> type.value == it.notificationType }) {
             NotificationType.NOTICE -> {
-                text = data.title
-            }
-            NotificationType.EVENT -> {
                 text = data.title
             }
             NotificationType.COMMENT -> {

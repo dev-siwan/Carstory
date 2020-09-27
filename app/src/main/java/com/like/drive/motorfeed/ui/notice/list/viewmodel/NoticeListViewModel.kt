@@ -32,6 +32,7 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
     var lastDate: Date? = null
 
     val clickNoticeDataEvent = SingleLiveEvent<NoticeData>()
+    val clickMenuEvent = SingleLiveEvent<NoticeData>()
 
     val title = ObservableField<String>()
     val message = ObservableField<String>()
@@ -124,8 +125,18 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
         }
     }
 
+    fun sendNotification(noticeData: NoticeData) {
+        viewModelScope.launch {
+            noticeRepository.sendNotification(noticeData)
+        }
+    }
+
     fun setOnNoticeClickListener(noticeData: NoticeData) {
         clickNoticeDataEvent.value = noticeData
+    }
+
+    fun setOnMenuClickListener(noticeData: NoticeData) {
+        clickMenuEvent.value = noticeData
     }
 
 }
