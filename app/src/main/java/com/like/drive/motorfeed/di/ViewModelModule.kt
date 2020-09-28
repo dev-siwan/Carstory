@@ -14,6 +14,7 @@ import com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationSettingViewModel
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel
 import com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel
+import com.like.drive.motorfeed.ui.report.reg.viewmodel.ReportRegisterViewModel
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
 import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInViewModel
 import com.like.drive.motorfeed.ui.sign.password.viewmodel.PasswordUpdateViewModel
@@ -44,4 +45,5 @@ val viewModelModule = module {
     viewModel { NotificationSettingViewModel() }
     viewModel { NoticeListViewModel(get()) }
     viewModel { NoticeDetailViewModel(get()) }
+    viewModel { ReportRegisterViewModel() }
 }

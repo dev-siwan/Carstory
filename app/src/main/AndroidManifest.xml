@@ -19,6 +19,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
+        <activity android:name="com.like.drive.motorfeed.ui.report.list.activity.ReportCreateActivity"></activity>
+        <activity android:name="com.like.drive.motorfeed.ui.report.list.activity.ReportActivity" />
         <activity android:name=".ui.notice.detail.activity.NoticeDetailActivity" />
         <activity android:name=".ui.notice.list.activity.NoticeListActivity" />
         <activity
@@ -89,9 +91,10 @@
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden">
             <intent-filter>
                 <action android:name=".MainActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity><!-- facebook -->
+        </activity> <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

@@ -26,6 +26,7 @@ import com.like.drive.motorfeed.ui.board.detail.fragment.CommentDialogFragment
 import com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
 import com.like.drive.motorfeed.ui.common.data.LoadingStatus
+import com.like.drive.motorfeed.ui.report.reg.fragment.ReportRegisterFragmentDialog
 import com.like.drive.motorfeed.ui.view.large.activity.LargeThanActivity
 import kotlinx.android.synthetic.main.activity_board_detail.*
 import kotlinx.android.synthetic.main.layout_detail_function_block.view.*
@@ -242,7 +243,7 @@ class BoardDetailActivity :
         optionsReCommentEvent.observe(this@BoardDetailActivity, Observer { reCommentData ->
             showOptionsList(reCommentData.userInfo?.uid,
                 reportCallback = {
-
+                    showReportFragment()
                 },
                 deleteCallback = {
                     removeBoardReComment(reCommentData)
@@ -418,6 +419,10 @@ class BoardDetailActivity :
             }
         }
 
+    }
+
+    private fun showReportFragment() {
+        ReportRegisterFragmentDialog.newInstance().show(supportFragmentManager, "")
     }
 
     override fun onBackPressed() {
