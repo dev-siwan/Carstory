@@ -21,7 +21,7 @@ class NoticeUploadFragmentDialog :
 
     private val viewModel: NoticeListViewModel by viewModel()
 
-    var onComplete: ((NoticeData) -> Unit)? = null
+    var onComplete: ((NoticeData, Boolean) -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +64,11 @@ class NoticeUploadFragmentDialog :
     }
 
     private fun NoticeListViewModel.complete() {
-        addCompleteEvent.observe(viewLifecycleOwner, Observer {
-            onComplete?.invoke(it)
+        addCompleteEvent.observe(viewLifecycleOwner, Observer { completeData ->
+
+            viewModel.noticeData?.let { onComplete?.invoke(completeData, true) }
+                ?: onComplete?.invoke(completeData, false)
+
         })
     }
 

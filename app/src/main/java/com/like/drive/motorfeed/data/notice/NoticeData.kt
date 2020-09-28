@@ -20,6 +20,15 @@ data class NoticeData(
         mdFile = mdFile,
         createDate = Date(),
         uploadDate = Date()
-
     )
+
+    fun updateNoticeData(noticeData: NoticeData, title: String, message: String, mdFile: String) =
+        NoticeData(
+            nid = noticeData.nid,
+            title = title,
+            message = message,
+            mdFile = mdFile,
+            createDate = noticeData.createDate,
+            uploadDate = Date()
+        )
 }

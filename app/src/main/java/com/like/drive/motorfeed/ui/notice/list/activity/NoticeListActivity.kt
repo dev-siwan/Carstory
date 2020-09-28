@@ -1,15 +1,14 @@
 package com.like.drive.motorfeed.ui.notice.list.activity
 
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.enum.NoticeSelectType
+import com.like.drive.motorfeed.data.notice.NoticeData
 import com.like.drive.motorfeed.databinding.ActivityNoticeListBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
+import com.like.drive.motorfeed.ui.base.ext.dividerItemDecoration
 import com.like.drive.motorfeed.ui.base.ext.showListDialog
 import com.like.drive.motorfeed.ui.base.ext.startAct
 import com.like.drive.motorfeed.ui.base.ext.withPaging
@@ -32,12 +31,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
         initView()
 
         tvNoticeUpload.setOnClickListener {
-            NoticeUploadFragmentDialog.newInstance().apply {
-                onComplete = {
-                    noticeAdapter.addNotice(it)
-                    dismiss()
-                }
-            }.show(supportFragmentManager, "")
+            showUploadFragment()
         }
 
     }
@@ -46,6 +40,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
         super.onBinding(dataBinding)
 
         dataBinding.rvNoticeList.adapter = noticeAdapter
+        dataBinding.vm = viewModel
 
     }
 
@@ -68,18 +63,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
 
             })
 
-            val dividerItemDecoration =
-                DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL).apply {
-                    ContextCompat.getDrawable(
-                        this@NoticeListActivity,
-                        R.drawable.divider_board_list
-                    )
-                        ?.let {
-                            setDrawable(it)
-                        }
-                }
-
-            addItemDecoration(dividerItemDecoration)
+            addItemDecoration(dividerItemDecoration())
         }
 
 
@@ -99,6 +83,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
             getNoticeList()
             clickListener()
             menuClick()
+            removeComplete()
         }
     }
 
@@ -114,21 +99,47 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
         })
     }
 
+    private fun NoticeListViewModel.removeComplete() {
+        removeCompleteEvent.observe(this@NoticeListActivity, Observer {
+            noticeAdapter.removeNotice(it.nid)
+        })
+    }
+
     private fun NoticeListViewModel.menuClick() {
         clickMenuEvent.observe(this@NoticeListActivity, Observer {
             showListDialog(
                 NoticeSelectType.values().map { getString(it.resID) }.toTypedArray()
                 , getString(R.string.menu_text)
             ) { position ->
-                when (position) {
-                    0 -> {
+                when (NoticeSelectType.values()[position]) {
+                    NoticeSelectType.NOTIFICATION -> {
                         showConfirmDialog(getString(R.string.send_notification_message, it.title)) {
                             viewModel.sendNotification(it)
                         }
                     }
+                    NoticeSelectType.DELETE -> {
+                        showConfirmDialog(getString(R.string.notice_delete_message, it.title)) {
+                            viewModel.removeNotice(it)
+                        }
+                    }
+
+                    NoticeSelectType.UPDATE -> {
+                        showUploadFragment(it)
+                    }
                 }
             }
         })
+    }
+
+    private fun showUploadFragment(noticeData: NoticeData? = null) {
+        NoticeUploadFragmentDialog.newInstance(noticeData).apply {
+            onComplete = { data, isUpdate ->
+
+                if (isUpdate) noticeAdapter.updateNotice(data) else noticeAdapter.addNotice(data)
+                dismiss()
+
+            }
+        }.show(supportFragmentManager, "")
     }
 
     private fun showConfirmDialog(message: String, confirm: () -> Unit) {

@@ -3,7 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.like.drive.motorfeed.common.user.UserInfo"/>
+
+        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
+
+        <variable
+            name="vm"
+            type="com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,5 +90,18 @@
             app:layout_constraintTop_toBottomOf="@id/tvWelcome"
             tools:itemCount="3"
             tools:listitem="@layout/holder_notice_list_item" />
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:progressDrawable="@drawable/progress_drawable_black"
+            android:visibility="@{vm.isMore}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

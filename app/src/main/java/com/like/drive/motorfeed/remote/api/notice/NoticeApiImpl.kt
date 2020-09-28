@@ -25,7 +25,8 @@ class NoticeApiImpl(
 
     override suspend fun setNotice(noticeData: NoticeData): Flow<Boolean> {
         val ref = fireStore.collection(CollectionName.NOTICE)
-        val nid = ref.document().id
+
+        val nid = noticeData.nid ?: ref.document().id
 
         noticeData.nid = nid
 

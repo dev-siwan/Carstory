@@ -6,7 +6,8 @@ import com.like.drive.motorfeed.data.notice.NoticeData
 import com.like.drive.motorfeed.ui.notice.list.holder.NoticeListViewHolder
 import com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel
 
-class NoticeListAdapter(val vm:NoticeListViewModel) : RecyclerView.Adapter<NoticeListViewHolder>() {
+class NoticeListAdapter(val vm: NoticeListViewModel) :
+    RecyclerView.Adapter<NoticeListViewHolder>() {
 
     val noticeList = mutableListOf<NoticeData>()
 
@@ -16,7 +17,7 @@ class NoticeListAdapter(val vm:NoticeListViewModel) : RecyclerView.Adapter<Notic
     override fun getItemCount(): Int = noticeList.size
 
     override fun onBindViewHolder(holder: NoticeListViewHolder, position: Int) {
-        holder.bind(vm,noticeList[position])
+        holder.bind(vm, noticeList[position])
     }
 
     fun initList(noticeList: List<NoticeData>) {
@@ -49,8 +50,8 @@ class NoticeListAdapter(val vm:NoticeListViewModel) : RecyclerView.Adapter<Notic
         }
     }
 
-    fun removeNotice(gid: String) {
-        val originData = noticeList.find { it.nid == gid }
+    fun removeNotice(nid: String?) {
+        val originData = noticeList.find { it.nid == nid }
         originData?.let {
             val index = noticeList.indexOf(it)
             noticeList.removeAt(index)

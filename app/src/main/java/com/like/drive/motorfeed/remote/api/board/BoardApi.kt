@@ -20,7 +20,7 @@ interface BoardApi {
     suspend fun getBoardList(
         date: Date,
         motorTypeData: MotorTypeData? = null,
-        feedTypeData: CategoryData? = null,
+        categoryData: CategoryData? = null,
         tagStr: String? = null
     ): Flow<List<BoardData>>
 

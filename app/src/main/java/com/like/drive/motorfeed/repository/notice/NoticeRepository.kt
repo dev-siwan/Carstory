@@ -13,14 +13,15 @@ interface NoticeRepository {
     )
 
     suspend fun removeNotice(
-        noticeData: NoticeData, success: (NoticeData) -> Unit,
+        noticeData: NoticeData,
+        success: (NoticeData) -> Unit,
         fail: () -> Unit
     )
 
     suspend fun sendNotification(noticeData: NoticeData)
 
     suspend fun getNotice(
-        nid:String,
+        nid: String,
         success: (NoticeData) -> Unit,
         fail: () -> Unit
     )

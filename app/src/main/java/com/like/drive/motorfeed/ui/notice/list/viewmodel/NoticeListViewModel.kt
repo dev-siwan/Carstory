@@ -26,10 +26,9 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
     val isRefresh = ObservableBoolean(false)
     val isLoading = ObservableBoolean(false)
     val isMore = ObservableBoolean(false)
-    val initEmpty = ObservableBoolean(false)
 
     var isFirst = true
-    var lastDate: Date? = null
+    private var lastDate: Date? = null
 
     val clickNoticeDataEvent = SingleLiveEvent<NoticeData>()
     val clickMenuEvent = SingleLiveEvent<NoticeData>()
@@ -39,6 +38,7 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
     val mdFileName = ObservableField<String>()
 
     val addCompleteEvent = SingleLiveEvent<NoticeData>()
+    val removeCompleteEvent = SingleLiveEvent<NoticeData>()
     val errorEvent = SingleLiveEvent<@StringRes Int>()
     val loadingEvent = SingleLiveEvent<Boolean>()
 
@@ -92,21 +92,28 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
         }
     }
 
-    fun getLastDate() =
-        _noticeList.value?.lastOrNull()?.createDate == lastDate
+    fun getLastDate() = _noticeList.value?.lastOrNull()?.createDate == lastDate
 
     fun initNoticeData(noticeData: NoticeData?) {
         this.noticeData = noticeData
+
+        title.set(noticeData?.title)
+        message.set(noticeData?.message)
+        mdFileName.set(noticeData?.mdFile)
     }
 
     fun uploadNotice(title: String, message: String, mdFile: String) {
 
-        val noticeData = NoticeData().addNoticeData(title, message, mdFile)
+        val noticeData = this.noticeData?.let {
 
-        addNotice(noticeData)
+            NoticeData().updateNoticeData(it, title, message, mdFile)
+
+        } ?: NoticeData().addNoticeData(title, message, mdFile)
+
+        setNotice(noticeData)
     }
 
-    private fun addNotice(noticeData: NoticeData) {
+    private fun setNotice(noticeData: NoticeData) {
 
         loadingEvent.value = true
 
@@ -118,6 +125,24 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
                 },
                 fail = {
 
+                    //TODO 에러메세지 필요
+                    errorEvent.value = 0
+                    loadingEvent.value = true
+                })
+        }
+    }
+
+    fun removeNotice(noticeData: NoticeData) {
+
+        loadingEvent.value = true
+
+        viewModelScope.launch {
+            noticeRepository.removeNotice(noticeData,
+                success = {
+                    removeCompleteEvent.value = it
+                    loadingEvent.value = false
+                },
+                fail = {
                     //TODO 에러메세지 필요
                     errorEvent.value = 0
                     loadingEvent.value = true

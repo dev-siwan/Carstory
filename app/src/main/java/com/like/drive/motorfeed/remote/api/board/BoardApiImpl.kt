@@ -67,40 +67,40 @@ class BoardApiImpl(
     override suspend fun getBoardList(
         date: Date,
         motorTypeData: MotorTypeData?,
-        cetegoryData: CategoryData?,
+        categoryData: CategoryData?,
         tagStr: String?
     ): Flow<List<BoardData>> {
-        val feedCollection = fireStore.collection(CollectionName.BOARD)
+        val boardCollection = fireStore.collection(CollectionName.BOARD)
 
         val query = when {
-            motorTypeData != null && cetegoryData == null -> {
+            motorTypeData != null && categoryData == null -> {
                 if (motorTypeData.modelCode == 0) {
-                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                    boardCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
                 } else {
-                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                    boardCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
                         .whereEqualTo(
                             MODE_CODE_FIELD, motorTypeData.modelCode
                         )
                 }
             }
 
-            cetegoryData != null && motorTypeData == null -> {
-                feedCollection.whereEqualTo(CATEGORY_CODE_FIELD, cetegoryData.typeCode)
+            categoryData != null && motorTypeData == null -> {
+                boardCollection.whereEqualTo(CATEGORY_CODE_FIELD, categoryData.typeCode)
             }
 
-            motorTypeData != null && cetegoryData != null -> {
+            motorTypeData != null && categoryData != null -> {
                 if (motorTypeData.modelCode == 0) {
-                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
-                        .whereEqualTo(CATEGORY_CODE_FIELD, cetegoryData.typeCode)
+                    boardCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                        .whereEqualTo(CATEGORY_CODE_FIELD, categoryData.typeCode)
                 } else {
-                    feedCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
+                    boardCollection.whereEqualTo(BRAND_CODE_FIELD, motorTypeData.brandCode)
                         .whereEqualTo(
                             MODE_CODE_FIELD, motorTypeData.modelCode
-                        ).whereEqualTo(CATEGORY_CODE_FIELD, cetegoryData.typeCode)
+                        ).whereEqualTo(CATEGORY_CODE_FIELD, categoryData.typeCode)
                 }
             }
             else -> {
-                feedCollection
+                boardCollection
             }
         }
 
@@ -148,7 +148,6 @@ class BoardApiImpl(
             LikeCountEnum.UNLIKE -> {
                 document.update(LIKE_COUNT_FIELD, FieldValue.increment(-1))
             }
-            else -> Unit
         }
 
     }
