@@ -132,7 +132,8 @@
                         layout="@layout/layout_more_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:title="@{@string/more_title_logout}" />
+                        android:visibility="@{UserInfo.INSTANCE.userInfo.admin}"
+                        app:title="@{@string/more_title_admin}" />
 
                 </LinearLayout>
 
