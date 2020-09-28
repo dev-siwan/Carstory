@@ -12,8 +12,8 @@ import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.binder.setProfileImg
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
 import com.like.drive.motorfeed.ui.base.ext.startActForResult
-import com.like.drive.motorfeed.ui.dialog.AlertDialog
 import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
+import com.like.drive.motorfeed.ui.dialog.AlertDialog
 import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
 import com.like.drive.motorfeed.ui.notice.list.activity.NoticeListActivity
 import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
@@ -103,7 +103,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
                         incProfile.apply {
                             ivProfileImg.setProfileImg(it.profileImgPath)
                             tvNick.text = it.nickName
-                            tvIntro.text = it.intro
+                            tvIntro.text = if (it.intro.isNullOrBlank()) null else it.intro
                         }
 
                     }

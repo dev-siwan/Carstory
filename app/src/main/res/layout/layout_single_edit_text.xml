@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="androidx.databinding.ObservableField"/>
+        <import type="androidx.databinding.ObservableField" />
 
         <variable
             name="value"
@@ -21,6 +21,10 @@
         <variable
             name="maxLength"
             type="Integer" />
+
+        <variable
+            name="isWrite"
+            type="Boolean" />
     </data>
 
     <EditText
@@ -28,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_x_margin"
         android:background="@drawable/edit_text_background"
+        android:enabled="@{isWrite == null || isWrite == false}"
         android:hint="@{hint !=null ? hint : @string/blank_text}"
         android:inputType="@{type}"
         android:maxLength="@{maxLength > 0 &amp;&amp; maxLength !=null ? maxLength : 36}"
