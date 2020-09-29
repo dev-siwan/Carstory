@@ -274,7 +274,11 @@
     <string name="notice_error_message">공지사항을 찾을 수 없습니다.</string>
     <string name="report_complete_message">신고가 완료 되었습니다.검토 후 빠른시일내에 처리하겠습니다.</string>
 
-    <string name="ad_mob_app_id"></string>
+    <string name="ad_mob_app_id">ca-app-pub-6215810193035158~4127388673</string>
+    <string name="ad_mob_native_debug_id">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ad_mob_native_release_id">ca-app-pub-6215810193035158/3935816982</string>
+    <string name="ad_mob_banner_debug_id">ca-app-pub-3940256099942544/9214589741</string>
+    <string name="ad_mob_banner_release_id">ca-app-pub-6215810193035158/6104239774</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

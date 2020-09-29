@@ -9,6 +9,7 @@ import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.like.drive.motorfeed.databinding.HolderListAdvBinding
+import com.like.drive.motorfeed.ui.base.ext.getNativeAdMobId
 import timber.log.Timber
 
 class ListAdvHolder(val binding: HolderListAdvBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -16,7 +17,7 @@ class ListAdvHolder(val binding: HolderListAdvBinding) : RecyclerView.ViewHolder
 
     fun bind() {
         MobileAds.initialize(context)
-        val adLoader = AdLoader.Builder(context, "ca-app-pub-6215810193035158/3935816982")
+        val adLoader = AdLoader.Builder(context, getNativeAdMobId(context))
             .apply {
                 forUnifiedNativeAd {
                     populateUnifiedNativeAdView(it, binding.adView)

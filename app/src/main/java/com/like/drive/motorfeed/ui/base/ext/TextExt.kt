@@ -1,7 +1,9 @@
 package com.like.drive.motorfeed.ui.base.ext
 
+import android.content.Context
 import android.text.Html
 import android.widget.TextView
+import com.like.drive.motorfeed.BuildConfig
 import com.like.drive.motorfeed.MotorFeedApplication
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.motor.MotorTypeData
@@ -81,5 +83,15 @@ fun htmlFormat(text: String?):String {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) Html.fromHtml(it)
         else Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY)
     }.toString()
+}
+
+fun getNativeAdMobId(context:Context): String {
+    return if (BuildConfig.DEBUG) context.getString(R.string.ad_mob_native_debug_id)
+    else context.getString(R.string.ad_mob_native_release_id)
+}
+
+fun getBannerAdMobId(context: Context):String{
+    return if (BuildConfig.DEBUG) context.getString(R.string.ad_mob_banner_debug_id)
+    else context.getString(R.string.ad_mob_banner_release_id)
 }
 

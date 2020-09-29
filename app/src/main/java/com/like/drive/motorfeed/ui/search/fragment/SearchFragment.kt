@@ -26,10 +26,7 @@ import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.databinding.FragmentSearchBinding
 import com.like.drive.motorfeed.ui.base.BaseFragment
 import com.like.drive.motorfeed.ui.base.etc.PagingCallback
-import com.like.drive.motorfeed.ui.base.ext.dividerItemDecoration
-import com.like.drive.motorfeed.ui.base.ext.hideKeyboard
-import com.like.drive.motorfeed.ui.base.ext.showShortToast
-import com.like.drive.motorfeed.ui.base.ext.withPaging
+import com.like.drive.motorfeed.ui.base.ext.*
 import com.like.drive.motorfeed.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.motorfeed.ui.board.list.activity.BoardListActivity
 import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
@@ -346,7 +343,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
     private fun loadBanner() {
-        adView?.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView?.adUnitId = getBannerAdMobId(requireContext())
 
         adView?.adSize = adSize
 

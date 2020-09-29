@@ -421,7 +421,7 @@ class BoardDetailActivity :
     }
 
     private fun loadBanner() {
-        adView?.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView?.adUnitId = getBannerAdMobId(this)
 
         adView?.adSize = adSize
 
