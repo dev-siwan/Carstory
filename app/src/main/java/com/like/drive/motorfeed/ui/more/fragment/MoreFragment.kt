@@ -28,6 +28,10 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
 
     private val viewModel: MoreViewModel by viewModel()
 
+    override fun onBind(dataBinding: FragmentMoreBinding) {
+        dataBinding.vm = viewModel
+    }
+
     override fun onBindAfter(dataBinding: FragmentMoreBinding) {
         super.onBindAfter(dataBinding)
 

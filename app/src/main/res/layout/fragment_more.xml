@@ -6,7 +6,6 @@
 
     <data>
 
-        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
 
         <variable
             name="vm"
@@ -63,7 +62,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider" />
+                    app:layout_constraintTop_toBottomOf="@id/divider"
+                    app:vm="@{vm}" />
 
 
                 <View
@@ -97,7 +97,7 @@
                         layout="@layout/layout_more_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="@{UserInfo.INSTANCE.userInfo.emailSignUp}"
+                        android:visibility="@{vm.userInfo.emailSignUp}"
                         app:title="@{@string/more_title_password}" />
 
                     <include
@@ -132,7 +132,7 @@
                         layout="@layout/layout_more_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="@{UserInfo.INSTANCE.userInfo.admin}"
+                        android:visibility="@{vm.userInfo.admin}"
                         app:title="@{@string/more_title_admin}" />
 
                 </LinearLayout>
