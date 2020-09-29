@@ -18,7 +18,7 @@ val repositoryModule = module {
     single<VersionRepository> { VersionRepositoryImpl(get()) }
     single<MotorTypeRepository> { MotorTypeRepositoryImpl(get(), get()) }
     single<UserRepository> { UserRepositoryImpl(get(), get()) }
-    single<BoardRepository> { BoardRepositoryImpl(get(), get(), get(), get(),get()) }
+    single<BoardRepository> { BoardRepositoryImpl(get(), get(), get(), get(),get(),get()) }
     single<NotificationRepository> { NotificationRepositoryImpl(get()) }
     single<NoticeRepository> { NoticeRepositoryImpl(get(),get()) }
 }

@@ -5,20 +5,22 @@ import com.google.firebase.functions.FirebaseFunctionsException
 import com.like.drive.motorfeed.cache.dao.like.LikeDao
 import com.like.drive.motorfeed.cache.entity.LikeEntity
 import com.like.drive.motorfeed.common.user.UserInfo
+import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.board.CommentData
 import com.like.drive.motorfeed.data.board.CommentWrapData
-import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.board.ReCommentData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.notification.NotificationSendData
 import com.like.drive.motorfeed.data.notification.NotificationType
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.data.report.ReportData
 import com.like.drive.motorfeed.remote.api.board.BoardApi
 import com.like.drive.motorfeed.remote.api.img.ImageApi
 import com.like.drive.motorfeed.remote.api.notification.NotificationApi
+import com.like.drive.motorfeed.remote.api.report.ReportApi
 import com.like.drive.motorfeed.remote.reference.CollectionName
-import com.like.drive.motorfeed.ui.board.data.LikeCountEnum
 import com.like.drive.motorfeed.ui.board.category.data.CategoryData
+import com.like.drive.motorfeed.ui.board.data.LikeCountEnum
 import com.like.drive.motorfeed.ui.board.upload.data.BoardUploadField
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -30,7 +32,8 @@ class BoardRepositoryImpl(
     private val imgApi: ImageApi,
     private val firestore: FirebaseFirestore,
     private val notificationApi: NotificationApi,
-    private val likeDao: LikeDao
+    private val likeDao: LikeDao,
+    private val reportApi: ReportApi
 ) : BoardRepository {
 
     private var photoFileList = ArrayList<PhotoData>()
@@ -62,7 +65,12 @@ class BoardRepositoryImpl(
         )
 
         boardApi.setBoard(creteBoardData)
-            .zip(boardApi.setUserBoard(creteBoardData.userInfo?.uid ?: "", creteBoardData)) { t1, t2 ->
+            .zip(
+                boardApi.setUserBoard(
+                    creteBoardData.userInfo?.uid ?: "",
+                    creteBoardData
+                )
+            ) { t1, t2 ->
                 if (t1 && t2) {
                     success(creteBoardData)
                 } else {
@@ -115,7 +123,8 @@ class BoardRepositoryImpl(
 
         if (boardData.imageUrls?.isNotEmpty() == true) {
             boardData.imageUrls.forEachIndexed { index, _ ->
-                imgApi.deleteBoardImage(boardData.bid ?: "", index).catch { fail.invoke() }.collect()
+                imgApi.deleteBoardImage(boardData.bid ?: "", index).catch { fail.invoke() }
+                    .collect()
             }
         }
 
@@ -320,6 +329,14 @@ class BoardRepositoryImpl(
 
     override suspend fun removeAllLike() {
         likeDao.deleteLike()
+    }
+
+    override suspend fun sendReport(
+        reportData: ReportData,
+        success: () -> Unit,
+        fail: () -> Unit
+    ) {
+        reportApi.sendReport(reportData).catch { fail.invoke() }.collect { success.invoke() }
     }
 
     private suspend fun checkImgUpload(): Flow<Int> =

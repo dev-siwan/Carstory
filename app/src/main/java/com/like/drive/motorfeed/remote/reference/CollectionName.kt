@@ -8,4 +8,5 @@ object CollectionName {
     const val BOARD_COMMENT = "board_comment"
     const val BOARD_RE_COMMENT = "board_re_comment"
     const val NOTICE = "notice"
+    const val REPORT = "report"
 }

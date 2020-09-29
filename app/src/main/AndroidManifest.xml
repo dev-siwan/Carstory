@@ -19,10 +19,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
-        <activity android:name="com.like.drive.motorfeed.ui.report.list.activity.ReportCreateActivity"></activity>
         <activity android:name="com.like.drive.motorfeed.ui.report.list.activity.ReportActivity" />
-        <activity android:name=".ui.notice.detail.activity.NoticeDetailActivity" />
-        <activity android:name=".ui.notice.list.activity.NoticeListActivity" />
+        <activity
+            android:name=".ui.notice.detail.activity.NoticeDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".ui.notice.list.activity.NoticeListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".ui.terms.TermsActivity"
             android:screenOrientation="portrait"
@@ -142,7 +147,7 @@
             android:resource="@android:color/black" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-6215810193035158~4127388673" />
     </application>
 
 </manifest>

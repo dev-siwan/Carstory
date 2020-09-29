@@ -13,6 +13,7 @@ import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.board.CommentData
 import com.like.drive.motorfeed.data.board.CommentWrapData
 import com.like.drive.motorfeed.data.board.ReCommentData
+import com.like.drive.motorfeed.data.report.ReportData
 import com.like.drive.motorfeed.repository.board.BoardRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.board.data.CommentFragmentExtra
@@ -23,8 +24,8 @@ import java.util.*
 
 class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
 
-    private val _feedData = MutableLiveData<BoardData>()
-    val boardData: LiveData<BoardData> get() = _feedData
+    private val _boardData = MutableLiveData<BoardData>()
+    val boardData: LiveData<BoardData> get() = _boardData
 
     private val _commentList = MutableLiveData<List<CommentWrapData>>()
     val commentList: LiveData<List<CommentWrapData>> get() = _commentList
@@ -53,8 +54,11 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     val showCommentDialogEvent = SingleLiveEvent<CommentFragmentExtra>()
     val completeCommentDialogEvent = SingleLiveEvent<Unit>()
 
-    //피드 삭제 이벤트
+    //게시물 삭제 이벤트
     val removeBoardEvent = SingleLiveEvent<BoardData>()
+
+    //신고 완료 이벤트
+    val completeReportEvent = SingleLiveEvent<Unit>()
 
     val errorEvent = SingleLiveEvent<@StringRes Int>()
     val warningSelfLikeEvent = SingleLiveEvent<@StringRes Int>()
@@ -75,7 +79,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     fun initDate(boardData: BoardData) {
         boardData.let {
-            _feedData.value = it
+            _boardData.value = it
         }
     }
 
@@ -89,7 +93,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
                     commentCountObserver.set(commentWrapList?.size ?: 0)
                     likeCountObserver.set(likeCount ?: 0)
 
-                    _feedData.value = feedData
+                    _boardData.value = feedData
 
                     _commentList.value =
                         if (commentWrapList.isNullOrEmpty()) emptyList() else commentWrapList
@@ -110,7 +114,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     fun removeBoardListener() {
         isProgressEvent.value = true
-        _feedData.value?.let {
+        _boardData.value?.let {
             viewModelScope.launch {
                 boardRepository.removeBoard(it,
                     success = { removeBoardEvent.value = it },
@@ -190,7 +194,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
         reCommentValue?.let {
             viewModelScope.launch {
-                boardRepository.addReComment(_feedData.value!!, commentData, it,
+                boardRepository.addReComment(_boardData.value!!, commentData, it,
                     success = {
                         completeCommentDialogEvent.call()
                         addReCommentEvent.value = it
@@ -328,15 +332,15 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         if (isUp) {
 
             likeCountObserver.set(likeCountObserver.get().plus(1))
-            _feedData.value?.likeCount?.plus(1)
+            _boardData.value?.likeCount?.plus(1)
             action()
 
         } else {
 
-            if (_feedData.value?.likeCount ?: 0 >= 0) {
+            if (_boardData.value?.likeCount ?: 0 >= 0) {
 
                 likeCountObserver.set(likeCountObserver.get().minus(1))
-                _feedData.value?.likeCount?.minus(1)
+                _boardData.value?.likeCount?.minus(1)
                 action()
 
             }
@@ -346,6 +350,26 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     fun setReComment(str: String?) {
         reComment.value = str
+    }
+
+    fun sendReport(bid: String, uid: String, type: String, title: String) {
+
+        isProgressEvent.value = true
+
+        val reportDate = ReportData(bid = bid, uid = uid, type = type, title = title)
+
+        viewModelScope.launch {
+            boardRepository.sendReport(reportDate,
+                success = {
+                    completeReportEvent.call()
+                    isProgressEvent.value = false
+                },
+                fail = {
+                    //TODO 에러입력값
+                    errorEvent.call()
+                    isProgressEvent.value = false
+                })
+        }
     }
 
     private fun delayTime() {

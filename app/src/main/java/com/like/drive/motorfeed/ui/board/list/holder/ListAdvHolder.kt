@@ -16,7 +16,7 @@ class ListAdvHolder(val binding: HolderListAdvBinding) : RecyclerView.ViewHolder
 
     fun bind() {
         MobileAds.initialize(context)
-        val adLoader = AdLoader.Builder(context, "ca-app-pub-3940256099942544/2247696110")
+        val adLoader = AdLoader.Builder(context, "ca-app-pub-6215810193035158/3935816982")
             .apply {
                 forUnifiedNativeAd {
                     populateUnifiedNativeAdView(it, binding.adView)

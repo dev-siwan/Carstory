@@ -48,7 +48,7 @@
         <CheckBox
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:checked="@{data.checked}"
+            android:checked="@={data.checked}"
             android:onClick="@{()->vm.onClickItemListener(data)}"
             android:text="@{data.title}"
             android:textSize="@dimen/normal_text_size"

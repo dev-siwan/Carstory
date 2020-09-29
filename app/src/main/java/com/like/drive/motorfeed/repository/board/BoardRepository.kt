@@ -1,11 +1,12 @@
 package com.like.drive.motorfeed.repository.board
 
+import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.board.CommentData
 import com.like.drive.motorfeed.data.board.CommentWrapData
-import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.board.ReCommentData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.data.report.ReportData
 import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 import com.like.drive.motorfeed.ui.board.upload.data.BoardUploadField
 import kotlinx.coroutines.flow.Flow
@@ -99,4 +100,8 @@ interface BoardRepository {
     suspend fun isLikeBoard(bid: String): Boolean
 
     suspend fun removeAllLike()
+
+    suspend fun sendReport(reportData: ReportData,
+                           success: () -> Unit,
+                           fail: () -> Unit)
 }

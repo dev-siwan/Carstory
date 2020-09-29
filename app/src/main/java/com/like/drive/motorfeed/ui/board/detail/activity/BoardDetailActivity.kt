@@ -141,6 +141,7 @@ class BoardDetailActivity :
             showOptions()
             updateComment()
             finishView()
+            completeReport()
         }
     }
 
@@ -209,9 +210,15 @@ class BoardDetailActivity :
     private fun BoardDetailViewModel.showOptions() {
 
         //게시물
-        optionEvent.observe(this@BoardDetailActivity, Observer { feedData ->
-            showOptionsList(feedData.userInfo?.uid,
-                reportCallback = {},
+        optionEvent.observe(this@BoardDetailActivity, Observer { boardData ->
+            showOptionsList(boardData.userInfo?.uid,
+                reportCallback = {
+                    showReportFragment(
+                        boardData.userInfo?.uid!!,
+                        boardData.bid!!,
+                        boardData.title!!
+                    )
+                },
                 deleteCallback = { viewModel.removeBoardListener() },
                 updateCallback = {
                     startActForResult(
@@ -220,7 +227,7 @@ class BoardDetailActivity :
                         Bundle().apply {
                             putParcelable(
                                 UploadActivity.BOARD_UPDATE_KEY,
-                                feedData
+                                boardData
                             )
                         })
                 })
@@ -229,7 +236,11 @@ class BoardDetailActivity :
         optionsCommentEvent.observe(this@BoardDetailActivity, Observer { commentData ->
             showOptionsList(commentData.userInfo?.uid,
                 reportCallback = {
-
+                    showReportFragment(
+                        commentData.userInfo?.uid!!,
+                        commentData.bid!!,
+                        commentData.commentStr!!
+                    )
                 },
                 deleteCallback = {
                     removeBoardComment(commentData)
@@ -243,7 +254,11 @@ class BoardDetailActivity :
         optionsReCommentEvent.observe(this@BoardDetailActivity, Observer { reCommentData ->
             showOptionsList(reCommentData.userInfo?.uid,
                 reportCallback = {
-                    showReportFragment()
+                    showReportFragment(
+                        reCommentData.userInfo?.uid!!,
+                        reCommentData.bid!!,
+                        reCommentData.commentStr!!
+                    )
                 },
                 deleteCallback = {
                     removeBoardReComment(reCommentData)
@@ -294,7 +309,7 @@ class BoardDetailActivity :
     }
 
     /** 신고하기,수정,삭제
-     * 자신의 아이디가 아니면 수정,삭제 표시
+     * 자신의 아이디 또는 관리자이면 수정,삭제 표시
      * 아니면 신고하기 표시**/
     private fun showOptionsList(
         uid: String?,
@@ -303,7 +318,7 @@ class BoardDetailActivity :
         updateCallback: () -> Unit
     ) {
         val list = uid?.let {
-            if (uid == UserInfo.userInfo?.uid ?: "") {
+            if (uid == UserInfo.userInfo?.uid ?: "" || UserInfo.userInfo?.admin == true) {
                 OptionsSelectType.values().drop(1).map { getString(it.resID) }.toTypedArray()
             } else {
                 OptionsSelectType.values().dropLast(2).map { getString(it.resID) }.toTypedArray()
@@ -317,6 +332,12 @@ class BoardDetailActivity :
                 getString(OptionsSelectType.UPDATE.resID) -> updateCallback()
             }
         }
+    }
+
+    private fun BoardDetailViewModel.completeReport() {
+        completeReportEvent.observe(this@BoardDetailActivity, Observer {
+            showShortToast(getString(R.string.report_complete_message))
+        })
     }
 
     private fun BoardDetailViewModel.error() {
@@ -421,8 +442,13 @@ class BoardDetailActivity :
 
     }
 
-    private fun showReportFragment() {
-        ReportRegisterFragmentDialog.newInstance().show(supportFragmentManager, "")
+    private fun showReportFragment(uid: String, bid: String, title: String) {
+        ReportRegisterFragmentDialog.newInstance().apply {
+            callbackAction = {
+                viewModel.sendReport(bid = bid, uid = uid, title = title, type = it.title!!)
+                dismiss()
+            }
+        }.show(supportFragmentManager, "")
     }
 
     override fun onBackPressed() {

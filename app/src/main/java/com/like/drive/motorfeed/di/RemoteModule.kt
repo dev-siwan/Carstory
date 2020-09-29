@@ -13,6 +13,8 @@ import com.like.drive.motorfeed.remote.api.notice.NoticeApi
 import com.like.drive.motorfeed.remote.api.notice.NoticeApiImpl
 import com.like.drive.motorfeed.remote.api.notification.NotificationApi
 import com.like.drive.motorfeed.remote.api.notification.NotificationApiImpl
+import com.like.drive.motorfeed.remote.api.report.ReportApi
+import com.like.drive.motorfeed.remote.api.report.ReportApiImpl
 import com.like.drive.motorfeed.remote.api.user.UserApi
 import com.like.drive.motorfeed.remote.api.user.UserApiImpl
 import com.like.drive.motorfeed.remote.api.version.VersionApi
@@ -41,5 +43,6 @@ val remoteModule = module {
     single<BoardApi> { BoardApiImpl(get(), get()) }
     single<NotificationApi> { NotificationApiImpl(get()) }
     single<NoticeApi> { NoticeApiImpl(get(), get()) }
+    single<ReportApi> { ReportApiImpl(get(), get()) }
 
 }
