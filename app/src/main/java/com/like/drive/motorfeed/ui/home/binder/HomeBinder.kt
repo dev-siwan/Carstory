@@ -10,9 +10,9 @@ import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 @BindingAdapter("filterType")
 fun TextView.setFilterType(feedTypeData: CategoryData?) {
     text = if (feedTypeData != null) {
-        context.getString(R.string.feed_list_filter_type, feedTypeData.title)
+        context.getString(R.string.filter_category_type, feedTypeData.title)
     } else {
-        context.getString(R.string.feed_list_filter_type_default)
+        context.getString(R.string.category_filter_type_default)
     }
 }
 
@@ -22,21 +22,21 @@ fun TextView.setFilterBrand(motorTypeData: MotorTypeData?) {
         if (motorTypeData.modelCode == 0) {
 
             context.getString(
-                R.string.feed_list_filter_motor_brand,
+                R.string.filter_motor_brand,
                 motorTypeData.brandName
             )
 
         } else {
 
             context.getString(
-                R.string.feed_list_filter_motor_brand_model,
+                R.string.filter_motor_brand_model,
                 motorTypeData.brandName,
                 motorTypeData.modelName
             )
 
         }
     } else {
-        context.getString(R.string.feed_list_filter_motor_default)
+        context.getString(R.string.category_filter_motor_default)
     }
 }
 

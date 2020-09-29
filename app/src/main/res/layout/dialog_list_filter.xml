@@ -34,7 +34,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/feed_filter_title"
+        android:text="@string/board_filter_title"
         android:layout_gravity="top|start"
         android:textSize="@dimen/large_text_size"
         android:textColor="@color/white_100"/>
@@ -79,7 +79,7 @@
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{()->vm.doClickEvent(vm.filterCategoryClickEvent)}"
-            tools:text="@string/filter_feed_type_desc"/>
+            tools:text="@string/filter_category_type_desc"/>
         <View
             android:id="@+id/divider"
             android:layout_width="0dp"

@@ -130,22 +130,22 @@
     <string name="comment_remove_error_message">댓글을 삭제하는데 실패 하였습니다.</string>
     <string name="feed_remove_error_message">글을 삭제하는데 실패 하였습니다.</string>
 
-    <string name="feed_type_title_1">자유</string>
-    <string name="feed_type_title_2">신차</string>
-    <string name="feed_type_title_3">시승</string>
-    <string name="feed_type_title_4">용품</string>
-    <string name="feed_type_title_5">세차</string>
-    <string name="feed_type_title_6">사고</string>
-    <string name="feed_type_title_7">교통</string>
+    <string name="category_title_1">자유</string>
+    <string name="category_title_2">신차</string>
+    <string name="category_title_3">시승</string>
+    <string name="category_title_4">용품</string>
+    <string name="category_title_5">세차</string>
+    <string name="category_title_6">사고</string>
+    <string name="category_title_7">교통</string>
 
-    <string name="feed_type_content_1">자유로운 글을 적어주세요.</string>
-    <string name="feed_type_content_2">신차 정보를 적어주세요.</string>
-    <string name="feed_type_content_3">직접 시승 했던 경험을 적어주세요.</string>
-    <string name="feed_type_content_4">자동차 용품에 대해서 적어주세요.</string>
-    <string name="feed_type_content_5">세차에 관련 된 정보를 적어주세요.</string>
-    <string name="feed_type_content_6">자동차 사고 관련 된 정보를 적어주세요.</string>
-    <string name="feed_type_content_7">교통 상황 및 교통 정보에 대해 적어주세요.</string>
-    <string name="feed_type_title">카테고리를 선택해주세요.</string>
+    <string name="category_content_1">자유로운 글을 적어주세요.</string>
+    <string name="category_content_2">신차 정보를 적어주세요.</string>
+    <string name="category_content_3">직접 시승 했던 경험을 적어주세요.</string>
+    <string name="category_content_4">자동차 용품에 대해서 적어주세요.</string>
+    <string name="category_content_5">세차에 관련 된 정보를 적어주세요.</string>
+    <string name="category_content_6">자동차 사고 관련 된 정보를 적어주세요.</string>
+    <string name="category_content_7">교통 상황 및 교통 정보에 대해 적어주세요.</string>
+    <string name="category_title">카테고리를 선택해주세요.</string>
     <string name="enrollment_text">등록</string>
     <string name="comment_hint">댓글을 남겨주세요.</string>
 
@@ -176,17 +176,17 @@
     <string name="update_photo_desc">글을 수정 할 때는 이미지를 수정 할 수 없습니다.\n해당 이미지를 선택하면 크게 볼 수 있습니다.</string>
     <string name="not_update_photo_desc">해당 이미지를 선택하면 삭제 또는 크게 볼 수 있습니다.</string>
 
-    <string name="feed_list_filter_type">카테고리: %s</string>
-    <string name="feed_list_filter_motor_brand">종류: %s</string>
-    <string name="feed_list_filter_motor_brand_model">종류 : %s | %s</string>
+    <string name="filter_category_type">카테고리: %s</string>
+    <string name="filter_motor_brand">종류: %s</string>
+    <string name="filter_motor_brand_model">종류 : %s | %s</string>
 
-    <string name="feed_list_filter_type_default">카테고리 :전체</string>
-    <string name="feed_list_filter_motor_default">차량종류 :전체</string>
+    <string name="category_filter_type_default">카테고리 :전체</string>
+    <string name="category_filter_motor_default">차량종류 :전체</string>
 
-    <string name="filter_feed_type_desc"><![CDATA[<font color="#8f8f8f">카테리를 선택해주세요.</font><br /><br />%s]]></string>
+    <string name="filter_category_type_desc"><![CDATA[<font color="#8f8f8f">카테리를 선택해주세요.</font><br /><br />%s]]></string>
     <string name="filter_motor_type_desc"><![CDATA[<font color="#8f8f8f">자동차 종류를 선택해주세요.</font><br /><br />%s]]></string>
     <string name="not_select">선택없음</string>
-    <string name="feed_filter_title">필터 설정</string>
+    <string name="board_filter_title">필터 설정</string>
     <string name="setting_complete">적용하기</string>
     <string name="home_search_tag_hint">#태그로 검색이 가능합니다</string>
     <string name="search_filter_complete">조건 검색 완료</string>

@@ -101,7 +101,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
 
         loadingStatus()
 
-        getUserList(uid = uid)
+        getUserBoardList(uid = uid)
     }
 
     fun moreUserData(date: Date? = null, uid: String) {
@@ -111,10 +111,10 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         loadingStatus = LoadingStatus.MORE
         loadingStatus()
 
-        getUserList(date, uid)
+        getUserBoardList(date, uid)
     }
 
-    private fun getUserList(date: Date? = Date(), uid: String) {
+    private fun getUserBoardList(date: Date? = Date(), uid: String) {
         viewModelScope.launch {
             boardRepository.getUserBoardList(date ?: Date(), uid)
                 .catch {

@@ -15,28 +15,28 @@ data class CategoryData(
 fun getCategoryList(context:Context):List<CategoryData>{
     return listOf(
         CategoryData(
-            title = context.getString(R.string.feed_type_title_1),
-            content = context.getString(R.string.feed_type_content_1),
+            title = context.getString(R.string.category_title_1),
+            content = context.getString(R.string.category_content_1),
             typeCode = 1),
         CategoryData(
-            title = context.getString(R.string.feed_type_title_2),
-            content = context.getString(R.string.feed_type_content_2),
+            title = context.getString(R.string.category_title_2),
+            content = context.getString(R.string.category_content_2),
             typeCode = 2),
         CategoryData(
-            title = context.getString(R.string.feed_type_title_3),
-            content = context.getString(R.string.feed_type_content_3),
+            title = context.getString(R.string.category_title_3),
+            content = context.getString(R.string.category_content_3),
             typeCode = 3),
         CategoryData(
-            title = context.getString(R.string.feed_type_title_4),
-            content = context.getString(R.string.feed_type_content_4),
+            title = context.getString(R.string.category_title_4),
+            content = context.getString(R.string.category_content_4),
             typeCode = 4),
         CategoryData(
-            title = context.getString(R.string.feed_type_title_5),
-            content = context.getString(R.string.feed_type_content_5),
+            title = context.getString(R.string.category_title_5),
+            content = context.getString(R.string.category_content_5),
             typeCode = 5),
         CategoryData(
-            title = context.getString(R.string.feed_type_title_6),
-            content = context.getString(R.string.feed_type_content_6),
+            title = context.getString(R.string.category_title_6),
+            content = context.getString(R.string.category_content_6),
             typeCode = 6)
     )
 }
