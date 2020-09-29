@@ -249,6 +249,8 @@
     <string name="notice_upload_title_hint">제목을 입력해주세요.</string>
     <string name="notice_upload_message_hint">알림 메세지를 입력해주세요</string>
     <string name="notice_upload_md_file_hint">md 파일명을 입력해주세요.</string>
+    <string name="notice_upload_fail_message">공지사항 업데이트 실패하였습니다.</string>
+    <string name="notice_remove_fail_message">공지사항을 삭제하는데 실패하였습니다.</string>
 
     <string name="logout_text">로그아웃</string>
     <string name="drop_out_text">회원탈퇴</string>
@@ -279,6 +281,8 @@
     <string name="ad_mob_native_release_id">ca-app-pub-6215810193035158/3935816982</string>
     <string name="ad_mob_banner_debug_id">ca-app-pub-3940256099942544/9214589741</string>
     <string name="ad_mob_banner_release_id">ca-app-pub-6215810193035158/6104239774</string>
+
+
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

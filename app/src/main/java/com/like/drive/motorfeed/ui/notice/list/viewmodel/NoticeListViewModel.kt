@@ -6,6 +6,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.notice.NoticeData
 import com.like.drive.motorfeed.repository.notice.NoticeRepository
@@ -124,9 +125,7 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
                     loadingEvent.value = false
                 },
                 fail = {
-
-                    //TODO 에러메세지 필요
-                    errorEvent.value = 0
+                    errorEvent.value = R.string.notice_upload_fail_message
                     loadingEvent.value = true
                 })
         }
@@ -143,8 +142,7 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
                     loadingEvent.value = false
                 },
                 fail = {
-                    //TODO 에러메세지 필요
-                    errorEvent.value = 0
+                    errorEvent.value = R.string.notice_remove_fail_message
                     loadingEvent.value = true
                 })
         }

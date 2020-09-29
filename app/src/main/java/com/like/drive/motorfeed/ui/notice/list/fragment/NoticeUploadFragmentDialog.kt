@@ -74,7 +74,7 @@ class NoticeUploadFragmentDialog :
 
     private fun NoticeListViewModel.error() {
         errorEvent.observe(viewLifecycleOwner, Observer {
-            requireContext().showShortToast(it)
+            requireActivity().showShortToast(it)
         })
     }
 
