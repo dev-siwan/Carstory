@@ -352,11 +352,12 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         reComment.value = str
     }
 
-    fun sendReport(bid: String, uid: String, type: String, title: String) {
+    fun sendReport(bid: String, uid: String, type: String, title: String, nick: String) {
 
         isProgressEvent.value = true
 
-        val reportDate = ReportData(bid = bid, uid = uid, type = type, title = title)
+        val reportDate =
+            ReportData(bid = bid, uid = uid, type = type, title = title, nickName = nick)
 
         viewModelScope.launch {
             boardRepository.sendReport(reportDate,

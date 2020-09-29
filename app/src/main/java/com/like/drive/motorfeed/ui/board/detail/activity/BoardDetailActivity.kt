@@ -216,7 +216,8 @@ class BoardDetailActivity :
                     showReportFragment(
                         boardData.userInfo?.uid!!,
                         boardData.bid!!,
-                        boardData.title!!
+                        boardData.title!!,
+                        boardData.userInfo.nickName!!
                     )
                 },
                 deleteCallback = { viewModel.removeBoardListener() },
@@ -239,7 +240,8 @@ class BoardDetailActivity :
                     showReportFragment(
                         commentData.userInfo?.uid!!,
                         commentData.bid!!,
-                        commentData.commentStr!!
+                        commentData.commentStr!!,
+                        commentData.userInfo.nickName!!
                     )
                 },
                 deleteCallback = {
@@ -257,7 +259,8 @@ class BoardDetailActivity :
                     showReportFragment(
                         reCommentData.userInfo?.uid!!,
                         reCommentData.bid!!,
-                        reCommentData.commentStr!!
+                        reCommentData.commentStr!!,
+                        reCommentData.userInfo.nickName!!
                     )
                 },
                 deleteCallback = {
@@ -442,10 +445,16 @@ class BoardDetailActivity :
 
     }
 
-    private fun showReportFragment(uid: String, bid: String, title: String) {
+    private fun showReportFragment(uid: String, bid: String, title: String, nick: String) {
         ReportRegisterFragmentDialog.newInstance().apply {
             callbackAction = {
-                viewModel.sendReport(bid = bid, uid = uid, title = title, type = it.title!!)
+                viewModel.sendReport(
+                    bid = bid,
+                    uid = uid,
+                    title = title,
+                    type = it.title!!,
+                    nick = nick
+                )
                 dismiss()
             }
         }.show(supportFragmentManager, "")

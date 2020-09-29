@@ -133,7 +133,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{vm.userInfo.admin}"
-                        app:title="@{@string/more_title_admin}" />
+                        app:title="@{@string/more_title_report}" />
 
                 </LinearLayout>
 
