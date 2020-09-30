@@ -14,12 +14,14 @@ import com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationSettingViewModel
 import com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel
 import com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel
+import com.like.drive.motorfeed.ui.report.list.viewmodel.ReportViewModel
 import com.like.drive.motorfeed.ui.report.reg.viewmodel.ReportRegisterViewModel
 import com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel
 import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInViewModel
 import com.like.drive.motorfeed.ui.sign.password.viewmodel.PasswordUpdateViewModel
 import com.like.drive.motorfeed.ui.sign.up.viewmodel.SignUpViewModel
 import com.like.drive.motorfeed.ui.splash.viewmodel.SplashViewModel
+import com.like.drive.motorfeed.ui.user.viewmodel.UserLookUpViewModel
 import com.like.drive.motorfeed.ui.view.large.viewmodel.LargeThanViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -46,4 +48,6 @@ val viewModelModule = module {
     viewModel { NoticeListViewModel(get()) }
     viewModel { NoticeDetailViewModel(get()) }
     viewModel { ReportRegisterViewModel() }
+    viewModel { ReportViewModel(get()) }
+    viewModel { UserLookUpViewModel() }
 }

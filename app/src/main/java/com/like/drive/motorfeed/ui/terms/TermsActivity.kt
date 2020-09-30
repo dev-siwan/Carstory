@@ -21,7 +21,7 @@ class TermsActivity : BaseActivity<ActivityTermsBinding>(R.layout.activity_terms
     }
 
     private fun initView() {
-        setCloseButtonToolbar(toolbar)
+        setCloseButtonToolbar(toolbar) { finish() }
     }
 
     private fun init() {
@@ -52,7 +52,7 @@ class TermsActivity : BaseActivity<ActivityTermsBinding>(R.layout.activity_terms
 
             loadFromUrl(url)
 
-            setOnMarkdownRenderingListener(object:MarkdownView.OnMarkdownRenderingListener{
+            setOnMarkdownRenderingListener(object : MarkdownView.OnMarkdownRenderingListener {
                 override fun onMarkdownRenderError() {
                     progressBar.isVisible = false
                 }

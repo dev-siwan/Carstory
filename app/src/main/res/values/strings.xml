@@ -283,12 +283,19 @@
     <string name="report_type_text">신고 종류</string>
     <string name="report_nick_text">신고 닉네임</string>
 
+    <string name="report_remove_error_message">신고내용을 삭제하는데 실패하였습니다</string>
+    <string name="report_remove_listener_message">신고내용을 삭제하시겠습니까?</string>
+    <string name="report_get_list_error_message">리스트를 가져오는데 실패하였습니다.</string>
+
     <string name="ad_mob_app_id">ca-app-pub-6215810193035158~4127388673</string>
     <string name="ad_mob_native_debug_id">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ad_mob_native_release_id">ca-app-pub-6215810193035158/3935816982</string>
     <string name="ad_mob_banner_debug_id">ca-app-pub-3940256099942544/9214589741</string>
     <string name="ad_mob_banner_release_id">ca-app-pub-6215810193035158/6104239774</string>
 
+    <string name="user_board_text">회원이 쓴 글</string>
+    <string name="user_ban_text">회원 금지 시키기</string>
+    <string name="user_message_text">회원 메세지 보내기</string>
 
 
     <string-array name="empty_photo_type_array">

@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
-        <activity android:name="com.like.drive.motorfeed.ui.report.list.activity.ReportActivity" />
+        <activity android:name=".ui.user.activity.UserLookUpActivity"></activity>
+        <activity android:name=".ui.report.list.activity.ReportActivity" />
         <activity
             android:name=".ui.notice.detail.activity.NoticeDetailActivity"
             android:screenOrientation="portrait"

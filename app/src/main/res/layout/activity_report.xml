@@ -30,15 +30,22 @@
                 android:id="@+id/tvNoticeUpload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
+                android:layout_gravity="center"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/activity_vertical_margin"
-                android:text="@string/upload"
+                android:text="@string/more_title_report"
                 android:textColor="@color/gnt_black"
-                android:textStyle="bold"
-                android:visibility="@{UserInfo.INSTANCE.userInfo.admin}" />
-
+                android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey_7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -62,34 +69,19 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_x_margin"
-            android:text="@string/more_title_report"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/xx_large_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/glEnd"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:text="@string/more_title_report" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvNoticeList"
+            android:id="@+id/rvReportList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:orientation="vertical"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+            app:layout_constraintTop_toBottomOf="@id/divider"
             tools:itemCount="3"
-            tools:listitem="@layout/holder_notice_list_item" />
+            tools:listitem="@layout/holder_report_list" />
 
         <ProgressBar
             android:id="@+id/pbLoading"
@@ -102,6 +94,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@android:color/black"
+            android:visibility="@{vm.isLoading()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

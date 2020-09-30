@@ -8,6 +8,8 @@ import com.like.drive.motorfeed.repository.notice.NoticeRepository
 import com.like.drive.motorfeed.repository.notice.NoticeRepositoryImpl
 import com.like.drive.motorfeed.repository.notification.NotificationRepository
 import com.like.drive.motorfeed.repository.notification.NotificationRepositoryImpl
+import com.like.drive.motorfeed.repository.report.ReportRepository
+import com.like.drive.motorfeed.repository.report.ReportRepositoryImpl
 import com.like.drive.motorfeed.repository.user.UserRepository
 import com.like.drive.motorfeed.repository.user.UserRepositoryImpl
 import com.like.drive.motorfeed.repository.version.VersionRepository
@@ -18,7 +20,8 @@ val repositoryModule = module {
     single<VersionRepository> { VersionRepositoryImpl(get()) }
     single<MotorTypeRepository> { MotorTypeRepositoryImpl(get(), get()) }
     single<UserRepository> { UserRepositoryImpl(get(), get()) }
-    single<BoardRepository> { BoardRepositoryImpl(get(), get(), get(), get(),get(),get()) }
+    single<BoardRepository> { BoardRepositoryImpl(get(), get(), get(), get(), get(), get()) }
     single<NotificationRepository> { NotificationRepositoryImpl(get()) }
-    single<NoticeRepository> { NoticeRepositoryImpl(get(),get()) }
+    single<NoticeRepository> { NoticeRepositoryImpl(get(), get()) }
+    single<ReportRepository> { ReportRepositoryImpl(get()) }
 }

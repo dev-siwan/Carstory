@@ -14,6 +14,7 @@ import com.like.drive.motorfeed.data.board.CommentData
 import com.like.drive.motorfeed.data.board.CommentWrapData
 import com.like.drive.motorfeed.data.board.ReCommentData
 import com.like.drive.motorfeed.data.report.ReportData
+import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.repository.board.BoardRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
 import com.like.drive.motorfeed.ui.board.data.CommentFragmentExtra
@@ -352,12 +353,12 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         reComment.value = str
     }
 
-    fun sendReport(bid: String, uid: String, type: String, title: String, nick: String) {
+    fun sendReport(bid: String, type: String, title: String, userData: UserData) {
 
         isProgressEvent.value = true
 
         val reportDate =
-            ReportData(bid = bid, uid = uid, type = type, title = title, nickName = nick)
+            ReportData(bid = bid, type = type, title = title, userInfo = userData)
 
         viewModelScope.launch {
             boardRepository.sendReport(reportDate,

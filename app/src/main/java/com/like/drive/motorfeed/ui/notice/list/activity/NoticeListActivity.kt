@@ -66,6 +66,7 @@ class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.acti
             addItemDecoration(dividerItemDecoration())
         }
 
+        setBackButtonToolbar(toolbar) { finish() }
 
         initData()
         withViewModel()

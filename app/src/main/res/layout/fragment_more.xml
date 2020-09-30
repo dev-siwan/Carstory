@@ -129,6 +129,7 @@
                         app:title="@{@string/more_title_terms_privacy}" />
 
                     <include
+                        android:id="@+id/containerReportPage"
                         layout="@layout/layout_more_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

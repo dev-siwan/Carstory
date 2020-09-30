@@ -17,6 +17,7 @@ import com.like.drive.motorfeed.common.enum.OptionsSelectType
 import com.like.drive.motorfeed.common.user.UserInfo
 import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.data.user.UserData
 import com.like.drive.motorfeed.databinding.ActivityBoardDetailBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.*
@@ -214,10 +215,9 @@ class BoardDetailActivity :
             showOptionsList(boardData.userInfo?.uid,
                 reportCallback = {
                     showReportFragment(
-                        boardData.userInfo?.uid!!,
                         boardData.bid!!,
                         boardData.title!!,
-                        boardData.userInfo.nickName!!
+                        boardData.userInfo!!
                     )
                 },
                 deleteCallback = { viewModel.removeBoardListener() },
@@ -238,10 +238,9 @@ class BoardDetailActivity :
             showOptionsList(commentData.userInfo?.uid,
                 reportCallback = {
                     showReportFragment(
-                        commentData.userInfo?.uid!!,
                         commentData.bid!!,
                         commentData.commentStr!!,
-                        commentData.userInfo.nickName!!
+                        commentData.userInfo!!
                     )
                 },
                 deleteCallback = {
@@ -257,10 +256,9 @@ class BoardDetailActivity :
             showOptionsList(reCommentData.userInfo?.uid,
                 reportCallback = {
                     showReportFragment(
-                        reCommentData.userInfo?.uid!!,
                         reCommentData.bid!!,
                         reCommentData.commentStr!!,
-                        reCommentData.userInfo.nickName!!
+                        reCommentData.userInfo!!
                     )
                 },
                 deleteCallback = {
@@ -445,15 +443,14 @@ class BoardDetailActivity :
 
     }
 
-    private fun showReportFragment(uid: String, bid: String, title: String, nick: String) {
+    private fun showReportFragment(bid: String, title: String, userData: UserData) {
         ReportRegisterFragmentDialog.newInstance().apply {
             callbackAction = {
                 viewModel.sendReport(
                     bid = bid,
-                    uid = uid,
                     title = title,
                     type = it.title!!,
-                    nick = nick
+                    userData = userData
                 )
                 dismiss()
             }

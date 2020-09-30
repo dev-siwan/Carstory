@@ -18,6 +18,7 @@ import com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel
 import com.like.drive.motorfeed.ui.notice.list.activity.NoticeListActivity
 import com.like.drive.motorfeed.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
+import com.like.drive.motorfeed.ui.report.list.activity.ReportActivity
 import com.like.drive.motorfeed.ui.sign.password.activity.PasswordUpdateActivity
 import com.like.drive.motorfeed.ui.terms.TermsActivity
 import kotlinx.android.synthetic.main.fragment_more.*
@@ -72,6 +73,11 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
                 putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_PRIVACY_VALUE)
             })
         }
+
+        dataBinding.containerReportPage.containerMoreItem.setOnClickListener {
+            startAct(ReportActivity::class)
+        }
+
     }
 
     private fun withViewModel() {

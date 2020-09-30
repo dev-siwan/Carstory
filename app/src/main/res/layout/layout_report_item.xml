@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/activity_small_margin"
-                android:text="@{title}"
+                android:text="@{content}"
                 android:textColor="@color/grey_2"
                 android:textSize="@dimen/large_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
