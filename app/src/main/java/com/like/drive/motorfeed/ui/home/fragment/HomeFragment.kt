@@ -166,6 +166,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     }
                 }?.show(requireActivity().supportFragmentManager, "")
 
+                appBar.setExpanded(true)
+
             } else {
                 emptyFilterDialog?.run {
                     if (isVisible) {
