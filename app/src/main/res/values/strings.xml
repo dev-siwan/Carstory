@@ -270,6 +270,7 @@
     <string name="brand_list_title">브랜드 목록</string>
     <string name="re_filter_search">필터 재설정</string>
     <string name="filter_empty_upload_message">현재 필터 조건으로 글쓰기</string>
+    <string name="register_text">글쓰기</string>
     <string name="terms_dialog_desc">프로필 작성과 동시에 이용약관 및 개인정보처리방침에 동의한걸로 간주 됩니다.</string>
     <string name="menu_text">메뉴</string>
 
@@ -296,7 +297,8 @@
     <string name="user_board_text">게시물 보기</string>
     <string name="user_ban_text">회원 금지</string>
     <string name="user_message_text">회원 메세지</string>
-    <string name="filter_empty_message">현재 조건의 검색결과가 없습니다.</string>
+    <string name="filter_empty_message">검색결과가 없습니다.</string>
+    <string name="now_filter_register_message">검색조건으로 글을 써보세요.</string>
 
 
     <string-array name="empty_photo_type_array">

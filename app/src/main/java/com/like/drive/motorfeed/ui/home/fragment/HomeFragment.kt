@@ -3,10 +3,8 @@ package com.like.drive.motorfeed.ui.home.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
@@ -27,7 +25,7 @@ import com.like.drive.motorfeed.ui.board.list.adapter.BoardListAdapter
 import com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
 import com.like.drive.motorfeed.ui.common.data.LoadingStatus
-import com.like.drive.motorfeed.ui.filter.dialog.ListFilterDialog
+import com.like.drive.motorfeed.ui.home.dialog.EmptyFilterDialog
 import com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel
 import com.like.drive.motorfeed.ui.main.activity.MainActivity
 import com.like.drive.motorfeed.ui.motor.activity.SelectMotorTypeActivity
@@ -41,7 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     val viewModel: HomeViewModel by viewModel()
     private val boardListViewModel: BoardListViewModel by viewModel()
     private val listAdapter by lazy { BoardListAdapter(vm = boardListViewModel) }
-    private var emptySnackBar: Snackbar? = null
+    private var emptyFilterDialog: EmptyFilterDialog? = null
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
@@ -71,18 +69,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             boardListViewModel.initDate(viewModel.category.value, viewModel.motorType.value)
         }
 
+        emptyFilterDialog = EmptyFilterDialog.newInstance()
+
         setOnItemClick()
         initData()
-
-        emptySnackBar = Snackbar.make(
-            requireView(),
-            getString(R.string.filter_empty_upload_message),
-            Snackbar.LENGTH_INDEFINITE
-        ).apply {
-            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white_100))
-            setTextColor(ContextCompat.getColor(requireContext(), R.color.gnt_black))
-            setActionTextColor(ContextCompat.getColor(requireContext(), R.color.grey_4))
-        }
 
     }
 
@@ -96,18 +86,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             showMotorType()
         }
 
-
-        btnFilterSearch.setOnClickListener {
-            ListFilterDialog.newInstance(
-                feedTypeData = viewModel.category.value,
-                motorTypeData = viewModel.motorType.value
-            ).apply {
-                setFilter = { feedType, motorType ->
-                    this@HomeFragment.viewModel.setFilterData(feedType, motorType)
-                    dismiss()
-                }
-            }.show(requireActivity().supportFragmentManager, "")
-        }
     }
 
     private fun initData() {
@@ -175,21 +153,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun BoardListViewModel.initEmpty() {
 
         initEmpty.observe(viewLifecycleOwner, Observer {
-            appBar.setExpanded(!it)
             if (it) {
-                emptySnackBar?.setAction(
-                    "실행"
-                ) {
-                    (requireActivity() as MainActivity).moveToFilterUploadPage(
-                        FilterData(
-                            viewModel.category.value,
-                            viewModel.motorType.value
+                emptyFilterDialog?.apply {
+                    registerAction = {
+                        (requireActivity() as MainActivity).moveToFilterUploadPage(
+                            FilterData(
+                                viewModel.category.value,
+                                viewModel.motorType.value
+                            )
                         )
-                    )
-                }?.show()
+                        dismiss()
+                    }
+                }?.show(requireActivity().supportFragmentManager, "")
+
             } else {
-                emptySnackBar?.dismiss()
+                emptyFilterDialog?.run {
+                    if (isVisible) {
+                        dismiss()
+                    }
+                }
             }
+
         })
 
     }
@@ -272,6 +256,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                                         MotorTypeList().motorTypeList.find { code -> code.brandCode == it.brandCode && code.modelCode == it.modelCode }
 
                                     viewModel.setFilterData(categoryData, motorTypeData)
+                                    // listAdapter.addBoard(it)
+                                    initEmptyValue(false)
                                 }
                             }
                     }

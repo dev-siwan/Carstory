@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:onClick="@{()->vm.feedItemClickListener(data)}">
+        android:onClick="@{()->vm.boardItemClickListener(data)}">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glTop"

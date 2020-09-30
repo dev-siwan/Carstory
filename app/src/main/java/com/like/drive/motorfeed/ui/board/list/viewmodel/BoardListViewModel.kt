@@ -10,8 +10,8 @@ import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
 import com.like.drive.motorfeed.repository.board.BoardRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.board.category.data.CategoryData
+import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -139,10 +139,14 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
     fun getLastDate() =
         feedList.value?.lastOrNull()?.createDate == lastDate
 
-    fun feedItemClickListener(boardData: BoardData?) {
+    fun boardItemClickListener(boardData: BoardData?) {
         boardData?.let {
             feedItemClickEvent.postValue(it.bid)
         }
+    }
+
+    fun initEmptyValue(isEmpty: Boolean) {
+        _initEmpty.value = isEmpty
     }
 
     private fun loadingStatus() {

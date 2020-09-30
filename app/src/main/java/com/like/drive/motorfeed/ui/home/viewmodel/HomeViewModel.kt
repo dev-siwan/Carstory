@@ -39,4 +39,21 @@ class HomeViewModel : BaseViewModel() {
 
     }
 
+    fun setFilterValue(feedTypeData: CategoryData?, motorTypeData: MotorTypeData?) {
+        val motorType: MotorTypeData? = if (motorTypeData?.brandCode == 0) {
+            null
+        } else {
+            motorTypeData
+        }
+
+        val feedType: CategoryData? = if (feedTypeData?.typeCode == 0) {
+            null
+        } else {
+            feedTypeData
+        }
+
+        this.category.value = feedType
+        this.motorType.value = motorType
+    }
+
 }

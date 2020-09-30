@@ -158,7 +158,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun AppCompatImageView.init() {
 
         setOnClickListener {
-            if (feedAdapter.feedList.isNotEmpty()) {
+            if (feedAdapter.boardList.isNotEmpty()) {
                 goneSearchView()
                 return@setOnClickListener
             }
@@ -232,7 +232,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             incRecentlyList.visibility = View.VISIBLE
 
         }
-        onCallback.isEnabled = feedAdapter.feedList.isNotEmpty()
+        onCallback.isEnabled = feedAdapter.boardList.isNotEmpty()
 
         viewModel.isSearchStatus.set(true)
     }
@@ -367,7 +367,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun isListItemEmpty() {
         //피드 리스트 유무에 따른 검색창 visible/gone
-        if (feedAdapter.feedList.isEmpty()) {
+        if (feedAdapter.boardList.isEmpty()) {
             etSearch.requestFocus()
             imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             viewModel.tag.value = null
