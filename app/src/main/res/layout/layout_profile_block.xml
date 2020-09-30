@@ -4,15 +4,17 @@
     <data>
 
         <variable
-            name="feedData"
-            type="com.like.drive.motorfeed.data.board.BoardData" />
+            name="vm"
+            type="com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{()->vm.moveUserLookUpListener(vm.boardData.userInfo)}">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
@@ -50,7 +52,7 @@
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/glTop"
-            app:profileImg="@{feedData.userInfo.profileImgPath}"
+            app:profileImg="@{vm.boardData.userInfo.profileImgPath}"
             tools:src="@drawable/ic_empty_profile" />
 
         <TextView
@@ -58,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_small_margin"
-            android:text="@{feedData.userInfo.nickName}"
+            android:text="@{vm.boardData.userInfo.nickName}"
             android:textColor="@android:color/black"
             android:textSize="@dimen/small_text_size"
             app:layout_constraintBottom_toBottomOf="@id/ivProfile"

@@ -133,10 +133,10 @@
                         layout="@layout/layout_profile_block"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:feedData="@{vm.boardData}"
                         app:layout_constraintEnd_toEndOf="@id/glEnd"
                         app:layout_constraintStart_toStartOf="@id/glStart"
-                        app:layout_constraintTop_toBottomOf="@id/containerDetailImg" />
+                        app:layout_constraintTop_toBottomOf="@id/containerDetailImg"
+                        app:vm="@{vm}" />
 
 
                     <include

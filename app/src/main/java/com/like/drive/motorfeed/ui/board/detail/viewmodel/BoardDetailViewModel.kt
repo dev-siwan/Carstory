@@ -74,6 +74,8 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     val imgUrlClickEvent = SingleLiveEvent<String>()
 
+    val moveUserLookUpEvent = SingleLiveEvent<UserData>()
+
     val finishEvent = SingleLiveEvent<String>()
 
     var loadingStatus: LoadingStatus? = null
@@ -300,6 +302,10 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     fun showBoardOptions(boardData: BoardData) {
         optionEvent.value = boardData
+    }
+
+    fun moveUserLookUpListener(userData: UserData) {
+        moveUserLookUpEvent.value = userData
     }
 
     fun addBoardLike(bid: String, uid: String) {

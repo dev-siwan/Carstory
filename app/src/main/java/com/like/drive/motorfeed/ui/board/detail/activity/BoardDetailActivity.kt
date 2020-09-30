@@ -28,6 +28,7 @@ import com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel
 import com.like.drive.motorfeed.ui.board.upload.activity.UploadActivity
 import com.like.drive.motorfeed.ui.common.data.LoadingStatus
 import com.like.drive.motorfeed.ui.report.reg.fragment.ReportRegisterFragmentDialog
+import com.like.drive.motorfeed.ui.user.activity.UserLookUpActivity
 import com.like.drive.motorfeed.ui.view.large.activity.LargeThanActivity
 import kotlinx.android.synthetic.main.activity_board_detail.*
 import kotlinx.android.synthetic.main.layout_detail_function_block.view.*
@@ -143,6 +144,7 @@ class BoardDetailActivity :
             updateComment()
             finishView()
             completeReport()
+            moveUserLookUpPage()
         }
     }
 
@@ -276,6 +278,14 @@ class BoardDetailActivity :
                 putExtra(KEY_BOARD_DATA, it.bid)
             })
             finish()
+        })
+    }
+
+    private fun BoardDetailViewModel.moveUserLookUpPage() {
+        moveUserLookUpEvent.observe(this@BoardDetailActivity, Observer {
+            startAct(UserLookUpActivity::class, Bundle().apply {
+                putParcelable(UserLookUpActivity.USER_DATA_KEY, it)
+            })
         })
     }
 
