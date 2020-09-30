@@ -13,4 +13,6 @@ class UserLookUpViewModel() : BaseViewModel() {
     fun init(userData: UserData) {
         _userData.value = userData
     }
+
+
 }
