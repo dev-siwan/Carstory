@@ -14,5 +14,6 @@ data class UserData(
     val userBan: Boolean = false,
     var commentSubscribe: Boolean = true,
     val admin: Boolean = false,
-    val emailSignUp: Boolean = true
+    val emailSignUp: Boolean = true,
+    val userBanMessage: String? = null
 ) : Parcelable

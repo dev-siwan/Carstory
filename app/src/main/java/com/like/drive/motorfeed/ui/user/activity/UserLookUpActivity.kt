@@ -37,10 +37,6 @@ class UserLookUpActivity :
         }
     }
 
-    private fun clickEvent() {
-
-    }
-
     private fun initView() {
         setCloseButtonToolbar(toolbar) { finish() }
     }

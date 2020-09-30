@@ -305,7 +305,9 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     }
 
     fun moveUserLookUpListener(userData: UserData) {
-        moveUserLookUpEvent.value = userData
+        if (userData != UserInfo.userInfo) {
+            moveUserLookUpEvent.value = userData
+        }
     }
 
     fun addBoardLike(bid: String, uid: String) {
