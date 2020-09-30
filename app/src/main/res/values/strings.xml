@@ -293,9 +293,9 @@
     <string name="ad_mob_banner_debug_id">ca-app-pub-3940256099942544/9214589741</string>
     <string name="ad_mob_banner_release_id">ca-app-pub-6215810193035158/6104239774</string>
 
-    <string name="user_board_text">회원이 쓴 글</string>
-    <string name="user_ban_text">회원 금지 시키기</string>
-    <string name="user_message_text">회원 메세지 보내기</string>
+    <string name="user_board_text">게시물 보기</string>
+    <string name="user_ban_text">회원 금지</string>
+    <string name="user_message_text">회원 메세지</string>
 
 
     <string-array name="empty_photo_type_array">
