@@ -375,8 +375,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
                     isProgressEvent.value = false
                 },
                 fail = {
-                    //TODO 에러입력값
-                    errorEvent.call()
+                    errorEvent.value = R.string.report_upload_error_message
                     isProgressEvent.value = false
                 })
         }
@@ -404,7 +403,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     }
 
     private fun finishBoard(bid: String) {
-        errorEvent.value = R.string.not_found_data
+        errorEvent.value = R.string.not_found_board_data
         finishEvent.value = bid
     }
 

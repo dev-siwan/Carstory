@@ -20,18 +20,25 @@
         android:layout_height="match_parent"
         android:background="@color/white_100">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/app_name_kr"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/x_large_text_size"
-            android:textStyle="bold"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:src="@drawable/logo_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator"
@@ -40,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBar"
@@ -76,7 +83,6 @@
                     android:id="@+id/swipeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{!feedVm.isLoading  &amp;&amp; !feedVm.initEmpty}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -89,6 +95,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:overScrollMode="never"
+                        android:visibility="@{!feedVm.isLoading  &amp;&amp; !feedVm.initEmpty}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

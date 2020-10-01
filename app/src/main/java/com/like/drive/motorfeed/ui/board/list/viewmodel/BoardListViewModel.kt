@@ -5,6 +5,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
@@ -19,7 +20,8 @@ import java.util.*
 
 class BoardListViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
 
-    val feedList = SingleLiveEvent<List<BoardData>>()
+    private val _boardList = MutableLiveData<List<BoardData>>()
+    val boardList: LiveData<List<BoardData>> get() = _boardList
 
     val errorEvent = SingleLiveEvent<@StringRes Int>()
     val feedType = MutableLiveData<CategoryData>()
@@ -44,7 +46,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
     private var motorTypeData: MotorTypeData? = null
     private var tagQuery: String? = null
 
-    fun initDate(
+    fun initData(
         categoryData: CategoryData? = null,
         motorTypeData: MotorTypeData? = null,
         tagQuery: String? = null
@@ -76,10 +78,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
             boardRepository.getBoardList(date ?: Date(), motorTypeData, categoryData, tagQuery)
                 .catch {
                     it.message
-                    /**
-                     * @TODO 에러값
-                     * */
-                    errorEvent.call()
+                    errorEvent.value = R.string.get_list_error_message
                     loadingStatus()
                 }.collect {
 
@@ -88,7 +87,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
                     if (isFirst) {
                         _initEmpty.value = it.isEmpty()
                     }
-                    feedList.value = it
+                    _boardList.value = it
                     isFirstLoad = false
 
                 }
@@ -120,16 +119,13 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
                 .catch {
 
                     it.message
-                    /**
-                     * @TODO 에러값
-                     * */
-                    errorEvent.call()
+                    errorEvent.value = R.string.get_list_error_message
                     loadingStatus()
 
                 }.collect {
 
                     loadingStatus()
-                    feedList.value = it
+                    _boardList.value = it
                     _initEmpty.value = isFirst && it.isEmpty()
 
                 }
@@ -137,7 +133,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
     }
 
     fun getLastDate() =
-        feedList.value?.lastOrNull()?.createDate == lastDate
+        boardList.value?.lastOrNull()?.createDate == lastDate
 
     fun boardItemClickListener(boardData: BoardData?) {
         boardData?.let {

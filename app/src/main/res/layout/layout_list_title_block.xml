@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+            app:layout_constraintGuide_percent="0.9548023" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,6 +67,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/btnCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{feedData.categoryStr}"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/small_text_size"
+                        android:visibility="@{feedData.categoryStr !=null ? View.VISIBLE:View.GONE}"
+                        app:layout_constraintEnd_toStartOf="@+id/btnMotorType"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="자유" />
+
+                    <TextView
+                        android:id="@+id/btnMotorType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/activity_x_small_margin"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/small_text_size"
+                        android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
+                        app:detailBrandName="@{feedData.brandName}"
+                        app:detailModelCode="@{feedData.modelCode}"
+                        app:detailModelName="@{feedData.modelName}"
+                        app:layout_constraintBottom_toBottomOf="@id/btnCategory"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/btnCategory"
+                        app:layout_constraintTop_toTopOf="@id/btnCategory"
+                        tools:text="기아|다이소" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,6 +114,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/large_text_size"
                     android:textStyle="bold"
+                    android:layout_marginTop="@dimen/activity_small_margin"
                     tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라" />
 
                 <TextView
@@ -128,80 +167,27 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <!-- <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginTop="@dimen/activity_small_margin"
-                     android:gravity="start"
-                     android:text="@{String.format(@string/like_format_text,feedData.likeCount)}"
-                     android:textColor="@android:color/black"
-                     android:textSize="@dimen/small_text_size"
-                     tools:text="좋아요 0개" />
- -->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin">
 
                     <TextView
-                        android:id="@+id/btnCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{feedData.categoryStr}"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/small_text_size"
-                        android:textStyle="bold"
-                        android:visibility="@{feedData.categoryStr !=null ? View.VISIBLE:View.GONE}"
-                        app:layout_constraintEnd_toStartOf="@+id/btnMotorType"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="자유" />
-
-                    <TextView
-                        android:id="@+id/btnMotorType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/activity_x_small_margin"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/small_text_size"
-                        android:textStyle="bold"
-                        android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
-                        app:detailBrandName="@{feedData.brandName}"
-                        app:detailModelCode="@{feedData.modelCode}"
-                        app:detailModelName="@{feedData.modelName}"
-                        app:layout_constraintBottom_toBottomOf="@id/btnCategory"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/btnCategory"
-                        app:layout_constraintTop_toTopOf="@id/btnCategory"
-                        tools:text="기아|다이소" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_x_x_small_margin">
-
-                    <TextView
-                        android:id="@+id/tvNick"
+                        android:id="@+id/tvLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/activity_small_margin"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@{feedData.userInfo.nickName}"
-                        android:textColor="@color/grey_2"
+                        android:gravity="center_vertical"
+                        android:text="@{@string/like_format_text(feedData.likeCount)}"
+                        android:textColor="@color/grey_4"
                         android:textSize="@dimen/small_text_size"
-                        android:visibility="@{!TextUtils.isEmpty(feedData.userInfo.nickName)}"
                         app:layout_constrainedWidth="true"
-                        app:layout_constraintEnd_toStartOf="@id/tvDate"
+                        app:layout_constraintEnd_toStartOf="@+id/tvDate"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="닉네임" />
+                        tools:text="좋아요 : 0" />
 
 
                     <TextView
@@ -211,10 +197,30 @@
                         android:textColor="@color/grey_4"
                         android:textSize="@dimen/small_text_size"
                         app:formatTimeStr="@{feedData.updateDate}"
+                        app:layout_constraintBottom_toBottomOf="@id/tvLike"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tvNick"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/tvLike"
+                        app:layout_constraintTop_toTopOf="@+id/tvLike"
                         tools:text="2020.08.06" />
+
+                    <TextView
+                        android:id="@+id/tvNick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_small_margin"
+                        android:layout_marginEnd="@dimen/activity_small_margin"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@{feedData.userInfo.nickName}"
+                        android:textColor="@color/grey_4"
+                        android:textSize="@dimen/small_text_size"
+                        android:textStyle="bold"
+                        android:visibility="@{!TextUtils.isEmpty(feedData.userInfo.nickName)}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvLike"
+                        tools:text="닉네임" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

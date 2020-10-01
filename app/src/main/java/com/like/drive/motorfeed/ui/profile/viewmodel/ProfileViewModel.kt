@@ -26,7 +26,7 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
     val completeEvent = SingleLiveEvent<ProfileStatus>()
     val existNicknameEvent = SingleLiveEvent<Unit>()
 
-    lateinit var profileStatus: ProfileStatus
+    var profileStatus: ProfileStatus?=null
 
     private val _isFirstProfile = MutableLiveData<Boolean>(false)
     val isFirstProfile: LiveData<Boolean> get() = _isFirstProfile

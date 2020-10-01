@@ -66,7 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         swipeLayout.setOnRefreshListener {
             boardListViewModel.loadingStatus = LoadingStatus.REFRESH
-            boardListViewModel.initDate(viewModel.category.value, viewModel.motorType.value)
+            boardListViewModel.initData(viewModel.category.value, viewModel.motorType.value)
         }
 
         emptyFilterDialog = EmptyFilterDialog.newInstance()
@@ -91,11 +91,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun initData() {
         if (boardListViewModel.isFirstLoad) {
 
-            boardListViewModel.run {
-                loadingStatus = LoadingStatus.INIT
-                boardListViewModel.initDate(viewModel.category.value, viewModel.motorType.value)
-            }
+            if (listAdapter.boardList.isEmpty()) {
+                boardListViewModel.run {
+                    loadingStatus = LoadingStatus.INIT
+                    boardListViewModel.initData(viewModel.category.value, viewModel.motorType.value)
+                }
 
+            }
         }
     }
 
@@ -105,7 +107,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 with(boardListViewModel) {
                     if (!getLastDate()) {
-                        feedList.value?.lastOrNull()?.let {
+                        boardList.value?.lastOrNull()?.let {
                             moreData(
                                 date = it.createDate
                             )
@@ -139,7 +141,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun BoardListViewModel.completeBoardList() {
-        feedList.observe(viewLifecycleOwner, Observer {
+        boardList.observe(viewLifecycleOwner, Observer {
             listAdapter.run {
                 if (isFirst) {
                     initList(it)
@@ -152,22 +154,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun BoardListViewModel.initEmpty() {
 
-        initEmpty.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                emptyFilterDialog?.apply {
-                    registerAction = {
-                        (requireActivity() as MainActivity).moveToFilterUploadPage(
-                            FilterData(
-                                viewModel.category.value,
-                                viewModel.motorType.value
+        initEmpty.observe(viewLifecycleOwner, Observer { isEmpty ->
+
+            if (isEmpty == true) {
+                if (emptyFilterDialog?.isVisible == false) {
+                    emptyFilterDialog?.apply {
+                        registerAction = {
+                            (requireActivity() as MainActivity).moveToFilterUploadPage(
+                                FilterData(
+                                    viewModel.category.value,
+                                    viewModel.motorType.value
+                                )
                             )
-                        )
-                        dismiss()
-                    }
-                }?.show(requireActivity().supportFragmentManager, "")
+                            dismiss()
+                        }
+                    }?.show(requireActivity().supportFragmentManager, "")
 
-                appBar.setExpanded(true)
-
+                    appBar.setExpanded(true)
+                }
             } else {
                 emptyFilterDialog?.run {
                     if (isVisible) {
@@ -193,7 +197,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun HomeViewModel.setFilter() {
         setFilterEvent.observe(viewLifecycleOwner, Observer {
             boardListViewModel.loadingStatus = LoadingStatus.INIT
-            boardListViewModel.initDate(
+            boardListViewModel.initData(
                 motorTypeData = it.motorType,
                 categoryData = it.categoryData
             )

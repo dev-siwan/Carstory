@@ -141,7 +141,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
                 with(boardListViewModel) {
                     if (!getLastDate()) {
-                        feedList.value?.lastOrNull()?.createDate?.let {
+                        boardList.value?.lastOrNull()?.createDate?.let {
                             moreData(it)
                         }
                     }
@@ -173,7 +173,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun SwipeRefreshLayout.listener() {
         setOnRefreshListener {
             boardListViewModel.loadingStatus = LoadingStatus.REFRESH
-            boardListViewModel.initDate(tagQuery = viewModel.tag.value)
+            boardListViewModel.initData(tagQuery = viewModel.tag.value)
         }
     }
 
@@ -191,7 +191,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
             boardListViewModel.loadingStatus = LoadingStatus.INIT
-            boardListViewModel.initDate(tagQuery = it)
+            boardListViewModel.initData(tagQuery = it)
             goneSearchView()
         })
     }
@@ -203,7 +203,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
     private fun BoardListViewModel.listComplete() {
-        feedList.observe(viewLifecycleOwner, Observer {
+        boardList.observe(viewLifecycleOwner, Observer {
 
             feedAdapter.run {
                 if (isFirst) {

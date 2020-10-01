@@ -4,6 +4,8 @@
     <string name="blank_text">""</string>
     <string name="hyphen">-</string>
 
+    <string name="sign_intro_desc">여러분들의 정보를 공유해주세요.</string>
+
     <string name="home_intro_desc">궁금한 자동차 정보에 대해\n검색해보세요.</string>
     <string name="home_register_feed_intro_desc">나의 유용한 정보를 \n공유해보세요.</string>
     <string name="home_recent_upload_desc">최근 올라온 글</string>
@@ -159,6 +161,8 @@
 
     <string name="not_found_data">데이터를 찾을 수 없습니다.</string>
 
+    <string name="not_found_board_data">이미 삭제되거나 찾을 수 없는 게시물 입니다.</string>
+
     <string name="tag_hint">태그 추가</string>
     <string name="tag_text">태그</string>
     <string name="tag_edit_hint">최대 글자 8자리 입력</string>
@@ -286,7 +290,12 @@
 
     <string name="report_remove_error_message">신고내용을 삭제하는데 실패하였습니다</string>
     <string name="report_remove_listener_message">신고내용을 삭제하시겠습니까?</string>
+    <string name="report_upload_error_message">신고내용을 전송하는데 실패하였습니다.</string>
     <string name="report_get_list_error_message">리스트를 가져오는데 실패하였습니다.</string>
+
+    <string name="get_list_error_message">리스트를 받아오는데 실패하였습니다.</string>
+
+    <string name="board_upload_error_message">게시물 업로드에 실패하였습니다.\n다시 시도해주세요.</string>
 
     <string name="ad_mob_app_id">ca-app-pub-6215810193035158~4127388673</string>
     <string name="ad_mob_native_debug_id">ca-app-pub-3940256099942544/2247696110</string>
@@ -300,6 +309,13 @@
     <string name="filter_empty_message">검색결과가 없습니다.</string>
     <string name="now_filter_register_message">검색조건으로 글을 써보세요.</string>
 
+    <string name="intro_message_1">\&quot;이 자동차 어떤가요?\&quot;</string>
+    <string name="intro_message_2">\&quot;엔진오일 수명은 어떻게 되나요?\&quot;</string>
+    <string name="intro_message_3">\&quot;이번에 나온 신차 너무 좋아요!!\&quot;</string>
+    <string name="intro_message_4">\&quot;오늘 사고가 났는데 어떻게 해결해야 하죠?\&quot;</string>
+    <string name="intro_message_5">\&quot;사거리 부근 사고 났어요! 다들 안전운전 하세요.\&quot;</string>
+    <string name="intro_message_6">\&quot;차박은 이런 물건이 좋아요.\&quot;</string>
+    <string name="intro_message_7">\&quot;오늘 날씨 좋아요 같이 드라이브 해요.\&quot;</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

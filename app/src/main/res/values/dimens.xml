@@ -8,6 +8,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_horizontal_x_margin">32dp</dimen>
     <dimen name="activity_vertical_x_margin">32dp</dimen>
+    <dimen name="activity_x_x_margin">48dp</dimen>
 
     <dimen name="x_small_text_size">8sp</dimen>
     <dimen name="small_text_size">12sp</dimen>

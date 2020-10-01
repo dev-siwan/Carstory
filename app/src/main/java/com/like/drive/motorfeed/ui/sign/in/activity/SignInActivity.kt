@@ -1,14 +1,20 @@
 package com.like.drive.motorfeed.ui.sign.`in`.activity
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.like.drive.motorfeed.R
+import com.like.drive.motorfeed.data.intro.getIntroMessage
 import com.like.drive.motorfeed.databinding.ActivitySignInBinding
 import com.like.drive.motorfeed.ui.base.BaseActivity
 import com.like.drive.motorfeed.ui.base.ext.showShortToast
@@ -18,14 +24,15 @@ import com.like.drive.motorfeed.ui.profile.activity.ProfileActivity
 import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInErrorType
 import com.like.drive.motorfeed.ui.sign.`in`.viewmodel.SignInViewModel
 import com.like.drive.motorfeed.ui.sign.up.activity.SignUpEmail
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-
 
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
     private val viewModel: SignInViewModel by inject()
     private val loginManager = LoginManager.getInstance()
-    private val callbackManager = CallbackManager.Factory.create();
+    private val callbackManager = CallbackManager.Factory.create()
     private val facebookLoginCallback by lazy {
         object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
@@ -46,9 +53,13 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
     }
 
+    private var introIndex = 0
+
+    private val introList by lazy { getIntroMessage(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         withViewModel()
     }
 
@@ -56,8 +67,26 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         super.onBinding(dataBinding)
 
         dataBinding.vm = viewModel
+        dataBinding.tvIntro.run {
+            setAnimation()
+        }
+
     }
 
+    private fun TextView.setAnimation() {
+        lifecycleScope.launch {
+            if (introIndex == (introList.size - 1)) {
+                introIndex = 0
+            }
+            visibleAnimation()
+            text = introList[introIndex]
+            delay(2000)
+            invisibleAnimation()
+            introIndex++
+
+            setAnimation()
+        }
+    }
 
     private fun withViewModel() {
         with(viewModel) {
@@ -94,7 +123,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         })
     }
 
-
     private fun SignInViewModel.facebookLogin() {
         loginFacebookClickEvent.observe(this@SignInActivity, Observer {
             loginManager.logInWithReadPermissions(
@@ -116,6 +144,26 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             startAct(ProfileActivity::class)
             showShortToast(R.string.nick_name_null_error)
         })
+    }
+
+    private fun TextView.visibleAnimation() {
+        val alphaAnimation = AlphaAnimation(0.0f, 1.0f)
+        alphaAnimation.apply {
+            duration = 1000
+            repeatCount = 1
+            repeatMode = Animation.REVERSE
+        }.run {
+            startAnimation(this)
+        }
+
+    }
+
+    private fun TextView.invisibleAnimation() {
+        ObjectAnimator.ofFloat(this, "alpha", 1f, 0f).run {
+            duration = 2000
+            start()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

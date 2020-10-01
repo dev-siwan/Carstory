@@ -1,22 +1,23 @@
 package com.like.drive.motorfeed.ui.board.upload.viewmodel
 
+import androidx.annotation.StringRes
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.like.drive.motorfeed.R
 import com.like.drive.motorfeed.common.livedata.SingleLiveEvent
 import com.like.drive.motorfeed.data.board.BoardData
 import com.like.drive.motorfeed.data.motor.MotorTypeData
+import com.like.drive.motorfeed.data.photo.PhotoData
+import com.like.drive.motorfeed.data.user.FilterData
 import com.like.drive.motorfeed.repository.board.BoardRepository
 import com.like.drive.motorfeed.ui.base.BaseViewModel
-import com.like.drive.motorfeed.data.photo.PhotoData
 import com.like.drive.motorfeed.ui.board.category.data.CategoryData
 import com.like.drive.motorfeed.ui.board.upload.data.BoardUploadField
 import kotlinx.coroutines.launch
 import java.io.File
-import androidx.annotation.StringRes
-import androidx.databinding.ObservableBoolean
-import com.like.drive.motorfeed.data.user.FilterData
 
 class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
 
@@ -131,8 +132,6 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
         if (isUpdate.get()) updateBoard(feedField, boardData) else addBoard(feedField)
     }
 
-    /*
-       * TODO 에러메세지 넣어야함*/
     private fun addBoard(boardField: BoardUploadField) {
         viewModelScope.launch {
             boardRepository.addBoard(boardField, originFileList,
@@ -147,13 +146,11 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
                     completeEvent.value = it
                 },
                 fail = {
-                    setError()
+                    setError(R.string.board_upload_error_message)
                 })
         }
     }
 
-    /*
-    * TODO 에러메세지 넣어야함*/
     private fun updateBoard(boardField: BoardUploadField, boardData: BoardData?) {
         boardData?.let {
             viewModelScope.launch {
@@ -163,7 +160,7 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
                         completeEvent.value = it
                     },
                     fail = {
-                        setError()
+                        setError(R.string.board_upload_error_message)
                     })
             }
         } ?: setError()

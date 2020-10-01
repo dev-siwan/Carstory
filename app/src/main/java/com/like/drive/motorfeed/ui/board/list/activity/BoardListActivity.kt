@@ -79,7 +79,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
 
                 with(viewModel) {
                     if (!getLastDate()) {
-                        feedList.value?.lastOrNull()?.createDate?.let { date ->
+                        boardList.value?.lastOrNull()?.createDate?.let { date ->
                             uid?.let { moreUserData(date, it) }
                         }
                     }
@@ -105,7 +105,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     }
 
     private fun BoardListViewModel.completeBoardList() {
-        feedList.observe(this@BoardListActivity, Observer {
+        boardList.observe(this@BoardListActivity, Observer {
             boardListAdapter.run {
                 if (isFirst) {
                     initList(it)
