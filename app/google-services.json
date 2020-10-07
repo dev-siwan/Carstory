@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "293005898429",
-    "firebase_url": "https://motor-feed.firebaseio.com",
-    "project_id": "motor-feed",
-    "storage_bucket": "motor-feed.appspot.com"
+    "project_number": "541621864513",
+    "firebase_url": "https://car-story-adbd7.firebaseio.com",
+    "project_id": "car-story-adbd7",
+    "storage_bucket": "car-story-adbd7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:293005898429:android:12becdd968fae7f6fefdd4",
+        "mobilesdk_app_id": "1:541621864513:android:e719a3d692d945eb75dec0",
         "android_client_info": {
-          "package_name": "com.like.drive.motorfeed"
+          "package_name": "com.like.drive.carstory"
         }
       },
       "oauth_client": [
         {
-          "client_id": "293005898429-u517k4g8f2ga3m80o4f6j6lkjcu3mdrs.apps.googleusercontent.com",
+          "client_id": "541621864513-cqm8d5luk4s4nt4v8o5ndlnqc8tgoc02.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCZLZ5TZQaUildCY5X3NgS05p6QGGrrgNA"
+          "current_key": "AIzaSyAMlRkBNfvq21Ix25ESMmm3PWjSMD3nNo8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "293005898429-u517k4g8f2ga3m80o4f6j6lkjcu3mdrs.apps.googleusercontent.com",
+              "client_id": "541621864513-cqm8d5luk4s4nt4v8o5ndlnqc8tgoc02.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

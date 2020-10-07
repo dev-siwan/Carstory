@@ -8,11 +8,11 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel" />
+            type="com.like.drive.carstory.ui.board.list.viewmodel.BoardListViewModel" />
 
         <variable
             name="data"
-            type="com.like.drive.motorfeed.data.board.BoardData" />
+            type="com.like.drive.carstory.data.board.BoardData" />
 
         <import type="android.view.View" />
     </data>
@@ -67,7 +67,7 @@
                 layout="@layout/layout_list_title_block"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:feedData="@{data}"
+                app:boardData="@{data}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

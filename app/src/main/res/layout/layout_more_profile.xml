@@ -7,7 +7,7 @@
 
        <variable
            name="vm"
-           type="com.like.drive.motorfeed.ui.more.viewmodel.MoreViewModel"/>
+           type="com.like.drive.carstory.ui.more.viewmodel.MoreViewModel"/>
 
         <import type="android.text.TextUtils" />
 

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel" />
+            type="com.like.drive.carstory.ui.board.detail.viewmodel.BoardDetailViewModel" />
         <variable
             name="imgUrl"
             type="String" />

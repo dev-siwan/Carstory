@@ -7,9 +7,9 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.notification.viewmodel.NotificationSettingViewModel" />
+            type="com.like.drive.carstory.ui.notification.viewmodel.NotificationSettingViewModel" />
 
-        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
+        <import type="com.like.drive.carstory.common.user.UserInfo" />
 
 
     </data>

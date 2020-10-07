@@ -6,10 +6,10 @@
 
         <variable
             name="data"
-            type="com.like.drive.motorfeed.data.notification.NotificationSendData" />
+            type="com.like.drive.carstory.data.notification.NotificationSendData" />
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.notification.viewmodel.NotificationViewModel" />
+            type="com.like.drive.carstory.ui.notification.viewmodel.NotificationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

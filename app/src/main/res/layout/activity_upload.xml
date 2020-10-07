@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.board.upload.viewmodel.UploadViewModel" />
+            type="com.like.drive.carstory.ui.board.upload.viewmodel.UploadViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -132,7 +132,7 @@
 
 
 
-        <com.like.drive.motorfeed.util.tag.MentionEditText
+        <com.like.drive.carstory.util.tag.MentionEditText
             android:id="@+id/tvContent"
             android:layout_width="0dp"
             android:layout_height="0dp"

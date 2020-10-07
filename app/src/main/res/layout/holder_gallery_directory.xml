@@ -6,11 +6,11 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel" />
+            type="com.like.drive.carstory.ui.gallery.viewmodel.GalleryViewModel" />
 
         <variable
             name="data"
-            type="com.like.drive.motorfeed.ui.gallery.data.GalleryDirectoryData" />
+            type="com.like.drive.carstory.ui.gallery.data.GalleryDirectoryData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

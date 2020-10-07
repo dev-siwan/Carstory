@@ -5,11 +5,11 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel" />
+            type="com.like.drive.carstory.ui.board.detail.viewmodel.BoardDetailViewModel" />
 
         <variable
             name="reCommentData"
-            type="com.like.drive.motorfeed.data.board.ReCommentData" />
+            type="com.like.drive.carstory.data.board.ReCommentData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

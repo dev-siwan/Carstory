@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel" />
+            type="com.like.drive.carstory.ui.notice.list.viewmodel.NoticeListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

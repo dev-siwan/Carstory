@@ -6,7 +6,7 @@
     app:startDestination="@id/notificationScreen">
     <fragment
         android:id="@+id/notificationScreen"
-        android:name="com.like.drive.motorfeed.ui.notification.fragment.NotificationFragment"
+        android:name="com.like.drive.carstory.ui.notification.fragment.NotificationFragment"
         android:label="NotificationFragment"
         tools:layout="@layout/fragment_notification"/>
 </navigation>

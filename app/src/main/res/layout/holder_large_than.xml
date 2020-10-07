@@ -3,7 +3,7 @@
     <data>
         <variable
             name="photoData"
-            type="com.like.drive.motorfeed.data.photo.PhotoData" />
+            type="com.like.drive.carstory.data.photo.PhotoData" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"

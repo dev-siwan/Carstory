@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.like.drive.motorfeed">
+    package="com.like.drive.carstory">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".MotorFeedApplication"
+        android:name="com.like.drive.carstory.CarStoryApplication"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
@@ -20,71 +20,71 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
         <activity
-            android:name=".ui.user.activity.UserLookUpActivity"
+            android:name="com.like.drive.carstory.ui.user.activity.UserLookUpActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.report.list.activity.ReportActivity"
+            android:name="com.like.drive.carstory.ui.report.list.activity.ReportActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.notice.detail.activity.NoticeDetailActivity"
+            android:name="com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.notice.list.activity.NoticeListActivity"
+            android:name="com.like.drive.carstory.ui.notice.list.activity.NoticeListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.terms.TermsActivity"
+            android:name="com.like.drive.carstory.ui.terms.TermsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.notification.activity.NotificationSettingActivity"
+            android:name="com.like.drive.carstory.ui.notification.activity.NotificationSettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.sign.password.activity.PasswordUpdateActivity"
+            android:name="com.like.drive.carstory.ui.sign.password.activity.PasswordUpdateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.view.large.activity.LargeThanActivity"
+            android:name="com.like.drive.carstory.ui.view.large.activity.LargeThanActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.board.list.activity.BoardListActivity"
+            android:name="com.like.drive.carstory.ui.board.list.activity.BoardListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.profile.activity.ProfileActivity"
+            android:name="com.like.drive.carstory.ui.profile.activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.board.detail.activity.BoardDetailActivity"
+            android:name="com.like.drive.carstory.ui.board.detail.activity.BoardDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.gallery.activity.GalleryActivity"
+            android:name="com.like.drive.carstory.ui.gallery.activity.GalleryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.motor.activity.SelectMotorTypeActivity"
+            android:name="com.like.drive.carstory.ui.motor.activity.SelectMotorTypeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.board.upload.activity.UploadActivity"
+            android:name="com.like.drive.carstory.ui.board.upload.activity.UploadActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.sign.up.activity.SignUpEmail"
+            android:name="com.like.drive.carstory.ui.sign.up.activity.SignUpEmail"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.sign.in.activity.SignInActivity"
+            android:name="com.like.drive.carstory.ui.sign.in.activity.SignInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.splash.activity.SplashActivity"
+            android:name="com.like.drive.carstory.ui.splash.activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action
@@ -95,7 +95,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.activity.MainActivity"
+            android:name="com.like.drive.carstory.ui.main.activity.MainActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:taskAffinity=""
@@ -106,11 +106,25 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- facebook -->
+        </activity>
+
+
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
+            <data android:host="oauth"
+                android:scheme="kakao1877cc549c231fa23495e5e806d84ed9" />
+        </intent-filter>
+    </activity>
+
+        <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -139,7 +153,7 @@
                 tools:replace="android:resource" />
         </provider> <!-- FCM SERVICE -->
         <service
-            android:name=".fcm.AppFireMessagingService"
+            android:name="com.like.drive.carstory.fcm.AppFireMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

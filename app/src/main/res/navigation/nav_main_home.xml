@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeScreen"
-        android:name="com.like.drive.motorfeed.ui.home.fragment.HomeFragment"
+        android:name="com.like.drive.carstory.ui.home.fragment.HomeFragment"
         android:label="@string/label_home"
         tools:layout="@layout/fragment_home"/>
 

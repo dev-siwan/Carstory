@@ -8,7 +8,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.like.drive.motorfeed"
+        applicationId "com.like.drive.carstory"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -240,6 +240,9 @@ dependencies {
 
     //Github ReadMe
     implementation 'com.github.GrenderG:MarkdownView:0.1.2'
+
+    //kakao login
+    implementation "com.kakao.sdk:v2-user:2.0.3"
 
 
     //ad template

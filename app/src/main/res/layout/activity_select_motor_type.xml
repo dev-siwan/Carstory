@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.motor.viewmodel.MotorTypeViewModel" />
+            type="com.like.drive.carstory.ui.motor.viewmodel.MotorTypeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

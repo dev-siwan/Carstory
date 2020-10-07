@@ -7,9 +7,9 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.user.viewmodel.UserLookUpViewModel" />
+            type="com.like.drive.carstory.ui.user.viewmodel.UserLookUpViewModel" />
 
-        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
+        <import type="com.like.drive.carstory.common.user.UserInfo" />
 
         <import type="android.text.TextUtils" />
 

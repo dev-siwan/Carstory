@@ -3,10 +3,10 @@
     <data>
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.board.upload.viewmodel.UploadViewModel" />
+            type="com.like.drive.carstory.ui.board.upload.viewmodel.UploadViewModel" />
         <variable
             name="item"
-            type="com.like.drive.motorfeed.ui.board.category.data.CategoryData" />
+            type="com.like.drive.carstory.ui.board.category.data.CategoryData" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

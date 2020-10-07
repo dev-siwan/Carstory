@@ -6,11 +6,11 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.report.list.viewmodel.ReportViewModel" />
+            type="com.like.drive.carstory.ui.report.list.viewmodel.ReportViewModel" />
 
         <variable
             name="reportData"
-            type="com.like.drive.motorfeed.data.report.ReportData" />
+            type="com.like.drive.carstory.data.report.ReportData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

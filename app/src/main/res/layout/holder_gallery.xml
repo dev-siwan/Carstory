@@ -7,11 +7,11 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel" />
+            type="com.like.drive.carstory.ui.gallery.viewmodel.GalleryViewModel" />
 
         <variable
             name="data"
-            type="com.like.drive.motorfeed.ui.gallery.data.GalleryItemData" />
+            type="com.like.drive.carstory.ui.gallery.data.GalleryItemData" />
 
         <import type="android.view.View"/>
     </data>

@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.like.drive.motorfeed.data.notice.NoticeData" />
+            type="com.like.drive.carstory.data.notice.NoticeData" />
 
     </data>
 

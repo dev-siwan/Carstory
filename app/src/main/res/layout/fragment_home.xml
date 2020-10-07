@@ -6,12 +6,12 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel" />
+            type="com.like.drive.carstory.ui.home.viewmodel.HomeViewModel" />
 
 
         <variable
-            name="feedVm"
-            type="com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel" />
+            name="boardVm"
+            type="com.like.drive.carstory.ui.board.list.viewmodel.BoardListViewModel" />
     </data>
 
 
@@ -87,7 +87,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"
-                    app:refreshing="@{feedVm.isRefresh}">
+                    app:refreshing="@{boardVm.isRefresh}">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvBoardList"
@@ -95,7 +95,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:overScrollMode="never"
-                        android:visibility="@{!feedVm.isLoading  &amp;&amp; !feedVm.initEmpty}"
+                        android:visibility="@{!boardVm.isLoading  &amp;&amp; !boardVm.initEmpty}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -107,7 +107,7 @@
                     android:text="@string/list_empty_message"
                     android:textColor="@color/gnt_black"
                     android:textSize="@dimen/large_text_size"
-                    android:visibility="@{!feedVm.isLoading &amp;&amp; feedVm.initEmpty}"
+                    android:visibility="@{!boardVm.isLoading &amp;&amp; boardVm.initEmpty}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
                     layout="@layout/shimmer_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{feedVm.isLoading}" />
+                    android:visibility="@{boardVm.isLoading}" />
 
                 <ProgressBar
                     android:id="@+id/pbLoading"
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:indeterminate="true"
                     android:progressDrawable="@drawable/progress_drawable_black"
-                    android:visibility="@{feedVm.isMore}"
+                    android:visibility="@{boardVm.isMore}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

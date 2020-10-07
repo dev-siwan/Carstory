@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel" />
+            type="com.like.drive.carstory.ui.home.viewmodel.HomeViewModel" />
 
     </data>
 

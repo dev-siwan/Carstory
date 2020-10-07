@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="feedData"
-            type="com.like.drive.motorfeed.data.board.BoardData" />
+            name="boardData"
+            type="com.like.drive.carstory.data.board.BoardData" />
 
         <import type="android.view.View" />
     </data>
@@ -45,10 +45,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_x_x_small_margin"
             android:background="@drawable/rect_solid_light_1_conner_8dp"
-            android:text="@{feedData.categoryStr}"
+            android:text="@{boardData.categoryStr}"
             android:textColor="@color/grey_4"
             android:textSize="@dimen/small_text_size"
-            android:visibility="@{feedData.categoryStr !=null ? View.VISIBLE:View.GONE}"
+            android:visibility="@{boardData.categoryStr !=null ? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toStartOf="@+id/btnMotorType"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -64,10 +64,10 @@
             android:background="@drawable/rect_solid_light_1_conner_8dp"
             android:textColor="@color/grey_4"
             android:textSize="@dimen/small_text_size"
-            android:visibility="@{feedData.brandName !=null ?View.VISIBLE:View.GONE}"
-            app:detailBrandName="@{feedData.brandName}"
-            app:detailModelCode="@{feedData.modelCode}"
-            app:detailModelName="@{feedData.modelName}"
+            android:visibility="@{boardData.brandName !=null ?View.VISIBLE:View.GONE}"
+            app:detailBrandName="@{boardData.brandName}"
+            app:detailModelCode="@{boardData.modelCode}"
+            app:detailModelName="@{boardData.modelName}"
             app:layout_constraintBottom_toBottomOf="@id/btnCategory"
             app:layout_constraintEnd_toEndOf="@+id/glEnd"
             app:layout_constraintHorizontal_bias="0"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_x_small_margin"
             android:maxLines="2"
-            android:text="@{feedData.title}"
+            android:text="@{boardData.title}"
             android:textColor="@android:color/black"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"

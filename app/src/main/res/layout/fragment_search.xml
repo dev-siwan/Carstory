@@ -19,11 +19,11 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel" />
+            type="com.like.drive.carstory.ui.search.viewmodel.SearchViewModel" />
 
         <variable
-            name="feedVm"
-            type="com.like.drive.motorfeed.ui.board.list.viewmodel.BoardListViewModel" />
+            name="boardVm"
+            type="com.like.drive.carstory.ui.board.list.viewmodel.BoardListViewModel" />
     </data>
 
 
@@ -134,7 +134,7 @@
                 layout="@layout/layout_search_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:feedVm="@{feedVm}"
+                app:boardVm="@{boardVm}"
                 app:vm="@{vm}" />
 
             <include

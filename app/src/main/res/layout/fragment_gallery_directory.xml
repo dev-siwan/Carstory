@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.gallery.viewmodel.GalleryViewModel" />
+            type="com.like.drive.carstory.ui.gallery.viewmodel.GalleryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.home.viewmodel.HomeViewModel" />
+            type="com.like.drive.carstory.ui.home.viewmodel.HomeViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

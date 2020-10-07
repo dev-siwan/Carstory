@@ -3,7 +3,7 @@
     <data>
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.sign.up.viewmodel.SignUpViewModel" />
+            type="com.like.drive.carstory.ui.sign.up.viewmodel.SignUpViewModel" />
         <import type="android.text.InputType" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

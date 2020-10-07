@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.board.detail.viewmodel.BoardDetailViewModel" />
+            type="com.like.drive.carstory.ui.board.detail.viewmodel.BoardDetailViewModel" />
 
         <import type="android.view.View" />
 
@@ -144,7 +144,7 @@
                         layout="@layout/layout_detail_title_block"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:feedData="@{vm.boardData}"
+                        app:boardData="@{vm.boardData}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/containerProfile"
@@ -160,7 +160,7 @@
                         app:layout_constraintStart_toStartOf="@id/glStart"
                         app:layout_constraintTop_toBottomOf="@id/containerTitleBlock" />
 
-                    <com.like.drive.motorfeed.util.tag.MentionTextView
+                    <com.like.drive.carstory.util.tag.MentionTextView
                         android:id="@+id/tvContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
-                        app:feedData="@{vm.boardData}"
+                        app:boardData="@{vm.boardData}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvDate"

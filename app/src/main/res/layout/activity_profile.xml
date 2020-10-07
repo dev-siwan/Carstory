@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.profile.viewmodel.ProfileViewModel" />
+            type="com.like.drive.carstory.ui.profile.viewmodel.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

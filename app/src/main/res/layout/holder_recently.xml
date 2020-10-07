@@ -5,10 +5,10 @@
     <data>
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.search.viewmodel.SearchViewModel" />
+            type="com.like.drive.carstory.ui.search.viewmodel.SearchViewModel" />
         <variable
             name="data"
-            type="com.like.drive.motorfeed.ui.search.data.RecentlyData" />
+            type="com.like.drive.carstory.ui.search.data.RecentlyData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

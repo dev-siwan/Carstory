@@ -4,15 +4,15 @@
 
     <data>
 
-        <import type="com.like.drive.motorfeed.common.user.UserInfo" />
+        <import type="com.like.drive.carstory.common.user.UserInfo" />
 
         <variable
             name="data"
-            type="com.like.drive.motorfeed.data.notice.NoticeData" />
+            type="com.like.drive.carstory.data.notice.NoticeData" />
 
         <variable
             name="vm"
-            type="com.like.drive.motorfeed.ui.notice.list.viewmodel.NoticeListViewModel" />
+            type="com.like.drive.carstory.ui.notice.list.viewmodel.NoticeListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
