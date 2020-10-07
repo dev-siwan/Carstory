@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 class NotificationApiImpl (
     private val fireBaseTask: FireBaseTask
 ):NotificationApi{
-    override suspend fun sendNotification(notificationSendData: NotificationSendData): Flow<String> {
+    override suspend fun sendNotification(notificationSendData: NotificationSendData): Flow<Any> {
         return fireBaseTask.setFunction(notificationSendData.getHashMap(),"notification")
     }
 

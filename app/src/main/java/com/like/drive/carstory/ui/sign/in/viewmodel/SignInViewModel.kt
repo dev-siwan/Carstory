@@ -11,6 +11,7 @@ import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class SignInViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
@@ -46,6 +47,16 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
                 error = {
                     setErrorEvent(SignInErrorType.FACEBOOK_ERROR)
                 })
+        }
+    }
+
+    fun createKaKaoToken(accessToken: String) {
+        viewModelScope.launch {
+            userRepository.createKaKaoCustomToken(accessToken = accessToken,
+                success = {
+                    Timber.i("accessToken = $it")
+                },
+                error = {})
         }
     }
 

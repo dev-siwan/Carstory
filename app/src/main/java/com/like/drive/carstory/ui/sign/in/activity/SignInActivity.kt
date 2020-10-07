@@ -61,7 +61,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
 
         token?.let {
-            showShortToast(it.accessToken)
+            viewModel.createKaKaoToken(it.accessToken)
         }
     }
 

@@ -4,5 +4,5 @@ import com.like.drive.carstory.data.notification.NotificationSendData
 import kotlinx.coroutines.flow.Flow
 
 interface NotificationApi {
-    suspend fun sendNotification(notificationSendData: NotificationSendData):Flow<String>
+    suspend fun sendNotification(notificationSendData: NotificationSendData):Flow<Any>
 }

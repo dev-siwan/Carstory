@@ -57,6 +57,19 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             }
     }
 
+    override suspend fun createKaKaoCustomToken(
+        accessToken: String,
+        success: (String) -> Unit,
+        error: () -> Unit
+    ) {
+        userApi.createToken(accessToken).catch {
+            it.message
+            error.invoke()
+        }.collect {
+           val a = it as String
+        }
+    }
+
     override suspend fun setUser(userData: UserData, success: () -> Unit, fail: () -> Unit) {
         userApi.setUser(userData).catch {
             it.printStackTrace()

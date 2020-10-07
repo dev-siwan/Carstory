@@ -122,6 +122,10 @@ class UserApiImpl(
         }
     }
 
+    override suspend fun createToken(accessToken: String): Flow<Any> {
+        return fireBaseTask.setFunction(mapOf("accessToken" to accessToken),"customToken")
+    }
+
     override fun checkProvider(): Boolean {
         return fireAuth.currentUser?.providerId == FIREBASE_PROVIDER_ID
     }

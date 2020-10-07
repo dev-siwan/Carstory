@@ -20,6 +20,12 @@ interface UserRepository {
         error: () -> Unit
     )
 
+    suspend fun createKaKaoCustomToken(
+        accessToken: String,
+        success: (String) -> Unit,
+        error: () -> Unit
+    )
+
     suspend fun setUser(userData: UserData, success: () -> Unit, fail: () -> Unit)
     suspend fun signEmail(
         email: String,

@@ -98,7 +98,7 @@ class FireBaseTask {
             emit(Tasks.forResult(deleteTask).isComplete)
         }
 
-    suspend fun setFunction(map: Map<String, Any?>, callableName: String): Flow<String> =
+    suspend fun setFunction(map: Map<String, Any?>, callableName: String): Flow<Any> =
         flow {
             emit(taskFunction(map, callableName).await())
         }
@@ -106,12 +106,12 @@ class FireBaseTask {
     private fun taskFunction(
         map: Map<String, Any?>,
         callableName: String
-    ): com.google.android.gms.tasks.Task<String> {
+    ): com.google.android.gms.tasks.Task<Any> {
         return FirebaseFunctions.getInstance("asia-northeast3")
             .getHttpsCallable(callableName)
             .call(map)
             .continueWith {
-                it.result?.data as String
+                it.result?.data?:""
             }
     }
 
