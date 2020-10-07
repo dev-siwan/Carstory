@@ -346,7 +346,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
         } else {
 
-            if (_boardData.value?.likeCount ?: 0 >= 0) {
+            if (likeCountObserver.get() > 0) {
 
                 likeCountObserver.set(likeCountObserver.get().minus(1))
                 _boardData.value?.likeCount?.minus(1)
