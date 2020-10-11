@@ -165,7 +165,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider"
             tools:text="@string/face_book_login_desc" />
 
-        <TextView
+      <!--  <TextView
             android:id="@+id/tvKaKaoLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -180,9 +180,15 @@
             android:textSize="@dimen/normal_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFacebookLogin" />
+            app:layout_constraintTop_toBottomOf="@id/tvFacebookLogin" />-->
 
-
+        <com.kakao.usermgmt.LoginButton
+            android:id="@+id/tvKaKaoLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFacebookLogin"/>
 
 
 

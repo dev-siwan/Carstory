@@ -34,6 +34,9 @@ class UserApiImpl(
     override suspend fun loginFacebook(authCredential: AuthCredential): Flow<AuthResult> =
         flow { emit(fireAuth.signInWithCredential(authCredential).await()) }
 
+    override suspend fun loginCustomToken(token: String): Flow<AuthResult> =
+        flow { emit(fireAuth.signInWithCustomToken(token).await()) }
+
     override suspend fun setUser(userData: UserData): Flow<Boolean> {
         return fireBaseTask.setData(fireStore.collection(USER).document(fireAuth.uid!!), userData)
     }
@@ -123,7 +126,7 @@ class UserApiImpl(
     }
 
     override suspend fun createToken(accessToken: String): Flow<Any> {
-        return fireBaseTask.setFunction(mapOf("accessToken" to accessToken),"customToken")
+        return fireBaseTask.setFunction(mapOf("accessToken" to accessToken), "customToken")
     }
 
     override fun checkProvider(): Boolean {

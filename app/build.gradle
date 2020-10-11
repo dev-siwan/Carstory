@@ -242,7 +242,7 @@ dependencies {
     implementation 'com.github.GrenderG:MarkdownView:0.1.2'
 
     //kakao login
-    implementation "com.kakao.sdk:v2-user:2.0.3"
+    implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
 
 
     //ad template

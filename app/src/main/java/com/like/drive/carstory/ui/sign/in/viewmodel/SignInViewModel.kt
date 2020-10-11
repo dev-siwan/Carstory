@@ -1,10 +1,19 @@
 package com.like.drive.carstory.ui.sign.`in`.viewmodel
 
+import android.content.Intent
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.facebook.AccessToken
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
+import com.kakao.auth.ISessionCallback
+import com.kakao.auth.Session
+import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.LogoutResponseCallback
+import com.kakao.usermgmt.callback.MeV2ResponseCallback
+import com.kakao.usermgmt.response.MeV2Response
+import com.kakao.util.exception.KakaoException
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
@@ -19,6 +28,8 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
     val password = ObservableField<String>()
 
     val loginFacebookClickEvent = SingleLiveEvent<Unit>()
+    val kakaoSessionOpenFailed = SingleLiveEvent<Unit>()
+    val kakaoSignUpError = SingleLiveEvent<String>()
 
     val isLoading = SingleLiveEvent<Boolean>()
 
@@ -27,6 +38,17 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
     val emptyNickNameEvent = SingleLiveEvent<Unit>()
 
     val moveToSignUpEvent = SingleLiveEvent<Unit>()
+
+    //카카오 콜백
+    private val kakaoCallback = object : ISessionCallback {
+        override fun onSessionOpenFailed(exception: KakaoException?) {
+            kakaoSessionOpenFailed.call()
+        }
+
+        override fun onSessionOpened() {
+            requestMe()
+        }
+    }
 
     /**
      * 페이스북 토큰 핸들러
@@ -50,15 +72,50 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         }
     }
 
+    fun initKakao() {
+        kakaoSdkLogOut()
+        Session.getCurrentSession().addCallback(kakaoCallback)
+        Session.getCurrentSession().checkAndImplicitOpen()
+    }
+
+    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean =
+        Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)
+
+    private fun requestMe() {
+
+        UserManagement.getInstance().me(object : MeV2ResponseCallback() {
+            override fun onSessionClosed(errorResult: ErrorResult) {
+
+            }
+
+            override fun onFailure(errorResult: ErrorResult?) {
+                super.onFailure(errorResult)
+            }
+
+            override fun onSuccess(result: MeV2Response) {
+
+                Session.getCurrentSession().tokenInfo.accessToken?.run {
+                    createKaKaoToken(result.id.toString())
+                } ?: kakaoSignUpError.call()
+
+            }
+        })
+    }
+
     fun createKaKaoToken(accessToken: String) {
         viewModelScope.launch {
             userRepository.createKaKaoCustomToken(accessToken = accessToken,
                 success = {
-                    Timber.i("accessToken = $it")
+                    customLogin(it)
                 },
                 error = {})
         }
     }
+
+    private fun kakaoSdkLogOut() =
+        UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
+            override fun onCompleteLogout() {}
+        })
 
     fun loginEmail() {
         isLoading.value = true
@@ -118,10 +175,29 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         isLoading.value = false
     }
 
+    private fun customLogin(token: String) {
+        isLoading.value = true
+
+        viewModelScope.launch {
+            userRepository.loginKaKaoToken(token,
+                success = {
+                    getUser(it)
+                },
+                error = {
+                    setErrorEvent(SignInErrorType.KAKAO_ERROR)
+                })
+        }
+    }
+
     fun checkEnable(email: String?, password: String?) =
         !email.isNullOrBlank() && !password.isNullOrBlank()
+
+    override fun onCleared() {
+        super.onCleared()
+        Session.getCurrentSession().removeCallback(kakaoCallback)
+    }
 }
 
 enum class SignInErrorType {
-    USER_ERROR, USER_BAN, LOGIN_ERROR, FACEBOOK_ERROR
+    USER_ERROR, USER_BAN, LOGIN_ERROR, FACEBOOK_ERROR, KAKAO_ERROR
 }

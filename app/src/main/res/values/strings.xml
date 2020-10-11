@@ -34,6 +34,7 @@
     <string name="user_uid_format"><![CDATA[<font color="#d7d7d7">#%s</font>]]></string>
 
     <string name="facebook_error">페이스북 로그인을 시도하는 중 오류가 걸렸습니다.</string>
+    <string name="kakao_error">카카오 로그인을 시도하는 중 오류가 걸렸습니다.</string>
     <string name="facebook_cancel">페이스북 로그인을 취소하였습니다.</string>
     <string name="login_error">로그인을 시도하는 중 오류가 걸렸습니다.\n이메일과 패스워드를 확인해주세요.</string>
     <string name="user_error">유저 정보를 가져올 수 없습니다.\n다시 시도해주세요.</string>

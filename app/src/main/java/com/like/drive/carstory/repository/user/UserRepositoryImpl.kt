@@ -66,8 +66,25 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             it.message
             error.invoke()
         }.collect {
-           val a = it as String
+            (it as HashMap<String?, String?>?)?.let { map ->
+                map["token"]?.let { token ->
+                    success(token)
+                }
+            }
         }
+    }
+
+    override suspend fun loginKaKaoToken(
+        token: String,
+        success: (FirebaseUser) -> Unit,
+        error: () -> Unit
+    ) {
+        userApi.loginCustomToken(token).catch { error.invoke() }
+            .collect {
+                it.user?.let { user ->
+                    success(user)
+                } ?: error()
+            }
     }
 
     override suspend fun setUser(userData: UserData, success: () -> Unit, fail: () -> Unit) {

@@ -26,6 +26,12 @@ interface UserRepository {
         error: () -> Unit
     )
 
+    suspend fun loginKaKaoToken(
+        token:String,
+        success: (FirebaseUser) -> Unit,
+        error: () -> Unit
+    )
+
     suspend fun setUser(userData: UserData, success: () -> Unit, fail: () -> Unit)
     suspend fun signEmail(
         email: String,

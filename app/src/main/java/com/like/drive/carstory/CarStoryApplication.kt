@@ -8,9 +8,11 @@ import android.content.Context
 import android.os.Build
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.FirebaseApp
-import com.kakao.sdk.common.KakaoSdk
+import com.kakao.auth.KakaoSDK
+
 import com.like.drive.carstory.common.define.FirebaseDefine
 import com.like.drive.carstory.di.*
+import com.like.drive.carstory.kakao.KakaoSDKAdapter
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
 import org.koin.core.context.startKoin
@@ -85,7 +87,7 @@ class CarStoryApplication : Application() {
     }
 
     private fun kakaoInit(){
-        KakaoSdk.init(this, "1877cc549c231fa23495e5e806d84ed9")
+        KakaoSDK.init(KakaoSDKAdapter())
     }
 
 }

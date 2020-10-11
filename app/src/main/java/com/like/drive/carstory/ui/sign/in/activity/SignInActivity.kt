@@ -13,8 +13,6 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.kakao.sdk.auth.LoginClient
-import com.kakao.sdk.auth.model.OAuthToken
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.intro.getIntroMessage
 import com.like.drive.carstory.databinding.ActivitySignInBinding
@@ -55,16 +53,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
     }
 
-    val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        error?.let {
-            showShortToast(it.message ?: "")
-        }
-
-        token?.let {
-            viewModel.createKaKaoToken(it.accessToken)
-        }
-    }
-
     private var introIndex = 0
 
     private val introList by lazy { getIntroMessage(this) }
@@ -72,6 +60,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.initKakao()
         withViewModel()
     }
 
@@ -83,13 +72,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             setAnimation()
         }
 
-        dataBinding.tvKaKaoLogin.setOnClickListener {
-            if (LoginClient.instance.isKakaoTalkLoginAvailable(this)) {
-                LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
-            } else {
-                LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
-            }
-        }
+         /* dataBinding.tvKaKaoLogin.setOnClickListener {
+              viewModel.kaka
+          }*/
 
     }
 
@@ -132,6 +117,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 SignInErrorType.LOGIN_ERROR -> showShortToast(getString(R.string.login_error))
                 SignInErrorType.USER_BAN -> showShortToast(getString(R.string.user_ban))
                 SignInErrorType.USER_ERROR -> showShortToast(getString(R.string.user_error))
+                SignInErrorType.KAKAO_ERROR -> showShortToast(getString(R.string.kakao_error))
                 else -> showShortToast(getString(R.string.facebook_error))
             }
         })
@@ -187,6 +173,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (viewModel.handleActivityResult(requestCode, resultCode, data)) return
         super.onActivityResult(requestCode, resultCode, data)
 
         // Pass the activity result back to the Facebook SDK
