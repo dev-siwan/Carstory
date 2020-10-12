@@ -21,8 +21,9 @@
     <string name="password_valid_hint">비밀번호를 한번 더 입력해주세요.</string>
     <string name="search_password_desc"><![CDATA[비밀번호를 잊어버리셨나요? <b>여기를 눌려주세요.</b>]]></string>
 
-    <string name="face_book_login_desc"><![CDATA[<b>페이스북</b>으로 로그인]]></string>
+    <string name="face_book_login_desc"><![CDATA[<b>페이스북 아이디</b> 로그인]]></string>
     <string name="kakao_login_desc"><![CDATA[<b>카카오 아이디</b>로 로그인]]></string>
+    <string name="google_login_desc"><![CDATA[<b>지메일 아이디</b>로 로그인]]></string>
     <string name="email_register_desc"><![CDATA[아이디가 없으신가요? <b>이메일</b>로 회원가입]]></string>
 
     <string name="sign_up_welcome">회원가입 정보를 입력해주세요.</string>

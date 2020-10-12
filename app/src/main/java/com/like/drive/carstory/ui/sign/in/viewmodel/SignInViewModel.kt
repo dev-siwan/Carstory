@@ -146,19 +146,7 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
             override fun onCompleteLogout() {}
         })
 
-    fun loginEmail() {
-        isLoading.value = true
 
-        viewModelScope.launch {
-            userRepository.loginEmail(email.get()!!, password.get()!!,
-                success = {
-                    getUser(it)
-                },
-                error = {
-                    setErrorEvent(SignInErrorType.LOGIN_ERROR)
-                })
-        }
-    }
 
     private fun saveUser(user: FirebaseUser) {
         viewModelScope.launch {
@@ -217,9 +205,6 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
                 })
         }
     }
-
-    fun checkEnable(email: String?, password: String?) =
-        !email.isNullOrBlank() && !password.isNullOrBlank()
 
     override fun onCleared() {
         super.onCleared()

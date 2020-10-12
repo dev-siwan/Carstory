@@ -81,7 +81,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         dataBinding.tvKaKaoLogin.setOnClickListener {
             viewModel.loginKaKao(this)
         }
-        dataBinding.btnGoogleLogin.setOnClickListener {
+        dataBinding.tvGoogleLogin.setOnClickListener {
             googleSignIn()
         }
 
@@ -199,6 +199,8 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (viewModel.handleActivityResult(requestCode, resultCode, data)) return
+        callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -212,9 +214,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 viewModel.errorEvent.value = SignInErrorType.GOOGLE_ERROR
             }
             //KaKaoLogin activity result
-            if (viewModel.handleActivityResult(requestCode, resultCode, data)) return
+
             // Pass the activity result back to the Facebook SDK
-            callbackManager.onActivityResult(requestCode, resultCode, data)
+
 
         }
 
