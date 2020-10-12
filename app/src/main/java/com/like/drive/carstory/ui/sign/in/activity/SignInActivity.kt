@@ -13,6 +13,10 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.intro.getIntroMessage
 import com.like.drive.carstory.databinding.ActivitySignInBinding
@@ -53,14 +57,16 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
     }
 
-    private var introIndex = 0
+    private lateinit var googleSignInClient: GoogleSignInClient
 
+    private var introIndex = 0
     private val introList by lazy { getIntroMessage(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel.initKakao()
+        setGoogleBuild()
         withViewModel()
     }
 
@@ -72,10 +78,29 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             setAnimation()
         }
 
-         /* dataBinding.tvKaKaoLogin.setOnClickListener {
-              viewModel.kaka
-          }*/
+        dataBinding.tvKaKaoLogin.setOnClickListener {
+            viewModel.loginKaKao(this)
+        }
+        dataBinding.btnGoogleLogin.setOnClickListener {
+            googleSignIn()
+        }
 
+    }
+
+    private fun setGoogleBuild() {
+        googleSignInClient = GoogleSignIn.getClient(
+            this,
+            GoogleSignInOptions.Builder(
+                GoogleSignInOptions.DEFAULT_SIGN_IN
+            )
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+        )
+    }
+
+    private fun googleSignIn() {
+        startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
     }
 
     private fun TextView.setAnimation() {
@@ -118,6 +143,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 SignInErrorType.USER_BAN -> showShortToast(getString(R.string.user_ban))
                 SignInErrorType.USER_ERROR -> showShortToast(getString(R.string.user_error))
                 SignInErrorType.KAKAO_ERROR -> showShortToast(getString(R.string.kakao_error))
+                SignInErrorType.GOOGLE_ERROR-> showShortToast(getString(R.string.google_error))
                 else -> showShortToast(getString(R.string.facebook_error))
             }
         })
@@ -166,17 +192,36 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     private fun TextView.invisibleAnimation() {
         ObjectAnimator.ofFloat(this, "alpha", 1f, 0f).run {
-            duration = 2000
+            duration = 3000
             start()
         }
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (viewModel.handleActivityResult(requestCode, resultCode, data)) return
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)
+                account.idToken?.let {
+                    viewModel.handleGoogleAccessToken(it)
+                }
+            } catch (e: ApiException) {
+                viewModel.errorEvent.value = SignInErrorType.GOOGLE_ERROR
+            }
+            //KaKaoLogin activity result
+            if (viewModel.handleActivityResult(requestCode, resultCode, data)) return
+            // Pass the activity result back to the Facebook SDK
+            callbackManager.onActivityResult(requestCode, resultCode, data)
 
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+        }
+
+    }
+
+    companion object {
+        private const val TAG = "GoogleActivity"
+        private const val RC_SIGN_IN = 9001
     }
 }

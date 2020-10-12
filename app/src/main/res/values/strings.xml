@@ -4,7 +4,7 @@
     <string name="blank_text">""</string>
     <string name="hyphen">-</string>
 
-    <string name="sign_intro_desc">여러분들의 정보를 공유해주세요.</string>
+    <string name="sign_intro_desc">여러분들의 자동차 정보를 \n공유해주세요.</string>
 
     <string name="home_intro_desc">궁금한 자동차 정보에 대해\n검색해보세요.</string>
     <string name="home_register_feed_intro_desc">나의 유용한 정보를 \n공유해보세요.</string>
@@ -22,6 +22,7 @@
     <string name="search_password_desc"><![CDATA[비밀번호를 잊어버리셨나요? <b>여기를 눌려주세요.</b>]]></string>
 
     <string name="face_book_login_desc"><![CDATA[<b>페이스북</b>으로 로그인]]></string>
+    <string name="kakao_login_desc"><![CDATA[<b>카카오 아이디</b>로 로그인]]></string>
     <string name="email_register_desc"><![CDATA[아이디가 없으신가요? <b>이메일</b>로 회원가입]]></string>
 
     <string name="sign_up_welcome">회원가입 정보를 입력해주세요.</string>
@@ -34,6 +35,7 @@
     <string name="user_uid_format"><![CDATA[<font color="#d7d7d7">#%s</font>]]></string>
 
     <string name="facebook_error">페이스북 로그인을 시도하는 중 오류가 걸렸습니다.</string>
+    <string name="google_error">구글 로그인을 시도하는 중 오류가 걸렸습니다.</string>
     <string name="kakao_error">카카오 로그인을 시도하는 중 오류가 걸렸습니다.</string>
     <string name="facebook_cancel">페이스북 로그인을 취소하였습니다.</string>
     <string name="login_error">로그인을 시도하는 중 오류가 걸렸습니다.\n이메일과 패스워드를 확인해주세요.</string>
@@ -317,6 +319,7 @@
     <string name="intro_message_5">\&quot;사거리 부근 사고 났어요! 다들 안전운전 하세요.\&quot;</string>
     <string name="intro_message_6">\&quot;차박은 이런 물건이 좋아요.\&quot;</string>
     <string name="intro_message_7">\&quot;오늘 날씨 좋아요 같이 드라이브 해요.\&quot;</string>
+
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

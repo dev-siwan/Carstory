@@ -223,7 +223,7 @@ dependencies {
     //annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //facebook
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
 
 
     //photoView
@@ -243,6 +243,9 @@ dependencies {
 
     //kakao login
     implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+
+    //gmail login
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
 
     //ad template

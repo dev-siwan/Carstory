@@ -1,11 +1,14 @@
 package com.like.drive.carstory.ui.sign.`in`.viewmodel
 
+import android.app.Activity
 import android.content.Intent
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.facebook.AccessToken
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
+import com.kakao.auth.AuthType
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
@@ -19,6 +22,7 @@ import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
+import com.like.drive.carstory.ui.main.activity.MainActivity
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -72,10 +76,35 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         }
     }
 
+
+    fun handleGoogleAccessToken(idToken: String) {
+
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+        isLoading.value = true
+
+        viewModelScope.launch {
+            userRepository.loginFaceBook(credential,
+                success = {
+                    getUser(it)
+                },
+                error = {
+                    setErrorEvent(SignInErrorType.FACEBOOK_ERROR)
+                })
+        }
+    }
+
     fun initKakao() {
         kakaoSdkLogOut()
-        Session.getCurrentSession().addCallback(kakaoCallback)
-        Session.getCurrentSession().checkAndImplicitOpen()
+
+    }
+
+    fun loginKaKao(activity: Activity) {
+        Session.getCurrentSession().run {
+            addCallback(kakaoCallback)
+            open(AuthType.KAKAO_LOGIN_ALL, activity)
+        }
+
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean =
@@ -85,11 +114,11 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
 
         UserManagement.getInstance().me(object : MeV2ResponseCallback() {
             override fun onSessionClosed(errorResult: ErrorResult) {
-
+                Timber.i("에러 메세지 =${errorResult.errorMessage}")
             }
 
             override fun onFailure(errorResult: ErrorResult?) {
-                super.onFailure(errorResult)
+                Timber.i("실패 메세지 =${errorResult?.errorMessage}")
             }
 
             override fun onSuccess(result: MeV2Response) {
@@ -199,5 +228,5 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
 }
 
 enum class SignInErrorType {
-    USER_ERROR, USER_BAN, LOGIN_ERROR, FACEBOOK_ERROR, KAKAO_ERROR
+    USER_ERROR, USER_BAN, LOGIN_ERROR, FACEBOOK_ERROR, KAKAO_ERROR, GOOGLE_ERROR
 }
