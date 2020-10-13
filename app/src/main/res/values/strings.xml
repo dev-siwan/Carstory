@@ -275,7 +275,7 @@
     <string name="re_filter_search">필터 재설정</string>
     <string name="filter_empty_upload_message">현재 필터 조건으로 글쓰기</string>
     <string name="register_text">글쓰기</string>
-    <string name="terms_dialog_desc">초기 로그인시 이용약관 및 개인정보처리방침에 동의하는 것으로 간주합니다.</string>
+    <string name="terms_dialog_desc">첫 로그인시 이용약관 및 개인정보처리방침에 동의하는 것으로 간주됩니다.</string>
     <string name="menu_text">메뉴</string>
 
     <string name="send_notification_message"><![CDATA[%s<br />알림을 보내시겠습니까?]]></string>
