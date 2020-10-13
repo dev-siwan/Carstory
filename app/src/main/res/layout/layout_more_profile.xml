@@ -13,10 +13,10 @@
 
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white_100">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
@@ -93,20 +93,6 @@
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@+id/containerProfileImg">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="@{vm.userInfo.email}"
-                android:textColor="@color/grey_4"
-                android:textSize="@dimen/small_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="가나다라마바사아" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNick"
@@ -125,7 +111,7 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvEmail"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="가나다라마바사아" />
 
 
@@ -151,5 +137,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

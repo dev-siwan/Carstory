@@ -49,9 +49,6 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
                 putParcelable(BoardListActivity.BOARD_DATE_KEY, UserInfo.userInfo)
             })
         }
-        dataBinding.containerPasswordUpdate.containerMoreItem.setOnClickListener {
-            startAct(PasswordUpdateActivity::class)
-        }
 
         dataBinding.containerNotificationSetting.containerMoreItem.setOnClickListener {
             startAct(NotificationSettingActivity::class)
