@@ -94,8 +94,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     private fun ProfileViewModel.signOutToPage() {
         signOut.observe(this@ProfileActivity, Observer {
-            finishAffinity()
             startAct(SignInActivity::class)
+            finishAffinity()
         })
     }
 

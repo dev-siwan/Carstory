@@ -13,7 +13,6 @@ import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
-import com.kakao.usermgmt.callback.LogoutResponseCallback
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
@@ -22,7 +21,6 @@ import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
-import com.like.drive.carstory.ui.main.activity.MainActivity
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -125,9 +123,9 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         })
     }
 
-    fun createKaKaoToken(accessToken: String) {
+    fun createKaKaoToken(uid: String) {
         viewModelScope.launch {
-            userRepository.createKaKaoCustomToken(accessToken = accessToken,
+            userRepository.createKaKaoCustomToken(uid = uid,
                 success = {
                     customLogin(it)
                 },
@@ -137,15 +135,11 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         }
     }
 
-
-
-
     private fun saveUser(user: FirebaseUser) {
         viewModelScope.launch {
             userRepository.setUser(UserData(
                 uid = user.uid,
-                email = user.email,
-                emailSignUp = false
+                email = user.email
             ),
                 success = {
                     emptyNickNameEvent.call()

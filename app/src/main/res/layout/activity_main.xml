@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/white_100"
-            android:src="@drawable/menu_upload"
+            android:src="@drawable/gnb_upload"
             android:onClick="@{()->vm.doClickEvent(vm.uploadClickEvent)}"/>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

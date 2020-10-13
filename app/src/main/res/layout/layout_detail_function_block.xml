@@ -48,20 +48,21 @@
                 android:id="@+id/ivLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@{vm.isLikeEnable ? @drawable/ic_like_black : @drawable/ic_like_grey}"
+                android:src="@{vm.isLikeEnable ? @drawable/ic_like : @drawable/ic_unlike}"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tvLike"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_like_black" />
+                tools:src="@drawable/ic_like" />
 
             <TextView
                 android:id="@+id/tvLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginStart="@dimen/activity_x_small_margin"
                 android:text="@{String.valueOf(vm.likeCountObserver)}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
@@ -88,7 +89,7 @@
                 android:id="@+id/tvComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_comment_black"
+                android:drawableStart="@drawable/ic_comment"
                 android:drawablePadding="@dimen/activity_x_small_margin"
                 android:gravity="center"
                 android:text="@{String.valueOf(vm.commentCountObserver)}"

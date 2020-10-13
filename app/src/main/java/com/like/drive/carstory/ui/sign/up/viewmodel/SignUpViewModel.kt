@@ -56,7 +56,7 @@ class SignUpViewModel(private val userRepository: UserRepository) : BaseViewMode
 
     private fun setEmail(user: FirebaseUser) {
         viewModelScope.launch {
-            userRepository.setUser(UserData(uid = user.uid, email = user.email, emailSignUp = true),
+            userRepository.setUser(UserData(uid = user.uid, email = user.email),
                 success = {
                     setComplete()
                 },

@@ -125,8 +125,8 @@ class UserApiImpl(
         }
     }
 
-    override suspend fun createToken(accessToken: String): Flow<Any> {
-        return fireBaseTask.setFunction(mapOf("accessToken" to accessToken), "customToken")
+    override suspend fun createToken(uid: String): Flow<Any> {
+        return fireBaseTask.setFunction(mapOf("uid" to uid), "customToken")
     }
 
     override fun checkProvider(): Boolean {

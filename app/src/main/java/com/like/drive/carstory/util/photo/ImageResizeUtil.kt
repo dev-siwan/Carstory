@@ -11,7 +11,6 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
-
 object ImageResizeUtil {
 
     fun resizeFile(file: File, newFile: File, newWidth: Int) {
@@ -28,21 +27,21 @@ object ImageResizeUtil {
 
             originalBm = BitmapFactory.decodeFile(file.absolutePath, options)
 
-                // 카메라인 경우 이미지를 상황에 맞게 회전시킨다
-                try {
+            // 카메라인 경우 이미지를 상황에 맞게 회전시킨다
+            try {
 
-                    val exif = ExifInterface(file.absolutePath)
-                    val exifOrientation = exif.getAttributeInt(
-                        ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL
-                    )
-                    val exifDegree = exifOrientationToDegrees(exifOrientation)
-                    Timber.d("exifDegree : $exifDegree")
+                val exif = ExifInterface(file.absolutePath)
+                val exifOrientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL
+                )
+                val exifDegree = exifOrientationToDegrees(exifOrientation)
+                Timber.d("exifDegree : $exifDegree")
 
-                    originalBm = rotate(originalBm, exifDegree)
+                originalBm = rotate(originalBm, exifDegree)
 
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
 
 
             if (originalBm == null) {
@@ -75,7 +74,6 @@ object ImageResizeUtil {
 
             }
 
-
             // create a matrix for the manipulation
             val matrix = Matrix()
 
@@ -94,7 +92,6 @@ object ImageResizeUtil {
                 resizedBitmap!!.compress(CompressFormat.PNG, 80, FileOutputStream(newFile))
 
             }
-
 
         } catch (e: FileNotFoundException) {
 
@@ -132,25 +129,29 @@ object ImageResizeUtil {
      * @return 회전된 이미지
      */
     private fun rotate(bitmap: Bitmap?, degrees: Int): Bitmap? {
-        var rotationBitmap = bitmap!!
-        if (degrees != 0) {
-            val m = Matrix()
-            m.setRotate(
-                degrees.toFloat(), rotationBitmap.width.toFloat() / 2,
-                rotationBitmap.height.toFloat() / 2
-            )
+        var rotationBitmap: Bitmap? = bitmap
 
-            try {
-                val converted = Bitmap.createBitmap(
-                    rotationBitmap, 0, 0,
-                    rotationBitmap.width, bitmap.height, m, true
+        rotationBitmap?.let {
+            if (degrees != 0) {
+                val m = Matrix()
+                m.setRotate(
+                    degrees.toFloat(), it.width.toFloat() / 2,
+                    it.height.toFloat() / 2
                 )
-                if (bitmap != converted) {
-                    rotationBitmap.recycle()
-                    rotationBitmap = converted
+
+                try {
+                    val converted = Bitmap.createBitmap(
+                        it, 0, 0,
+                        it.width, it.height, m, true
+                    )
+                    if (bitmap != converted) {
+                        it.recycle()
+                        rotationBitmap = converted
+                    }
+                } catch (ex: OutOfMemoryError) {
+                    // 메모리가 부족하여 회전을 시키지 못할 경우 그냥 원본을 반환합니다.
                 }
-            } catch (ex: OutOfMemoryError) {
-                // 메모리가 부족하여 회전을 시키지 못할 경우 그냥 원본을 반환합니다.
+
             }
 
         }

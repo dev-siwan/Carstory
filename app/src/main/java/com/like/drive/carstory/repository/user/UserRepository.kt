@@ -21,7 +21,7 @@ interface UserRepository {
     )
 
     suspend fun createKaKaoCustomToken(
-        accessToken: String,
+        uid: String,
         success: (String) -> Unit,
         error: () -> Unit
     )

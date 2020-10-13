@@ -169,13 +169,13 @@
                 android:text="@string/logout_text"
                 android:textColor="@color/grey_4"
                 android:textSize="@dimen/normal_text_size"
-                app:layout_constraintEnd_toStartOf="@id/divider"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_weight="1" />
 
 
-            <View
+          <!--  <View
                 android:id="@+id/divider"
                 android:layout_width="1dp"
                 android:layout_height="0dp"
@@ -199,7 +199,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/divider"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_weight="1" />
+                app:layout_constraintVertical_weight="1" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

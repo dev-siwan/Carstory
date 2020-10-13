@@ -58,11 +58,11 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
     }
 
     override suspend fun createKaKaoCustomToken(
-        accessToken: String,
+        uid: String,
         success: (String) -> Unit,
         error: () -> Unit
     ) {
-        userApi.createToken(accessToken).catch {
+        userApi.createToken(uid).catch {
             it.message
             error.invoke()
         }.collect {

@@ -44,14 +44,11 @@
             app:layout_constraintGuide_end="15dp" />
 
 
-        <TextView
+        <ImageView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="필터 검색"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/x_large_text_size"
-            android:textStyle="bold"
+            android:src="@drawable/filter_search_title"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@id/glTop" />
 
