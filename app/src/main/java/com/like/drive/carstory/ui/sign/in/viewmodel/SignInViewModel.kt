@@ -32,8 +32,6 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
     val password = ObservableField<String>()
 
     val loginFacebookClickEvent = SingleLiveEvent<Unit>()
-    val kakaoSessionOpenFailed = SingleLiveEvent<Unit>()
-    val kakaoSignUpError = SingleLiveEvent<String>()
 
     val isLoading = SingleLiveEvent<Boolean>()
 
@@ -46,7 +44,7 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
     //카카오 콜백
     private val kakaoCallback = object : ISessionCallback {
         override fun onSessionOpenFailed(exception: KakaoException?) {
-            kakaoSessionOpenFailed.call()
+            setErrorEvent(SignInErrorType.KAKAO_ERROR)
         }
 
         override fun onSessionOpened() {
@@ -76,7 +74,6 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         }
     }
 
-
     fun handleGoogleAccessToken(idToken: String) {
 
         val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -92,11 +89,6 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
                     setErrorEvent(SignInErrorType.FACEBOOK_ERROR)
                 })
         }
-    }
-
-    fun initKakao() {
-        kakaoSdkLogOut()
-
     }
 
     fun loginKaKao(activity: Activity) {
@@ -115,17 +107,19 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         UserManagement.getInstance().me(object : MeV2ResponseCallback() {
             override fun onSessionClosed(errorResult: ErrorResult) {
                 Timber.i("에러 메세지 =${errorResult.errorMessage}")
+                setErrorEvent(SignInErrorType.KAKAO_ERROR)
             }
 
             override fun onFailure(errorResult: ErrorResult?) {
                 Timber.i("실패 메세지 =${errorResult?.errorMessage}")
+                setErrorEvent(SignInErrorType.KAKAO_ERROR)
             }
 
             override fun onSuccess(result: MeV2Response) {
 
                 Session.getCurrentSession().tokenInfo.accessToken?.run {
                     createKaKaoToken(result.id.toString())
-                } ?: kakaoSignUpError.call()
+                } ?: setErrorEvent(SignInErrorType.KAKAO_ERROR)
 
             }
         })
@@ -137,14 +131,12 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
                 success = {
                     customLogin(it)
                 },
-                error = {})
+                error = {
+                    setErrorEvent(SignInErrorType.KAKAO_ERROR)
+                })
         }
     }
 
-    private fun kakaoSdkLogOut() =
-        UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
-            override fun onCompleteLogout() {}
-        })
 
 
 

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/activity_small_margin" />
+            app:layout_constraintGuide_end="@dimen/activity_x_x_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
@@ -39,9 +39,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
-
-
-
 
 
         <TextView
@@ -70,13 +67,19 @@
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
             tools:text="@string/intro_message_1" />
+
+
+
+
 
         <TextView
             android:id="@+id/tvKaKaoLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_x_x_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:drawableStart="@drawable/ic_kakao"
             android:drawablePadding="@dimen/activity_small_margin"
             android:gravity="center"
@@ -84,9 +87,9 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/normal_text_size"
             app:formatHtml="@{@string/kakao_login_desc}"
+            app:layout_constraintBottom_toTopOf="@id/tvGoogleLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvIntro"
             tools:text="@string/kakao_login_desc" />
 
 
@@ -94,7 +97,7 @@
             android:id="@+id/tvGoogleLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:drawableStart="@drawable/ic_google"
             android:drawablePadding="@dimen/activity_small_margin"
             android:gravity="center"
@@ -102,9 +105,9 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/normal_text_size"
             app:formatHtml="@{@string/google_login_desc}"
+            app:layout_constraintBottom_toTopOf="@id/tvFacebookLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvKaKaoLogin"
             tools:text="@string/google_login_desc" />
 
 
@@ -112,7 +115,7 @@
             android:id="@+id/tvFacebookLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_x_x_margin"
             android:drawableStart="@drawable/ic_facebook"
             android:drawablePadding="@dimen/activity_small_margin"
             android:gravity="center"
@@ -121,10 +124,25 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/normal_text_size"
             app:formatHtml="@{@string/face_book_login_desc}"
+            app:layout_constraintBottom_toTopOf="@id/tvDescription"
             app:layout_constraintStart_toStartOf="@id/tvGoogleLogin"
-            app:layout_constraintTop_toBottomOf="@id/tvGoogleLogin"
+            app:layout_constraintVertical_bias="1"
             tools:text="@string/face_book_login_desc" />
 
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_small_margin"
+            android:lineSpacingExtra="@dimen/dialog_message_line_spacing_extra"
+            android:textColor="@color/grey_3"
+            android:textSize="@dimen/normal_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_goneMarginTop="0dp"
+            tools:text="프로필 작성과 동시에 이용약관 및 개인정보처리방침에 동의한걸로 간주 됩니다." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

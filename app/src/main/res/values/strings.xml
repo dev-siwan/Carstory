@@ -268,10 +268,6 @@
 
     <string name="logout_message"><![CDATA[로그아웃 하시겠습니까?<br />저장되어 있던 회원정보 및 알림정보는 사라집니다.]]></string>
     <string name="profile_init_logout_message"><![CDATA[확인을 누르면 프로필을 저장하지 않고 로그인 페이지로 돌아갑니다.]]></string>
-    <string name="profile_init_terms_desc1">프로필 작성과 동시에</string>
-    <string name="and_text">및</string>
-    <string name="at_text">에</string>
-    <string name="profile_terms_agree_desc">동의한걸로 간주됩니다.</string>
     <string name="share_text">공유</string>
     <string name="notification_empty_message">알림이 없습니다.</string>
     <string name="filter_empty_list_message"><![CDATA[카테고리: <b>%s</b><br />차량종류: <b>%s</b><br />검색결과가 없습니다.]]></string>
@@ -279,7 +275,7 @@
     <string name="re_filter_search">필터 재설정</string>
     <string name="filter_empty_upload_message">현재 필터 조건으로 글쓰기</string>
     <string name="register_text">글쓰기</string>
-    <string name="terms_dialog_desc">프로필 작성과 동시에 이용약관 및 개인정보처리방침에 동의한걸로 간주 됩니다.</string>
+    <string name="terms_dialog_desc">초기 로그인시 이용약관 및 개인정보처리방침에 동의하는 것으로 간주합니다.</string>
     <string name="menu_text">메뉴</string>
 
     <string name="send_notification_message"><![CDATA[%s<br />알림을 보내시겠습니까?]]></string>

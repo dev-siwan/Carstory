@@ -2,7 +2,14 @@ package com.like.drive.carstory.ui.sign.`in`.activity
 
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
@@ -17,17 +24,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.LogoutResponseCallback
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.intro.getIntroMessage
 import com.like.drive.carstory.databinding.ActivitySignInBinding
 import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startAct
+import com.like.drive.carstory.ui.base.ext.startToAct
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.profile.activity.ProfileActivity
 import com.like.drive.carstory.ui.sign.`in`.viewmodel.SignInErrorType
 import com.like.drive.carstory.ui.sign.`in`.viewmodel.SignInViewModel
 import com.like.drive.carstory.ui.sign.up.activity.SignUpEmail
+import com.like.drive.carstory.ui.terms.TermsActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -57,7 +68,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
     }
 
-    private lateinit var googleSignInClient: GoogleSignInClient
+    private var googleSignInClient: GoogleSignInClient? = null
 
     private var introIndex = 0
     private val introList by lazy { getIntroMessage(this) }
@@ -65,9 +76,10 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.initKakao()
+
         setGoogleBuild()
         withViewModel()
+        initLogout()
     }
 
     override fun onBinding(dataBinding: ActivitySignInBinding) {
@@ -85,6 +97,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             googleSignIn()
         }
 
+        dataBinding.tvDescription.run {
+            setText(termsDescription(), TextView.BufferType.SPANNABLE)
+            movementMethod = LinkMovementMethod.getInstance()
+            highlightColor = Color.TRANSPARENT;
+        }
+
     }
 
     private fun setGoogleBuild() {
@@ -99,8 +117,23 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         )
     }
 
+    private fun initLogout() {
+        googleLogout()
+        kakaoSdkLogout()
+    }
+
+    private fun googleLogout() {
+        googleSignInClient?.signOut()
+    }
+
+    private fun kakaoSdkLogout() {
+        UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
+            override fun onCompleteLogout() {}
+        })
+    }
+
     private fun googleSignIn() {
-        startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
+        startActivityForResult(googleSignInClient?.signInIntent, RC_SIGN_IN)
     }
 
     private fun TextView.setAnimation() {
@@ -143,7 +176,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 SignInErrorType.USER_BAN -> showShortToast(getString(R.string.user_ban))
                 SignInErrorType.USER_ERROR -> showShortToast(getString(R.string.user_error))
                 SignInErrorType.KAKAO_ERROR -> showShortToast(getString(R.string.kakao_error))
-                SignInErrorType.GOOGLE_ERROR-> showShortToast(getString(R.string.google_error))
+                SignInErrorType.GOOGLE_ERROR -> showShortToast(getString(R.string.google_error))
                 else -> showShortToast(getString(R.string.facebook_error))
             }
         })
@@ -198,6 +231,52 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     }
 
+    private fun termsDescription(): SpannableString {
+        val termsDesc = getString(R.string.terms_dialog_desc)
+
+        val useClickSpan = object : ClickableSpan() {
+
+            override fun onClick(textView: View) {
+                startAct(TermsActivity::class, Bundle().apply {
+                    putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_USE_VALUE)
+                })
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = true
+            }
+
+        }
+
+        val privacyClickSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                startAct(TermsActivity::class, Bundle().apply {
+                    putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_PRIVACY_VALUE)
+                })
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = true
+            }
+
+        }
+
+        val useIndex = termsDesc.indexOf("이용약관")
+        val privacyIndex = termsDesc.indexOf("개인정보처리방침")
+
+        return SpannableString(termsDesc).apply {
+            setSpan(useClickSpan, useIndex, useIndex + 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(
+                privacyClickSpan,
+                privacyIndex,
+                privacyIndex + 8,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (viewModel.handleActivityResult(requestCode, resultCode, data)) return
         callbackManager.onActivityResult(requestCode, resultCode, data)
@@ -213,10 +292,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             } catch (e: ApiException) {
                 viewModel.errorEvent.value = SignInErrorType.GOOGLE_ERROR
             }
-            //KaKaoLogin activity result
-
-            // Pass the activity result back to the Facebook SDK
-
 
         }
 
