@@ -10,6 +10,7 @@ import com.like.drive.carstory.remote.api.user.UserApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.single
+import timber.log.Timber
 import java.io.File
 
 class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: ImageApi) :
@@ -28,6 +29,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             }
             .collect { userData ->
                 userData?.let {
+                    Timber.i("userInfo =${it.uid},${it.nickName}")
                     when {
                         it.userBan -> userBan.invoke()
                         else -> {

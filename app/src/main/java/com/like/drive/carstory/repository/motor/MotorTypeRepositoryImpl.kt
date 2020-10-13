@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class MotorTypeRepositoryImpl(
     private val motorTypeApi: MotorTypeApi,
@@ -23,7 +24,9 @@ class MotorTypeRepositoryImpl(
     override suspend fun setMotorTypeList(success: () -> Unit, error: (String) -> Unit) =
         withContext(Dispatchers.IO) {
             motorTypeApi.getMotorTypeList()
-                .catch { it.message?.let { message -> error.invoke(message) } }
+                .catch {
+                    Timber.i("motorTypeError ${it.message?:""}")
+                    it.message?.let { message -> error.invoke(message) } }
                 .collect {
                     val motorTypeList = makeList(it)
                     insertMotorType(motorTypeList).catch { e ->

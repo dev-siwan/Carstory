@@ -6,6 +6,7 @@ import com.like.drive.carstory.data.common.Version
 import com.like.drive.carstory.remote.api.version.VersionApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 class VersionRepositoryImpl(private val versionApi: VersionApi) : VersionRepository {
 
@@ -20,6 +21,9 @@ class VersionRepositoryImpl(private val versionApi: VersionApi) : VersionReposit
             fail.invoke()
         }.
         collect { value: Version? ->
+
+            Timber.i("versionCheck ${value?.version}")
+
             value?.version?.let {
                 if (UserInfo.userPref.motorTypeVersion ?: 0 < it) {
                     UserInfo.userPref.motorTypeVersion = it

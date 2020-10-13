@@ -27,8 +27,24 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled true
+            /*shrinkResources true
+            zipAlignEnabled true*/
+           /* firebaseCrashlytics {
+                // If you don't need crash reporting for your debug build,
+                // you can speed up your build by disabling mapping file uploading.
+                mappingFileUploadEnabled false
+            }
+            manifestPlaceholders = [crashlyticsCollectionEnabled: "false"]*/
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+         /*   manifestPlaceholders = [crashlyticsCollectionEnabled: "true"]*/
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
