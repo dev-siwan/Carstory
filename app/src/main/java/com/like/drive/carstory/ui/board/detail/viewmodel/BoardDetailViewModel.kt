@@ -318,6 +318,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         }
 
         isLikeEnable.get().let {
+
             val isLike = !it
 
             setLikeCount(isLike) {
@@ -329,6 +330,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
                 }
             }
             isLikeEnable.set(isLike)
+
         }
 
     }
@@ -341,7 +343,9 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
         if (isUp) {
 
             likeCountObserver.set(likeCountObserver.get().plus(1))
-            _boardData.value?.likeCount?.plus(1)
+            _boardData.value?.likeCount?.let {
+                _boardData.value?.likeCount = it + 1
+            }
             action()
 
         } else {
@@ -349,7 +353,9 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
             if (likeCountObserver.get() > 0) {
 
                 likeCountObserver.set(likeCountObserver.get().minus(1))
-                _boardData.value?.likeCount?.minus(1)
+                _boardData.value?.likeCount?.let {
+                    _boardData.value?.likeCount = it - 1
+                }
                 action()
 
             }

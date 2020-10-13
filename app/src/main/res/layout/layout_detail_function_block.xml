@@ -116,7 +116,7 @@
                 android:id="@+id/tvShare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_share_black"
+                android:drawableStart="@drawable/btn_share_title"
                 android:drawablePadding="@dimen/activity_x_small_margin"
                 android:gravity="center"
                 android:text="@string/share_text"
