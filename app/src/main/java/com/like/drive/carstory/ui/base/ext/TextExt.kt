@@ -6,8 +6,8 @@ import com.like.drive.carstory.BuildConfig
 import com.like.drive.carstory.R
 
 //이름
-fun String.isUserName(): Boolean {
-    val regex = Regex("^.{2,100}\$")
+fun String.isNickName(): Boolean {
+    val regex = Regex("^.{1,5}[가-힣]$")
     return this.matches(regex)
 }
 
@@ -25,7 +25,8 @@ fun String.isDay(): Boolean {
 
 //패스워드
 fun String.isPassword(): Boolean {
-    val regex = Regex("^(?=.*\\d)(?=.*[~`!@#\$%^&*()-])(?=.*[a-zA-Z])[a-zA-Z\\d~`!@#\$%^&*()-]{8,20}\$")
+    val regex =
+        Regex("^(?=.*\\d)(?=.*[~`!@#\$%^&*()-])(?=.*[a-zA-Z])[a-zA-Z\\d~`!@#\$%^&*()-]{8,20}\$")
     return this.matches(regex)
 }
 
@@ -44,10 +45,10 @@ fun String.isCallNumber(): Boolean {
 
 //휴대전화
 fun String.isPhoneNumber(): Boolean {
-    val regex = Regex("^(02|03[1|2|3]|04[1|2|3|4]|05[1|2|3|4|5]|06[1|2|3|4]|070|01[0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})\$")
+    val regex =
+        Regex("^(02|03[1|2|3]|04[1|2|3|4]|05[1|2|3|4|5]|06[1|2|3|4]|070|01[0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})\$")
     return this.matches(regex)
 }
-
 
 //이메일
 fun String.isEmail(): Boolean {
@@ -64,10 +65,33 @@ fun String.isIncludePhoneNumber(): Boolean {
 }
 
 //금지어 포함여부
-fun String.isIncludeBadKeyword(): List<String>{
-    val badKeywords = listOf("중개수수료", "수수료", "복비", "공짜", "꽁짜", "무료", "반값", "셰어", "쉐어", "메이트", "중개료", "하메", "사무실", "작업실", "share", "mate", "원룸텔", "다방", "실입주금", "관리비", "대출", "이자")
+fun String.isIncludeBadKeyword(): List<String> {
+    val badKeywords = listOf(
+        "중개수수료",
+        "수수료",
+        "복비",
+        "공짜",
+        "꽁짜",
+        "무료",
+        "반값",
+        "셰어",
+        "쉐어",
+        "메이트",
+        "중개료",
+        "하메",
+        "사무실",
+        "작업실",
+        "share",
+        "mate",
+        "원룸텔",
+        "다방",
+        "실입주금",
+        "관리비",
+        "대출",
+        "이자"
+    )
 
-    return badKeywords.filter { keyword-> this.contains(keyword) }
+    return badKeywords.filter { keyword -> this.contains(keyword) }
 }
 
 //비밀번호 확인
@@ -75,19 +99,19 @@ fun String.isPasswordValid(password: String): Boolean {
     return this == password
 }
 
-fun htmlFormat(text: String?):String {
+fun htmlFormat(text: String?): String {
     return text?.let {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) Html.fromHtml(it)
         else Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY)
     }.toString()
 }
 
-fun getNativeAdMobId(context:Context): String {
+fun getNativeAdMobId(context: Context): String {
     return if (BuildConfig.DEBUG) context.getString(R.string.ad_mob_native_debug_id)
     else context.getString(R.string.ad_mob_native_release_id)
 }
 
-fun getBannerAdMobId(context: Context):String{
+fun getBannerAdMobId(context: Context): String {
     return if (BuildConfig.DEBUG) context.getString(R.string.ad_mob_banner_debug_id)
     else context.getString(R.string.ad_mob_banner_release_id)
 }

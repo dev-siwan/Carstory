@@ -83,7 +83,7 @@
     <string name="brand">브랜드</string>
     <string name="model">모델</string>
     <string name="input_title_hint">제목을 입력해주세요.</string>
-    <string name="input_content_hint"><![CDATA[내용을 입력해주세요.<br /><br /><font color="#000000">태그 검색 조건을 넣으시려면 <b>#</b>을 입력해주세요.</font><br />(예:#타소)]]></string>
+    <string name="input_content_hint"><![CDATA[내용을 입력해주세요.<br /><br /><font color="#000000">태그 검색 조건을 넣으시려면 <b>#</b>을 입력 후<br />태그 내용을 넣어주세요.</font>]]></string>
     <string name="todo">TODO</string>
     <string name="complete_text">완료</string>
     <string name="complete_count_text">완료( %d )</string>
@@ -107,7 +107,8 @@
 
     <string name="remain_count">남은 갯수 %d</string>
 
-    <string name="nick_name_hint">닉네임을 입력해주세요.(최대 8자)</string>
+    <string name="nick_name_hint">닉네임을 입력해주세요.(최대 6자)</string>
+    <string name="nick_valid_message">2글자~6글자, 한글로 공백없이 입력해주세요.</string>
     <string name="intro_text_hint">간단 한줄 소개를 입력해주세요.(최대 20자)</string>
     <string name="intro_empty_desc">자기소개 글이 없습니다.</string>
 
@@ -277,6 +278,8 @@
     <string name="register_text">글쓰기</string>
     <string name="terms_dialog_desc">첫 로그인시 이용약관 및 개인정보처리방침에 동의하는 것으로 간주됩니다.</string>
     <string name="menu_text">메뉴</string>
+
+    <string name="nick_alert_message">닉네임을 입력해야 서비스 이용이 가능합니다.\n닉네임은 추후 변경이 불가합니다.</string>
 
     <string name="send_notification_message"><![CDATA[%s<br />알림을 보내시겠습니까?]]></string>
     <string name="notice_delete_message"><![CDATA[%s<br />알림을 보내시겠습니까?]]></string>

@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_x_x_small_margin"
             android:background="@drawable/rect_solid_light_1_conner_8dp"
+            android:padding="@dimen/activity_x_small_margin"
             android:text="@{boardData.categoryStr}"
             android:textColor="@color/grey_4"
             android:textSize="@dimen/small_text_size"
@@ -54,7 +55,6 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="parent"
-            android:padding="@dimen/activity_x_small_margin"
             tools:text="자유" />
 
         <TextView
@@ -62,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rect_solid_light_1_conner_8dp"
+            android:padding="@dimen/activity_x_small_margin"
             android:textColor="@color/grey_4"
             android:textSize="@dimen/small_text_size"
             android:visibility="@{boardData.brandName !=null ?View.VISIBLE:View.GONE}"
@@ -73,7 +74,6 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/btnCategory"
             app:layout_constraintTop_toTopOf="@id/btnCategory"
-            android:padding="@dimen/activity_x_small_margin"
             tools:text="람보르기니|무르시엘라" />
 
 
@@ -81,12 +81,13 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_x_small_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:maxLines="2"
             android:text="@{boardData.title}"
             android:textColor="@android:color/black"
             android:textSize="@dimen/large_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@id/btnCategory"

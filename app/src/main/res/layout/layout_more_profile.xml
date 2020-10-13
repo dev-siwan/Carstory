@@ -131,7 +131,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNick"
-                tools:text="가나다라마바사아" />
+                tools:text="가나다라마바사아라라라라라라라라라라라라라라라라" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

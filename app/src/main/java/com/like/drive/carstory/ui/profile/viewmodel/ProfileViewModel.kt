@@ -9,6 +9,7 @@ import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
+import com.like.drive.carstory.ui.base.ext.isNickName
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -20,13 +21,15 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
 
     val imageClickEvent = SingleLiveEvent<Unit>()
 
+    val nickValidEvent = SingleLiveEvent<Unit>()
+
     val isLoading = SingleLiveEvent<Boolean>()
     val errorEvent = SingleLiveEvent<Unit>()
     val signOut = SingleLiveEvent<Unit>()
     val completeEvent = SingleLiveEvent<ProfileStatus>()
     val existNicknameEvent = SingleLiveEvent<Unit>()
 
-    var profileStatus: ProfileStatus?=null
+    var profileStatus: ProfileStatus? = null
 
     private val _isFirstProfile = MutableLiveData<Boolean>(false)
     val isFirstProfile: LiveData<Boolean> get() = _isFirstProfile
@@ -53,13 +56,22 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
     }
 
     fun updateProfile() {
+
+        val nickName = nickObserver.get()!!
+        val intro = introObserver.get()
+
+        if (!nickName.isNickName() || nickName.contains(" ")) {
+            nickValidEvent.call()
+            return
+        }
+
         isLoading.value = true
         viewModelScope.launch {
-            userRepository.updateProfile(nickName = nickObserver.get()!!,
-                intro = introObserver.get(),
+            userRepository.updateProfile(nickName = nickName,
+                intro = intro,
                 imgFile = imgFile,
                 success = {
-                    complete(nickObserver.get()!!, introObserver.get(), it)
+                    complete(nickName, intro, it)
                 },
                 fail = {
                     errorEvent.call()

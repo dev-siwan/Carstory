@@ -30,31 +30,19 @@
             app:layout_constraintGuide_begin="30dp" />
 
         <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="약관 동의"
-            android:textColor="@color/grey_3"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvDescription"
-            app:layout_constraintLeft_toLeftOf="@+id/glLeft"
-            app:layout_constraintRight_toRightOf="@+id/glRight"
-            app:layout_constraintTop_toTopOf="@+id/glTop"
-            tools:text="약관 동의" />
-
-        <TextView
             android:id="@+id/tvDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:lineSpacingExtra="@dimen/dialog_message_line_spacing_extra"
             android:textColor="@color/grey_3"
-            android:textSize="14sp"
+            android:textSize="@dimen/normal_text_size"
+            android:text="@string/nick_alert_message"
             app:layout_constraintLeft_toLeftOf="@id/glLeft"
             app:layout_constraintRight_toRightOf="@id/glRight"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="@+id/glTop"
             app:layout_goneMarginTop="0dp"
-            tools:text="프로필 작성과 동시에 이용약관 및 개인정보처리방침에 동의한걸로 간주 됩니다." />
+            tools:text="@string/nick_alert_message" />
 
 
         <View

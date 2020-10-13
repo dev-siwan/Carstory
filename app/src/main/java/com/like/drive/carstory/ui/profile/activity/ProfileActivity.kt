@@ -21,7 +21,7 @@ import com.like.drive.carstory.ui.base.ext.startActForResult
 import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.gallery.activity.GalleryActivity
 import com.like.drive.carstory.ui.main.activity.MainActivity
-import com.like.drive.carstory.ui.profile.dialog.TermsFragmentDialog
+import com.like.drive.carstory.ui.profile.dialog.NickAlertDialog
 import com.like.drive.carstory.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.carstory.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.carstory.util.photo.PickImageUtil
@@ -67,6 +67,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             existNickname()
             loading()
             isFirstProfile()
+            nickValidCheck()
         }
     }
 
@@ -119,8 +120,14 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     private fun ProfileViewModel.isFirstProfile() {
         isFirstProfile.observe(this@ProfileActivity, Observer {
             if (it) {
-                TermsFragmentDialog.newInstance().show(supportFragmentManager, "")
+                NickAlertDialog.newInstance().show(supportFragmentManager, "")
             }
+        })
+    }
+
+    private fun ProfileViewModel.nickValidCheck() {
+        nickValidEvent.observe(this@ProfileActivity, Observer {
+            showShortToast(R.string.nick_valid_message)
         })
     }
 

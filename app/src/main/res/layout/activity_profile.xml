@@ -129,7 +129,7 @@
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@id/tvProfileImg"
-            app:maxLength="@{8}"
+            app:maxLength="@{6}"
             app:type="@{InputType.TYPE_CLASS_TEXT}"
             app:value="@{vm.nickObserver}" />
 
