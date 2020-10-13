@@ -25,6 +25,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:text="@string/more_title_notice"
+                android:textColor="@color/gnt_black"
+                android:textSize="@dimen/large_text_size"
+                android:textStyle="bold" />
+
 
             <TextView
                 android:id="@+id/tvNoticeUpload"
@@ -62,19 +72,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_x_margin"
-            android:text="@string/more_title_notice"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/xx_large_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/glEnd"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:text="@string/more_title_notice" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvNoticeList"
@@ -87,7 +84,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             tools:itemCount="3"
             tools:listitem="@layout/holder_notice_list_item" />
 
