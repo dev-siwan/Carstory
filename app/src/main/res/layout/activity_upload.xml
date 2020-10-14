@@ -131,99 +131,108 @@
             tools:hint="제목을 입력해주세요." />
 
 
-
         <com.like.drive.carstory.util.tag.MentionEditText
             android:id="@+id/tvContent"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:autoLink="web"
             android:background="@null"
             android:gravity="top"
-            android:autoLink="web"
-            app:hintFormatHtml="@{@string/input_content_hint}"
             android:paddingStart="@dimen/activity_vertical_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:paddingEnd="@dimen/activity_vertical_margin"
-            android:text="@={vm.content}"
             android:scrollHorizontally="true"
+            android:text="@={vm.content}"
             android:textColorHint="@color/grey_4"
             android:textSize="@dimen/normal_text_size"
-            app:layout_constraintBottom_toTopOf="@id/tvPhotoDesc"
+            app:hintFormatHtml="@{@string/input_content_hint}"
+            app:layout_constraintBottom_toTopOf="@id/clContainerPhoto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etTitle"
             tools:hint="@string/input_content_hint" />
 
-        <TextView
-            android:id="@+id/tvPhotoDesc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_x_small_margin"
-            android:text="@{vm.isUpdate ? @string/update_photo_desc : @string/not_update_photo_desc}"
-            android:textSize="@dimen/small_text_size"
-            android:visibility="@{(vm.isUpdate &amp;&amp; !vm.photoListData.empty) || (!vm.isUpdate &amp;&amp; vm.pickPhotoCount>0)}"
-            app:layout_constraintBottom_toTopOf="@id/rvPhotos"
-            app:layout_constraintEnd_toEndOf="@id/glEnd"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            app:layout_constraintTop_toBottomOf="@id/tvContent"
-            tools:text="@string/update_photo_desc" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ibAddButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="@dimen/activity_small_margin"
-            android:background="@drawable/rect_stork_grey_6_conner"
-            android:clickable="true"
-            android:contentDescription="@string/todo"
-            android:drawableTop="@drawable/ic_camera"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:onClick="@{()->vm.doClickEvent(vm.selectPhotoClickEvent)}"
-            android:visibility="@{vm.isUpdate ? View.GONE : View.VISIBLE}"
+            android:id="@+id/clContainerPhoto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintEnd_toStartOf="@id/rvPhotos"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            app:layout_constraintTop_toBottomOf="@id/tvPhotoDesc"
-            app:layout_constraintVertical_bias="1">
-
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart">
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tvPhotoDesc"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{String.format(@string/pick_photo_limit_size,vm.pickPhotoCount,vm.Companion.PHOTO_MAX_SIZE)}"
-                android:textSize="@dimen/normal_text_size"
+                android:layout_marginBottom="@dimen/activity_x_small_margin"
+                android:text="@{vm.isUpdate ? @string/update_photo_desc : @string/not_update_photo_desc}"
+                android:textSize="@dimen/small_text_size"
+                android:visibility="@{(vm.isUpdate &amp;&amp; !vm.photoListData.empty) || (!vm.isUpdate &amp;&amp; vm.pickPhotoCount>0)}"
+                app:layout_constraintBottom_toTopOf="@id/rvPhotos"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivCamera" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/update_photo_desc" />
 
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ibAddButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="@dimen/activity_small_margin"
+                android:background="@drawable/rect_stork_grey_6_conner"
+                android:clickable="true"
+                android:contentDescription="@string/todo"
+                android:drawableTop="@drawable/ic_camera"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{()->vm.doClickEvent(vm.selectPhotoClickEvent)}"
+                android:visibility="@{vm.isUpdate ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/rvPhotos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPhotoDesc"
+                app:layout_constraintVertical_bias="1">
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_camera"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.3" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.format(@string/pick_photo_limit_size,vm.pickPhotoCount,vm.Companion.PHOTO_MAX_SIZE)}"
+                    android:textSize="@dimen/normal_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivCamera" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPhotos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ibAddButton"
+                app:layout_constraintTop_toBottomOf="@id/tvPhotoDesc"
+                app:layout_constraintVertical_bias="1"
+                app:uploadPhotoItems="@{vm.photoListData}"
+                tools:listitem="@layout/holder_upload_photo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPhotos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintEnd_toEndOf="@id/glEnd"
-            app:layout_constraintStart_toEndOf="@id/ibAddButton"
-            app:layout_constraintTop_toBottomOf="@id/tvPhotoDesc"
-            app:layout_constraintVertical_bias="1"
-            app:uploadPhotoItems="@{vm.photoListData}"
-            tools:listitem="@layout/holder_upload_photo" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
