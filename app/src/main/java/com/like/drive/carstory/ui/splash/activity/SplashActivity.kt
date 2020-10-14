@@ -1,7 +1,12 @@
 package com.like.drive.carstory.ui.splash.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.define.FirebaseDefine
 import com.like.drive.carstory.data.notification.NotificationSendData
@@ -15,6 +20,10 @@ import com.like.drive.carstory.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.carstory.ui.splash.viewmodel.SplashCompleteType
 import com.like.drive.carstory.ui.splash.viewmodel.SplashErrorType
 import com.like.drive.carstory.ui.splash.viewmodel.SplashViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import kotlin.reflect.KClass
 
@@ -22,17 +31,36 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     private val viewModel: SplashViewModel by inject()
     private var notificationSendData: NotificationSendData? = null
+    private var shareBoardId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setRemoteConfig()
-        getNotificationData()
-        withViewModel()
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                getDynamicLink()?.let {
+                    shareBoardId = it.toString().substringAfterLast("/")
+                }
+
+            }
+            getNotificationData()
+            withViewModel()
+        }
     }
 
     private fun getNotificationData() {
         notificationSendData =
             intent.getParcelableExtra(FirebaseDefine.PUSH_NOTIFICATION)
+    }
+
+    private suspend fun getDynamicLink(): Uri? {
+
+        return Firebase.dynamicLinks.getDynamicLink(intent).let {
+            if (it.isSuccessful) {
+                it.await().link
+            } else {
+                null
+            }
+        }
     }
 
     private fun withViewModel() {
@@ -47,6 +75,22 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         completeEvent.observe(this@SplashActivity, Observer {
             when (it) {
                 SplashCompleteType.HOME -> {
+
+                    shareBoardId?.let {
+                        Intent(this@SplashActivity, MainActivity::class.java).apply {
+                            putExtra(FirebaseDefine.SHARE_BOARD_ID, it)
+                            addFlags(
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                        Intent.FLAG_ACTIVITY_NEW_TASK
+                            )
+                        }.run {
+                            startActivity(this)
+                        }
+                        finish()
+                        return@Observer
+                    }
+
                     startAct(MainActivity::class, Bundle().apply {
                         notificationSendData?.let { notificationData ->
                             putParcelable(
@@ -54,8 +98,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                                 notificationData
                             )
                         }
+                        finish()
                     })
-                    finish()
+
                 }
                 else -> {
                     startAct(SignInActivity::class)

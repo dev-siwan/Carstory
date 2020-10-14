@@ -9,4 +9,6 @@ object FirebaseDefine {
     const val PUSH_EXTRA_KEY = "pushExtraKey"
     const val NOTIFICATION_ID = 100
 
+    const val SHARE_BOARD_ID = "shareBoardID"
+
 }

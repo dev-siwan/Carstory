@@ -112,13 +112,16 @@ class BoardDetailActivity :
         setBackButtonToolbar(toolbar) { onBackPressed() }
 
         containerDetailFunction.containerShare.setOnClickListener {
-            Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, viewModel.boardData.value?.title)
-            }.run {
-                val sharing = Intent.createChooser(this, "공유하기")
-                startActivity(sharing)
-            }
+
+            viewModel.makeShareUrlLink()
+
+            /*    Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, viewModel.boardData.value?.title)
+                }.run {
+                    val sharing = Intent.createChooser(this, "공유하기")
+                    startActivity(sharing)
+                }*/
         }
 
         swipeRefreshLayout.setOnRefreshListener {
@@ -145,6 +148,7 @@ class BoardDetailActivity :
             finishView()
             completeReport()
             moveUserLookUpPage()
+            shareLink()
         }
     }
 
@@ -286,6 +290,25 @@ class BoardDetailActivity :
             startAct(UserLookUpActivity::class, Bundle().apply {
                 putParcelable(UserLookUpActivity.USER_DATA_KEY, it)
             })
+        })
+    }
+
+    private fun BoardDetailViewModel.shareLink() {
+        shareLinkCompleteEvent.observe(this@BoardDetailActivity, Observer {
+
+            val message = getString(
+                R.string.share_message,
+                viewModel.boardData.value?.title ?: "",
+                it.toString()
+            )
+
+            Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, message)
+            }.run {
+                val sharing = Intent.createChooser(this, "공유하기")
+                startActivity(sharing)
+            }
         })
     }
 

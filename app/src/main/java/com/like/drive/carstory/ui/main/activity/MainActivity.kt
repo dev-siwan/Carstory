@@ -35,17 +35,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getNotificationData()
-        withViewModel()
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         }
 
-        /*  intent.getBooleanExtra("Notification", false).run {
-              if (this) {
-                  navBottomView.selectedItemId = R.id.action_notification
-              }
-          }*/
+        getNotificationData()
+        getSharedBoardID()
+        withViewModel()
+
         initFcmBroadcastReceiver()
     }
 
@@ -82,6 +79,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     })
                 }
             }
+        }
+    }
+
+    private fun getSharedBoardID() {
+        intent.getStringExtra(FirebaseDefine.SHARE_BOARD_ID)?.let {
+            startAct(BoardDetailActivity::class, Bundle().apply {
+                putString(BoardDetailActivity.KEY_BOARD_ID, it)
+            })
         }
     }
 

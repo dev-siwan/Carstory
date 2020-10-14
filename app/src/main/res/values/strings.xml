@@ -319,7 +319,13 @@
     <string name="intro_message_5">\&quot;사거리 부근 사고 났어요! 다들 안전운전 하세요.\&quot;</string>
     <string name="intro_message_6">\&quot;차박은 이런 물건이 좋아요.\&quot;</string>
     <string name="intro_message_7">\&quot;오늘 날씨 좋아요 같이 드라이브 해요.\&quot;</string>
-    <string name="not_select_text">선택안함</string>
+    <string name="not_select_text">선택안함</string>\
+
+    <string name="error_dynamic_link">링크 생성에 실패하였습니다.\n다시 시도해주세요.</string>
+
+    <string name="social_link_meta_title">카스토리에서 내용을 확인해보세요!</string>
+
+    <string name="share_message">[카스토리]카스토리에서 공유하는 글을 확인해보세요!\n%s\n%s</string>
 
 
     <string-array name="empty_photo_type_array">

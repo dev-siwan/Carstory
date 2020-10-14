@@ -1,11 +1,15 @@
 package com.like.drive.carstory.ui.board.detail.viewmodel
 
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.dynamiclinks.ktx.*
+import com.google.firebase.ktx.Firebase
+import com.like.drive.carstory.CarStoryApplication
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.common.user.UserInfo
@@ -60,6 +64,9 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     //신고 완료 이벤트
     val completeReportEvent = SingleLiveEvent<Unit>()
+
+    //공유링크 생성 완료 이벤트
+    val shareLinkCompleteEvent = SingleLiveEvent<Uri>()
 
     val errorEvent = SingleLiveEvent<@StringRes Int>()
     val warningSelfLikeEvent = SingleLiveEvent<@StringRes Int>()
@@ -406,6 +413,26 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
             }
             else -> Unit
         }
+    }
+
+    fun makeShareUrlLink() {
+        _boardData.value?.bid?.let {
+            Firebase.dynamicLinks.shortLinkAsync {
+                link = Uri.parse("https://forest.carstory.com/$it")
+                domainUriPrefix = "https://carstory.page.link"
+                androidParameters("com.like.drive.carstory") { }
+                socialMetaTagParameters {
+                    title =
+                        CarStoryApplication.getContext().getString(R.string.social_link_meta_title)
+                    description = _boardData.value?.title ?: ""
+                }
+            }.addOnSuccessListener {
+                shareLinkCompleteEvent.value = it.shortLink
+            }.addOnFailureListener {
+                errorEvent.value = R.string.error_dynamic_link
+            }
+        }
+
     }
 
     private fun finishBoard(bid: String) {

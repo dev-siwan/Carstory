@@ -21,10 +21,6 @@ class AppFireMessagingService : FirebaseMessagingService(), KoinComponent {
 
     private val repo: NotificationRepository by inject()
 
-    override fun onCreate() {
-        super.onCreate()
-    }
-
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
     }
@@ -43,12 +39,13 @@ class AppFireMessagingService : FirebaseMessagingService(), KoinComponent {
             val title =
                 NotificationType.values().find { type -> type.value == it.notificationType }?.title
                     ?: applicationContext.getString(R.string.app_name_kr)
-            val message = it.message ?: ""
 
             if (!NotificationUtil.isAppIsInBackground(applicationContext)) {
+
                 val intent = Intent(FirebaseDefine.PUSH_NOTIFICATION).apply {
                     putExtra(FirebaseDefine.PUSH_EXTRA_KEY, title)
                 }
+
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
                 NotificationUtil.playNotificationSound(this)
 

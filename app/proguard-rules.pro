@@ -197,3 +197,9 @@
 -dontwarn com.google.android.gms.**
 
 -keep class !com.like.drive.carstory.** { *; }
+
+-assumenosideeffects class android.util.Log {
+    public static *** w(...);
+    public static *** d(...);
+    public static *** v(...);
+}

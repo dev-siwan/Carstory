@@ -22,6 +22,9 @@ class SplashViewModel(
     init {
         versionCheck()
     }
+    
+    
+    
 
     private fun versionCheck() {
         viewModelScope.launch {
