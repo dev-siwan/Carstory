@@ -62,7 +62,7 @@ class CarStoryApplication : Application() {
                     networkModule
                 )
             )
-            logger(AndroidLogger(Level.DEBUG))
+            logger(AndroidLogger())
         }
     }
 

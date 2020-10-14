@@ -31,7 +31,7 @@ class UserApiImpl(
         return fireAuth.currentUser != null
     }
 
-    override suspend fun loginFacebook(authCredential: AuthCredential): Flow<AuthResult> =
+    override suspend fun loginCredential(authCredential: AuthCredential): Flow<AuthResult> =
         flow { emit(fireAuth.signInWithCredential(authCredential).await()) }
 
     override suspend fun loginCustomToken(token: String): Flow<AuthResult> =

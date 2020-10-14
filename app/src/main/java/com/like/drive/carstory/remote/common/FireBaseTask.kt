@@ -37,10 +37,9 @@ class FireBaseTask {
                     val snapShot = ref.get().await()
                     val result = snapShot.toObjects(objectClass)
                     emit(result)
-
                 }
 
-                else -> emit(emptyList())
+                else -> emit(emptyList<M>())
             }
         }
 
@@ -111,7 +110,7 @@ class FireBaseTask {
             .getHttpsCallable(callableName)
             .call(map)
             .continueWith {
-                it.result?.data?:""
+                it.result?.data ?: ""
             }
     }
 

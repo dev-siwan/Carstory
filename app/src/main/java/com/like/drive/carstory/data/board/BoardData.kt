@@ -1,6 +1,7 @@
 package com.like.drive.carstory.data.board
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.motor.MotorTypeData
 import com.like.drive.carstory.data.photo.PhotoData
@@ -10,6 +11,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.ArrayList
 
+@Keep
 @Parcelize
 data class BoardData(
     var bid: String? = null,

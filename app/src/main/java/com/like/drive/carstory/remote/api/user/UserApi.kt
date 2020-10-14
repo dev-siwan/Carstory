@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface UserApi {
     suspend fun getUser(): Flow<UserData?>
     suspend fun checkUser():Boolean
-    suspend fun loginFacebook(authCredential: AuthCredential):Flow<AuthResult>
+    suspend fun loginCredential(authCredential: AuthCredential):Flow<AuthResult>
     suspend fun loginCustomToken(token:String) : Flow<AuthResult>
     suspend fun setUser(userData: UserData):Flow<Boolean>
     suspend fun signEmail(email:String,password:String):Flow<AuthResult>

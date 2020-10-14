@@ -10,10 +10,8 @@ import com.like.drive.carstory.data.notice.NoticeData
 import com.like.drive.carstory.repository.notice.NoticeRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
 
-class NoticeDetailViewModel(private val repository: NoticeRepository) : BaseViewModel(),
-    KoinComponent {
+class NoticeDetailViewModel(private val repository: NoticeRepository) : BaseViewModel() {
 
     private val _noticeData = MutableLiveData<NoticeData>()
     val noticeData: LiveData<NoticeData> get() = _noticeData

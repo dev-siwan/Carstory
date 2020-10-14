@@ -2,9 +2,11 @@ package com.like.drive.carstory.data.motor
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.like.drive.carstory.cache.entity.MotorTypeEntity
 import kotlinx.android.parcel.Parcelize
 
+@Keep
 @Parcelize
 data class MotorTypeData(
     val brandName: String="",

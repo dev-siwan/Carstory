@@ -1,8 +1,10 @@
 package com.like.drive.carstory.data.report
 
+import androidx.annotation.Keep
 import com.like.drive.carstory.data.user.UserData
 import java.util.*
 
+@Keep
 data class ReportData(
     var rid: String? = null,
     val bid: String? = null,

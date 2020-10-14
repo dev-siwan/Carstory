@@ -1,11 +1,13 @@
 package com.like.drive.carstory.data.board
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Keep
 @Parcelize
 data class CommentData(
     var cid: String? = null,
@@ -25,6 +27,7 @@ data class CommentData(
     )
 }
 
+@Keep
 @Parcelize
 data class ReCommentData(
     var cid: String? = null,

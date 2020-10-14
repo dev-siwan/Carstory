@@ -6,13 +6,13 @@ import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.pref.UserPref
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.search.data.RecentlyData
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import com.like.drive.carstory.R
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class SearchViewModel : BaseViewModel(), KoinComponent {
 

@@ -14,7 +14,7 @@ interface UserRepository {
     )
 
     suspend fun checkUser(): Boolean
-    suspend fun loginFaceBook(
+    suspend fun loginCredential(
         authCredential: AuthCredential,
         success: (FirebaseUser) -> Unit,
         error: () -> Unit
@@ -26,7 +26,7 @@ interface UserRepository {
         error: () -> Unit
     )
 
-    suspend fun loginKaKaoToken(
+    suspend fun loginCustomToken(
         token:String,
         success: (FirebaseUser) -> Unit,
         error: () -> Unit

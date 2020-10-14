@@ -1,9 +1,11 @@
 package com.like.drive.carstory.data.notice
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Keep
 @Parcelize
 data class NoticeData(
     var nid: String? = null,

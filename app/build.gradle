@@ -73,38 +73,38 @@ android {
 }
 
 dependencies {
-    def appcompat_version = '1.1.0'
-    def recyclerview_version = '1.1.0'
-    def gms_play_service_version = '17.3.0'
+    def appcompat_version = '1.2.0'
+    def recyclerview_version = '1.2.0-alpha06'
+    def gms_play_service_version = '17.4.0'
     def rxandroid_version = '2.1.1'
     def rxjava_version = '2.2.16'
     def android_coroutine_version = '1.3.8'
     def livedata_ktx_version = '2.2.0'
-    def material_version = '1.3.0-alpha01'
+    def material_version = '1.3.0-alpha03'
     def viewmodel_ktx = '2.2.0'
     def lifecycle_extensions_version = '2.2.0'
-    def constraint_layout = '1.1.3'
+    def constraint_layout = '2.0.2'
     def nav_version = '2.3.0'
     def fragment_version = '1.2.5'
-    def paging_version = "3.0.0-alpha03"
+    def paging_version = "3.0.0-alpha07"
     def support_design_version = "28.0.0"
     def ted_permission_version = "2.2.2"
-    def exifinterface_version = "1.2.0"
+    def exifinterface_version = "1.3.0"
     def glide_version = '4.11.0'
     def coroutine_retrofit_version = '0.9.2'
-    def firebase_core_version = '17.4.4'
-    def firebase_messaging_version = '20.2.3'
+    def firebase_core_version = '17.5.1'
+    def firebase_messaging_version = '20.3.0'
     def firebase_config_version = '19.2.0'
     def firebase_invites_version = '17.0.0'
-    def firebase_pref_version = '19.0.7'
+    def firebase_pref_version = '19.0.9'
     def firebase_crash_version = '16.2.1'
-    def firebase_analytics_version = '17.4.4'
-    def firebase_auth_version = '19.3.2'
-    def firebase_functions_version = '19.0.2'
-    def firebase_ad_mob_version = '19.3.0'
+    def firebase_analytics_version = '17.3.0'
+    def firebase_auth_version = '19.4.0'
+    def firebase_functions_version = '19.1.0'
+    def firebase_ad_mob_version = '19.4.0'
     def coroutine_play_service = '1.1.1'
-    def firestore_ktx_version = '21.5.0'
-    def firestorage_ktx_version = '19.1.1'
+    def firestore_ktx_version = '21.7.1'
+    def firestorage_ktx_version = '19.1.0'
     def gson_version = '2.8.6'
     def retrofit_version = '2.8.1'
     def okhttp_version = '4.4.0'
@@ -188,9 +188,6 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-
 
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$coroutine_retrofit_version"
 

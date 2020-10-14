@@ -62,7 +62,7 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         isLoading.value = true
 
         viewModelScope.launch {
-            userRepository.loginFaceBook(credential,
+            userRepository.loginCredential(credential,
                 success = {
                     getUser(it)
                 },
@@ -79,7 +79,7 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         isLoading.value = true
 
         viewModelScope.launch {
-            userRepository.loginFaceBook(credential,
+            userRepository.loginCredential(credential,
                 success = {
                     getUser(it)
                 },
@@ -182,7 +182,7 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         isLoading.value = true
 
         viewModelScope.launch {
-            userRepository.loginKaKaoToken(token,
+            userRepository.loginCustomToken(token,
                 success = {
                     getUser(it)
                 },

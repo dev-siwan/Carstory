@@ -46,12 +46,12 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
     override suspend fun checkUser() = userApi.checkUser()
 
-    override suspend fun loginFaceBook(
+    override suspend fun loginCredential(
         authCredential: AuthCredential,
         success: (FirebaseUser) -> Unit,
         error: () -> Unit
     ) {
-        userApi.loginFacebook(authCredential).catch { error.invoke() }
+        userApi.loginCredential(authCredential).catch { error.invoke() }
             .collect {
                 it.user?.let { user ->
                     success(user)
@@ -76,7 +76,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
         }
     }
 
-    override suspend fun loginKaKaoToken(
+    override suspend fun loginCustomToken(
         token: String,
         success: (FirebaseUser) -> Unit,
         error: () -> Unit

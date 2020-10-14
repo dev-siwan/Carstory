@@ -49,8 +49,7 @@
 -dontwarn javax.annotation.**
 -dontwarn retrofit2.KotlinExtensions
 -dontwarn retrofit2.KotlinExtensions$*
-
-
+-dontwarn retrofit2.Call
 
 
 # Keep the names of classes/members we need for client functionality.
@@ -146,6 +145,7 @@
 
 -keep public class * extends android.support.v7.widget.RecyclerView.ItemDecoration
 -keep class android.support.v7.widget.RecyclerView
+-keep class android.support.v7.widget.RecyclerView { *; }
 
 # Understand the @Keep support annotation.
 -keep class android.support.annotation.Keep
@@ -195,3 +195,5 @@
 
 -keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
+
+-keep class !com.like.drive.carstory.** { *; }
