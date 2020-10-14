@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.board.BoardData
 import com.like.drive.carstory.data.motor.MotorTypeData
@@ -29,17 +31,22 @@ import com.like.drive.carstory.ui.home.dialog.EmptyFilterDialog
 import com.like.drive.carstory.ui.home.viewmodel.HomeViewModel
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.motor.activity.SelectMotorTypeActivity
+import com.like.drive.carstory.util.ad.NativeAdUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_home_filter.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.KoinComponent
+import org.koin.core.get
+import org.koin.experimental.property.inject
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), KoinComponent {
 
     val viewModel: HomeViewModel by viewModel()
     private val boardListViewModel: BoardListViewModel by viewModel()
     private val listAdapter by lazy { BoardListAdapter(vm = boardListViewModel) }
     private var emptyFilterDialog: EmptyFilterDialog? = null
+    private var nativeAdUtil: NativeAdUtil = get()
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)
@@ -70,6 +77,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         emptyFilterDialog = EmptyFilterDialog.newInstance()
+
+
 
         setOnItemClick()
         initData()
@@ -145,6 +154,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             listAdapter.run {
                 if (isFirst) {
                     initList(it)
+                    nativeAdUtil.init(requireContext(), lifecycleScope) {
+                        if (it.isEmpty()) {
+                            return@init
+                        }
+
+                        if (listAdapter.boardList.size > it.size) {
+                            val offset = (listAdapter.boardList.size / it.size) + 1
+                            var index = 0
+                            for (ad: UnifiedNativeAd in it) {
+                                listAdapter.addAd(index, ad)
+                                index = +offset
+                            }
+                        }
+                    }
                 } else {
                     moreList(it)
                 }

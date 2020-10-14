@@ -10,10 +10,12 @@ import com.like.drive.carstory.ui.board.list.viewmodel.BoardListViewModel
 class ListViewHolder(val binding: HolderListBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(vm: BoardListViewModel, boardData: BoardData) {
-        binding.vm = vm
-        binding.data = boardData
-        binding.executePendingBindings()
+    fun bind(vm: BoardListViewModel, boardData: BoardData?) {
+        boardData?.let {
+            binding.vm = vm
+            binding.data = it
+            binding.executePendingBindings()
+        }
     }
 
     companion object {

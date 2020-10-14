@@ -13,31 +13,11 @@ import com.like.drive.carstory.ui.base.ext.getNativeAdMobId
 import timber.log.Timber
 
 class ListAdvHolder(val binding: HolderListAdvBinding) : RecyclerView.ViewHolder(binding.root) {
-    private val context = binding.root.context
-
-    fun bind() {
-        MobileAds.initialize(context)
-        val adLoader = AdLoader.Builder(context, getNativeAdMobId(context))
-            .apply {
-                forUnifiedNativeAd {
-                    populateUnifiedNativeAdView(it, binding.adView)
-                }
-            }.withAdListener(object : AdListener() {
-                override fun onAdLoaded() {
-                    super.onAdLoaded()
-                    binding.adView.visibility = View.VISIBLE
-                }
-
-                override fun onAdFailedToLoad(p0: LoadAdError?) {
-                    super.onAdFailedToLoad(p0)
-                    val a = p0?.message
-                    Timber.e(a)
-                }
-            }).run {
-                build()
-            }
-
-        adLoader.loadAd(AdRequest.Builder().build())
+    fun bind(ad: UnifiedNativeAd?) {
+        ad?.let {
+            populateUnifiedNativeAdView(it, binding.adView)
+            binding.executePendingBindings()
+        }
     }
 
     private fun populateUnifiedNativeAdView(
