@@ -35,18 +35,22 @@ import com.like.drive.carstory.ui.common.data.LoadingStatus
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.carstory.ui.search.viewmodel.SearchViewModel
+import com.like.drive.carstory.util.ad.NativeAdUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_recently_search_list.view.*
 import kotlinx.android.synthetic.main.layout_search_list.*
 import kotlinx.android.synthetic.main.layout_search_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search),
+    KoinComponent {
 
     private val viewModel: SearchViewModel by viewModel()
     private val boardListViewModel: BoardListViewModel by viewModel()
-    private val feedAdapter by lazy { BoardListAdapter(boardListViewModel) }
+    private val listAdapter by lazy { BoardListAdapter(boardListViewModel) }
     private val editFocusListener by lazy {
         View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -60,6 +64,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private var initialLayoutComplete = false
 
     private var tagValue: String? = null
+
+    private var nativeAdUtil: NativeAdUtil = get()
 
     @Suppress("DEPRECATION")
     private val adSize: AdSize
@@ -87,7 +93,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         super.onBind(dataBinding)
         dataBinding.vm = viewModel
         dataBinding.boardVm = boardListViewModel
-        dataBinding.incSearchList.rvBoard.adapter = feedAdapter
+        dataBinding.incSearchList.rvBoard.adapter = listAdapter
         dataBinding.incRecentlyList.rvRecently.adapter = RecentlyListAdapter(viewModel)
 
     }
@@ -105,7 +111,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         adView ?: advInit()
 
         //리싸이클러뷰 페이징
-        rvBoard.init()
+        rvBoard.paging()
 
         //검색창 포커스
         etSearch.onFocusChangeListener = editFocusListener
@@ -134,7 +140,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     }
 
-    private fun RecyclerView.init() {
+    private fun RecyclerView.paging() {
 
         withPaging(object : PagingCallback {
             override fun requestMoreList() {
@@ -143,6 +149,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     if (!getLastDate()) {
                         boardList.value?.lastOrNull()?.createDate?.let {
                             moreData(it)
+                            requestAD(false)
                         }
                     }
                 }
@@ -158,7 +165,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun AppCompatImageView.init() {
 
         setOnClickListener {
-            if (feedAdapter.boardList.isNotEmpty()) {
+            if (listAdapter.boardList.isNotEmpty()) {
                 goneSearchView()
                 return@setOnClickListener
             }
@@ -172,8 +179,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SwipeRefreshLayout.listener() {
         setOnRefreshListener {
-            boardListViewModel.loadingStatus = LoadingStatus.REFRESH
-            boardListViewModel.initData(tagQuery = viewModel.tag.value)
+            boardListViewModel.run {
+                setLoading(LoadingStatus.REFRESH)
+                requestAD(true, viewModel.tag.value)
+            }
         }
     }
 
@@ -190,8 +199,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
-            boardListViewModel.loadingStatus = LoadingStatus.INIT
-            boardListViewModel.initData(tagQuery = it)
+            boardListViewModel.setLoading(LoadingStatus.INIT)
+            requestAD(true, it)
             goneSearchView()
         })
     }
@@ -205,15 +214,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun BoardListViewModel.listComplete() {
         boardList.observe(viewLifecycleOwner, Observer {
 
-            feedAdapter.run {
+            listAdapter.run {
                 if (isFirst) {
                     initList(it)
                     if (it.isNotEmpty()) {
                         tagValue = viewModel.tag.value
                     }
-
                 } else {
                     moreList(it)
+                }
+                if (it.size >= 5) {
+                    nativeAdUtil.nativeAd?.run { listAdapter.addAd(this) }
                 }
             }
         })
@@ -232,7 +243,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             incRecentlyList.visibility = View.VISIBLE
 
         }
-        onCallback.isEnabled = feedAdapter.boardList.isNotEmpty()
+        onCallback.isEnabled = listAdapter.boardList.isNotEmpty()
 
         viewModel.isSearchStatus.set(true)
     }
@@ -276,17 +287,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     BoardDetailActivity.BOARD_UPLOAD_RES_CODE -> {
                         data?.getParcelableExtra<BoardData>(BoardDetailActivity.KEY_BOARD_DATA)
                             ?.let {
-                                feedAdapter.updateBoard(it)
+                                listAdapter.updateBoard(it)
                             }
                     }
                     BoardDetailActivity.BOARD_REMOVE_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            feedAdapter.removeBoard(it)
+                            listAdapter.removeBoard(it)
                         }
                     }
                     BoardDetailActivity.BOARD_NOT_FOUND_RES_CODE -> {
                         data?.getStringExtra(BoardDetailActivity.KEY_BOARD_DATA)?.let {
-                            feedAdapter.removeBoard(it)
+                            listAdapter.removeBoard(it)
                         }
                     }
                 }
@@ -342,6 +353,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     }
 
+    private fun requestAD(isFirst: Boolean? = false, tagValue: String? = null) {
+        nativeAdUtil.loadNativeAds(requireContext(), isFirst) {
+            tagValue?.let { boardListViewModel.initData(tagQuery = it) }
+        }
+    }
+
     private fun loadBanner() {
         adView?.adUnitId = getBannerAdMobId(requireContext())
 
@@ -367,7 +384,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun isListItemEmpty() {
         //피드 리스트 유무에 따른 검색창 visible/gone
-        if (feedAdapter.boardList.isEmpty()) {
+        if (listAdapter.boardList.isEmpty()) {
             etSearch.requestFocus()
             imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             viewModel.tag.value = null

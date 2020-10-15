@@ -85,6 +85,7 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name="com.like.drive.carstory.ui.splash.activity.SplashActivity"
+            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -92,6 +93,9 @@
                     android:name="android.intent.action.MAIN"
                     android:screenOrientation="portrait" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />

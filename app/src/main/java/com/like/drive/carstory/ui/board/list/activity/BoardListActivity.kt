@@ -65,8 +65,10 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
 
         swipeLayout.setOnRefreshListener {
             uid?.let {
-                viewModel.loadingStatus = LoadingStatus.REFRESH
-                viewModel.initUserData(it)
+                viewModel.run {
+                    setLoading(LoadingStatus.REFRESH)
+                    initUserData(it)
+                }
             }
         }
 
@@ -93,7 +95,12 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     }
 
     private fun initData(uid: String?) {
-        uid?.let { viewModel.initUserData(it) }
+        uid?.let {
+            viewModel.run {
+                setLoading(LoadingStatus.INIT)
+                initUserData(it)
+            }
+        }
     }
 
     private fun withViewModel() {

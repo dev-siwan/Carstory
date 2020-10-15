@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.board.BoardData
 import com.like.drive.carstory.data.motor.MotorTypeData
@@ -38,7 +36,6 @@ import kotlinx.android.synthetic.main.layout_home_filter.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
-import org.koin.experimental.property.inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), KoinComponent {
 
@@ -72,17 +69,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     fun initView() {
 
         swipeLayout.setOnRefreshListener {
-            boardListViewModel.loadingStatus = LoadingStatus.REFRESH
-            boardListViewModel.initData(viewModel.category.value, viewModel.motorType.value)
+            boardListViewModel.setLoading(LoadingStatus.REFRESH)
+            requestAD(true)
         }
 
         emptyFilterDialog = EmptyFilterDialog.newInstance()
 
-
-
         setOnItemClick()
         initData()
-
     }
 
     private fun setOnItemClick() {
@@ -101,9 +95,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         if (boardListViewModel.isFirstLoad) {
 
             if (listAdapter.boardList.isEmpty()) {
+
                 boardListViewModel.run {
-                    loadingStatus = LoadingStatus.INIT
-                    boardListViewModel.initData(viewModel.category.value, viewModel.motorType.value)
+                    setLoading(LoadingStatus.INIT)
+                    requestAD(isFirst = true)
                 }
 
             }
@@ -116,11 +111,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
                 with(boardListViewModel) {
                     if (!getLastDate()) {
-                        boardList.value?.lastOrNull()?.let {
-                            moreData(
-                                date = it.createDate
-                            )
+                        boardList.value?.lastOrNull()?.createDate?.let {
+                            moreData(date = it)
+                            requestAD()
                         }
+
                     }
                 }
             }
@@ -145,7 +140,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private fun HomeViewModel.searchClick() {
         moveSearchEvent.observe(viewLifecycleOwner, Observer {
-            (requireActivity() as MainActivity).navBottomView.selectedItemId = R.id.action_search
+            (requireActivity() as MainActivity).navBottomView.selectedItemId =
+                R.id.action_search
         })
     }
 
@@ -154,22 +150,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             listAdapter.run {
                 if (isFirst) {
                     initList(it)
-                    nativeAdUtil.init(requireContext(), lifecycleScope) {
-                        if (it.isEmpty()) {
-                            return@init
-                        }
-
-                        if (listAdapter.boardList.size > it.size) {
-                            val offset = (listAdapter.boardList.size / it.size) + 1
-                            var index = 0
-                            for (ad: UnifiedNativeAd in it) {
-                                listAdapter.addAd(index, ad)
-                                index = +offset
-                            }
-                        }
-                    }
                 } else {
                     moreList(it)
+                }
+                if (it.size >= 5) {
+                    nativeAdUtil.nativeAd?.run { listAdapter.addAd(this) }
                 }
             }
         })
@@ -243,10 +228,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     private fun showMotorType() {
-        startActForResult(SelectMotorTypeActivity::class, SelectMotorTypeActivity.REQUEST_CODE)
+        startActForResult(
+            SelectMotorTypeActivity::class,
+            SelectMotorTypeActivity.REQUEST_CODE
+        )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    private fun requestAD(isFirst: Boolean? = false) {
+        nativeAdUtil.loadNativeAds(requireContext(), isFirst) {
+            boardListViewModel.initData(viewModel.category.value, viewModel.motorType.value)
+        }
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
@@ -285,7 +283,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                                         MotorTypeList().motorTypeList.find { code -> code.brandCode == it.brandCode && code.modelCode == it.modelCode }
 
                                     viewModel.setFilterData(categoryData, motorTypeData)
-                                    // listAdapter.addBoard(it)
                                     initEmptyValue(false)
                                 }
                             }

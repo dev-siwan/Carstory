@@ -54,8 +54,6 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         isFirst = true
         lastDate = null
 
-        loadingStatus()
-
         this.categoryData = categoryData
         this.motorTypeData = motorTypeData
         this.tagQuery = if (!tagQuery.isNullOrBlank()) tagQuery else null
@@ -67,8 +65,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         isFirst = false
         lastDate = date
 
-        loadingStatus = LoadingStatus.MORE
-        loadingStatus()
+        setLoading(LoadingStatus.MORE)
 
         getBoardList(date)
     }
@@ -79,16 +76,18 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
                 .catch {
                     it.message
                     errorEvent.value = R.string.get_list_error_message
-                    loadingStatus()
-                }.collect {
 
-                    loadingStatus()
+                    hideLoading()
+
+                }.collect {
 
                     if (isFirst) {
                         _initEmpty.value = it.isEmpty()
                     }
                     _boardList.value = it
                     isFirstLoad = false
+
+                    hideLoading()
 
                 }
         }
@@ -97,9 +96,6 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
     fun initUserData(uid: String) {
         isFirst = true
         lastDate = null
-
-        loadingStatus()
-
         getUserBoardList(uid = uid)
     }
 
@@ -107,8 +103,7 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         isFirst = false
         lastDate = date
 
-        loadingStatus = LoadingStatus.MORE
-        loadingStatus()
+        setLoading(LoadingStatus.MORE)
 
         getUserBoardList(date, uid)
     }
@@ -120,13 +115,15 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
 
                     it.message
                     errorEvent.value = R.string.get_list_error_message
-                    loadingStatus()
+                    hideLoading()
 
                 }.collect {
 
-                    loadingStatus()
+
                     _boardList.value = it
                     _initEmpty.value = isFirst && it.isEmpty()
+
+                    hideLoading()
 
                 }
         }
@@ -145,17 +142,43 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
         _initEmpty.value = isEmpty
     }
 
-    private fun loadingStatus() {
+    fun setLoading(status: LoadingStatus) {
+        loadingStatus = status
+        showLoading()
+    }
+
+    private fun showLoading() {
         when (loadingStatus) {
             LoadingStatus.INIT -> {
-                if (isLoading.get()) isLoading.set(false) else isLoading.set(true)
+                if (!isLoading.get()) {
+                    isLoading.set(true)
+                }
             }
             LoadingStatus.REFRESH -> {
-                if (isRefresh.get()) isRefresh.set(false) else isRefresh.set(true)
+                if (!isRefresh.get()) {
+                    isRefresh.set(true)
+                }
             }
-            else -> {
-                if (isMore.get()) isMore.set(false) else isMore.set(true)
+            LoadingStatus.MORE -> {
+                if (!isMore.get()) {
+                    isMore.set(true)
+                }
             }
+            else -> Unit
+        }
+    }
+
+    private fun hideLoading() {
+        if (isLoading.get()) {
+            isLoading.set(false)
+            return
+        }
+        if (isMore.get()) {
+            isMore.set(false)
+            return
+        }
+        if (isRefresh.get()) {
+            isRefresh.set(false)
         }
     }
 

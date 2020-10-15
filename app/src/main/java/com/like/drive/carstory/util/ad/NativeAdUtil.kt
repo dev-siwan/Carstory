@@ -4,63 +4,36 @@ import android.content.Context
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.like.drive.carstory.ui.base.ext.getNativeAdMobId
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.coroutines.suspendCoroutine
 
 class NativeAdUtil {
 
-    private val nativeAdList = arrayListOf<UnifiedNativeAd>()
     private var adLoader: AdLoader? = null
+    var nativeAd: UnifiedNativeAd? = null
 
-    fun init(
+    fun loadNativeAds(
         context: Context,
-        scope: CoroutineScope,
-        onInsertList: (ArrayList<UnifiedNativeAd>) -> Unit
+        isFirst: Boolean? = false,
+        onInitListener: () -> Unit
     ) {
-        if (nativeAdList.isNotEmpty()) {
-            nativeAdList.clear()
-        }
-
-        scope.launch {
-            loadNativeAds(context).catch { e ->
-                Timber.i("error===${e.message}")
-            }.collect {
-                onInsertList(it)
+        MobileAds.initialize(context)
+        adLoader = AdLoader.Builder(context, getNativeAdMobId(context)).forUnifiedNativeAd {
+            nativeAd = it
+            if (isFirst == true) {
+                onInitListener()
             }
+        }.withAdListener(object : AdListener() {
+            override fun onAdFailedToLoad(p0: LoadAdError?) {
+                Timber.e(p0?.message)
+                if (isFirst == true) {
+                    onInitListener()
+                }
+            }
+        }).run {
+            build()
         }
+        adLoader?.loadAd(AdRequest.Builder().build())
 
     }
-
-    private suspend fun loadNativeAds(context: Context): Flow<ArrayList<UnifiedNativeAd>> =
-        flow {
-            MobileAds.initialize(context)
-            adLoader = AdLoader.Builder(context, getNativeAdMobId(context))
-                .apply {
-                    forUnifiedNativeAd {
-                        nativeAdList.add(it)
-                        if (adLoader?.isLoading == true) {
-                            suspend {
-                                emit(nativeAdList)
-                            }
-                        }
-                    }
-                }.withAdListener(object : AdListener() {
-                    override fun onAdFailedToLoad(p0: LoadAdError?) {
-                        Timber.e(p0?.message)
-                        if (adLoader?.isLoading == true) {
-                            suspend {
-                                emit(nativeAdList)
-                            }
-                        }
-                    }
-                }).run {
-                    build()
-                }
-            adLoader?.loadAd(AdRequest.Builder().build())
-
-        }
 
 }
