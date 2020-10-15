@@ -23,6 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/gnt_black"
             app:drawableEndCompat="@drawable/ic_action_close_white">
 
             <requestFocus />
