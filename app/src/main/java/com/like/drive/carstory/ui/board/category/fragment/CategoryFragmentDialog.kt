@@ -36,7 +36,7 @@ class CategoryFragmentDialog :
         }
 
         dialog?.window?.run {
-            attributes.windowAnimations = R.style.AnimationCategoryStyle
+            attributes.windowAnimations = R.style.AnimationFilterStyle
         }
     }
 

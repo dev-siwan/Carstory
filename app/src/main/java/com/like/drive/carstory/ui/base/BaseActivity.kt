@@ -63,7 +63,7 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         action: () -> Unit
     ) = toolbar.apply {
         this.title = ""
-        navigationIcon = getDrawable(R.drawable.ic_action_back)
+        navigationIcon = ContextCompat.getDrawable(this@BaseActivity,R.drawable.ic_action_back)
     }.run {
         setSupportActionBar(this)
         setNavigationOnClickListener { action.invoke() }
@@ -75,7 +75,7 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         action: () -> Unit
     ) = toolbar.apply {
         this.title = ""
-        navigationIcon = getDrawable(R.drawable.ic_action_close)
+        navigationIcon = ContextCompat.getDrawable(this@BaseActivity,R.drawable.ic_action_close)
     }.run {
         setSupportActionBar(this)
         setNavigationOnClickListener { action.invoke() }

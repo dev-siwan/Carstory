@@ -3,51 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        android:fillViewport="true">
+        android:background="@android:color/transparent"
+        tools:context=".ui.board.category.fragment.CategoryFragmentDialog">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            tools:context=".ui.board.category.fragment.CategoryFragmentDialog">
+        <TextView
+            android:id="@+id/tvCategoryTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:gravity="start|center_vertical"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="@string/category_title"
+            android:textColor="@color/white_100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableEndCompat="@drawable/ic_action_close_white">
 
-            <TextView
-                android:id="@+id/tvCategoryTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/black"
-                android:focusable="true"
-                android:gravity="start|center_vertical"
-                android:padding="@dimen/activity_vertical_margin"
-                android:text="@string/category_title"
-                android:textColor="@color/white_100"
-                app:layout_constraintBottom_toTopOf="@id/rvCategory"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1">
+            <requestFocus />
+        </TextView>
 
-                <requestFocus />
-            </TextView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCategory"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/white_100"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:itemCount="3"
-                tools:listitem="@layout/holder_category_item" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white_100"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryTitle"
+            app:layout_constraintVertical_bias="0"
+            tools:itemCount="6"
+            tools:listitem="@layout/holder_category_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
