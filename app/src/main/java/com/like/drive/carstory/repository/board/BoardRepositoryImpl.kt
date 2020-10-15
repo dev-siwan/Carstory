@@ -2,6 +2,7 @@ package com.like.drive.carstory.repository.board
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctionsException
+import com.like.drive.carstory.analytics.AnalyticsEventLog
 import com.like.drive.carstory.cache.dao.like.LikeDao
 import com.like.drive.carstory.cache.entity.LikeEntity
 import com.like.drive.carstory.common.user.UserInfo
@@ -33,7 +34,8 @@ class BoardRepositoryImpl(
     private val firestore: FirebaseFirestore,
     private val notificationApi: NotificationApi,
     private val likeDao: LikeDao,
-    private val reportApi: ReportApi
+    private val reportApi: ReportApi,
+    private val analyticsEventLog: AnalyticsEventLog
 ) : BoardRepository {
 
     private var photoFileList = ArrayList<PhotoData>()
@@ -64,6 +66,12 @@ class BoardRepositoryImpl(
             boardTagList = boardField.tagList
         )
 
+        analyticsEventLog.setUploadEvent(
+            creteBoardData.brandName,
+            creteBoardData.modelName,
+            creteBoardData.categoryStr
+        )
+
         boardApi.setBoard(creteBoardData)
             .zip(
                 boardApi.setUserBoard(
@@ -89,22 +97,29 @@ class BoardRepositoryImpl(
         success: (BoardData) -> Unit,
         fail: () -> Unit
     ) {
-        val updateFeedData = BoardData().updateData(
+        val updateBoardData = BoardData().updateData(
             boardUploadField = boardField,
             motorTypeData = boardField.motorTypeData,
             boardData = boardData,
             boardTagList = boardField.tagList
         )
 
-        boardApi.setBoard(updateFeedData)
+
+        analyticsEventLog.setUploadEvent(
+            updateBoardData.brandName,
+            updateBoardData.modelName,
+            updateBoardData.categoryStr
+        )
+
+        boardApi.setBoard(updateBoardData)
             .zip(
                 boardApi.setUserBoard(
-                    updateFeedData.userInfo?.uid ?: "",
-                    updateFeedData
+                    updateBoardData.userInfo?.uid ?: "",
+                    updateBoardData
                 )
             ) { t1, t2 ->
                 if (t1 && t2) {
-                    success(updateFeedData)
+                    success(updateBoardData)
                 } else {
                     fail.invoke()
                 }

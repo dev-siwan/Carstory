@@ -31,7 +31,7 @@ val viewModelModule = module {
     viewModel { SignInViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { MainViewModel(get()) }
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get()) }
     viewModel { MotorTypeViewModel(get()) }
     viewModel { GalleryViewModel() }
     viewModel { UploadViewModel(get()) }
@@ -39,7 +39,7 @@ val viewModelModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { BoardListViewModel(get()) }
     viewModel { LargeThanViewModel() }
-    viewModel { SearchViewModel() }
+    viewModel { SearchViewModel(get()) }
     viewModel { FilterViewModel() }
     viewModel { NotificationViewModel(get()) }
     viewModel { MoreViewModel(get()) }
