@@ -5,12 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.like.drive.carstory.databinding.HolderListAdvBinding
-import com.like.drive.carstory.ui.base.ext.getNativeAdMobId
-import timber.log.Timber
 
 class ListAdvHolder(val binding: HolderListAdvBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(ad: UnifiedNativeAd?) {

@@ -3,7 +3,7 @@ package com.like.drive.carstory.util.ad
 import android.content.Context
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.like.drive.carstory.ui.base.ext.getNativeAdMobId
+import com.like.drive.carstory.ui.base.ext.getListAdMobId
 import timber.log.Timber
 
 class NativeAdUtil {
@@ -17,7 +17,7 @@ class NativeAdUtil {
         onInitListener: () -> Unit
     ) {
         MobileAds.initialize(context)
-        adLoader = AdLoader.Builder(context, getNativeAdMobId(context)).forUnifiedNativeAd {
+        adLoader = AdLoader.Builder(context, getListAdMobId(context)).forUnifiedNativeAd {
             nativeAd = it
             if (isFirst == true) {
                 onInitListener()

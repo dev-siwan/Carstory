@@ -360,7 +360,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
 
     private fun loadBanner() {
-        adView?.adUnitId = getBannerAdMobId(requireContext())
+        adView?.adUnitId = getSearchBannerAdMobId(requireContext())
 
         adView?.adSize = adSize
 

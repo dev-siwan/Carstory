@@ -106,13 +106,16 @@ fun htmlFormat(text: String?): String {
     }.toString()
 }
 
-fun getNativeAdMobId(context: Context): String {
+fun getListAdMobId(context: Context): String {
     return if (BuildConfig.DEBUG) context.getString(R.string.ad_mob_native_debug_id)
-    else context.getString(R.string.ad_mob_native_release_id)
+    else context.getString(R.string.ad_mob_list_native_release_id)
 }
 
-fun getBannerAdMobId(context: Context): String {
+fun getSearchBannerAdMobId(context: Context): String {
     return if (BuildConfig.DEBUG) context.getString(R.string.ad_mob_banner_debug_id)
-    else context.getString(R.string.ad_mob_banner_release_id)
+    else context.getString(R.string.ad_mob_search_banner_release_id)
 }
-
+fun getDetailBannerAdMobId(context: Context): String {
+    return if (BuildConfig.DEBUG) context.getString(R.string.ad_mob_banner_debug_id)
+    else context.getString(R.string.ad_mob_detail_banner_release_id)
+}

@@ -29,9 +29,9 @@ android {
     buildTypes {
         debug {
             debuggable true
-            minifyEnabled false
-            shrinkResources false
-            zipAlignEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
            /* firebaseCrashlytics {
                 // If you don't need crash reporting for your debug build,
                 // you can speed up your build by disabling mapping file uploading.

@@ -300,11 +300,14 @@
 
     <string name="board_upload_error_message">게시물 업로드에 실패하였습니다.\n다시 시도해주세요.</string>
 
-    <string name="ad_mob_app_id">ca-app-pub-6215810193035158~4127388673</string>
+    <string name="ad_mob_app_id">ca-app-pub-6215810193035158~2843020727</string>
     <string name="ad_mob_native_debug_id">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ad_mob_native_release_id">ca-app-pub-6215810193035158/3935816982</string>
+    <string name="ad_mob_list_native_release_id">ca-app-pub-6215810193035158/1529939050</string>
     <string name="ad_mob_banner_debug_id">ca-app-pub-3940256099942544/9214589741</string>
-    <string name="ad_mob_banner_release_id">ca-app-pub-6215810193035158/6104239774</string>
+    <string name="ad_mob_search_banner_release_id">ca-app-pub-6215810193035158/3154011911</string>
+    <string name="ad_mob_detail_banner_release_id">ca-app-pub-6215810193035158/1338367363</string>
+
+    <string name="kakao_native_key">1877cc549c231fa23495e5e806d84ed9</string>
 
     <string name="user_board_text">게시물 보기</string>
     <string name="user_ban_text">회원 금지</string>

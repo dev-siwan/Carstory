@@ -186,7 +186,7 @@
             android:value="@string/ad_mob_app_id" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="1877cc549c231fa23495e5e806d84ed9" />
+            android:value="@string/kakao_native_key" />
     </application>
 
 </manifest>
