@@ -57,7 +57,7 @@ class NotificationUtil(private val context: Context) {
             .setAutoCancel(true)
             .setContentTitle(title)
             .setContentIntent(pendingIntent)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_push)
             .setStyle(inboxStyle)
             .setContentText(message)
             .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE or Notification.DEFAULT_SOUND)

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "541621864513-7cod5olo8qbpk3l217lq3imekd7rm4si.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.like.drive.carstory",
+            "certificate_hash": "a05dfaafe069ffe88b0f05977a29ddf517f11ee0"
+          }
+        },
+        {
           "client_id": "541621864513-ocls5b54eeunpstk4v2r5m2muifuaco9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
