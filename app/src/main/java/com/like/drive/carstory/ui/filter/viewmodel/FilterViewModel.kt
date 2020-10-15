@@ -1,12 +1,13 @@
 package com.like.drive.carstory.ui.filter.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.like.drive.carstory.analytics.AnalyticsEventLog
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.data.motor.MotorTypeData
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.board.category.data.CategoryData
 
-class FilterViewModel : BaseViewModel() {
+class FilterViewModel: BaseViewModel() {
 
     val filterCategoryClickEvent = SingleLiveEvent<Unit>()
     val filterMotorTypeClickEvent = SingleLiveEvent<Unit>()

@@ -59,7 +59,8 @@ class CarStoryApplication : Application() {
                     remoteModule,
                     viewModelModule,
                     repositoryModule,
-                    networkModule
+                    networkModule,
+                    analyticsModule
                 )
             )
             logger(AndroidLogger())

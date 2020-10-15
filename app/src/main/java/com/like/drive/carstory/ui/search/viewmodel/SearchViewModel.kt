@@ -11,10 +11,12 @@ import kotlin.collections.ArrayList
 import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import com.like.drive.carstory.R
+import com.like.drive.carstory.analytics.AnalyticsEventLog
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class SearchViewModel : BaseViewModel(), KoinComponent {
+class SearchViewModel(private val analyticsEventLog: AnalyticsEventLog) : BaseViewModel(),
+    KoinComponent {
 
     private val userPref: UserPref by inject()
 
@@ -63,6 +65,7 @@ class SearchViewModel : BaseViewModel(), KoinComponent {
 
         tag.value = str
         tagValueEvent.value = str
+        analyticsEventLog.searchTagEvent(str)
         recentlyListPref.apply {
             find { it.tag == str }?.let {
                 remove(it)
