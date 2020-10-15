@@ -71,8 +71,8 @@
     <string name="label_upload_activity">UploadActivity</string>
 
 
-    <string name="facebook_app_id">331908037972610</string>
-    <string name="fb_login_protocol_scheme">fb331908037972610</string>
+    <string name="facebook_app_id">1100716567023810</string>
+    <string name="fb_login_protocol_scheme">fb1100716567023810</string>
     <string name="feed_register">카테고리 선택</string>
     <string name="select_motor">자동차 모델 선택</string>
     <string name="select_motor_desc">찾으시는 모델이 없으신 경우 기타를 선택해주세요.</string>

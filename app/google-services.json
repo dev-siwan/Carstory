@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "541621864513-onsko4jkvcbfm7tkvvvnmfnckaa5b544.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.like.drive.carstory",
+            "certificate_hash": "c7098e65b7320635c60bf2036a7f2b2ce86194fa"
+          }
+        },
+        {
           "client_id": "541621864513-7cod5olo8qbpk3l217lq3imekd7rm4si.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -49,7 +57,8 @@
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-6215810193035158~2843020727"
     }
   ],
   "configuration_version": "1"

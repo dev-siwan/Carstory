@@ -44,6 +44,7 @@ fun ImageView.centerCrop(imageUrl: String?) {
     imageUrl?.let {
         Glide.with(context)
             .load(it)
+            .transition(withCrossFade())
             .centerCrop()
             .into(this)
     }
