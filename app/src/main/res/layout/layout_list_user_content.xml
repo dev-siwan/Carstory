@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="boardData"
+            type="com.like.drive.carstory.data.board.BoardData" />
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="com.like.drive.carstory.common.user.UserInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="15dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="15dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="15dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9548023" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerTitleImg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/glTop">
+
+            <LinearLayout
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/btnCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{boardData.categoryStr}"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/small_text_size"
+                        android:visibility="@{boardData.categoryStr !=null ? View.VISIBLE:View.GONE}"
+                        app:layout_constraintEnd_toStartOf="@+id/btnMotorType"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="자유" />
+
+                    <TextView
+                        android:id="@+id/btnMotorType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/activity_x_small_margin"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/small_text_size"
+                        android:visibility="@{boardData.brandName !=null ?View.VISIBLE:View.GONE}"
+                        app:detailBrandName="@{boardData.brandName}"
+                        app:detailModelCode="@{boardData.modelCode}"
+                        app:detailModelName="@{boardData.modelName}"
+                        app:layout_constraintBottom_toBottomOf="@id/btnCategory"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/btnCategory"
+                        app:layout_constraintTop_toTopOf="@id/btnCategory"
+                        tools:text="기아|다이소" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_small_margin"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{boardData.title}"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/large_text_size"
+                    android:textStyle="bold"
+                    tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라" />
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x_small_text_size"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{boardData.content}"
+                    android:textColor="@color/grey_4"
+                    android:textSize="@dimen/normal_text_size"
+                    android:textStyle="normal"
+                    tools:text="가나다라마바사아자차카타파하하하아자차카타파하하아자차카타파하하하하하하하하하하하하하하하하" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerDetailImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_small_margin"
+                    android:visibility="@{boardData.imageUrls != null &amp;&amp; !boardData.imageUrls.empty ? View.VISIBLE : View.GONE}">
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivBoardImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="@{!boardData.imageUrls.empty ? View.VISIBLE :View.GONE}"
+                        app:centerCropImage="@{!boardData.imageUrls.empty ? boardData.imageUrls.get(0) : null}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/thumb_car_20200423" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/alpha_50"
+                        android:gravity="center"
+                        android:padding="@dimen/activity_small_margin"
+                        android:text="@{boardData.imageUrls.size() > 0 ? String.format(@string/feed_list_photo_count_format,(boardData.imageUrls.size()-1)) :String.format(@string/feed_list_photo_count_format,(boardData.imageUrls.size()))}"
+                        android:textColor="@color/white_100"
+                        android:textSize="@dimen/small_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:textColor="@color/grey_4"
+                    android:textSize="@dimen/small_text_size"
+                    app:formatTimeStr="@{boardData.updateDate}"
+                    tools:text="2020.08.06" />
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

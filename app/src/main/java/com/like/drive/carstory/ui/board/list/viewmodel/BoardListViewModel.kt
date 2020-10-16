@@ -42,6 +42,8 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
 
     var isFirstLoad = true
 
+    var isUserPage = ObservableBoolean(false)
+
     private var categoryData: CategoryData? = null
     private var motorTypeData: MotorTypeData? = null
     private var tagQuery: String? = null
@@ -118,7 +120,6 @@ class BoardListViewModel(private val boardRepository: BoardRepository) : BaseVie
                     hideLoading()
 
                 }.collect {
-
 
                     _boardList.value = it
                     _initEmpty.value = isFirst && it.isEmpty()

@@ -55,9 +55,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
         }
 
         intent.getParcelableExtra<UserData>(BOARD_DATE_KEY)?.let {
-
             uid = it.uid
-            viewModel.loadingStatus = LoadingStatus.INIT
             initData(uid)
             tvTitle.text = getString(R.string.my_feed_title_format, it.nickName)
 
@@ -97,6 +95,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     private fun initData(uid: String?) {
         uid?.let {
             viewModel.run {
+                isUserPage.set(true)
                 setLoading(LoadingStatus.INIT)
                 initUserData(it)
             }

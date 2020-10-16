@@ -163,11 +163,11 @@ class BoardRepositoryImpl(
 
     override suspend fun setLike(bid: String, isUp: Boolean) {
         if (isUp) {
-            boardApi.updateCount(bid, LikeCountEnum.LIKE)
+            boardApi.updateLike(bid, LikeCountEnum.LIKE)
             likeDao.insertBid(LikeEntity(bid = bid))
         } else {
+            boardApi.updateLike(bid, LikeCountEnum.UNLIKE)
             likeDao.deleteBid(bid)
-            boardApi.updateCount(bid, LikeCountEnum.UNLIKE)
         }
     }
 

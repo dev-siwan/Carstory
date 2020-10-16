@@ -54,7 +54,7 @@ class BoardListAdapter(val vm: BoardListViewModel) :
 
     fun addAd(ad: UnifiedNativeAd) {
         val offset = boardList.size.div(5)
-        val index = offset * 5
+        val index = (offset * 5)
         boardList.add(index, BoardWrapperData(nativeAd = ad))
         notifyItemInserted(index)
     }

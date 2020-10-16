@@ -319,12 +319,12 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     fun addBoardLike(bid: String, uid: String) {
 
-        if (UserInfo.userInfo?.uid == uid) {
-            warningSelfLikeEvent.value = R.string.like_self_message
-            return
-        }
-
         isLikeEnable.get().let {
+
+            if (UserInfo.userInfo?.uid == uid) {
+                warningSelfLikeEvent.value = R.string.like_self_message
+                return@let
+            }
 
             val isLike = !it
 

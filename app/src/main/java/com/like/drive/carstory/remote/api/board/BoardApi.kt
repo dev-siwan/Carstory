@@ -28,7 +28,7 @@ interface BoardApi {
     suspend fun getUserBoardList(date:Date, uid: String):Flow<List<BoardData>>
 
     suspend fun addComment(commentData: CommentData): Flow<Boolean>
-    suspend fun updateCount(bid: String, flag: LikeCountEnum)
+    suspend fun updateLike(bid: String,flag: LikeCountEnum)
     suspend fun addReComment(reCommentData: ReCommentData): Flow<Boolean>
     suspend fun updateComment(commentData: CommentData): Flow<Boolean>
     suspend fun updateReComment(reCommentData: ReCommentData): Flow<Boolean>

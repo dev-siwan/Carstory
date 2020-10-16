@@ -111,7 +111,7 @@ class BoardApiImpl(
 
         return fireBaseTask.getData(
             tagQuery.whereLessThan(CREATE_DATE_FIELD, date)
-                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(INIT_SIZE.toLong()),
+                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(PAGE_SIZE.toLong()),
             BoardData::class.java
         )
     }
@@ -122,7 +122,7 @@ class BoardApiImpl(
 
         return fireBaseTask.getData(
             feedCollection.whereLessThan(CREATE_DATE_FIELD, date)
-                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(INIT_SIZE.toLong()),
+                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(PAGE_SIZE.toLong()),
             BoardData::class.java
         )
     }
@@ -139,8 +139,9 @@ class BoardApiImpl(
         return fireBaseTask.setData(commentCollection.document(cid), commentData)
     }
 
-    override suspend fun updateCount(bid: String, flag: LikeCountEnum) {
+    override suspend fun updateLike(bid: String, flag: LikeCountEnum) {
         val document = fireStore.collection(CollectionName.BOARD).document(bid)
+
         when (flag) {
             LikeCountEnum.LIKE -> {
                 document.update(LIKE_COUNT_FIELD, FieldValue.increment(1))
@@ -203,7 +204,7 @@ class BoardApiImpl(
         const val CATEGORY_CODE_FIELD = "categoryCode"
         const val CREATE_DATE_FIELD = "createDate"
         const val BOARD_TAG_LIST = "tagList"
-        const val INIT_SIZE = 5
+        const val PAGE_SIZE = 10
     }
 
 }
