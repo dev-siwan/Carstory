@@ -4,6 +4,6 @@
     <solid
         android:color="@color/white_100" />
     <corners
-        android:bottomLeftRadius="@dimen/activity_small_margin"
-        android:bottomRightRadius="@dimen/activity_small_margin"/>
+        android:bottomLeftRadius="@dimen/activity_vertical_margin"
+        android:bottomRightRadius="@dimen/activity_vertical_margin"/>
 </shape>
