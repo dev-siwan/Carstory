@@ -10,24 +10,28 @@ class NativeAdUtil {
 
     private var adLoader: AdLoader? = null
     var nativeAd: UnifiedNativeAd? = null
+    private val nativeAdList = ArrayList<UnifiedNativeAd>()
 
     fun loadNativeAds(
         context: Context,
-        isFirst: Boolean? = false,
-        onInitListener: () -> Unit
+        onLoadNativeAd: () -> Unit
     ) {
         MobileAds.initialize(context)
         adLoader = AdLoader.Builder(context, getListAdMobId(context)).forUnifiedNativeAd {
-            nativeAd = it
-            if (isFirst == true) {
-                onInitListener()
+            nativeAdList.add(it)
+
+            if (nativeAdList.isNotEmpty()) {
+                nativeAd = nativeAdList[nativeAdList.size - 1]
             }
+
+            onLoadNativeAd.invoke()
+
         }.withAdListener(object : AdListener() {
-            override fun onAdFailedToLoad(p0: LoadAdError?) {
-                Timber.e(p0?.message)
-                if (isFirst == true) {
-                    onInitListener()
+            override fun onAdFailedToLoad(error: LoadAdError?) {
+                error?.let {
+                    Timber.e("Response NativeAd Error == ${it.message}")
                 }
+                onLoadNativeAd.invoke()
             }
         }).run {
             build()

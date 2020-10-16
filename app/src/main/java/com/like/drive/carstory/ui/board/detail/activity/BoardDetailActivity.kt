@@ -33,6 +33,7 @@ import com.like.drive.carstory.ui.view.large.activity.LargeThanActivity
 import kotlinx.android.synthetic.main.activity_board_detail.*
 import kotlinx.android.synthetic.main.layout_detail_function_block.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class BoardDetailActivity :
     BaseActivity<ActivityBoardDetailBinding>((R.layout.activity_board_detail)) {
@@ -470,6 +471,10 @@ class BoardDetailActivity :
                 override fun onAdLoaded() {
                     super.onAdLoaded()
                     containerBanner.isVisible = true
+                }
+
+                override fun onAdFailedToLoad(error: LoadAdError?) {
+                    error?.let { Timber.e("Response SearchBanner Error == ${it.message}") }
                 }
             }
         }

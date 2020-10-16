@@ -70,7 +70,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         swipeLayout.setOnRefreshListener {
             boardListViewModel.setLoading(LoadingStatus.REFRESH)
-            requestAD(true)
+            boardListViewModel.initData(viewModel.category.value, viewModel.motorType.value)
         }
 
         emptyFilterDialog = EmptyFilterDialog.newInstance()
@@ -98,7 +98,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
                 boardListViewModel.run {
                     setLoading(LoadingStatus.INIT)
-                    requestAD(isFirst = true)
+                    requestAD()
                 }
 
             }
@@ -113,7 +113,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     if (!getLastDate()) {
                         boardList.value?.lastOrNull()?.createDate?.let {
                             moreData(date = it)
-                            requestAD()
                         }
 
                     }
@@ -234,8 +233,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         )
     }
 
-    private fun requestAD(isFirst: Boolean? = false) {
-        nativeAdUtil.loadNativeAds(requireContext(), isFirst) {
+    private fun requestAD() {
+        nativeAdUtil.loadNativeAds(requireContext()) {
             boardListViewModel.initData(viewModel.category.value, viewModel.motorType.value)
         }
     }

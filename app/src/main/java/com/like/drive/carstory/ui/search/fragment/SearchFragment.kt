@@ -44,6 +44,7 @@ import kotlinx.android.synthetic.main.layout_search_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
+import timber.log.Timber
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search),
     KoinComponent {
@@ -149,7 +150,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     if (!getLastDate()) {
                         boardList.value?.lastOrNull()?.createDate?.let {
                             moreData(it)
-                            requestAD(false)
                         }
                     }
                 }
@@ -181,7 +181,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         setOnRefreshListener {
             boardListViewModel.run {
                 setLoading(LoadingStatus.REFRESH)
-                requestAD(true, viewModel.tag.value)
+                boardListViewModel.initData(tagQuery = viewModel.tag.value)
             }
         }
     }
@@ -200,7 +200,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun SearchViewModel.searchComplete() {
         tagValueEvent.observe(viewLifecycleOwner, Observer {
             boardListViewModel.setLoading(LoadingStatus.INIT)
-            requestAD(true, it)
+            requestAD(it)
             goneSearchView()
         })
     }
@@ -353,8 +353,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     }
 
-    private fun requestAD(isFirst: Boolean? = false, tagValue: String? = null) {
-        nativeAdUtil.loadNativeAds(requireContext(), isFirst) {
+    private fun requestAD(tagValue: String? = null) {
+        nativeAdUtil.loadNativeAds(requireContext()) {
             tagValue?.let { boardListViewModel.initData(tagQuery = it) }
         }
     }
@@ -376,6 +376,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     super.onAdLoaded()
                     incRecentlyList.containerAdv.isVisible = true
 
+                }
+
+                override fun onAdFailedToLoad(error: LoadAdError?) {
+                    error?.let { Timber.e("Response SearchBanner Error == ${it.message}") }
                 }
             }
         }
