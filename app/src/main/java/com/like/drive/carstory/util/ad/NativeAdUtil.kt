@@ -5,6 +5,8 @@ import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.like.drive.carstory.ui.base.ext.getListAdMobId
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NativeAdUtil {
 
@@ -21,7 +23,7 @@ class NativeAdUtil {
             nativeAdList.add(it)
 
             if (nativeAdList.isNotEmpty()) {
-                nativeAd = nativeAdList[nativeAdList.size - 1]
+                nativeAd = nativeAdList[Random().nextInt(nativeAdList.size - 1)]
             }
 
             onLoadNativeAd.invoke()
