@@ -111,7 +111,7 @@ class BoardApiImpl(
 
         return fireBaseTask.getData(
             tagQuery.whereLessThan(CREATE_DATE_FIELD, date)
-                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(PAGE_SIZE.toLong()),
+                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(PAGE_COUNT.toLong()),
             BoardData::class.java
         )
     }
@@ -122,7 +122,7 @@ class BoardApiImpl(
 
         return fireBaseTask.getData(
             feedCollection.whereLessThan(CREATE_DATE_FIELD, date)
-                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(PAGE_SIZE.toLong()),
+                .orderBy(CREATE_DATE_FIELD, Query.Direction.DESCENDING).limit(PAGE_COUNT.toLong()),
             BoardData::class.java
         )
     }
@@ -204,7 +204,7 @@ class BoardApiImpl(
         const val CATEGORY_CODE_FIELD = "categoryCode"
         const val CREATE_DATE_FIELD = "createDate"
         const val BOARD_TAG_LIST = "tagList"
-        const val PAGE_SIZE = 10
+        const val PAGE_COUNT = 10
     }
 
 }
