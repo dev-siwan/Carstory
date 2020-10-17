@@ -163,6 +163,7 @@
                         android:linksClickable="true"
                         android:text="@{vm.boardData.content}"
                         android:textColor="@android:color/black"
+                        android:textColorLink="@color/pro_sky_1"
                         android:textSize="@dimen/normal_text_size"
                         app:layout_constraintEnd_toEndOf="@id/glEnd"
                         app:layout_constraintHorizontal_bias="1.0"

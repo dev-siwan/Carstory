@@ -14,6 +14,9 @@ import android.view.inputmethod.InputConnectionWrapper;
 import android.widget.EditText;
 
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.ContextCompat;
+
+import com.like.drive.carstory.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -248,7 +251,7 @@ public class MentionEditText extends AppCompatEditText {
                     start = text.indexOf(mentionText);
                 }
                 int end = start + mentionText.length();
-                spannableText.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableText.setSpan(new android.text.style.ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.pro_sky_1)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 lastMentionIndex = end;
                 //record all mention-string's position
                 mRangeArrayList.add(new Range(start, end));

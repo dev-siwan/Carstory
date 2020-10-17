@@ -119,15 +119,20 @@
                     android:textStyle="bold"
                     tools:text="가나다라마바사아차카타파하라라라라라라라라라라라라라라라라라라라라라" />
 
-                <TextView
+                <com.like.drive.carstory.util.tag.MentionTextView
                     android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x_small_text_size"
+                    android:autoLink="web"
+                    android:bufferType="editable"
                     android:ellipsize="end"
+                    android:inputType="none"
+                    android:linksClickable="false"
                     android:maxLines="2"
                     android:text="@{boardData.content}"
                     android:textColor="@color/grey_4"
+                    android:textColorLink="@color/pro_sky_1"
                     android:textSize="@dimen/normal_text_size"
                     android:textStyle="normal"
                     tools:text="가나다라마바사아자차카타파하하하아자차카타파하하아자차카타파하하하하하하하하하하하하하하하하" />

@@ -64,7 +64,7 @@
             android:paddingVertical="@dimen/activity_vertical_margin"
             android:stateListAnimator="@null"
             android:text="@string/confirm_text"
-            android:textColor="@color/gnt_black"
+            android:textColor="@color/grey_1"
             android:textSize="@dimen/normal_text_size"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

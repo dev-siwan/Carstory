@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{title}"
-            android:textColor="@color/gnt_black"
+            android:textColor="@color/grey_1"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"

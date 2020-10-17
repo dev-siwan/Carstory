@@ -78,7 +78,7 @@
                     android:drawableEnd="@drawable/ic_black_down_arrow"
                     android:gravity="center_vertical"
                     android:padding="@dimen/activity_small_margin"
-                    android:textColor="@color/gnt_black"
+                    android:textColor="@color/grey_1"
                     android:textSize="@dimen/normal_text_size"
                     app:filterType="@{vm.category}"
                     tools:text="카테고리" />
@@ -93,7 +93,7 @@
                     android:elevation="@dimen/activity_x_small_margin"
                     android:gravity="center_vertical"
                     android:padding="@dimen/activity_small_margin"
-                    android:textColor="@color/gnt_black"
+                    android:textColor="@color/grey_1"
                     android:textSize="@dimen/normal_text_size"
                     app:filterMotor="@{vm.motorType}"
                     tools:text="모터종류" />
