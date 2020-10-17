@@ -44,6 +44,8 @@
     <string name="user_ban">해당 유저는 영구정지 당한 상태입니다.\n다른 아이디로 로그인 해주세요.</string>
     <string name="sign_up_error">해당 이메일 아이디가 가입되어 있습니다.\n다시 시도해주세요.</string>
     <string name="nick_name_null_error">닉네임 정보가 없습니다. 닉네임을 설정해주세요.</string>
+    <string name="nick_name">닉네임</string>
+    <string name="intro_title">간단소개</string>
 
 
     <string name="profile_error">프로필을 업데이트 할 수 없습니다. 다시 시도해주세요.</string>
@@ -108,8 +110,8 @@
     <string name="remain_count">남은 갯수 %d</string>
 
     <string name="nick_name_hint">닉네임을 입력해주세요.(최대 6자)</string>
-    <string name="nick_valid_message">2글자~6글자, 한글로 공백없이 입력해주세요.</string>
-    <string name="intro_text_hint">소개를 입력해주세요.(최대 3줄)</string>
+    <string name="nick_valid_hint">2글자~6글자, 한글로 공백없이 입력해주세요.</string>
+    <string name="intro_text_hint">최대 3줄, 웹페이지 주소 입력 가능</string>
     <string name="intro_empty_desc">자기소개 글이 없습니다.</string>
 
     <string name="feed_list_photo_count_format">+%d</string>

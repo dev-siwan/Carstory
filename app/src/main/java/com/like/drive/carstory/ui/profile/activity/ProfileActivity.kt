@@ -127,7 +127,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     private fun ProfileViewModel.nickValidCheck() {
         nickValidEvent.observe(this@ProfileActivity, Observer {
-            showShortToast(R.string.nick_valid_message)
+            showShortToast(R.string.nick_valid_hint)
         })
     }
 
