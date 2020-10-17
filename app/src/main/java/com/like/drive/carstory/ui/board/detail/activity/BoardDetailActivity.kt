@@ -289,7 +289,7 @@ class BoardDetailActivity :
     private fun BoardDetailViewModel.moveUserLookUpPage() {
         moveUserLookUpEvent.observe(this@BoardDetailActivity, Observer {
             startAct(UserLookUpActivity::class, Bundle().apply {
-                putParcelable(UserLookUpActivity.USER_DATA_KEY, it)
+                putString(UserLookUpActivity.USER_ID_KEY, it)
             })
         })
     }

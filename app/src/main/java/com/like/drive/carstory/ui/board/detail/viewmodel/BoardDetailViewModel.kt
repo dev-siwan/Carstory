@@ -7,7 +7,10 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.dynamiclinks.ktx.*
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.dynamiclinks.ktx.socialMetaTagParameters
 import com.google.firebase.ktx.Firebase
 import com.like.drive.carstory.CarStoryApplication
 import com.like.drive.carstory.R
@@ -81,7 +84,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     val imgUrlClickEvent = SingleLiveEvent<String>()
 
-    val moveUserLookUpEvent = SingleLiveEvent<UserData>()
+    val moveUserLookUpEvent = SingleLiveEvent<String>()
 
     val finishEvent = SingleLiveEvent<String>()
 
@@ -313,11 +316,11 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
     fun moveUserLookUpListener(userData: UserData) {
         if (userData != UserInfo.userInfo) {
-            moveUserLookUpEvent.value = userData
+            moveUserLookUpEvent.value = userData.uid
         }
     }
 
-    fun addBoardLike(bid: String, uid: String) {
+    fun setBoardLike(bid: String, uid: String) {
 
         isLikeEnable.get().let {
 
@@ -332,6 +335,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
                 viewModelScope.launch {
                     boardRepository.setLike(
                         bid,
+                        uid,
                         isLike
                     )
                 }

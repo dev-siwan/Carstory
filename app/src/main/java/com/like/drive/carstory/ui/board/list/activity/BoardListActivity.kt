@@ -58,7 +58,6 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
             uid = it.uid
             initData(uid)
             tvTitle.text = getString(R.string.my_feed_title_format, it.nickName)
-
         }
 
         swipeLayout.setOnRefreshListener {
@@ -95,7 +94,6 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     private fun initData(uid: String?) {
         uid?.let {
             viewModel.run {
-                isUserPage.set(true)
                 setLoading(LoadingStatus.INIT)
                 initUserData(it)
             }

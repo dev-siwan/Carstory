@@ -161,12 +161,12 @@ class BoardRepositoryImpl(
         boardApi.removeUserBoard(boardData).catch { Unit }.collect()
     }
 
-    override suspend fun setLike(bid: String, isUp: Boolean) {
+    override suspend fun setLike(bid: String, uid: String, isUp: Boolean) {
         if (isUp) {
-            boardApi.updateLike(bid, LikeCountEnum.LIKE)
+            boardApi.updateLike(bid, uid, LikeCountEnum.LIKE)
             likeDao.insertBid(LikeEntity(bid = bid))
         } else {
-            boardApi.updateLike(bid, LikeCountEnum.UNLIKE)
+            boardApi.updateLike(bid, uid, LikeCountEnum.UNLIKE)
             likeDao.deleteBid(bid)
         }
     }

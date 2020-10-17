@@ -3,16 +3,17 @@ package com.like.drive.carstory.remote.api.board
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.like.drive.carstory.data.board.CommentData
 import com.like.drive.carstory.data.board.BoardData
+import com.like.drive.carstory.data.board.CommentData
 import com.like.drive.carstory.data.board.ReCommentData
 import com.like.drive.carstory.data.motor.MotorTypeData
 import com.like.drive.carstory.remote.common.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName
 import com.like.drive.carstory.remote.reference.CollectionName.BOARD_COMMENT
 import com.like.drive.carstory.remote.reference.CollectionName.BOARD_RE_COMMENT
-import com.like.drive.carstory.ui.board.data.LikeCountEnum
+import com.like.drive.carstory.remote.reference.CollectionName.USER
 import com.like.drive.carstory.ui.board.category.data.CategoryData
+import com.like.drive.carstory.ui.board.data.LikeCountEnum
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
@@ -139,15 +140,19 @@ class BoardApiImpl(
         return fireBaseTask.setData(commentCollection.document(cid), commentData)
     }
 
-    override suspend fun updateLike(bid: String, flag: LikeCountEnum) {
+    override suspend fun updateLike(bid: String, uid: String, flag: LikeCountEnum) {
         val document = fireStore.collection(CollectionName.BOARD).document(bid)
+        val userDocument = fireStore.collection(USER).document(uid)
+            .collection(CollectionName.BOARD).document(bid)
 
         when (flag) {
             LikeCountEnum.LIKE -> {
+                userDocument.update(LIKE_COUNT_FIELD, FieldValue.increment(1))
                 document.update(LIKE_COUNT_FIELD, FieldValue.increment(1))
             }
             LikeCountEnum.UNLIKE -> {
                 document.update(LIKE_COUNT_FIELD, FieldValue.increment(-1))
+                userDocument.update(LIKE_COUNT_FIELD, FieldValue.increment(-1))
             }
         }
 

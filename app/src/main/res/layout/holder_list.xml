@@ -66,18 +66,6 @@
                 layout="@layout/layout_list_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="@{!vm.isUserPage}"
-                app:boardData="@{data}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <include
-                layout="@layout/layout_list_user_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:visibility="@{vm.isUserPage}"
                 app:boardData="@{data}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

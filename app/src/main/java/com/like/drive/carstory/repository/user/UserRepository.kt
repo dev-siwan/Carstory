@@ -13,6 +13,12 @@ interface UserRepository {
         emptyUser: () -> Unit
     )
 
+    suspend fun getUserProfile(
+        uid: String,
+        success: (UserData?) -> Unit,
+        fail: () -> Unit
+    )
+
     suspend fun checkUser(): Boolean
     suspend fun loginCredential(
         authCredential: AuthCredential,
@@ -27,7 +33,7 @@ interface UserRepository {
     )
 
     suspend fun loginCustomToken(
-        token:String,
+        token: String,
         success: (FirebaseUser) -> Unit,
         error: () -> Unit
     )

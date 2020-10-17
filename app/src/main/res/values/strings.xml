@@ -109,7 +109,7 @@
 
     <string name="nick_name_hint">닉네임을 입력해주세요.(최대 6자)</string>
     <string name="nick_valid_message">2글자~6글자, 한글로 공백없이 입력해주세요.</string>
-    <string name="intro_text_hint">간단 한줄 소개를 입력해주세요.(최대 20자)</string>
+    <string name="intro_text_hint">소개를 입력해주세요.(최대 3줄)</string>
     <string name="intro_empty_desc">자기소개 글이 없습니다.</string>
 
     <string name="feed_list_photo_count_format">+%d</string>
@@ -329,6 +329,8 @@
     <string name="social_link_meta_title">카스토리에서 내용을 확인해보세요!</string>
 
     <string name="share_message">[카스토리]카스토리에서 공유하는 글을 확인해보세요!\n%s\n%s</string>
+
+    <string name="profile_error_message">회원의 프로필을 찾을 수 없습니다.</string>
 
 
     <string-array name="empty_photo_type_array">

@@ -38,7 +38,7 @@ interface BoardRepository {
         boardData: BoardData
     )
 
-    suspend fun setLike(bid: String, isUp: Boolean)
+    suspend fun setLike(bid: String, uid: String, isUp: Boolean)
 
     suspend fun getBoardComment(bid: String): Flow<List<CommentData>>
 
@@ -101,7 +101,9 @@ interface BoardRepository {
 
     suspend fun removeAllLike()
 
-    suspend fun sendReport(reportData: ReportData,
-                           success: () -> Unit,
-                           fail: () -> Unit)
+    suspend fun sendReport(
+        reportData: ReportData,
+        success: () -> Unit,
+        fail: () -> Unit
+    )
 }

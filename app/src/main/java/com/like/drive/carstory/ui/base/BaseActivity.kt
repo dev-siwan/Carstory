@@ -37,7 +37,7 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         }
     }
 
-    protected open fun onBinding(dataBinding: V) = dataBinding.run {
+    protected open fun onBinding(dataBinding: V) = with(dataBinding) {
         lifecycleOwner = this@BaseActivity
         executePendingBindings()
     }
@@ -45,14 +45,14 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
     //툴바 설정
     protected open fun setBackButtonToolbar(toolbar: Toolbar, title: String = "") = toolbar.apply {
         this.title = title
-        navigationIcon = getDrawable(R.drawable.ic_action_back)
+        navigationIcon = ContextCompat.getDrawable(this@BaseActivity, R.drawable.ic_action_back)
     }.run {
         setSupportActionBar(this)
     }
 
     protected open fun setCloseButtonToolbar(toolbar: Toolbar, title: String = "") = toolbar.apply {
         this.title = title
-        navigationIcon = getDrawable(R.drawable.ic_action_close)
+        navigationIcon = ContextCompat.getDrawable(this@BaseActivity, R.drawable.ic_action_close)
     }.run {
         setSupportActionBar(this)
     }
@@ -63,7 +63,7 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         action: () -> Unit
     ) = toolbar.apply {
         this.title = ""
-        navigationIcon = ContextCompat.getDrawable(this@BaseActivity,R.drawable.ic_action_back)
+        navigationIcon = ContextCompat.getDrawable(this@BaseActivity, R.drawable.ic_action_back)
     }.run {
         setSupportActionBar(this)
         setNavigationOnClickListener { action.invoke() }
@@ -75,7 +75,7 @@ abstract class BaseActivity<V : ViewDataBinding>(@get:LayoutRes val layoutId: In
         action: () -> Unit
     ) = toolbar.apply {
         this.title = ""
-        navigationIcon = ContextCompat.getDrawable(this@BaseActivity,R.drawable.ic_action_close)
+        navigationIcon = ContextCompat.getDrawable(this@BaseActivity, R.drawable.ic_action_close)
     }.run {
         setSupportActionBar(this)
         setNavigationOnClickListener { action.invoke() }

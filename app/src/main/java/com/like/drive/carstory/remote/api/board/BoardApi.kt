@@ -1,11 +1,11 @@
 package com.like.drive.carstory.remote.api.board
 
-import com.like.drive.carstory.data.board.CommentData
 import com.like.drive.carstory.data.board.BoardData
+import com.like.drive.carstory.data.board.CommentData
 import com.like.drive.carstory.data.board.ReCommentData
 import com.like.drive.carstory.data.motor.MotorTypeData
-import com.like.drive.carstory.ui.board.data.LikeCountEnum
 import com.like.drive.carstory.ui.board.category.data.CategoryData
+import com.like.drive.carstory.ui.board.data.LikeCountEnum
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
@@ -24,11 +24,10 @@ interface BoardApi {
         tagStr: String? = null
     ): Flow<List<BoardData>>
 
-
-    suspend fun getUserBoardList(date:Date, uid: String):Flow<List<BoardData>>
+    suspend fun getUserBoardList(date: Date, uid: String): Flow<List<BoardData>>
 
     suspend fun addComment(commentData: CommentData): Flow<Boolean>
-    suspend fun updateLike(bid: String,flag: LikeCountEnum)
+    suspend fun updateLike(bid: String, uid: String, flag: LikeCountEnum)
     suspend fun addReComment(reCommentData: ReCommentData): Flow<Boolean>
     suspend fun updateComment(commentData: CommentData): Flow<Boolean>
     suspend fun updateReComment(reCommentData: ReCommentData): Flow<Boolean>

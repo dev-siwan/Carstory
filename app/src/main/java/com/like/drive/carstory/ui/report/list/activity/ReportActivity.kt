@@ -80,7 +80,7 @@ class ReportActivity : BaseActivity<ActivityReportBinding>(R.layout.activity_rep
     private fun ReportViewModel.moveUserLookUp() {
         userLookUpEvent.observe(this@ReportActivity, Observer {
             startAct(UserLookUpActivity::class, Bundle().apply {
-                putParcelable(UserLookUpActivity.USER_DATA_KEY, it)
+                putString(UserLookUpActivity.USER_ID_KEY, it.uid)
             })
         })
     }

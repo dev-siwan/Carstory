@@ -27,6 +27,13 @@ class UserApiImpl(
         )
     }
 
+    override suspend fun getUserProfile(uid: String): Flow<UserData?> {
+        return fireBaseTask.getData(
+            fireStore.collection(USER).document(uid),
+            UserData::class.java
+        )
+    }
+
     override suspend fun checkUser(): Boolean {
         return fireAuth.currentUser != null
     }
