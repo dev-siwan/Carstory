@@ -62,9 +62,9 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
         }
 
         intent.getStringExtra(TAG_DATA_KEY)?.let {
-            tag = it
-            initData(tag = it)
-            tvTitle.text = getString(R.string.result_tag_title_format, it)
+            tag = it.removeRange(0, 1)
+            initData(tag = tag)
+            tvTitle.text = getString(R.string.result_tag_title_format, tag)
         }
 
         swipeLayout.setOnRefreshListener {
