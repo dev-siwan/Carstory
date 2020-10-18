@@ -28,6 +28,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     private val viewModel: BoardListViewModel by viewModel()
     private val boardListAdapter by lazy { BoardListAdapter(viewModel) }
     private var uid: String? = null
+    private var tag: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,21 +55,30 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
             finish()
         }
 
-        intent.getParcelableExtra<UserData>(BOARD_DATE_KEY)?.let {
+        intent.getParcelableExtra<UserData>(BOARD_DATA_KEY)?.let {
             uid = it.uid
-            initData(uid)
-            tvTitle.text = getString(R.string.my_feed_title_format, it.nickName)
+            initData(uid = uid)
+            tvTitle.text = getString(R.string.my_board_title_format, it.nickName)
+        }
+
+        intent.getStringExtra(TAG_DATA_KEY)?.let {
+            tag = it
+            initData(tag = it)
+            tvTitle.text = getString(R.string.result_tag_title_format, it)
         }
 
         swipeLayout.setOnRefreshListener {
-            uid?.let {
-                viewModel.run {
-                    setLoading(LoadingStatus.REFRESH)
+
+            viewModel.run {
+                setLoading(LoadingStatus.REFRESH)
+                uid?.let {
                     initUserData(it)
+                }
+                tag?.let {
+                    initData(tagQuery = it)
                 }
             }
         }
-
     }
 
     private fun RecyclerView.paging() {
@@ -80,6 +90,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
                     if (!getLastDate()) {
                         boardList.value?.lastOrNull()?.createDate?.let { date ->
                             uid?.let { moreUserData(date, it) }
+                            tag?.let { moreData(date) }
                         }
                     }
                 }
@@ -91,11 +102,14 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
 
     }
 
-    private fun initData(uid: String?) {
-        uid?.let {
-            viewModel.run {
-                setLoading(LoadingStatus.INIT)
+    private fun initData(uid: String? = null, tag: String? = null) {
+        viewModel.run {
+            setLoading(LoadingStatus.INIT)
+            uid?.let {
                 initUserData(it)
+            }
+            tag?.let {
+                initData(tagQuery = it)
             }
         }
     }
@@ -176,6 +190,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
 
     companion object {
         const val BOARD_LIST_TO_DETAIL_REQ = 1515
-        const val BOARD_DATE_KEY = "boardDataKey"
+        const val BOARD_DATA_KEY = "boardDataKey"
+        const val TAG_DATA_KEY = "tagDataKey"
     }
 }

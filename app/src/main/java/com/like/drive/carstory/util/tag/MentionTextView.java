@@ -1,22 +1,27 @@
 package com.like.drive.carstory.util.tag;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.like.drive.carstory.R;
+import com.like.drive.carstory.ui.board.list.activity.BoardListActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -253,6 +258,14 @@ public class MentionTextView extends androidx.appcompat.widget.AppCompatTextView
                 }
                 int end = start + mentionText.length();
                 spannableText.setSpan(new android.text.style.ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.pro_sky_1)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableText.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View view) {
+                        Intent intent = new Intent(getContext(), BoardListActivity.class);
+                        intent.putExtra(BoardListActivity.TAG_DATA_KEY, mentionText);
+                        getContext().startActivity(intent);
+                    }
+                }, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 lastMentionIndex = end;
                 //record all mention-string's position
                 mRangeArrayList.add(new Range(start, end));

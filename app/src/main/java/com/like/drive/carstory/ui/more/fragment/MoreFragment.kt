@@ -19,7 +19,6 @@ import com.like.drive.carstory.ui.notice.list.activity.NoticeListActivity
 import com.like.drive.carstory.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.carstory.ui.profile.activity.ProfileActivity
 import com.like.drive.carstory.ui.report.list.activity.ReportActivity
-import com.like.drive.carstory.ui.sign.password.activity.PasswordUpdateActivity
 import com.like.drive.carstory.ui.terms.TermsActivity
 import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.android.synthetic.main.layout_more_profile.view.*
@@ -46,7 +45,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         }
         dataBinding.containerMyFeed.containerMoreItem.setOnClickListener {
             startAct(BoardListActivity::class, Bundle().apply {
-                putParcelable(BoardListActivity.BOARD_DATE_KEY, UserInfo.userInfo)
+                putParcelable(BoardListActivity.BOARD_DATA_KEY, UserInfo.userInfo)
             })
         }
 

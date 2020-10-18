@@ -111,7 +111,7 @@
 
     <string name="nick_name_hint">닉네임을 입력해주세요.(최대 6자)</string>
     <string name="nick_valid_hint">2글자~6글자, 한글로 공백없이 입력해주세요.</string>
-    <string name="intro_text_hint">최대 3줄, 웹페이지 주소 입력 가능</string>
+    <string name="intro_text_hint">최대 3줄, 웹 주소 입력 가능</string>
     <string name="intro_empty_desc">자기소개 글이 없습니다.</string>
 
     <string name="feed_list_photo_count_format">+%d</string>
@@ -241,7 +241,8 @@
 
     <string name="report_register_title">신고하기</string>
 
-    <string name="my_feed_title_format">%s님의 글목록</string>
+    <string name="my_board_title_format">%s님의 글목록</string>
+    <string name="result_tag_title_format">#%s 목록</string>
     <string name="reset_email_fail_message">비밀번호 재설정하는데 실패하였습니다.</string>
     <string name="password_update_dialog_title">비밀번호 변경</string>
 

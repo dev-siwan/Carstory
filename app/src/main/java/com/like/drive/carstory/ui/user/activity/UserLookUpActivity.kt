@@ -29,7 +29,7 @@ class UserLookUpActivity :
         dataBinding.vm = viewModel
         dataBinding.containerUserBoardList.containerMoreItem.setOnClickListener {
             startAct(BoardListActivity::class, Bundle().apply {
-                putParcelable(BoardListActivity.BOARD_DATE_KEY, viewModel.userData.value)
+                putParcelable(BoardListActivity.BOARD_DATA_KEY, viewModel.userData.value)
             })
         }
     }
