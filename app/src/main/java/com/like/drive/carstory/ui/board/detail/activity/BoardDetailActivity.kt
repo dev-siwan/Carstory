@@ -27,6 +27,7 @@ import com.like.drive.carstory.ui.board.detail.fragment.CommentDialogFragment
 import com.like.drive.carstory.ui.board.detail.viewmodel.BoardDetailViewModel
 import com.like.drive.carstory.ui.board.upload.activity.UploadActivity
 import com.like.drive.carstory.ui.common.data.LoadingStatus
+import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.report.reg.fragment.ReportRegisterFragmentDialog
 import com.like.drive.carstory.ui.user.activity.UserLookUpActivity
 import com.like.drive.carstory.ui.view.large.activity.LargeThanActivity
@@ -227,7 +228,11 @@ class BoardDetailActivity :
                         boardData.userInfo!!
                     )
                 },
-                deleteCallback = { viewModel.removeBoardListener() },
+                deleteCallback = {
+                    showConfirmDialog(getString(R.string.remove_board_confirm_message)) {
+                        viewModel.removeBoardListener()
+                    }
+                },
                 updateCallback = {
                     startActForResult(
                         UploadActivity::class,
@@ -251,7 +256,9 @@ class BoardDetailActivity :
                     )
                 },
                 deleteCallback = {
-                    removeBoardComment(commentData)
+                    showConfirmDialog(getString(R.string.remove_comment_confirm_message)) {
+                        removeBoardComment(commentData)
+                    }
                 },
                 updateCallback = {
                     showCommentDialogListener(true, commentData, null)
@@ -269,7 +276,10 @@ class BoardDetailActivity :
                     )
                 },
                 deleteCallback = {
-                    removeBoardReComment(reCommentData)
+                    showConfirmDialog(getString(R.string.remove_comment_confirm_message)) {
+                        removeBoardReComment(reCommentData)
+                    }
+
                 },
                 updateCallback = {
                     showCommentDialogListener(true, null, reCommentData)
@@ -493,6 +503,12 @@ class BoardDetailActivity :
                 dismiss()
             }
         }.show(supportFragmentManager, "")
+    }
+
+    private fun showConfirmDialog(message: String?, actionDialog: () -> Unit) {
+        ConfirmDialog.newInstance(message = message).apply {
+            confirmAction = { actionDialog() }
+        }.show(supportFragmentManager, ConfirmDialog.TAG)
     }
 
     override fun onBackPressed() {

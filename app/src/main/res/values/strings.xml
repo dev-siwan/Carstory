@@ -145,18 +145,21 @@
     <string name="category_title_1">자유</string>
     <string name="category_title_2">신차</string>
     <string name="category_title_3">시승</string>
-    <string name="category_title_4">용품</string>
-    <string name="category_title_5">세차</string>
+    <string name="category_title_4">수리</string>
+    <string name="category_title_5">차박</string>
     <string name="category_title_6">사고</string>
-    <string name="category_title_7">교통</string>
+    <string name="category_title_7">용품</string>
+    <string name="category_title_8">세차</string>
 
     <string name="category_content_1">자유로운 글을 적어주세요.</string>
     <string name="category_content_2">신차 정보를 적어주세요.</string>
     <string name="category_content_3">직접 시승 했던 경험을 적어주세요.</string>
-    <string name="category_content_4">자동차 용품에 대해서 적어주세요.</string>
-    <string name="category_content_5">세차에 관련 된 정보를 적어주세요.</string>
+    <string name="category_content_4">수리에 관해서 질문해보세요.</string>
+    <string name="category_content_5">차박에 대한 정보를 공유해주세요.</string>
     <string name="category_content_6">자동차 사고 관련 된 정보를 적어주세요.</string>
-    <string name="category_content_7">교통 상황 및 교통 정보에 대해 적어주세요.</string>
+    <string name="category_content_7">자동차 용품을 공유해보세요.</string>
+    <string name="category_content_8">세차에 대한 정보를 공유해주세요.</string>
+
     <string name="category_title">카테고리를 선택해주세요.</string>
     <string name="enrollment_text">등록</string>
     <string name="comment_hint">댓글을 남겨주세요.</string>
@@ -242,7 +245,6 @@
     <string name="report_register_title">신고하기</string>
 
     <string name="my_board_title_format">%s님의 글목록</string>
-    <string name="result_tag_title_format">#%s 목록</string>
     <string name="reset_email_fail_message">비밀번호 재설정하는데 실패하였습니다.</string>
     <string name="password_update_dialog_title">비밀번호 변경</string>
 
@@ -318,13 +320,14 @@
     <string name="filter_empty_message">검색결과가 없습니다.</string>
     <string name="now_filter_register_message">현재 검색조건으로 글을 써보세요.</string>
 
-    <string name="intro_message_1">\&quot;이 자동차 어떤가요?\&quot;</string>
-    <string name="intro_message_2">\&quot;엔진오일 수명은 어떻게 되나요?\&quot;</string>
-    <string name="intro_message_3">\&quot;이번에 나온 신차 너무 좋아요!!\&quot;</string>
-    <string name="intro_message_4">\&quot;오늘 사고가 났는데 어떻게 해결해야 하죠?\&quot;</string>
-    <string name="intro_message_5">\&quot;사거리 부근 사고 났어요! 다들 안전운전 하세요.\&quot;</string>
-    <string name="intro_message_6">\&quot;차박은 이런 물건이 좋아요.\&quot;</string>
-    <string name="intro_message_7">\&quot;오늘 날씨 좋아요 같이 드라이브 해요.\&quot;</string>
+    <string name="intro_message_1">\&quot;현대 새로 나온 모델 어떤가요?\&quot;</string>
+    <string name="intro_message_2">\&quot;BMW 엔진오일 수명은 어떻게 되나요?\&quot;</string>
+    <string name="intro_message_3">\&quot;차박 용품 추천 좀 해주세요.\&quot;</string>
+    <string name="intro_message_4">\&quot;오늘 첫 사고가 났는데 어떻게 해결해야 하죠?\&quot;</string>
+    <string name="intro_message_5">\&quot;강남 사거리 부근 사고 났어요! 참고하세요.\&quot;</string>
+    <string name="intro_message_6">\&quot;실내 세차장 위치 공유 해주세요.\&quot;</string>
+    <string name="intro_message_7">카스토리</string>
+
     <string name="not_select_text">선택안함</string>\
 
     <string name="error_dynamic_link">링크 생성에 실패하였습니다.\n다시 시도해주세요.</string>
@@ -335,6 +338,8 @@
 
     <string name="profile_error_message">회원의 프로필을 찾을 수 없습니다.</string>
 
+    <string name="remove_board_confirm_message">게시물을 삭제하시겠습니까?</string>
+    <string name="remove_comment_confirm_message">댓글을 삭제하시겠습니까?</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

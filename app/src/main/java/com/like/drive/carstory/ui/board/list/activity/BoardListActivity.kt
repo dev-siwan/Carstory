@@ -45,7 +45,6 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
     }
 
     private fun initView() {
-
         rvBoardList.run {
             addItemDecoration(dividerItemDecoration())
             paging()
@@ -64,7 +63,7 @@ class BoardListActivity : BaseActivity<ActivityBoardListBinding>(R.layout.activi
         intent.getStringExtra(TAG_DATA_KEY)?.let {
             tag = it.removeRange(0, 1)
             initData(tag = tag)
-            tvTitle.text = getString(R.string.result_tag_title_format, tag)
+            tvTitle.text = it
         }
 
         swipeLayout.setOnRefreshListener {

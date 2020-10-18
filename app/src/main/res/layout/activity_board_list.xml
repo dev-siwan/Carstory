@@ -34,8 +34,7 @@
                 android:layout_gravity="center"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/large_text_size"
-                android:textStyle="bold"
-                tools:text="누군가의 글목록"/>
+                tools:text="누군가의 글목록" />
         </androidx.appcompat.widget.Toolbar>
 
 

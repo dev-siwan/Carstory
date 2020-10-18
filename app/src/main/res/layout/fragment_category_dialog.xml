@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:background="@android:color/transparent"
         tools:context=".ui.board.category.fragment.CategoryFragmentDialog">
@@ -42,15 +42,17 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategory"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@drawable/rect_solid_white_bottom_conner"
             android:orientation="vertical"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_bias="1.0"
             tools:itemCount="6"
             tools:listitem="@layout/holder_category_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>

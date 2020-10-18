@@ -32,7 +32,6 @@ import com.like.drive.carstory.databinding.ActivitySignInBinding
 import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startAct
-import com.like.drive.carstory.ui.base.ext.startToAct
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.profile.activity.ProfileActivity
 import com.like.drive.carstory.ui.sign.`in`.viewmodel.SignInErrorType
@@ -138,7 +137,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     private fun TextView.setAnimation() {
         lifecycleScope.launch {
-            if (introIndex == (introList.size - 1)) {
+            if (introIndex == introList.size) {
                 introIndex = 0
             }
             visibleAnimation()
