@@ -41,7 +41,7 @@
     <string name="facebook_cancel">페이스북 로그인을 취소하였습니다.</string>
     <string name="login_error">로그인을 시도하는 중 오류가 걸렸습니다.\n이메일과 패스워드를 확인해주세요.</string>
     <string name="user_error">유저 정보를 가져올 수 없습니다.\n다시 시도해주세요.</string>
-    <string name="user_ban">해당 유저는 영구정지 당한 상태입니다.\n다른 아이디로 로그인 해주세요.</string>
+    <string name="user_ban">해당 유저는 영구정지 당한 상태입니다.\n로그인 창으로 이동합니다.</string>
     <string name="sign_up_error">해당 이메일 아이디가 가입되어 있습니다.\n다시 시도해주세요.</string>
     <string name="nick_name_null_error">닉네임 정보가 없습니다. 닉네임을 설정해주세요.</string>
     <string name="nick_name">닉네임</string>
@@ -353,6 +353,9 @@
     <string name="input_message">메세지를 입력해주세요.</string>
     <string name="input_user_message">유저메세지 직접 입력</string>
     <string name="select_message_type">메세지 타입 선택</string>
+    <string name="user_ban_submit_desc">이용정지 문의를 하시려면 여기를 선택해주세요.</string>
+
+    <string name="user_ban_dialog_desc_format"><![CDATA[<b>%s님</b>은 서비스 이용 정지를 당하셨습니다.<br />%s]]></string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

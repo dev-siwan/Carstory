@@ -39,6 +39,8 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
 
     val moveToSignUpEvent = SingleLiveEvent<Unit>()
 
+    val userBanComplete = SingleLiveEvent<UserData>()
+
     //카카오 콜백
     private val kakaoCallback = object : ISessionCallback {
         override fun onSessionOpenFailed(exception: KakaoException?) {
@@ -154,11 +156,14 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
         viewModelScope.launch {
             userRepository.getUser(
                 success = {
-                    successUser()
+                    if (it.userBan) {
+                        userBanComplete.value = it
+                        isLoading.value = false
+                    } else {
+                        successUser()
+                    }
                 }, fail = {
                     setErrorEvent(SignInErrorType.USER_ERROR)
-                }, userBan = {
-                    setErrorEvent(SignInErrorType.USER_BAN)
                 }, emptyUser = {
                     saveUser(user)
                 }
@@ -199,5 +204,5 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
 }
 
 enum class SignInErrorType {
-    USER_ERROR, USER_BAN, LOGIN_ERROR, FACEBOOK_ERROR, KAKAO_ERROR, GOOGLE_ERROR
+    USER_ERROR, LOGIN_ERROR, FACEBOOK_ERROR, KAKAO_ERROR, GOOGLE_ERROR
 }

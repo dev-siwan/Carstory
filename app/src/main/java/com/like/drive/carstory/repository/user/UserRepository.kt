@@ -7,9 +7,8 @@ import java.io.File
 
 interface UserRepository {
     suspend fun getUser(
-        success: () -> Unit,
+        success: (UserData) -> Unit,
         fail: () -> Unit,
-        userBan: () -> Unit,
         emptyUser: () -> Unit
     )
 

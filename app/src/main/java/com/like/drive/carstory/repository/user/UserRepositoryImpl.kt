@@ -16,9 +16,8 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
     UserRepository {
 
     override suspend fun getUser(
-        success: () -> Unit,
+        success: (UserData) -> Unit,
         fail: () -> Unit,
-        userBan: () -> Unit,
         emptyUser: () -> Unit
     ) {
         userApi.getUser()
@@ -28,16 +27,11 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             }
             .collect { userData ->
                 userData?.let {
-                    when {
-                        it.userBan -> userBan.invoke()
-                        else -> {
-                            UserInfo.run {
-                                userInfo = it
-                                updateFcm(it.fcmToken)
-                            }
-                            success.invoke()
-                        }
+                    UserInfo.run {
+                        userInfo = it
+                        updateFcm(it.fcmToken)
                     }
+                    success.invoke(it)
                 } ?: emptyUser.invoke()
             }
     }

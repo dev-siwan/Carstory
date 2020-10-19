@@ -32,6 +32,7 @@ import com.like.drive.carstory.databinding.ActivitySignInBinding
 import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startAct
+import com.like.drive.carstory.ui.dialog.AlertUserBanDialog
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.profile.activity.ProfileActivity
 import com.like.drive.carstory.ui.sign.`in`.viewmodel.SignInErrorType
@@ -158,6 +159,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             moveToSignUp()
             isLoading()
             emptyNickName()
+            userBan()
         }
     }
 
@@ -172,11 +174,21 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         errorEvent.observe(this@SignInActivity, Observer {
             when (it) {
                 SignInErrorType.LOGIN_ERROR -> showShortToast(getString(R.string.login_error))
-                SignInErrorType.USER_BAN -> showShortToast(getString(R.string.user_ban))
                 SignInErrorType.USER_ERROR -> showShortToast(getString(R.string.user_error))
                 SignInErrorType.KAKAO_ERROR -> showShortToast(getString(R.string.kakao_error))
                 SignInErrorType.GOOGLE_ERROR -> showShortToast(getString(R.string.google_error))
                 else -> showShortToast(getString(R.string.facebook_error))
+            }
+        })
+    }
+
+    private fun SignInViewModel.userBan() {
+        userBanComplete.observe(this@SignInActivity, Observer {
+            if (it.nickName != null && it.userMessage != null) {
+                AlertUserBanDialog.newInstance(it.userMessage, it.nickName)
+                    .show(supportFragmentManager, "")
+            } else {
+                showShortToast(R.string.user_ban)
             }
         })
     }

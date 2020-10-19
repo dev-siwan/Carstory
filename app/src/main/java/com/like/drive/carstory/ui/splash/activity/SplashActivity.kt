@@ -25,11 +25,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.reflect.KClass
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
-    private val viewModel: SplashViewModel by inject()
+    private val viewModel: SplashViewModel by viewModel()
     private var notificationSendData: NotificationSendData? = null
     private var shareBoardId: String? = null
 

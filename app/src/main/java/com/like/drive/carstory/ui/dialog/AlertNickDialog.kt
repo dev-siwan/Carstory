@@ -1,11 +1,11 @@
-package com.like.drive.carstory.ui.profile.dialog
+package com.like.drive.carstory.ui.dialog
 
 import android.view.ViewGroup
 import com.like.drive.carstory.R
 import com.like.drive.carstory.databinding.FragmentNickAlertDialogBinding
 import com.like.drive.carstory.ui.base.BaseFragmentDialog
 
-class NickAlertDialog :
+class AlertNickDialog :
     BaseFragmentDialog<FragmentNickAlertDialogBinding>(R.layout.fragment_nick_alert_dialog) {
 
     override fun onBindAfter(dataBinding: FragmentNickAlertDialogBinding) {
@@ -28,7 +28,7 @@ class NickAlertDialog :
 
     companion object {
         @JvmStatic
-        fun newInstance() = NickAlertDialog()
+        fun newInstance() = AlertNickDialog()
 
     }
 }

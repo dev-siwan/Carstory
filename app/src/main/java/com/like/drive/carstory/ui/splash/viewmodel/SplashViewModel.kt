@@ -3,6 +3,7 @@ package com.like.drive.carstory.ui.splash.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.common.user.UserInfo
+import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.motor.MotorTypeRepository
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.repository.version.VersionRepository
@@ -18,13 +19,11 @@ class SplashViewModel(
     val errorEvent = SingleLiveEvent<SplashErrorType>()
     val completeEvent = SingleLiveEvent<SplashCompleteType>()
     val emptyNickNameEvent = SingleLiveEvent<Unit>()
+    val userBanComplete = SingleLiveEvent<UserData>()
 
     init {
         versionCheck()
     }
-    
-    
-    
 
     private fun versionCheck() {
         viewModelScope.launch {
@@ -67,13 +66,14 @@ class SplashViewModel(
 
                 userRepository.getUser(
                     success = {
-                        UserInfo.userInfo?.nickName?.let {
-                            setCompleteEvent(SplashCompleteType.HOME)
-                        } ?: emptyNickNameEvent.call()
+                        if (it.userBan) {
+                            setErrorEvent(SplashErrorType.USER_BAN)
+                            UserInfo.signOut()
+                        } else {
+                            successUser()
+                        }
                     }, fail = {
                         setErrorEvent(SplashErrorType.USER_ERROR)
-                    }, userBan = {
-                        setErrorEvent(SplashErrorType.USER_BAN)
                     }, emptyUser = {
                         setErrorEvent(SplashErrorType.USER_EMPTY)
                     }
@@ -90,6 +90,12 @@ class SplashViewModel(
 
     private fun setCompleteEvent(type: SplashCompleteType) {
         completeEvent.postValue(type)
+    }
+
+    private fun successUser() {
+        UserInfo.userInfo?.nickName?.let {
+            completeEvent.call()
+        } ?: emptyNickNameEvent.call()
     }
 
 }
