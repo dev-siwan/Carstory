@@ -9,7 +9,9 @@
             name="vm"
             type="com.like.drive.carstory.ui.user.viewmodel.UserLookUpViewModel" />
 
+
         <import type="android.text.TextUtils" />
+        <import type="com.like.drive.carstory.common.user.UserInfo"/>
 
     </data>
 
@@ -151,11 +153,33 @@
             layout="@layout/layout_more_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider1"
             app:title="@{@string/user_board_text}" />
+
+        <include
+            android:id="@+id/containerUserMessage"
+            layout="@layout/layout_more_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="@{UserInfo.INSTANCE.userInfo.admin}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/containerUserBoardList"
+            app:title="@{@string/user_message_text}" />
+
+        <include
+            android:id="@+id/containerUserBan"
+            layout="@layout/layout_more_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="@{UserInfo.INSTANCE.userInfo.admin}"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/containerUserMessage"
+            app:title="@{@string/user_ban_text}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

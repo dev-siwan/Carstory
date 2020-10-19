@@ -7,6 +7,7 @@ import com.like.drive.carstory.ui.filter.viewmodel.FilterViewModel
 import com.like.drive.carstory.ui.gallery.viewmodel.GalleryViewModel
 import com.like.drive.carstory.ui.home.viewmodel.HomeViewModel
 import com.like.drive.carstory.ui.main.viewmodel.MainViewModel
+import com.like.drive.carstory.ui.message.viewmodel.UserMessageViewModel
 import com.like.drive.carstory.ui.more.viewmodel.MoreViewModel
 import com.like.drive.carstory.ui.motor.viewmodel.MotorTypeViewModel
 import com.like.drive.carstory.ui.notice.detail.viewmodel.NoticeDetailViewModel
@@ -50,4 +51,5 @@ val viewModelModule = module {
     viewModel { ReportRegisterViewModel() }
     viewModel { ReportViewModel(get()) }
     viewModel { UserLookUpViewModel(get()) }
+    viewModel { UserMessageViewModel(get()) }
 }

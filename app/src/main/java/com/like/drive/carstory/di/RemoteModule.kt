@@ -3,6 +3,8 @@ package com.like.drive.carstory.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.like.drive.carstory.remote.api.admin.AdminApi
+import com.like.drive.carstory.remote.api.admin.AdminApiImpl
 import com.like.drive.carstory.remote.api.board.BoardApi
 import com.like.drive.carstory.remote.api.board.BoardApiImpl
 import com.like.drive.carstory.remote.api.img.ImageApi
@@ -44,5 +46,6 @@ val remoteModule = module {
     single<NotificationApi> { NotificationApiImpl(get()) }
     single<NoticeApi> { NoticeApiImpl(get(), get()) }
     single<ReportApi> { ReportApiImpl(get(), get()) }
+    single<AdminApi> { AdminApiImpl(get(), get()) }
 
 }

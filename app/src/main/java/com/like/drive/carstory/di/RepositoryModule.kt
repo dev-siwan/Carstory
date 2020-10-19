@@ -1,5 +1,7 @@
 package com.like.drive.carstory.di
 
+import com.like.drive.carstory.repository.admin.AdminRepository
+import com.like.drive.carstory.repository.admin.AdminRepositoryImpl
 import com.like.drive.carstory.repository.board.BoardRepository
 import com.like.drive.carstory.repository.board.BoardRepositoryImpl
 import com.like.drive.carstory.repository.motor.MotorTypeRepository
@@ -25,5 +27,5 @@ val repositoryModule = module {
     single<NotificationRepository> { NotificationRepositoryImpl(get()) }
     single<NoticeRepository> { NoticeRepositoryImpl(get(), get()) }
     single<ReportRepository> { ReportRepositoryImpl(get()) }
-    factory { NativeAdUtil() }
+    single<AdminRepository> { AdminRepositoryImpl(get()) }
 }

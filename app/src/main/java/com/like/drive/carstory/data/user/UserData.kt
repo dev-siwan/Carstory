@@ -27,6 +27,6 @@ data class UserData(
     var commentSubscribe: Boolean = true,
     @SerializedName("admin")
     val admin: Boolean = false,
-    @SerializedName("userBanMessage")
-    val userBanMessage: String? = null
+    @SerializedName("userMessage")
+    val userMessage: String? = null
 ) : Parcelable

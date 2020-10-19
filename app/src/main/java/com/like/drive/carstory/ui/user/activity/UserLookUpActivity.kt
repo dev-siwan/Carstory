@@ -8,6 +8,7 @@ import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startAct
 import com.like.drive.carstory.ui.board.list.activity.BoardListActivity
+import com.like.drive.carstory.ui.message.activity.UserMessageActivity
 import com.like.drive.carstory.ui.user.viewmodel.UserLookUpViewModel
 import kotlinx.android.synthetic.main.activity_user_look_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,6 +33,18 @@ class UserLookUpActivity :
                 putParcelable(BoardListActivity.BOARD_DATA_KEY, viewModel.userData.value)
             })
         }
+        dataBinding.containerUserMessage.containerMoreItem.setOnClickListener {
+            startAct(UserMessageActivity::class, Bundle().apply {
+                putString(UserMessageActivity.USER_ID_KEY, viewModel.userData.value?.uid)
+                putBoolean(UserMessageActivity.IS_USER_BAN_KEY, false)
+            })
+        }
+        dataBinding.containerUserBan.containerMoreItem.setOnClickListener {
+            startAct(UserMessageActivity::class, Bundle().apply {
+                putString(UserMessageActivity.USER_ID_KEY, viewModel.userData.value?.uid)
+                putBoolean(UserMessageActivity.IS_USER_BAN_KEY, true)
+            })
+        }
     }
 
     private fun getData() {
@@ -52,7 +65,7 @@ class UserLookUpActivity :
     }
 
     private fun UserLookUpViewModel.error() {
-        errorStrEvent.observe(this@UserLookUpActivity, Observer {
+        errorEvent.observe(this@UserLookUpActivity, Observer {
             showShortToast(it)
             finish()
         })

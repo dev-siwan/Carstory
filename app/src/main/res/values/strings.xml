@@ -341,6 +341,19 @@
     <string name="remove_board_confirm_message">게시물을 삭제하시겠습니까?</string>
     <string name="remove_comment_confirm_message">댓글을 삭제하시겠습니까?</string>
 
+    <string name="user_message_send_error">회원 메세지를 보내는데 실패 하였습니다.</string>
+    <string name="user_ban_error_message">해당 회원 사용금지에 실패하였습니다.</string>
+
+    <string name="user_message_send_complete">회원 메세지를 보내는데 성공 하였습니다.</string>
+    <string name="user_ban_send_complete">회원 사용금지에 성공하였습니다.</string>
+
+    <string name="user_message_type_format">%s(으)로 신고 대상입니다.\n추후 적발 시 서비스 이용에 제한될 수 있습니다.</string>
+    <string name="user_ban_type_format">이용 제한 사유:%s</string>
+    <string name="user_message_confirm">%s\n\n메세지를 보내시겠습니까?</string>
+    <string name="input_message">메세지를 입력해주세요.</string>
+    <string name="input_user_message">유저메세지 직접 입력</string>
+    <string name="select_message_type">메세지 타입 선택</string>
+
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>
@@ -360,5 +373,6 @@
         <item>게시물 무단 도용</item>
         <item>스팸</item>
     </string-array>
+
 
 </resources>

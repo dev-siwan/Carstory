@@ -11,7 +11,9 @@ import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
-class UserLookUpViewModel(private val userRepository: UserRepository) : BaseViewModel() {
+class UserLookUpViewModel(
+    private val userRepository: UserRepository
+) : BaseViewModel() {
 
     private val _userData = MutableLiveData<UserData>()
     val userData: LiveData<UserData> get() = _userData
@@ -19,7 +21,7 @@ class UserLookUpViewModel(private val userRepository: UserRepository) : BaseView
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
-    val errorStrEvent = SingleLiveEvent<@StringRes Int>()
+    val errorEvent = SingleLiveEvent<@StringRes Int>()
 
     fun init(uid: String) {
 
@@ -44,7 +46,7 @@ class UserLookUpViewModel(private val userRepository: UserRepository) : BaseView
 
     private fun setError() {
         _loading.value = false
-        errorStrEvent.value = R.string.profile_error_message
+        errorEvent.value = R.string.profile_error_message
     }
 
 }
