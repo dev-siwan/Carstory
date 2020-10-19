@@ -1,5 +1,6 @@
 package com.like.drive.carstory.ui.base.ext
 
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,9 +14,12 @@ fun Date?.convertDateToString(
         dateFormat.format(it.time)
     } ?: ""
 
-fun getDaysAgo(daysAgo: Int): Date {
+fun getTimeAgo(date: Date, time: Int): Date {
     val calendar = Calendar.getInstance()
-    calendar.add(Calendar.DAY_OF_YEAR, -daysAgo)
+    calendar.time = date
+    calendar.add(Calendar.HOUR, -time)
 
     return calendar.time
 }
+
+

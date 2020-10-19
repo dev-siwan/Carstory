@@ -20,6 +20,7 @@ import com.like.drive.carstory.remote.api.img.ImageApi
 import com.like.drive.carstory.remote.api.notification.NotificationApi
 import com.like.drive.carstory.remote.api.report.ReportApi
 import com.like.drive.carstory.remote.reference.CollectionName
+import com.like.drive.carstory.ui.base.ext.getTimeAgo
 import com.like.drive.carstory.ui.board.category.data.CategoryData
 import com.like.drive.carstory.ui.board.data.LikeCountEnum
 import com.like.drive.carstory.ui.board.upload.data.BoardUploadField
@@ -237,7 +238,9 @@ class BoardRepositoryImpl(
         }.collect {
             success(commentData)
 
-            if (boardData.userInfo?.uid != UserInfo.userInfo?.uid) {
+            val dateCompare = Date().before(getTimeAgo(boardData.createDate ?: Date(), -24))
+
+            if (boardData.userInfo?.uid != UserInfo.userInfo?.uid && dateCompare) {
                 val data = NotificationSendData(
                     notificationType = NotificationType.COMMENT.value,
                     uid = boardData.userInfo?.uid,
@@ -273,7 +276,9 @@ class BoardRepositoryImpl(
         }.collect {
             success(reCommentData)
 
-            if (commentData.userInfo?.uid != UserInfo.userInfo?.uid) {
+            val dateCompare = Date().before(getTimeAgo(commentData.createDate ?: Date(), -24))
+
+            if (commentData.userInfo?.uid != UserInfo.userInfo?.uid && dateCompare) {
                 val data = NotificationSendData(
                     notificationType = NotificationType.RE_COMMENT.value,
                     uid = commentData.userInfo?.uid,
