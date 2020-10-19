@@ -45,10 +45,10 @@
             android:id="@+id/tvDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/activity_small_margin"
+            android:lineSpacingExtra="@dimen/dialog_message_line_spacing_extra"
             android:textColor="@color/grey_3"
             android:textSize="14sp"
-            android:lineSpacingExtra="@dimen/dialog_message_line_spacing_extra"
             app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
             app:layout_constraintLeft_toLeftOf="@id/glLeft"
             app:layout_constraintRight_toRightOf="@id/glRight"
@@ -56,24 +56,32 @@
             app:layout_goneMarginTop="0dp"
             tools:text="다이얼로그 내용입니다. 위 내용을 확인하셨습니까?" />
 
-        <Button
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@color/grey_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+
+        <TextView
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@android:color/black"
+            android:background="@null"
+            android:gravity="center"
             android:includeFontPadding="false"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:stateListAnimator="@null"
             android:text="@string/confirm_text"
-            android:textColor="@color/white_100"
+            android:textColor="@color/grey_1"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

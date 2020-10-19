@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.reference.CollectionName
 import com.like.drive.carstory.remote.reference.CollectionName.USER
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -136,12 +137,18 @@ class UserApiImpl(
         return fireBaseTask.setFunction(mapOf("uid" to uid), "customToken")
     }
 
+    override suspend fun confirmUserMessage(uid: String): Flow<Boolean> {
+        val doc = fireStore.collection(USER).document(uid)
+        return fireBaseTask.updateData(doc, mapOf(USER_MESSAGE_STATUS_FIELD to false))
+    }
+
     override fun checkProvider(): Boolean {
         return fireAuth.currentUser?.providerId == FIREBASE_PROVIDER_ID
     }
 
     companion object {
         const val NICK_NAME_FIELD = "nickName"
+        const val USER_MESSAGE_STATUS_FIELD = "userMessageStatus"
         const val FIREBASE_PROVIDER_ID = "firebase"
     }
 }

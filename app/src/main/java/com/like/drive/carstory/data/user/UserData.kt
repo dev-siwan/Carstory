@@ -28,5 +28,7 @@ data class UserData(
     @SerializedName("admin")
     val admin: Boolean = false,
     @SerializedName("userMessage")
-    val userMessage: String? = null
+    val userMessage: String? = null,
+    @SerializedName("userMessageStatus")
+    var userMessageStatus: Boolean = false
 ) : Parcelable

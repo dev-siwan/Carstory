@@ -19,7 +19,6 @@ class SplashViewModel(
     val errorEvent = SingleLiveEvent<SplashErrorType>()
     val completeEvent = SingleLiveEvent<SplashCompleteType>()
     val emptyNickNameEvent = SingleLiveEvent<Unit>()
-    val userBanComplete = SingleLiveEvent<UserData>()
 
     init {
         versionCheck()
@@ -94,7 +93,7 @@ class SplashViewModel(
 
     private fun successUser() {
         UserInfo.userInfo?.nickName?.let {
-            completeEvent.call()
+            setCompleteEvent(SplashCompleteType.HOME)
         } ?: emptyNickNameEvent.call()
     }
 

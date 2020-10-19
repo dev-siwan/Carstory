@@ -11,7 +11,8 @@
 
 
         <import type="android.text.TextUtils" />
-        <import type="com.like.drive.carstory.common.user.UserInfo"/>
+
+        <import type="com.like.drive.carstory.common.user.UserInfo" />
 
     </data>
 
@@ -119,6 +120,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_x_small_margin"
+                    android:autoLink="web"
                     android:gravity="start"
                     android:hint="@string/intro_empty_desc"
                     android:text="@{!TextUtils.isEmpty(vm.userData.intro) ? vm.userData.intro : @string/intro_empty_desc}"

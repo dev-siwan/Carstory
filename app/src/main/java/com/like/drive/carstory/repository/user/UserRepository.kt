@@ -73,4 +73,6 @@ interface UserRepository {
     )
 
     fun isProvider(): Boolean
+
+    suspend fun confirmUserMessage(uid: String)
 }

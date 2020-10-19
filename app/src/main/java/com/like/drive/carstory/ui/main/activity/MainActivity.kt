@@ -19,6 +19,7 @@ import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.base.ext.*
 import com.like.drive.carstory.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.carstory.ui.board.upload.activity.UploadActivity
+import com.like.drive.carstory.ui.dialog.AlertDialog
 import com.like.drive.carstory.ui.home.fragment.HomeFragment
 import com.like.drive.carstory.ui.main.viewmodel.MainViewModel
 import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
@@ -59,7 +60,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun withViewModel() {
         with(viewModel) {
-            signOut()
+            userMessage()
             moveToUploadPage()
         }
     }
@@ -96,10 +97,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         })
     }
 
-    private fun MainViewModel.signOut() {
-        signOutComplete.observe(this@MainActivity, Observer {
-            startAct(SignInActivity::class)
-            finish()
+    private fun MainViewModel.userMessage() {
+        userMessageEvent.observe(this@MainActivity, Observer {
+            AlertDialog.newInstance(title = "메세지", message = it).apply {
+                isCancelable = false
+                action = {
+                    confirmUserMessage()
+                }
+            }.show(supportFragmentManager, AlertDialog.TAG)
         })
     }
 

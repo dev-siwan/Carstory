@@ -19,7 +19,10 @@ class AdminApiImpl(
 
         val document = ref.document(uid)
 
-        return fireBaseTask.updateData(document, mapOf(USER_MESSAGE_FIELD to message))
+        return fireBaseTask.updateData(
+            document,
+            mapOf(USER_MESSAGE_FIELD to message, USER_MESSAGE_STATUS to true)
+        )
 
     }
 
@@ -38,6 +41,7 @@ class AdminApiImpl(
     companion object {
         const val USER_MESSAGE_FIELD = "userMessage"
         const val USER_BAN_FIELD = "userBan"
+        const val USER_MESSAGE_STATUS = "userMessageStatus"
     }
 
 }

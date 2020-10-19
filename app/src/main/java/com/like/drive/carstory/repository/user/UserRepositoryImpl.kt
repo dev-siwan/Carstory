@@ -28,7 +28,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             .collect { userData ->
                 userData?.let {
                     UserInfo.run {
-                        userInfo = it
+                        setUserData(it)
                         updateFcm(it.fcmToken)
                     }
                     success.invoke(it)
@@ -230,6 +230,10 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
     override fun isProvider(): Boolean {
         return userApi.checkProvider()
+    }
+
+    override suspend fun confirmUserMessage(uid: String) {
+        userApi.confirmUserMessage(uid).collect()
     }
 
 }

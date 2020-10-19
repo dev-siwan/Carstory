@@ -315,7 +315,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     }
 
     fun moveUserLookUpListener(userData: UserData) {
-        if (userData != UserInfo.userInfo) {
+        if (userData.uid != UserInfo.userInfo?.uid) {
             moveUserLookUpEvent.value = userData.uid
         }
     }
