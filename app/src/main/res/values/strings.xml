@@ -236,6 +236,7 @@
     <string name="more_title_notice">공지사항</string>
     <string name="more_title_terms_use">서비스 이용약관</string>
     <string name="more_title_terms_privacy">개인정보 처리방침</string>
+    <string name="more_title_questions">문의사항</string>
     <string name="more_title_logout">로그아웃</string>
     <string name="more_title_admin">관리자 페이지</string>
     <string name="more_title_report">신고 페이지</string>

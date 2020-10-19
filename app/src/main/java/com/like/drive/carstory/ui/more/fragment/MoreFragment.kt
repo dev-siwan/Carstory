@@ -10,6 +10,7 @@ import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.databinding.FragmentMoreBinding
 import com.like.drive.carstory.ui.base.BaseFragment
 import com.like.drive.carstory.ui.base.binder.setProfileImg
+import com.like.drive.carstory.ui.base.ext.openWebBrowser
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startActForResult
 import com.like.drive.carstory.ui.board.list.activity.BoardListActivity
@@ -68,6 +69,10 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
             startAct(TermsActivity::class, Bundle().apply {
                 putString(TermsActivity.TERMS_KEY, TermsActivity.TERMS_PRIVACY_VALUE)
             })
+        }
+
+        dataBinding.containerQuestions.containerMoreItem.setOnClickListener {
+            requireContext().openWebBrowser("https://forms.gle/vSgHbpE8rGRADnKv9")
         }
 
         dataBinding.containerReportPage.containerMoreItem.setOnClickListener {
