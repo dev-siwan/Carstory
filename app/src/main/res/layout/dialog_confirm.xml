@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_bg">
+        android:background="@drawable/rect_solid_white_100_conner">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glLeft"
@@ -63,11 +63,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
-        <Button
+        <TextView
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:gravity="center"
             android:includeFontPadding="false"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
@@ -81,11 +82,12 @@
             app:layout_constraintRight_toLeftOf="@+id/btnConfirm"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-        <Button
+        <TextView
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:gravity="center"
             android:includeFontPadding="false"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"

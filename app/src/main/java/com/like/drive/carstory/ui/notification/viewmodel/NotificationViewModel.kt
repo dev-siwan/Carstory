@@ -37,4 +37,10 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
     fun onClickListener(data: NotificationSendData) {
         clickItemEvent.value = data
     }
+
+    fun removeNotificationList() {
+        viewModelScope.launch {
+            repository.allDelete()
+        }
+    }
 }

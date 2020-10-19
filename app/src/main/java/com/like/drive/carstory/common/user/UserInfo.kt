@@ -1,7 +1,10 @@
 package com.like.drive.carstory.common.user
 
+import android.app.NotificationManager
+import android.content.Context
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
+import com.like.drive.carstory.CarStoryApplication
 import com.like.drive.carstory.common.define.FirebaseDefine
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.pref.UserPref
@@ -40,6 +43,8 @@ object UserInfo : KoinComponent {
             notificationRepo.allDelete()
             boardRepository.removeAllLike()
             userInfo = null
+            (CarStoryApplication.getContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancelAll()
             cancel()
         }
     }

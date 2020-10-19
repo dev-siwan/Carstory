@@ -1,6 +1,7 @@
 package com.like.drive.carstory.di
 
 import com.like.drive.carstory.cache.AppDB
+import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.pref.UserPref
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module

@@ -6,8 +6,10 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.define.FirebaseDefine
+import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.notification.NotificationSendData
 import com.like.drive.carstory.data.notification.NotificationType
+import com.like.drive.carstory.pref.UserPref
 import com.like.drive.carstory.repository.notification.NotificationRepository
 import com.like.drive.carstory.ui.base.ext.toDataClass
 import com.like.drive.carstory.util.notification.NotificationUtil
@@ -20,12 +22,15 @@ import org.koin.core.inject
 class AppFireMessagingService : FirebaseMessagingService(), KoinComponent {
 
     private val repo: NotificationRepository by inject()
+    private val pref: UserPref by inject()
 
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
     }
 
     override fun onMessageReceived(remoteMessaging: RemoteMessage) {
+
+        if (pref.userData == null) return
 
         remoteMessaging.data.toDataClass<NotificationSendData>()?.let {
             handleNotification(it)
@@ -62,4 +67,5 @@ class AppFireMessagingService : FirebaseMessagingService(), KoinComponent {
 
         }
     }
+
 }

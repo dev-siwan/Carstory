@@ -52,6 +52,20 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
+
+        <TextView
+            android:id="@+id/tvAllRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="@string/all_remove"
+            android:textColor="@color/grey_1"
+            android:textSize="@dimen/normal_text_size"
+            android:visibility="@{!vm.isEmptyObservable}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,6 +89,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toBottomOf="@id/tvAllRemove" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

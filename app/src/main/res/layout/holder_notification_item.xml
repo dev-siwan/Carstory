@@ -7,6 +7,7 @@
         <variable
             name="data"
             type="com.like.drive.carstory.data.notification.NotificationSendData" />
+
         <variable
             name="vm"
             type="com.like.drive.carstory.ui.notification.viewmodel.NotificationViewModel" />
@@ -15,19 +16,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_vertical_margin"
         android:background="?attr/selectableItemBackground"
-        android:onClick="@{()->vm.onClickListener(data)}">
+        android:onClick="@{()->vm.onClickListener(data)}"
+        android:padding="@dimen/activity_vertical_margin">
 
 
         <ImageView
             android:id="@+id/ivIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_notification_comment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_notification_comment" />
 
         <TextView
             android:id="@+id/tvTitle"

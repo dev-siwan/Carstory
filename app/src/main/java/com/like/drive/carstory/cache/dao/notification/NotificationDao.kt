@@ -13,5 +13,6 @@ interface NotificationDao {
     fun getList(): Flow<List<NotificationEntity>>
 
     @Query("DELETE FROM NotificationEntity")
-    suspend fun deleteList()
+    suspend fun deleteNotification()
+
 }
