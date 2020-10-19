@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.*
+import com.like.drive.carstory.BuildConfig
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.enum.OptionsSelectType
 import com.like.drive.carstory.common.user.UserInfo
@@ -445,11 +446,13 @@ class BoardDetailActivity :
 
         MobileAds.initialize(this)
 
-        MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder()
-                .setTestDeviceIds(listOf("ABCDEF012345"))
-                .build()
-        )
+        if (BuildConfig.DEBUG) {
+            MobileAds.setRequestConfiguration(
+                RequestConfiguration.Builder()
+                    .setTestDeviceIds(listOf("ABCDEF012345"))
+                    .build()
+            )
+        }
 
         adView = AdView(this)
 

@@ -21,6 +21,7 @@ import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.google.android.gms.ads.*
+import com.like.drive.carstory.BuildConfig
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.board.BoardData
 import com.like.drive.carstory.databinding.FragmentSearchBinding
@@ -334,11 +335,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         MobileAds.initialize(requireContext())
 
-        MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder()
-                .setTestDeviceIds(listOf("ABCDEF012345"))
-                .build()
-        )
+        if (BuildConfig.DEBUG) {
+            MobileAds.setRequestConfiguration(
+                RequestConfiguration.Builder()
+                    .setTestDeviceIds(listOf("ABCDEF012345"))
+                    .build()
+            )
+        }
 
         adView = AdView(requireContext())
         incRecentlyList.containerAdv.apply {
