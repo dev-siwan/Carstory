@@ -10,7 +10,6 @@ import com.like.drive.carstory.data.notification.NotificationType
 import com.like.drive.carstory.databinding.FragmentNotificationBinding
 import com.like.drive.carstory.ui.base.BaseFragment
 import com.like.drive.carstory.ui.board.detail.activity.BoardDetailActivity
-import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.carstory.ui.notification.activity.NotificationSettingActivity
@@ -45,15 +44,6 @@ class NotificationFragment :
 
         dataBinding.ivNotificationSetting.setOnClickListener {
             startAct(NotificationSettingActivity::class)
-        }
-
-        dataBinding.tvAllRemove.setOnClickListener {
-            ConfirmDialog.newInstance(
-                title = getString(R.string.all_remove),
-                message = getString(R.string.notification_list_all_remove_desc)
-            ).apply {
-                confirmAction = { viewModel.removeNotificationList() }
-            }.show(requireActivity().supportFragmentManager, ConfirmDialog.TAG)
         }
     }
 

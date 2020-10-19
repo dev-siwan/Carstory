@@ -22,4 +22,11 @@ fun getTimeAgo(date: Date, time: Int): Date {
     return calendar.time
 }
 
+fun getDaysAgo(days: Int): Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = Date()
+    calendar.add(Calendar.DAY_OF_MONTH, -days)
+
+    return calendar.time
+}
 

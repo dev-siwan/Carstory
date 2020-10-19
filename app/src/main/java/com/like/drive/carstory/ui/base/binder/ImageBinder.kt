@@ -98,8 +98,6 @@ fun ImageView.setProfileImg(path: String?) {
             .error(R.drawable.profile_default_img_100)
             .placeholder(R.drawable.profile_default_img_100)
             .transform(CircleCrop(), CenterCrop())
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
     )
         .transition(withCrossFade())
         .into(this@setProfileImg)

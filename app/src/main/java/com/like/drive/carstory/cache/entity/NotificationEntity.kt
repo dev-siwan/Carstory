@@ -3,6 +3,7 @@ package com.like.drive.carstory.cache.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.like.drive.carstory.data.notification.NotificationSendData
+import com.like.drive.carstory.ui.base.ext.getDaysAgo
 import java.util.*
 
 @Entity

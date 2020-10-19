@@ -18,7 +18,7 @@ class NotificationViewHolder(val binding: HolderNotificationItemBinding) :
         binding.ivIcon.setImageDrawable(
             if (data.notificationType == "0") ContextCompat.getDrawable(
                 binding.root.context,
-                R.drawable.ic_notification_circle
+                R.drawable.ic_notification_notice
             ) else ContextCompat.getDrawable(
                 binding.root.context,
                 R.drawable.ic_notification_comment
