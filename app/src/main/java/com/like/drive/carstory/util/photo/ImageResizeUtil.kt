@@ -85,11 +85,11 @@ object ImageResizeUtil {
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 
-                resizedBitmap!!.compress(CompressFormat.JPEG, 80, FileOutputStream(newFile))
+                resizedBitmap!!.compress(CompressFormat.JPEG, 60, FileOutputStream(newFile))
 
             } else {
 
-                resizedBitmap!!.compress(CompressFormat.PNG, 80, FileOutputStream(newFile))
+                resizedBitmap!!.compress(CompressFormat.PNG, 60, FileOutputStream(newFile))
 
             }
 

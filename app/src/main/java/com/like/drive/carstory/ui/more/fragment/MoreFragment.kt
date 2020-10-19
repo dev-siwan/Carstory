@@ -72,7 +72,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         }
 
         dataBinding.containerQuestions.containerMoreItem.setOnClickListener {
-            requireContext().openWebBrowser("https://forms.gle/vSgHbpE8rGRADnKv9")
+            requireActivity().openWebBrowser("https://forms.gle/vSgHbpE8rGRADnKv9")
         }
 
         dataBinding.containerReportPage.containerMoreItem.setOnClickListener {

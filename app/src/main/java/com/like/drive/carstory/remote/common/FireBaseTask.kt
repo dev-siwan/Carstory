@@ -7,6 +7,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -90,6 +91,8 @@ class FireBaseTask {
             val uploadTask = ref.putStream(FileInputStream(file)).await()
             emit(uploadTask.task.isComplete)
         }
+
+
 
     suspend fun deleteImage(ref: StorageReference): Flow<Boolean> =
         flow {

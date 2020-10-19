@@ -87,6 +87,11 @@ class BoardDetailActivity :
         dataBinding.tvContent.apply {
             movementMethod = LinkMovementMethod.getInstance()
         }
+        dataBinding.containerDetailFunction.tvComment.setOnClickListener {
+            dataBinding.etComment.requestFocus()
+            showKeyboard(dataBinding.etComment)
+            dataBinding.nestedScrollView.scrollY= dataBinding.nestedScrollView.bottom
+        }
 
     }
 

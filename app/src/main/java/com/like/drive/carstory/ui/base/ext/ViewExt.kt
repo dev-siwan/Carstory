@@ -24,6 +24,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
+import com.like.drive.carstory.R
 import com.like.drive.carstory.ui.base.loading.LoadingProgressDialog
 import java.lang.Exception
 import java.util.*
@@ -94,14 +95,11 @@ fun Context.progressBar(): Dialog {
     return LoadingProgressDialog(this)
 }
 
-fun Context.openWebBrowser(url: String) {
-    try {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-
-        startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
-        //showShortToast(getString(R.string.wrong_url))
-    }
+fun Context.openWebBrowser(url: String) = try {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    startActivity(intent)
+} catch (e: ActivityNotFoundException) {
+    showShortToast(getString(R.string.wrong_url))
 }
 
 /**

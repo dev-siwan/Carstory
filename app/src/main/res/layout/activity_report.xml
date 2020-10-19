@@ -34,8 +34,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/activity_vertical_margin"
                 android:text="@string/more_title_report"
-                android:textColor="@color/grey_1"
-                android:textStyle="bold" />
+                android:textColor="@color/grey_1"/>
         </androidx.appcompat.widget.Toolbar>
 
         <View

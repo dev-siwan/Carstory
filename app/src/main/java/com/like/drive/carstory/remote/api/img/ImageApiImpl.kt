@@ -19,8 +19,9 @@ class ImageApiImpl(
     }
 
     override suspend fun profileImage(uid: String, imgFile: File): Flow<Boolean> {
+        val ref  = firebaseStorage.reference.child(CollectionName.USER).child(uid).child("profileImg")
         return fireBaseTask.uploadProfileImage(
-            firebaseStorage.reference.child(CollectionName.USER).child(uid).child("profileImg"),
+            ref,
             imgFile
         )
     }

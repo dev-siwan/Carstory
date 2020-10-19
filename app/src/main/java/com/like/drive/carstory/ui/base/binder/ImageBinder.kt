@@ -12,10 +12,18 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.photo.PhotoData
 import com.like.drive.carstory.ui.base.ext.dpToPixel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.util.*
+import kotlin.coroutines.coroutineContext
 
 @BindingAdapter("fitLoadImage")
 fun ImageView.fitLoadImage(photoData: PhotoData?) {
@@ -98,6 +106,8 @@ fun ImageView.setProfileImg(path: String?) {
             .error(R.drawable.profile_default_img_100)
             .placeholder(R.drawable.profile_default_img_100)
             .transform(CircleCrop(), CenterCrop())
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
     )
         .transition(withCrossFade())
         .into(this@setProfileImg)

@@ -42,17 +42,23 @@ object UserInfo : KoinComponent {
             userPref.removeUserInfo()
             notificationRepo.allDelete()
             boardRepository.removeAllLike()
-            userInfo = null
             (CarStoryApplication.getContext()
                 .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancelAll()
+            disableFcm()
+            userInfo = null
             cancel()
         }
+    }
+
+    private fun disableFcm() {
+        FirebaseMessaging.getInstance().isAutoInitEnabled = false
+        FirebaseInstanceId.getInstance().deleteToken(FirebaseInstanceId.getInstance().id, FirebaseMessaging.INSTANCE_ID_SCOPE)
     }
 
     fun updateFcm(token: String?) {
 
         CoroutineScope(Dispatchers.IO).launch {
-
+            FirebaseMessaging.getInstance().isAutoInitEnabled = true
             val newToken = getToken()
             if (token != newToken) {
                 userPref.fcmToken?.let {

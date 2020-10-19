@@ -38,7 +38,7 @@ class AlertUserBanDialog :
             getString(R.string.user_ban_dialog_desc_format, userNick, message)
         )
         dataBinding.tvUserBanSubmitDesc.setOnClickListener {
-            requireContext().openWebBrowser("https://forms.gle/27PYkojWAtEJ126G7")
+            requireActivity().openWebBrowser("https://forms.gle/27PYkojWAtEJ126G7")
         }
     }
 

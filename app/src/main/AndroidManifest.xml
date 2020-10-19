@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
-        <activity android:name=".ui.message.activity.UserMessageActivity"></activity>
+        <activity android:name=".ui.message.activity.UserMessageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".ui.user.activity.UserLookUpActivity"
             android:screenOrientation="portrait"
@@ -87,7 +89,6 @@
         <activity
             android:name=".ui.splash.activity.SplashActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action
@@ -110,7 +111,6 @@
         <activity
             android:name=".ui.main.activity.MainActivity"
             android:excludeFromRecents="true"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialCustomTheme"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden">
@@ -187,6 +187,13 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${crashlyticsCollectionEnabled}" />
+
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
     </application>
 
 </manifest>

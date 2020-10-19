@@ -361,6 +361,7 @@
 
     <string name="notification_list_all_remove_desc">알림을 전체 삭제 하시겠습니까?</string>
     <string name="notification_date_desc">* 알림은 최대 15일까지 저장이 됩니다.</string>
+    <string name="wrong_url">웹페이지를 열 수 없습니다</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

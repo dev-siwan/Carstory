@@ -30,8 +30,6 @@ class AppFireMessagingService : FirebaseMessagingService(), KoinComponent {
 
     override fun onMessageReceived(remoteMessaging: RemoteMessage) {
 
-        if (pref.userData == null) return
-
         remoteMessaging.data.toDataClass<NotificationSendData>()?.let {
             handleNotification(it)
         }
