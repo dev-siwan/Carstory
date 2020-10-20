@@ -15,6 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CategoryFragmentDialog :
     BaseFragmentDialog<FragmentCategoryDialogBinding>(R.layout.fragment_category_dialog) {
+
     private val viewModel: UploadViewModel by sharedViewModel()
     val list by lazy { getCategoryList(requireContext()) }
 

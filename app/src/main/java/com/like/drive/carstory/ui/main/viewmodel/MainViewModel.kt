@@ -1,20 +1,37 @@
 package com.like.drive.carstory.ui.main.viewmodel
 
-import android.view.View
 import androidx.lifecycle.viewModelScope
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.common.user.UserInfo
+import com.like.drive.carstory.pref.UserPref
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class MainViewModel(private val userRepository: UserRepository) : BaseViewModel() {
+class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(), KoinComponent {
+
+    private val userPref: UserPref by inject()
+
+    val showPermissionEvent = SingleLiveEvent<Unit>()
 
     val uploadClickEvent = SingleLiveEvent<Unit>()
     val userMessageEvent = SingleLiveEvent<String>()
 
     init {
+        checkPermission()
         userMessage()
+    }
+
+    private fun checkPermission() {
+        if (!userPref.isPermissionPopUp) {
+            showPermissionEvent.call()
+        }
+    }
+
+    fun confirmPermission() {
+        userPref.isPermissionPopUp = true
     }
 
     private fun userMessage() {

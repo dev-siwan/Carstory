@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_bg">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="30dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="30dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="30dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/permission_title"
+            android:textColor="@color/grey_3"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/glEnd"
+            app:layout_constraintStart_toStartOf="@+id/glStart"
+            app:layout_constraintTop_toTopOf="@+id/glTop" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/permission_sub_title"
+            android:textColor="@color/grey_3"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/glEnd"
+            app:layout_constraintStart_toStartOf="@+id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/light_gery_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSubTitle" />
+
+        <ScrollView
+            android:id="@+id/scrollPermission"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:maxHeight="288dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
+            app:layout_constraintTop_toBottomOf="@id/ivDivider">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSelectPermission"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="@string/permission_selective_access"
+                    android:textColor="@color/grey_3"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNotificationTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/permission_notification_title"
+                    android:textColor="@color/grey_3"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSelectPermission" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNotificationSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/permission_notification_sub_title"
+                    android:textColor="@color/grey_4"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tvNotificationTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvNotificationTitle" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCameraTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/permission_camera_title"
+                    android:textColor="@color/grey_3"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvNotificationSubTitle"
+                    android:layout_marginTop="@dimen/activity_small_margin"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCameraDesc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/permission_camera_sub_title"
+                    android:textColor="@color/grey_4"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tvCameraTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvCameraTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTip1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/permission_tip_1"
+                    android:textColor="@color/grey_4"
+                    android:textSize="12sp"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCameraDesc" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTip2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/permission_tip_2"
+                    android:textColor="@color/grey_4"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTip1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_1"
+            android:includeFontPadding="false"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:stateListAnimator="@null"
+            android:text="@string/confirm_text"
+            android:textColor="@color/white_100"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scrollPermission" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

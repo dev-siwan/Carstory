@@ -23,7 +23,7 @@ import com.like.drive.carstory.ui.dialog.AlertDialog
 import com.like.drive.carstory.ui.home.fragment.HomeFragment
 import com.like.drive.carstory.ui.main.viewmodel.MainViewModel
 import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
-import com.like.drive.carstory.ui.sign.`in`.activity.SignInActivity
+import com.like.drive.carstory.ui.permission.AccessPermissionDialog
 import com.like.drive.carstory.util.notification.NotificationUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -60,6 +60,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun withViewModel() {
         with(viewModel) {
+            permission()
             userMessage()
             moveToUploadPage()
         }
@@ -94,6 +95,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun MainViewModel.moveToUploadPage() {
         uploadClickEvent.observe(this@MainActivity, Observer {
             startActForResult(UploadActivity::class, UPLOAD_FEED_REQ)
+        })
+    }
+
+    private fun MainViewModel.permission() {
+        showPermissionEvent.observe(this@MainActivity, Observer {
+            AccessPermissionDialog.newInstance().apply {
+                isCancelable = false
+                action = { confirmPermission() }
+
+            }.show(supportFragmentManager, AccessPermissionDialog.TAG)
         })
     }
 

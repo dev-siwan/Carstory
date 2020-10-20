@@ -57,6 +57,10 @@ class UserPref(application: Application) {
             preferences.edit { putString(RECENTLY_LIST, tagList) }
         }
 
+    var isPermissionPopUp: Boolean
+        get() = preferences.getBoolean(PERMISSION_CHECK, false)
+        set(value) = preferences.edit { putBoolean(PERMISSION_CHECK, value) }
+
     fun removeUserInfo() {
         modelPref.remove(USER_INFO)
     }
@@ -68,5 +72,6 @@ class UserPref(application: Application) {
         const val IS_SEND_FCM_TOKEN = "IS_SEND_FCM_TOKEN"
         const val RECENTLY_LIST = "RECENTLY_LIST"
         const val NOTICE_TOPIC = "NOTICE_TOPIC"
+        const val PERMISSION_CHECK="PERMISSION_CHECK"
     }
 }
