@@ -165,17 +165,24 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                 }
             }
 
+            deleteFile(info)
+
             imgFile?.let {
                 withContext(Dispatchers.Default) {
                     profileImgPath =
-                        imageApi.profileImage(info.uid ?: "", it).catch { fail.invoke() }.single()
+                        imageApi.profileImage(info.uid ?: "", it)
+                            .catch { e ->
+                                e.message
+                                fail.invoke()
+                            }.single()
                 }
             }
 
-            deleteFile(info)
-
             userApi.setUserProfile(info.uid ?: "", nickName, profileImgPath, intro)
-                .catch { fail.invoke() }.collect { success(profileImgPath) }
+                .catch { e ->
+                    e.printStackTrace()
+                    fail.invoke()
+                }.collect { success(profileImgPath) }
 
         } ?: notUser.invoke()
 
@@ -186,7 +193,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             userData.profileImgPath?.let {
                 imageApi.removeProfileImg(it).catch { e ->
                     e.printStackTrace()
-                }.single()
+                }.collect()
             }
         }
     }

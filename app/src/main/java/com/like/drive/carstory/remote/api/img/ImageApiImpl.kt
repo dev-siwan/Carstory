@@ -13,7 +13,7 @@ class ImageApiImpl(
     private val firebaseStorage: FirebaseStorage,
     private val fireBaseTask: FireBaseTask
 ) : ImageApi {
-    override suspend fun uploadBoardImage(bid: String, imgFile: File, index: Int): Flow<Uri?> {
+    override suspend fun uploadBoardImage(bid: String, imgFile: File, index: Int): Flow<String?> {
         return fireBaseTask.uploadImage(
             firebaseStorage.reference.child(CollectionName.BOARD).child(bid).child("img$index"),
             imgFile

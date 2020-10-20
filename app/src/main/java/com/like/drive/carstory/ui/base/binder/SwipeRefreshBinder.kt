@@ -7,3 +7,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 fun SwipeRefreshLayout.refreshing(visible: Boolean) {
     isRefreshing = visible
 }
+
+@BindingAdapter("enable")
+fun SwipeRefreshLayout.enable(status:Boolean){
+    isEnabled = status
+}

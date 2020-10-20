@@ -190,6 +190,7 @@ object PickImageUtil {
         CropImage.activity(photoUri).apply {
             setAspectRatio(1, 1)
             setCropShape(CropImageView.CropShape.OVAL)
+            setRequestedSize(activity.valueToDp(100), activity.valueToDp(100))
             start(activity)
 
         }

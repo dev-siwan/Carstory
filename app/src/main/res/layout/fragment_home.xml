@@ -87,7 +87,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"
-                    app:refreshing="@{boardVm.isRefresh}">
+                    app:refreshing="@{boardVm.isRefresh}"
+                    app:enable="@{!boardVm.isMore &amp;&amp; !boardVm.isLoading}">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvBoardList"

@@ -1,13 +1,11 @@
 package com.like.drive.carstory.remote.common
 
-import android.net.Uri
 import bolts.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.functions.FirebaseFunctions
-import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -76,11 +74,11 @@ class FireBaseTask {
             emit(Tasks.forResult(snapShot).isComplete)
         }
 
-    suspend fun uploadImage(ref: StorageReference, file: File): Flow<Uri?> =
+    suspend fun uploadImage(ref: StorageReference, file: File): Flow<String?> =
         flow {
             val uploadTask = ref.putStream(FileInputStream(file)).await()
             if (uploadTask.task.isComplete) {
-                emit(uploadTask.storage.downloadUrl.await())
+                emit(uploadTask.storage.path)
             } else {
                 emit(null)
             }

@@ -12,18 +12,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.photo.PhotoData
 import com.like.drive.carstory.ui.base.ext.dpToPixel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import java.util.*
-import kotlin.coroutines.coroutineContext
 
 @BindingAdapter("fitLoadImage")
 fun ImageView.fitLoadImage(photoData: PhotoData?) {
@@ -38,9 +30,14 @@ fun ImageView.fitLoadImage(photoData: PhotoData?) {
 
 @BindingAdapter("fitLoadPhotoView")
 fun PhotoView.fitLoadImage(photoData: PhotoData?) {
+
     photoData?.let {
+
+        val value =
+            if (it.imgUrl != null) Firebase.storage.reference.child(it.imgUrl!!) else it.file
+
         Glide.with(context)
-            .load(it.file ?: it.imgUrl)
+            .load(value)
             .transition(withCrossFade())
             .apply(RequestOptions().fitCenter())
             .into(this)
@@ -50,8 +47,11 @@ fun PhotoView.fitLoadImage(photoData: PhotoData?) {
 @BindingAdapter("centerCropImage")
 fun ImageView.centerCrop(imageUrl: String?) {
     imageUrl?.let {
+
+        val value = Firebase.storage.reference.child(it)
+
         Glide.with(context)
-            .load(it)
+            .load(value)
             .transition(withCrossFade())
             .centerCrop()
             .into(this)
@@ -72,13 +72,16 @@ fun ImageView.setUri(uri: Uri?) {
 @BindingAdapter("uploadPhoto")
 fun ImageView.setPhotoData(photoData: PhotoData?) {
     photoData?.let {
+        val value =
+            if (it.imgUrl != null) Firebase.storage.reference.child(it.imgUrl!!) else it.file
+
         val size = context.dpToPixel(80f).toInt()
         val glideOption: RequestOptions = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
 
         Glide.with(context)
-            .load(it.file ?: it.imgUrl)
+            .load(value)
             .transition(withCrossFade())
             .apply(
                 RequestOptions()
