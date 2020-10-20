@@ -12,6 +12,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.enum.PhotoSelectType
+import com.like.drive.carstory.common.enum.ProfilePhotoSelectType
 import com.like.drive.carstory.databinding.ActivityProfileBinding
 import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.base.ext.showListDialog
@@ -25,6 +26,7 @@ import com.like.drive.carstory.ui.dialog.AlertNickDialog
 import com.like.drive.carstory.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.carstory.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.carstory.util.photo.PickImageUtil
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -138,12 +140,13 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     private fun showSelectPhotoList() {
         showListDialog(
-            resources.getStringArray(R.array.empty_photo_type_array),
+            ProfilePhotoSelectType.values().map { getString(it.resID) }.toTypedArray(),
             getString(R.string.select_photo)
         ) { position ->
             when (position) {
-                PhotoSelectType.CAMERA.ordinal -> showCamera()
-                PhotoSelectType.ALBUM.ordinal -> checkStoragePermission()
+                ProfilePhotoSelectType.CAMERA.ordinal -> showCamera()
+                ProfilePhotoSelectType.ALBUM.ordinal -> checkStoragePermission()
+                ProfilePhotoSelectType.BASIC.ordinal -> viewModel.setImageFile(null)
             }
         }
     }
@@ -192,9 +195,10 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                     loadingProgress.show()
                     lifecycleScope.launch {
                         withContext(Dispatchers.Default) {
-                            getCameraFlow()
+                            PickImageUtil.getImageFromCamera {
+                                imageError()
+                            }
                         }
-                        loadingProgress.onDismiss()
                     }
 
                 }
@@ -203,55 +207,56 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                     loadingProgress.show()
                     lifecycleScope.launch {
                         withContext(Dispatchers.Default) {
-                            getAlbumFlow(data)
+                            data?.let {
+                                data.getParcelableExtra<Uri>(GalleryActivity.KEY_SELECTED_GALLERY_ITEM)
+                                    ?.let {
+                                        PickImageUtil.getImageFromGallery(this@ProfileActivity, it)
+                                    } ?: imageError()
+                            }
+
                         }
-                        loadingProgress.onDismiss()
                     }
                 }
+
+                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+
+                    val result = CropImage.getActivityResult(data)
+                    lifecycleScope.launch {
+                        setResizeImage(result.uri)
+                    }
+                    loadingProgress.onDismiss()
+                }
+
+                CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE -> {
+
+                    PickImageUtil.cancelPick()
+                    loadingProgress.onDismiss()
+
+                }
+
+                else -> {
+
+                    PickImageUtil.cancelPick()
+                    loadingProgress.onDismiss()
+
+                }
+
             }
         }
     }
 
     /**
-     * 카메라 파일 리사이즈
-     */
-    private suspend fun getCameraFlow() {
-        PickImageUtil.getImageFromCameraPath()?.let { path ->
-            lifecycleScope.launch {
-                setResizeImage(File(path))
-            }
-        } ?: imageError()
-    }
-
-    /**
-     * 앨범 리스트들을 파일을 만들어서 stream 시킴
-     */
-    private suspend fun getAlbumFlow(data: Intent?) {
-        data?.getParcelableExtra<Uri>(GalleryActivity.KEY_SELECTED_GALLERY_ITEM)
-            ?.let {
-                createFileWithUri(it)
-            } ?: imageError()
-    }
-
-    /**
-     * 파일을 만든 후 리사이즈를 시킨다 !
+     * 리사이즈를 시킨다 !
      * */
-    private suspend fun createFileWithUri(uri: Uri?) {
-        uri?.let {
-            withContext(Dispatchers.IO) {
-                PickImageUtil.createUriImageFile(this@ProfileActivity, uri)
-                    ?.let { file -> setResizeImage(file) }
-            }
-        } ?: imageError()
-    }
 
-    private suspend fun setResizeImage(file: File?) {
-        file?.let {
+    private suspend fun setResizeImage(uri: Uri?) {
+        uri?.let {
+            val file = File(it.path!!)
             withContext(Dispatchers.IO) {
-                PickImageUtil.resizeImage(it.path)
+                PickImageUtil.resizeImage(file.path)
             }
             withContext(Dispatchers.Main) {
-                viewModel.setImageFile(it)
+                viewModel.setImageFile(file)
             }
         } ?: imageError()
     }

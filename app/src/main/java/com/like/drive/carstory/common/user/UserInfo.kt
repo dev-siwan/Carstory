@@ -52,7 +52,8 @@ object UserInfo : KoinComponent {
 
     private fun disableFcm() {
         FirebaseMessaging.getInstance().isAutoInitEnabled = false
-        FirebaseInstanceId.getInstance().deleteToken(FirebaseInstanceId.getInstance().id, FirebaseMessaging.INSTANCE_ID_SCOPE)
+        FirebaseInstanceId.getInstance()
+            .deleteToken(FirebaseInstanceId.getInstance().id, FirebaseMessaging.INSTANCE_ID_SCOPE)
     }
 
     fun updateFcm(token: String?) {
@@ -82,10 +83,7 @@ object UserInfo : KoinComponent {
         userInfo?.apply {
             this.nickName = nickName
             this.intro = intro
-            imgPath?.let {
-                this.profileImgPath = it
-            }
-
+            this.profileImgPath = imgPath
         }
     }
 

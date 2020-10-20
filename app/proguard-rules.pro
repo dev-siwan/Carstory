@@ -203,3 +203,5 @@
     public static *** d(...);
     public static *** v(...);
 }
+
+-keep class androidx.appcompat.widget.** { *; }

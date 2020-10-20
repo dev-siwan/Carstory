@@ -5,6 +5,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.like.drive.carstory.remote.common.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import java.io.File
 
 class ImageApiImpl(
@@ -18,12 +20,19 @@ class ImageApiImpl(
         )
     }
 
-    override suspend fun profileImage(uid: String, imgFile: File): Flow<Boolean> {
-        val ref  = firebaseStorage.reference.child(CollectionName.USER).child(uid).child("profileImg")
-        return fireBaseTask.uploadProfileImage(
-            ref,
-            imgFile
-        )
+    override suspend fun profileImage(uid: String, imgFile: File): Flow<String> = flow {
+        val ref =
+            firebaseStorage.reference.child(CollectionName.USER).child(uid).child(imgFile.name)
+        fireBaseTask.uploadProfileImage(ref, imgFile).collect {
+            if (it) {
+                emit(ref.path)
+            }
+        }
+    }
+
+    override suspend fun removeProfileImg(path: String): Flow<Boolean> {
+        val ref = firebaseStorage.reference.child(path)
+        return fireBaseTask.removeProfileImage(ref)
     }
 
     override suspend fun deleteBoardImage(bid: String, index: Int): Flow<Boolean> {

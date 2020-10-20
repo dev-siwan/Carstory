@@ -63,7 +63,7 @@ class FireBaseTask {
 
     suspend fun updateData(
         doc: DocumentReference,
-        map: Map<String, Any>
+        map: Map<String, Any?>
     ): Flow<Boolean> =
         flow {
             val snapShot = doc.update(map).await()
@@ -92,7 +92,10 @@ class FireBaseTask {
             emit(uploadTask.task.isComplete)
         }
 
-
+    suspend fun removeProfileImage(ref: StorageReference): Flow<Boolean> =
+        flow {
+            emit(Tasks.forResult(ref.delete().await()).isComplete)
+        }
 
     suspend fun deleteImage(ref: StorageReference): Flow<Boolean> =
         flow {

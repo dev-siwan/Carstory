@@ -7,9 +7,11 @@ import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.remote.api.img.ImageApi
 import com.like.drive.carstory.remote.api.user.UserApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: ImageApi) :
@@ -152,6 +154,8 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
     ) {
         UserInfo.userInfo?.let { info ->
 
+            var profileImgPath: String? = null
+
             if (nickName != info.nickName) {
                 userApi.checkNickName(nickName).catch { fail.invoke() }.single().let {
                     if (it.isNotEmpty()) {
@@ -162,17 +166,29 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             }
 
             imgFile?.let {
-
-                imageApi.profileImage(info.uid ?: "", it).catch { fail.invoke() }.single()
+                withContext(Dispatchers.Default) {
+                    profileImgPath =
+                        imageApi.profileImage(info.uid ?: "", it).catch { fail.invoke() }.single()
+                }
             }
 
-            val profilePath = info.profileImgPath ?: "/user/${info.uid}/profileImg"
+            deleteFile(info)
 
-            userApi.setUserProfile(info.uid ?: "", nickName, profilePath, intro)
-                .catch { fail.invoke() }.collect { success(profilePath) }
+            userApi.setUserProfile(info.uid ?: "", nickName, profileImgPath, intro)
+                .catch { fail.invoke() }.collect { success(profileImgPath) }
 
         } ?: notUser.invoke()
 
+    }
+
+    private suspend fun deleteFile(userData: UserData) {
+        withContext(Dispatchers.IO) {
+            userData.profileImgPath?.let {
+                imageApi.removeProfileImg(it).catch { e ->
+                    e.printStackTrace()
+                }.single()
+            }
+        }
     }
 
     override suspend fun signOut(success: () -> Unit, fail: () -> Unit) {

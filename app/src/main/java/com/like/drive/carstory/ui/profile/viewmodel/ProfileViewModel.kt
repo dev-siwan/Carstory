@@ -10,7 +10,9 @@ import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.base.ext.isNickName
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class ProfileViewModel(private val userRepository: UserRepository) : BaseViewModel() {
@@ -50,9 +52,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
         }
     }
 
-    fun setImageFile(file: File) {
+    fun setImageFile(file: File?) {
         imgFile = file
-        imgUrlObserver.set(file.path)
+        imgUrlObserver.set(file?.path)
     }
 
     fun updateProfile() {
@@ -74,7 +76,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
                     complete(nickName, intro, it)
                 },
                 fail = {
-                    errorEvent.call()
+                    viewModelScope.launch {
+                        errorEvent.call()
+                    }
                 },
                 notUser = {
                     signOut()

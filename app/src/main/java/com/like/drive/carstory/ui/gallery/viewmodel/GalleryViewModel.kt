@@ -199,7 +199,7 @@ class GalleryViewModel : BaseViewModel() {
      */
     private fun isAvailablePhoto(size: Long, mimeType: String): Boolean {
         return when {
-            size > 10 -> {
+            size > 5 -> {
                 notAvailablePhoto.value = R.string.not_available_photo_size
                 false
             }

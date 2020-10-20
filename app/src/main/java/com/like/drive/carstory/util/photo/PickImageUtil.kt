@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.carstory.R
+import com.like.drive.carstory.ui.base.ext.valueToDp
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 object PickImageUtil {
 
@@ -53,7 +55,6 @@ object PickImageUtil {
         permissionCamera()
     }
 
-
     fun pickFromCamera(fragment: Fragment, requestCode: Int = PICK_FROM_CAMERA) {
 
         this.fragment = fragment
@@ -76,9 +77,12 @@ object PickImageUtil {
         }
     }
 
-    fun getImageFromGallery(data: Intent) {
-        val photoUri = data.data
-        cropImage(photoUri!!)
+    fun getImageFromGallery(activity: Activity, photoUri: Uri?) {
+        this.activity = activity
+        photoUri?.let {
+            cropImage(it)
+        }
+
     }
 
     private fun permissionCamera() {
@@ -111,7 +115,6 @@ object PickImageUtil {
             .setDeniedMessage(activity.getString(R.string.denied_permission_storage))
             .check()
     }
-
 
     private fun setImageFromCamera() {
 
@@ -146,8 +149,7 @@ object PickImageUtil {
         }
     }
 
-
-    fun getImageFromCameraPath():String? {
+    fun getImageFromCameraPath(): String? {
         val path = tempFile?.path.toString()
         tempFile = null
         return path
@@ -161,7 +163,7 @@ object PickImageUtil {
         }
     }
 
-    fun resizeImage(path: String):File {
+    fun resizeImage(path: String): File {
 
         val originFile = File(path)
         ImageResizeUtil.resizeFile(originFile, originFile, 1280)
@@ -184,8 +186,22 @@ object PickImageUtil {
             }
         }
 
+        // 크롭 후 이미지 비율
+        CropImage.activity(photoUri).apply {
+            setAspectRatio(1, 1)
+            setCropShape(CropImageView.CropShape.OVAL)
+            start(activity)
+
+        }
+
     }
 
+    fun getImageFromCamera(onFailListener: () -> Unit) {
+        val photoUri = Uri.fromFile(tempFile)
+        photoUri?.let {
+            cropImage(it)
+        } ?: onFailListener()
+    }
 
     private fun createImageFile(): File {
 
@@ -202,11 +218,9 @@ object PickImageUtil {
         return File.createTempFile(imageFileName, ".jpg", storageDir)
     }
 
+    fun createUriImageFile(activity: Activity?, uri: Uri): File? {
 
-
-    fun createUriImageFile(activity: Activity?,uri:Uri): File? {
-
-        var newFile:File?=null
+        var newFile: File? = null
 
         activity?.contentResolver?.openInputStream(uri)?.let { inputStream ->
 
@@ -239,6 +253,4 @@ object PickImageUtil {
     const val PICK_FROM_ALBUM = 1000
     const val PICK_FROM_CAMERA = 1001
 
-    //crop code
-    const val CROP_1_1 = 2000
 }

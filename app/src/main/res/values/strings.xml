@@ -94,7 +94,7 @@
 
 
     <string name="not_available_mime_type">jpg, jpeg, png 파일만 등록이 가능합니다.</string>
-    <string name="not_available_photo_size">파일크기 초과(파일당 최대 10MB)</string>
+    <string name="not_available_photo_size">파일크기 초과(파일당 최대 5MB)</string>
     <string name="select_photo">사진 선택</string>
     <string name="select_gallery_directory">사진 폴더 선택</string>
 
@@ -189,6 +189,7 @@
 
     <string name="camera_text">카메라</string>
     <string name="gallery_text">앨범</string>
+    <string name="basic_photo_text">기본이미지</string>
 
     <string name="photo_menu_show">크게보기</string>
     <string name="photo_menu_delete">삭제하기</string>

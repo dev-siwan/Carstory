@@ -69,13 +69,7 @@ class UserApiImpl(
     ): Flow<Boolean> {
         val document = fireStore.collection(USER).document(uid)
 
-        val map = mutableMapOf("nickName" to nickName)
-        imgPath?.let {
-            map.put("profileImgPath", it)
-        }
-        intro?.let {
-            map.put("intro", it)
-        }
+        val map = mapOf("nickName" to nickName,"profileImgPath" to imgPath,"intro" to intro)
 
         return fireBaseTask.updateData(document, map)
     }

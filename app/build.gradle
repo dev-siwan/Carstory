@@ -31,13 +31,13 @@ android {
     buildTypes {
         debug {
             debuggable true
-            minifyEnabled false
-            shrinkResources false
-            zipAlignEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             firebaseCrashlytics {
                 // If you don't need crash reporting for your debug build,
                 // you can speed up your build by disabling mapping file uploading.
-                mappingFileUploadEnabled false
+                mappingFileUploadEnabled true
             }
             manifestPlaceholders = [crashlyticsCollectionEnabled: "false"]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -270,6 +270,9 @@ dependencies {
 
     //ad template
     implementation project(path: ':nativetemplates')
+
+    //cropper
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
