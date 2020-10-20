@@ -33,6 +33,7 @@ import com.like.drive.carstory.ui.board.list.activity.BoardListActivity
 import com.like.drive.carstory.ui.board.list.adapter.BoardListAdapter
 import com.like.drive.carstory.ui.board.list.viewmodel.BoardListViewModel
 import com.like.drive.carstory.ui.common.data.LoadingStatus
+import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.carstory.ui.search.viewmodel.SearchViewModel
@@ -191,6 +192,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         with(viewModel) {
             searchComplete()
             tagNullBlankWarningMessage()
+            removeAllTag()
         }
         with(boardListViewModel) {
             listComplete()
@@ -209,6 +211,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun SearchViewModel.tagNullBlankWarningMessage() {
         tagBlankMessageEvent.observe(viewLifecycleOwner, Observer {
             requireContext().showShortToast(it)
+        })
+    }
+
+    private fun SearchViewModel.removeAllTag() {
+        allRemoveClickEvent.observe(viewLifecycleOwner, Observer {
+            ConfirmDialog.newInstance(message = getString(R.string.tag_all_remove_desc)).apply {
+                confirmAction = { tagAllRemove() }
+            }.show(requireActivity().supportFragmentManager, ConfirmDialog.TAG)
         })
     }
 

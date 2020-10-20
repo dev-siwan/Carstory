@@ -154,14 +154,14 @@
     <string name="category_title_7">용품</string>
     <string name="category_title_8">세차</string>
 
-    <string name="category_content_1">자유로운 글을 적어주세요.</string>
-    <string name="category_content_2">신차 정보를 적어주세요.</string>
-    <string name="category_content_3">직접 시승 했던 경험을 적어주세요.</string>
-    <string name="category_content_4">수리에 관해서 질문해보세요.</string>
-    <string name="category_content_5">차박에 대한 정보를 공유해주세요.</string>
-    <string name="category_content_6">자동차 사고 관련 된 정보를 적어주세요.</string>
-    <string name="category_content_7">자동차 용품을 공유해보세요.</string>
-    <string name="category_content_8">세차에 대한 정보를 공유해주세요.</string>
+    <string name="category_content_1">자유로운 글을 공유하세요.</string>
+    <string name="category_content_2">신차 정보를 공유하세요.</string>
+    <string name="category_content_3">직접 시승 했던 경험을 공유하세요.</string>
+    <string name="category_content_4">자동차 수리 정보 공유하세요.</string>
+    <string name="category_content_5">차박에 대한 정보를 공유하세요.</string>
+    <string name="category_content_6">사고에 대한 정보를 공유하세요.</string>
+    <string name="category_content_7">자동차 용품을 공유하세요.</string>
+    <string name="category_content_8">세차 정보를 공유하세요.</string>
 
     <string name="category_title">카테고리를 선택해주세요.</string>
     <string name="enrollment_text">등록</string>
@@ -214,7 +214,9 @@
     <string name="filter_search_btn">필터로 글 찾기</string>
     <string name="search_tag_hint">태그로 입력하세요.</string>
     <string name="tag_warning_message">태그를 입력해주세요.</string>
-    <string name="list_empty_message">검색 결과가 없습니다.</string>
+    <string name="search_list_empty_message">검색 결과가 없습니다.</string>
+    <string name="list_empty_message">목록이 없습니다.</string>
+
     <string name="latest_search">최근 검색</string>
 
 
@@ -330,7 +332,7 @@
     <string name="intro_message_4">\&quot;오늘 첫 사고가 났는데 어떻게 해결해야 하죠?\&quot;</string>
     <string name="intro_message_5">\&quot;강남 사거리 부근 사고 났어요! 참고하세요.\&quot;</string>
     <string name="intro_message_6">\&quot;실내 세차장 위치 공유 해주세요.\&quot;</string>
-    <string name="intro_message_7">카스토리</string>
+    <string name="intro_message_7">모든 자동차 이야기를 공유하다\n카스토리</string>
 
     <string name="not_select_text">선택안함</string>\
 
@@ -364,6 +366,8 @@
     <string name="notification_list_all_remove_desc">알림을 전체 삭제 하시겠습니까?</string>
     <string name="notification_date_desc">* 알림은 최대 15일까지 저장이 됩니다.</string>
     <string name="wrong_url">웹페이지를 열 수 없습니다</string>
+
+    <string name="tag_all_remove_desc">태그목록을 삭제하시겠습니까?</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

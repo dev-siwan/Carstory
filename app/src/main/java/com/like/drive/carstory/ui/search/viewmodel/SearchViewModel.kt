@@ -34,6 +34,8 @@ class SearchViewModel(private val analyticsEventLog: AnalyticsEventLog) : BaseVi
 
     val searchTagAction: (String?) -> Unit = this::tagListener
 
+    val allRemoveClickEvent = SingleLiveEvent<Unit>()
+
     init {
         setRecentlyData()
     }
@@ -74,5 +76,10 @@ class SearchViewModel(private val analyticsEventLog: AnalyticsEventLog) : BaseVi
                 setRecentlyData()
             }
         }
+    }
+
+    fun tagAllRemove() {
+        recentlyListPref.clear()
+        setRecentlyData()
     }
 }
