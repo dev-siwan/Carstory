@@ -95,13 +95,17 @@
                 app:layout_constraintTop_toTopOf="@id/ivProfile"
                 tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/tvComment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:autoLink="web"
+            android:linksClickable="true"
             android:text="@{reCommentData.commentStr}"
             android:textColor="@android:color/black"
+            android:textColorLink="@color/pro_sky_1"
             android:textSize="@dimen/normal_text_size"
             app:layout_constraintEnd_toEndOf="@id/glEnd"
             app:layout_constraintStart_toStartOf="@id/glStart"

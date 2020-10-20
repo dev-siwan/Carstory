@@ -15,9 +15,15 @@ interface NotificationDao {
     suspend fun insert(data: NotificationEntity): Long
 
     @Query("SELECT * FROM NotificationEntity WHERE createData BETWEEN :agoDate AND :nowDate ORDER BY createData DESC")
-    fun getList(nowDate:Date =Date(),agoDate: Date = getDaysAgo(15)): Flow<List<NotificationEntity>>
+    fun getList(
+        nowDate: Date = Date(),
+        agoDate: Date = getDaysAgo(15)
+    ): Flow<List<NotificationEntity>>
 
     @Query("DELETE FROM NotificationEntity")
     suspend fun deleteNotification()
+
+    @Query("DELETE FROM NotificationEntity WHERE mID =:id")
+    suspend fun deleteNotificationItem(id: Int)
 
 }

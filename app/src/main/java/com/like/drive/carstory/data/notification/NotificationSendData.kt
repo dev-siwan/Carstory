@@ -10,6 +10,8 @@ import java.util.*
 
 @Parcelize
 data class NotificationSendData(
+    @SerializedName("mID")
+    val mid: Int? = null,
     @SerializedName("notificationType")
     val notificationType: String? = null,
     @SerializedName("nid")
@@ -36,6 +38,7 @@ data class NotificationSendData(
         )
 
     fun entityToData(entity: NotificationEntity) = NotificationSendData(
+        mid = entity.mID,
         notificationType = entity.notificationType,
         nid = entity.nid,
         bid = entity.bid,

@@ -40,7 +40,7 @@ object UserInfo : KoinComponent {
         CoroutineScope(Dispatchers.IO).launch {
             userApi.signOut()
             userPref.removeUserInfo()
-            notificationRepo.allDelete()
+            notificationRepo.deleteAll()
             boardRepository.removeAllLike()
             (CarStoryApplication.getContext()
                 .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancelAll()

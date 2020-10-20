@@ -10,6 +10,7 @@ import com.like.drive.carstory.data.notification.NotificationType
 import com.like.drive.carstory.databinding.FragmentNotificationBinding
 import com.like.drive.carstory.ui.base.BaseFragment
 import com.like.drive.carstory.ui.board.detail.activity.BoardDetailActivity
+import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.carstory.ui.notification.activity.NotificationSettingActivity
@@ -61,6 +62,7 @@ class NotificationFragment :
         with(viewModel) {
             getList()
             moveToPage()
+            removeItemListener()
         }
     }
 
@@ -88,6 +90,15 @@ class NotificationFragment :
                     })
                 }
             }
+        })
+    }
+
+    private fun NotificationViewModel.removeItemListener() {
+        removeItemEvent.observe(viewLifecycleOwner, Observer {
+            ConfirmDialog.newInstance(message = getString(R.string.remove_notification_item_desc))
+                .apply {
+                    confirmAction = { removeNotificationItem(it) }
+                }.show(requireActivity().supportFragmentManager, ConfirmDialog.TAG)
         })
     }
 

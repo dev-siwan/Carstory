@@ -379,6 +379,8 @@
     <string name="permission_tip_1">※ 접근 권한은 휴대폰 설정 > 애플리케이션 관리에서 변경 가능합니다.</string>
     <string name="permission_tip_2">선택 접근 권한은 해당 기능 이용시 허용이 필요하며, 비허용시에도 해당 기능 외 서비스는 이용 가능합니다.</string>
 
+    <string name="remove_notification_item_desc">해당 알림을 삭제하시겠습니까?</string>
+
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
         <item>앨범</item>

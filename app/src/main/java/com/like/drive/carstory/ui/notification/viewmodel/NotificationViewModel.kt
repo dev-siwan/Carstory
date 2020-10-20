@@ -21,6 +21,8 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
 
     val isEmptyObservable = ObservableBoolean(false)
 
+    val removeItemEvent = SingleLiveEvent<Int>()
+
     fun init() {
         viewModelScope.launch {
             repository.getList().distinctUntilChanged().collect {
@@ -38,9 +40,15 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
         clickItemEvent.value = data
     }
 
-    fun removeNotificationList() {
+    fun removeListener(id: Int?) {
+        id?.let {
+            removeItemEvent.value = it
+        }
+    }
+
+    fun removeNotificationItem(id: Int) {
         viewModelScope.launch {
-            repository.allDelete()
+            repository.deleteItem(id)
         }
     }
 }

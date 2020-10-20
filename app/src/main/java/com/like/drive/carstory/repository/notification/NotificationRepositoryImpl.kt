@@ -17,7 +17,11 @@ class NotificationRepositoryImpl(private val dao: NotificationDao) : Notificatio
         return dao.getList()
     }
 
-    override suspend fun allDelete() {
+    override suspend fun deleteItem(id: Int) {
+        dao.deleteNotificationItem(id)
+    }
+
+    override suspend fun deleteAll() {
         dao.deleteNotification()
     }
 
