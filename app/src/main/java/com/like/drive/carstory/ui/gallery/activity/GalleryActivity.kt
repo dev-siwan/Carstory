@@ -1,12 +1,13 @@
 package com.like.drive.carstory.ui.gallery.activity
 
-
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.carstory.R
@@ -28,15 +29,14 @@ class GalleryActivity :
         const val KEY_SELECTED_GALLERY_ITEM = "KEY_SELECTED_GALLERY_ITEM"
         const val KEY_PICK_PHOTO_COUNT = "KEY_PICK_PHOTO_COUNT"
         const val KEY_PHOTO_MAX_SIZE = "KEY_PHOTO_MAX_SIZE"
-        const val KEY_IS_MULTIPLE_PICK="KEY_IS_MULTIPLE_PICK"
+        const val KEY_IS_MULTIPLE_PICK = "KEY_IS_MULTIPLE_PICK"
     }
 
     private val toolbar by lazy { findViewById<Toolbar>(R.id.incToolbar) }
     private val galleryViewModel: GalleryViewModel by viewModel()
 
     private val galleryAdapter by lazy { GalleryAdapter(galleryViewModel) }
-    private val directoryDialog by lazy{ GalleryDirectoryFragment() }
-
+    private val directoryDialog by lazy { GalleryDirectoryFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,6 @@ class GalleryActivity :
         initView()
         initObserver()
     }
-
 
     override fun onBinding(dataBinding: ActivityGalleryBinding) {
         super.onBinding(dataBinding)
@@ -78,9 +77,9 @@ class GalleryActivity :
             addData()
             removeData()
             singleImgComplete()
+            photoEmptyStatus()
         }
     }
-
 
     private fun initView() {
 
@@ -92,7 +91,6 @@ class GalleryActivity :
         }
     }
 
-
     private fun GalleryViewModel.complete() {
         completeClickEvent.observe(this@GalleryActivity, Observer {
             Intent().apply { putExtra(KEY_SELECTED_GALLERY_ITEM, getSelectedGalleryItem()) }.run {
@@ -102,7 +100,6 @@ class GalleryActivity :
         })
     }
 
-
     private fun GalleryViewModel.singleImgComplete() {
         singleUri.observe(this@GalleryActivity, Observer {
             Intent().apply { putExtra(KEY_SELECTED_GALLERY_ITEM, it) }.run {
@@ -111,7 +108,6 @@ class GalleryActivity :
             finish()
         })
     }
-
 
     private fun GalleryViewModel.addData() {
         addDataEvent.observe(this@GalleryActivity, Observer {
@@ -124,7 +120,6 @@ class GalleryActivity :
             galleryAdapter.removeItem(it)
         })
     }
-
 
     private fun GalleryViewModel.clickDirectory() {
         selectedDirectory.observe(this@GalleryActivity, Observer {
@@ -142,7 +137,7 @@ class GalleryActivity :
 
     private fun GalleryViewModel.selectDirectoryClickEvent() {
         selectDirectoryClickEvent.observe(this@GalleryActivity, Observer {
-            directoryDialog.show(supportFragmentManager,"")
+            directoryDialog.show(supportFragmentManager, "")
         })
 
     }
@@ -153,12 +148,25 @@ class GalleryActivity :
         })
     }
 
-
     private fun GalleryViewModel.showLoading() {
         isLoading.observe(this@GalleryActivity, Observer {
             when (it) {
                 true -> if (!loadingProgress.isShowing) loadingProgress.show()
                 else -> loadingProgress.dismiss()
+            }
+        })
+    }
+
+    private fun GalleryViewModel.photoEmptyStatus() {
+        enableStatus.observe(this@GalleryActivity, Observer {
+            if (it) {
+                if (binding?.fabAdd?.isVisible == false) {
+                    binding?.fabAdd?.animation =
+                        AnimationUtils.loadAnimation(this@GalleryActivity, R.anim.slide_up)
+                }
+            } else {
+                binding?.fabAdd?.animation =
+                    AnimationUtils.loadAnimation(this@GalleryActivity, R.anim.slide_down)
             }
         })
     }
@@ -195,6 +203,5 @@ class GridSpacingItemDecoration(
             }
         }
     }
-
 
 }

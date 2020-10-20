@@ -99,6 +99,8 @@
     <string name="select_gallery_directory">사진 폴더 선택</string>
 
     <string name="pick_photo_limit_size">%d/%d</string>
+    <string name="pick_complete">선택완료</string>
+    <string name="pick_not_select">선택안함</string>
     <string name="pick_photo_limit_message">최대 5개 사진 만 등록 가능합니다.</string>
     <string name="error_not_load_image">이미지를 불러오지 못했습니다. 다시 시도해주세요.</string>
 
