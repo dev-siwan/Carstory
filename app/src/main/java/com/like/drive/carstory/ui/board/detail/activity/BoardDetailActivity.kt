@@ -90,7 +90,7 @@ class BoardDetailActivity :
         dataBinding.containerDetailFunction.tvComment.setOnClickListener {
             dataBinding.etComment.requestFocus()
             showKeyboard(dataBinding.etComment)
-            dataBinding.nestedScrollView.scrollY= dataBinding.nestedScrollView.bottom
+            dataBinding.nestedScrollView.scrollY = dataBinding.nestedScrollView.bottom
         }
 
     }
@@ -122,14 +122,6 @@ class BoardDetailActivity :
         containerDetailFunction.containerShare.setOnClickListener {
 
             viewModel.makeShareUrlLink()
-
-            /*    Intent(Intent.ACTION_SEND).apply {
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_TEXT, viewModel.boardData.value?.title)
-                }.run {
-                    val sharing = Intent.createChooser(this, "공유하기")
-                    startActivity(sharing)
-                }*/
         }
 
         swipeRefreshLayout.setOnRefreshListener {
@@ -249,6 +241,11 @@ class BoardDetailActivity :
                                 boardData
                             )
                         })
+                },
+                profileCallback = {
+                    boardData.userInfo?.uid?.let {
+                        moveToUserLookUpPage(it)
+                    }
                 })
         })
         //코멘트
@@ -268,6 +265,11 @@ class BoardDetailActivity :
                 },
                 updateCallback = {
                     showCommentDialogListener(true, commentData, null)
+                },
+                profileCallback = {
+                    commentData.userInfo?.uid?.let {
+                        moveToUserLookUpPage(it)
+                    }
                 })
         })
 
@@ -289,6 +291,11 @@ class BoardDetailActivity :
                 },
                 updateCallback = {
                     showCommentDialogListener(true, null, reCommentData)
+                },
+                profileCallback = {
+                    reCommentData.userInfo?.uid?.let {
+                        moveToUserLookUpPage(it)
+                    }
                 })
         })
     }
@@ -304,9 +311,7 @@ class BoardDetailActivity :
 
     private fun BoardDetailViewModel.moveUserLookUpPage() {
         moveUserLookUpEvent.observe(this@BoardDetailActivity, Observer {
-            startAct(UserLookUpActivity::class, Bundle().apply {
-                putString(UserLookUpActivity.USER_ID_KEY, it)
-            })
+            moveToUserLookUpPage(it)
         })
     }
 
@@ -323,7 +328,7 @@ class BoardDetailActivity :
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, message)
             }.run {
-                val sharing = Intent.createChooser(this, "공유하기")
+                val sharing = Intent.createChooser(this, getString(R.string.do_share))
                 startActivity(sharing)
             }
         })
@@ -359,18 +364,19 @@ class BoardDetailActivity :
         })
     }
 
-    /** 신고하기,수정,삭제
-     * 자신의 아이디 또는 관리자이면 수정,삭제 표시
+    /** 신고하기,수정,삭제,프로필보기
+     * 자신의 아이디 또는 관리자이면 수정,삭제,프로필보기 표시
      * 아니면 신고하기 표시**/
     private fun showOptionsList(
         uid: String?,
         reportCallback: () -> Unit,
         deleteCallback: () -> Unit,
-        updateCallback: () -> Unit
+        updateCallback: () -> Unit,
+        profileCallback: () -> Unit
     ) {
         val list = uid?.let {
             if (uid == UserInfo.userInfo?.uid ?: "" || UserInfo.userInfo?.admin == true) {
-                OptionsSelectType.values().drop(1).map { getString(it.resID) }.toTypedArray()
+                OptionsSelectType.values().drop(2).map { getString(it.resID) }.toTypedArray()
             } else {
                 OptionsSelectType.values().dropLast(2).map { getString(it.resID) }.toTypedArray()
             }
@@ -381,6 +387,7 @@ class BoardDetailActivity :
                 getString(OptionsSelectType.REPORT.resID) -> reportCallback()
                 getString(OptionsSelectType.DELETE.resID) -> deleteCallback()
                 getString(OptionsSelectType.UPDATE.resID) -> updateCallback()
+                getString(OptionsSelectType.LOOKUP.resID) -> profileCallback()
             }
         }
     }
@@ -428,6 +435,12 @@ class BoardDetailActivity :
                 }
             }
         }
+    }
+
+    private fun moveToUserLookUpPage(uid:String){
+        startAct(UserLookUpActivity::class, Bundle().apply {
+            putString(UserLookUpActivity.USER_ID_KEY, uid)
+        })
     }
 
     override fun onResume() {

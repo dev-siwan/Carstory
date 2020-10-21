@@ -146,17 +146,16 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
     override suspend fun updateProfile(
         nickName: String,
-        imgFile: File?,
         intro: String?,
         existNickName: () -> Unit,
-        success: (String?) -> Unit,
+        success: () -> Unit,
         fail: () -> Unit,
         notUser: () -> Unit
     ) {
         UserInfo.userInfo?.let { info ->
 
-            val profileImgPath: String =
-                info.profileImgPath ?: "/user/${info.uid}/${ImageApiImpl.USER_IMG_NAME}"
+            /*val profileImgPath: String =
+                info.profileImgPath ?: "/user/${info.uid}/${ImageApiImpl.USER_IMG_NAME}"*/
 
             if (nickName != info.nickName) {
                 userApi.checkNickName(nickName).catch { fail.invoke() }.single().let {
@@ -167,7 +166,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                 }
             }
 
-            imgFile?.let {
+           /* imgFile?.let {
                 withContext(Dispatchers.Default) {
                     imageApi.profileImage(info.uid ?: "", it)
                         .catch { e ->
@@ -175,25 +174,23 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                             fail.invoke()
                         }.collect()
                 }
-            } ?: deleteFile(info)
+            } ?: deleteFile(info)*/
 
             userApi.setUserProfile(
                 info.uid ?: "",
                 nickName,
-                profileImgPath,
-                intro,
-                imgFile != null
+                intro
             )
                 .catch { e ->
                     e.printStackTrace()
                     fail.invoke()
-                }.collect { success(profileImgPath) }
+                }.collect { success() }
 
         } ?: notUser.invoke()
 
     }
 
-    private suspend fun deleteFile(userData: UserData) {
+    /*private suspend fun deleteFile(userData: UserData) {
         if (userData.checkProfileImg) {
             withContext(Dispatchers.IO) {
                 userData.profileImgPath?.let {
@@ -203,7 +200,7 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                 }
             }
         }
-    }
+    }*/
 
     override suspend fun signOut(success: () -> Unit, fail: () -> Unit) {
         try {

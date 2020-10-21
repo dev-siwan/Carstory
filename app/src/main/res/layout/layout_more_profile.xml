@@ -23,14 +23,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/activity_small_margin" />
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/activity_small_margin" />
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glTop"
@@ -46,53 +46,13 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerProfileImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintEnd_toStartOf="@id/clContainerProfile"
-            app:layout_constraintStart_toStartOf="@id/glStart"
-            app:layout_constraintTop_toTopOf="@+id/glTop">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivProfileImg"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:profileImg="@{vm.userInfo.profileImgPath}"
-                tools:src="@drawable/profile_default_img_100" />
-
-
-            <ImageView
-                android:id="@+id/btnNotificationCount"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/oval_solid_black_stroke_white"
-                android:padding="@dimen/activity_small_margin"
-                android:src="@drawable/top_bar_alarm_setting_icon"
-                app:layout_constraintCircle="@id/ivProfileImg"
-                app:layout_constraintCircleAngle="45"
-                app:layout_constraintCircleRadius="50dp"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription"
-                tools:text="10" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clContainerProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_small_margin"
             app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintEnd_toEndOf="@id/glEnd"
-            app:layout_constraintStart_toEndOf="@id/containerProfileImg"
+            app:layout_constraintEnd_toStartOf="@id/btnProfileSetting"
+            app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toTopOf="@id/glTop">
 
 
@@ -121,7 +81,7 @@
                 android:id="@+id/tvIntro"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_x_small_margin"
+                android:layout_marginTop="@dimen/activity_small_margin"
                 android:autoLink="web"
                 android:gravity="start"
                 android:hint="@string/intro_empty_desc"
@@ -130,15 +90,27 @@
                 android:textColor="@color/grey_1"
                 android:textColorHint="@color/grey_1"
                 android:textColorLink="@color/pro_sky_1"
-                android:textSize="@dimen/small_text_size"
-                app:autoSizeMinTextSize="@dimen/small_text_size"
-                app:autoSizeTextType="uniform"
+                android:textSize="@dimen/normal_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNick"
-                tools:text="가나다라마바사아라라라라라라라라라라라라라라라라" />
+                tools:text="가나다라마바사아라라라라라\n라라라라라라라\n라라라" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ImageView
+            android:id="@+id/btnProfileSetting"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/oval_solid_black_stroke_white"
+            android:padding="@dimen/activity_small_margin"
+            android:src="@drawable/top_bar_alarm_setting_icon"
+            app:layout_constraintStart_toEndOf="@id/clContainerProfile"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintTop_toTopOf="@id/clContainerProfile"
+            tools:ignore="ContentDescription"
+            tools:text="10" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

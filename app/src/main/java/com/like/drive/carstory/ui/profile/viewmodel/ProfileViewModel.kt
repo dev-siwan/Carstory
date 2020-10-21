@@ -10,17 +10,13 @@ import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.base.ext.isNickName
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class ProfileViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
     val nickObserver = ObservableField<String>()
     val introObserver = ObservableField<String>()
-    val imgUrlObserver = ObservableField<String>()
-
     val imageClickEvent = SingleLiveEvent<Unit>()
 
     val nickValidEvent = SingleLiveEvent<Unit>()
@@ -54,7 +50,6 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
 
     fun setImageFile(file: File?) {
         imgFile = file
-        imgUrlObserver.set(file?.path)
     }
 
     fun updateProfile() {
@@ -71,9 +66,8 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
         viewModelScope.launch {
             userRepository.updateProfile(nickName = nickName,
                 intro = intro,
-                imgFile = imgFile,
                 success = {
-                    complete(nickName, intro, it, imgFile != null)
+                    complete(nickName, intro)
                 },
                 fail = {
                     viewModelScope.launch {
@@ -97,7 +91,6 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
 
         nickObserver.set(userData.nickName)
         introObserver.set(userData.intro)
-        imgUrlObserver.set(userData.profileImgPath)
     }
 
     fun signOut() {
@@ -105,8 +98,8 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
         signOut.call()
     }
 
-    private fun complete(nickName: String, intro: String?, imgPath: String?, checkImg: Boolean) {
-        UserInfo.updateProfile(nickName, intro, imgPath, checkImg)
+    private fun complete(nickName: String, intro: String?) {
+        UserInfo.updateProfile(nickName, intro)
         completeEvent.value = profileStatus
         isLoading.value = false
     }

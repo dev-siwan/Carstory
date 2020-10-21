@@ -9,7 +9,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.remote.common.FireBaseTask
-import com.like.drive.carstory.remote.reference.CollectionName
 import com.like.drive.carstory.remote.reference.CollectionName.USER
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -64,17 +63,13 @@ class UserApiImpl(
     override suspend fun setUserProfile(
         uid: String,
         nickName: String,
-        imgPath: String?,
-        intro: String?,
-        checkProfileImg: Boolean
+        intro: String?
     ): Flow<Boolean> {
         val document = fireStore.collection(USER).document(uid)
 
         val map = mapOf(
             "nickName" to nickName,
-            "profileImgPath" to imgPath,
             "intro" to intro,
-            "checkProfileImg" to checkProfileImg
         )
 
         return fireBaseTask.updateData(document, map)

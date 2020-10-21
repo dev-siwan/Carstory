@@ -37,7 +37,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
     }
 
     private fun moreItemClickListener(dataBinding: FragmentMoreBinding) {
-        dataBinding.incProfile.containerProfileImg.setOnClickListener {
+        dataBinding.incProfile.btnProfileSetting.setOnClickListener {
             startActForResult(ProfileActivity::class, RequestDefine.TO_PROFILE_ACTIVITY)
         }
         dataBinding.containerMyFeed.containerMoreItem.setOnClickListener {
@@ -77,26 +77,4 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                RequestDefine.TO_PROFILE_ACTIVITY -> {
-
-                    UserInfo.userInfo?.let {
-
-                        incProfile.apply {
-                            ivProfileImg.setProfileImg(it.profileImgPath)
-                            tvNick.text = it.nickName
-                            tvIntro.text = if (it.intro.isNullOrBlank()) null else it.intro
-                        }
-
-                    }
-
-                }
-            }
-        }
-
-    }
 }

@@ -52,34 +52,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="@{()->vm.moveUserLookUpListener(reCommentData.userInfo)}"
-            app:layout_constraintEnd_toEndOf="@id/glEnd"
-            app:layout_constraintStart_toStartOf="@id/glStart"
+            android:paddingVertical="@dimen/activity_vertical_margin"
+            android:paddingHorizontal="@dimen/activity_horizontal_x_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/glTop">
-
-            <ImageView
-                android:id="@+id/ivProfile"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:profileImg="@{reCommentData.userInfo.profileImgPath}"
-                tools:background="@drawable/oval_stroke_grey_6_size_32"
-                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/nickName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_small_margin"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="@{reCommentData.userInfo.nickName}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text_size"
-                app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/ivMore"
-                app:layout_constraintStart_toEndOf="@id/ivProfile"
-                app:layout_constraintTop_toTopOf="@id/ivProfile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="모터피드 " />
 
             <ImageView
@@ -89,10 +80,10 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{()->vm.showReCommentOptions(reCommentData)}"
                 android:src="@drawable/ic_black_more_vert"
-                app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/nickName"
-                app:layout_constraintTop_toTopOf="@id/ivProfile"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,7 +91,6 @@
             android:id="@+id/tvComment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:autoLink="web"
             android:linksClickable="true"
             android:text="@{reCommentData.commentStr}"

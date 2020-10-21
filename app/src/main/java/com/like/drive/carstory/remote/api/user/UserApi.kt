@@ -18,9 +18,7 @@ interface UserApi {
     suspend fun setUserProfile(
         uid: String,
         nickName: String,
-        imgPath: String? = null,
         intro: String? = null,
-        checkProfileImg: Boolean
     ): Flow<Boolean>
 
     suspend fun checkNickName(nickName: String): Flow<List<UserData>>

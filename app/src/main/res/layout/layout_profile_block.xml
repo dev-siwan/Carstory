@@ -16,26 +16,14 @@
         android:layout_height="wrap_content"
         android:onClick="@{()->vm.moveUserLookUpListener(vm.boardData.userInfo)}">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glStart"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="15dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="15dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glTop"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="@dimen/activity_small_margin" />
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -43,30 +31,22 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/activity_small_margin" />
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
-        <ImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            app:layout_constraintBottom_toBottomOf="@id/glBottom"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/glTop"
-            app:profileImg="@{vm.boardData.userInfo.profileImgPath}"
-            tools:src="@drawable/ic_empty_profile" />
+
 
         <TextView
             android:id="@+id/nickName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_small_margin"
             android:text="@{vm.boardData.userInfo.nickName}"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/small_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+            android:textSize="@dimen/normal_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivProfile"
-            app:layout_constraintTop_toTopOf="@id/ivProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/glTop"
+            android:textStyle="bold"
             tools:text="모터피드 " />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

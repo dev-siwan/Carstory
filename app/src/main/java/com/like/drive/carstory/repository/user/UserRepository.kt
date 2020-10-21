@@ -54,10 +54,9 @@ interface UserRepository {
 
     suspend fun updateProfile(
         nickName: String,
-        imgFile: File? = null,
         intro: String? = null,
         existNickName: () -> Unit,
-        success: (String?) -> Unit,
+        success: () -> Unit,
         fail: () -> Unit,
         notUser: () -> Unit
     )
