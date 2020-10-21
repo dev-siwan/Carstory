@@ -126,13 +126,8 @@ class UserApiImpl(
         return fireBaseTask.updateData(doc, mapOf(USER_MESSAGE_STATUS_FIELD to false))
     }
 
-    override fun checkProvider(): Boolean {
-        return fireAuth.currentUser?.providerId == FIREBASE_PROVIDER_ID
-    }
-
     companion object {
         const val NICK_NAME_FIELD = "nickName"
         const val USER_MESSAGE_STATUS_FIELD = "userMessageStatus"
-        const val FIREBASE_PROVIDER_ID = "firebase"
     }
 }

@@ -29,5 +29,4 @@ interface UserApi {
     suspend fun checkCredential(password: String): Flow<Boolean>
     suspend fun createToken(uid: String): Flow<Any>
     suspend fun confirmUserMessage(uid: String): Flow<Boolean>
-    fun checkProvider(): Boolean
 }

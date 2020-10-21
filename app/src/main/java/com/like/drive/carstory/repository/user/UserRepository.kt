@@ -64,7 +64,5 @@ interface UserRepository {
 
     suspend fun signOut(success: () -> Unit, fail: () -> Unit)
 
-    fun isProvider(): Boolean
-
     suspend fun confirmUserMessage(uid: String)
 }

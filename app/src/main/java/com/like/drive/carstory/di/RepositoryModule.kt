@@ -16,7 +16,6 @@ import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.repository.user.UserRepositoryImpl
 import com.like.drive.carstory.repository.version.VersionRepository
 import com.like.drive.carstory.repository.version.VersionRepositoryImpl
-import com.like.drive.carstory.util.ad.NativeAdUtil
 import org.koin.dsl.module
 
 val repositoryModule = module {
