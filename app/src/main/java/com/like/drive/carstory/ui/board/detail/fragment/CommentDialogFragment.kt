@@ -22,7 +22,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-
 private const val EXTRA_PARAM = "extraParam"
 
 class CommentDialogFragment :
@@ -30,7 +29,6 @@ class CommentDialogFragment :
     private var commentFragmentExtra: CommentFragmentExtra? = null
     private val boardDetailViewModel: BoardDetailViewModel by sharedViewModel()
     private val imm by lazy { requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager? }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +46,6 @@ class CommentDialogFragment :
         }
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -57,11 +54,15 @@ class CommentDialogFragment :
             commentData?.let {
                 if (commentUpdate == true) {
                     boardDetailViewModel.setReComment(it.commentStr)
+                } else {
+                    boardDetailViewModel.setReComment(null)
                 }
             }
             reCommentData?.let {
                 if (commentUpdate == true) {
                     boardDetailViewModel.setReComment(it.commentStr)
+                } else {
+                    boardDetailViewModel.setReComment(null)
                 }
             }
 
@@ -101,13 +102,11 @@ class CommentDialogFragment :
         })
     }
 
-
     override fun dismiss() {
         super.dismiss()
         boardDetailViewModel.reComment.value = null
         imm?.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0)
     }
-
 
     override fun onBind(dataBinding: FragmentCommentDialogBinding) {
         super.onBind(dataBinding)

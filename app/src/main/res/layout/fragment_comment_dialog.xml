@@ -147,6 +147,7 @@
                     android:scrollbars="vertical"
                     android:text="@={vm.reComment}"
                     android:textSize="@dimen/normal_text_size"
+                    android:selection="@{vm.reComment.length()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvRegisterComment"
                     app:layout_constraintStart_toStartOf="parent"
