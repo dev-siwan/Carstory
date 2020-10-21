@@ -231,7 +231,7 @@ object PickImageUtil {
             val imageFileName = "MotorFeed_${timeStamp.format(cal)}"
 
             // 이미지가 저장될 폴더 이름
-            val storageDir = File(activity.getExternalFilesDir(null)?.absolutePath + "/img/")
+            val storageDir = File(activity.getExternalFilesDir(null)?.absolutePath + IMAGE_PATH)
             if (!storageDir.exists()) storageDir.mkdirs()
 
             newFile = File.createTempFile(imageFileName, ".jpg", storageDir)
@@ -253,5 +253,6 @@ object PickImageUtil {
     //image pick code
     const val PICK_FROM_ALBUM = 1000
     const val PICK_FROM_CAMERA = 1001
+    const val IMAGE_PATH = "/img/"
 
 }

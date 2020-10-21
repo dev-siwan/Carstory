@@ -3,12 +3,12 @@ package com.like.drive.carstory.ui.splash.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.common.user.UserInfo
-import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.motor.MotorTypeRepository
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.repository.version.VersionRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
+import java.io.File
 
 class SplashViewModel(
     private val versionRepository: VersionRepository,
@@ -19,12 +19,10 @@ class SplashViewModel(
     val errorEvent = SingleLiveEvent<SplashErrorType>()
     val completeEvent = SingleLiveEvent<SplashCompleteType>()
     val emptyNickNameEvent = SingleLiveEvent<Unit>()
+    val completeDeleteDirectory =SingleLiveEvent<Unit>()
 
-    init {
-        versionCheck()
-    }
 
-    private fun versionCheck() {
+   fun versionCheck() {
         viewModelScope.launch {
             versionRepository.checkMotorTypeVersion(
                 insertMotorType = {
@@ -95,6 +93,17 @@ class SplashViewModel(
         UserInfo.userInfo?.nickName?.let {
             setCompleteEvent(SplashCompleteType.HOME)
         } ?: emptyNickNameEvent.call()
+    }
+
+    fun deleteDirectory(directory: String) {
+        val mediaStorageDir = File(directory)
+        if (mediaStorageDir.exists()) {
+            mediaStorageDir.listFiles()?.forEach {
+                it.delete()
+            }
+            mediaStorageDir.delete()
+        }
+        completeDeleteDirectory.call()
     }
 
 }

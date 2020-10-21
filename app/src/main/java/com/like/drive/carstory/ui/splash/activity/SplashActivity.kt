@@ -1,8 +1,10 @@
 package com.like.drive.carstory.ui.splash.activity
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -20,11 +22,11 @@ import com.like.drive.carstory.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.carstory.ui.splash.viewmodel.SplashCompleteType
 import com.like.drive.carstory.ui.splash.viewmodel.SplashErrorType
 import com.like.drive.carstory.ui.splash.viewmodel.SplashViewModel
+import com.like.drive.carstory.util.photo.PickImageUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.reflect.KClass
 
@@ -43,8 +45,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 }
 
             }
+
             getNotificationData()
             withViewModel()
+            deleteTempImageDirectory()
         }
     }
 
@@ -66,10 +70,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     private fun withViewModel() {
         with(viewModel) {
+            completeDeleteDirectory()
             complete()
             error()
             emptyNickName()
         }
+    }
+
+    private fun SplashViewModel.completeDeleteDirectory() {
+        completeDeleteDirectory.observe(this@SplashActivity, Observer {
+            versionCheck()
+        })
     }
 
     private fun SplashViewModel.complete() {
@@ -139,9 +150,21 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         })
     }
 
-    private fun moveToActivity(clazz: KClass<*>, data: NotificationSendData? = null) {
+    private fun moveToActivity(clazz: KClass<*>) {
         startAct(clazz)
         finish()
+    }
+
+    private fun deleteTempImageDirectory() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            viewModel.deleteDirectory(getExternalFilesDir(null)?.absolutePath + PickImageUtil.IMAGE_PATH)
+        } else {
+            viewModel.versionCheck()
+        }
     }
 
 }

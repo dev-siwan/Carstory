@@ -2,7 +2,6 @@ package com.like.drive.carstory.ui.profile.activity
 
 import android.Manifest
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.like.drive.carstory.R
-import com.like.drive.carstory.common.enum.PhotoSelectType
 import com.like.drive.carstory.common.enum.ProfilePhotoSelectType
 import com.like.drive.carstory.databinding.ActivityProfileBinding
 import com.like.drive.carstory.ui.base.BaseActivity
@@ -19,10 +17,10 @@ import com.like.drive.carstory.ui.base.ext.showListDialog
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startAct
 import com.like.drive.carstory.ui.base.ext.startActForResult
+import com.like.drive.carstory.ui.dialog.AlertNickDialog
 import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.gallery.activity.GalleryActivity
 import com.like.drive.carstory.ui.main.activity.MainActivity
-import com.like.drive.carstory.ui.dialog.AlertNickDialog
 import com.like.drive.carstory.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.carstory.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.carstory.util.photo.PickImageUtil
@@ -192,7 +190,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             when (requestCode) {
 
                 PickImageUtil.PICK_FROM_CAMERA -> {
-                    loadingProgress.show()
                     lifecycleScope.launch {
                         withContext(Dispatchers.Default) {
                             PickImageUtil.getImageFromCamera {
@@ -204,7 +201,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                 }
 
                 PickImageUtil.PICK_FROM_ALBUM -> {
-                    loadingProgress.show()
                     lifecycleScope.launch {
                         withContext(Dispatchers.Default) {
                             data?.let {
@@ -219,26 +215,18 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                 }
 
                 CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-
                     val result = CropImage.getActivityResult(data)
                     lifecycleScope.launch {
                         setResizeImage(result.uri)
                     }
-                    loadingProgress.onDismiss()
                 }
 
                 CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE -> {
-
-                    PickImageUtil.cancelPick()
-                    loadingProgress.onDismiss()
-
+                    imageError()
                 }
 
                 else -> {
-
-                    PickImageUtil.cancelPick()
-                    loadingProgress.onDismiss()
-
+                    imageError()
                 }
 
             }
@@ -263,13 +251,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     private fun imageError() {
         showShortToast(getString(R.string.error_not_load_image))
-        loadingProgress.onDismiss()
-    }
-
-    private fun Dialog.onDismiss() {
-        if (isShowing) {
-            dismiss()
-        }
+        PickImageUtil.cancelPick()
     }
 
     private fun showSignOutDialog(message: String) {

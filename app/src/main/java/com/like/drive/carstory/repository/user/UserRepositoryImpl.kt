@@ -165,8 +165,6 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
                 }
             }
 
-            deleteFile(info)
-
             imgFile?.let {
                 withContext(Dispatchers.Default) {
                     profileImgPath =
@@ -188,15 +186,6 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
     }
 
-    private suspend fun deleteFile(userData: UserData) {
-        withContext(Dispatchers.IO) {
-            userData.profileImgPath?.let {
-                imageApi.removeProfileImg(it).catch { e ->
-                    e.printStackTrace()
-                }.collect()
-            }
-        }
-    }
 
     override suspend fun signOut(success: () -> Unit, fail: () -> Unit) {
         try {

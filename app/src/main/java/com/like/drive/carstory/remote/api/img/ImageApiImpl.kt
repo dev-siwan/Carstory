@@ -22,7 +22,7 @@ class ImageApiImpl(
 
     override suspend fun profileImage(uid: String, imgFile: File): Flow<String> = flow {
         val ref =
-            firebaseStorage.reference.child(CollectionName.USER).child(uid).child(imgFile.name)
+            firebaseStorage.reference.child(CollectionName.USER).child(uid).child(USER_IMG_NAME)
         fireBaseTask.uploadProfileImage(ref, imgFile).collect {
             if (it) {
                 emit(ref.path)
@@ -39,5 +39,9 @@ class ImageApiImpl(
         return fireBaseTask.deleteImage(
             firebaseStorage.reference.child(CollectionName.BOARD).child(bid).child("img$index")
         )
+    }
+
+    companion object{
+        const val USER_IMG_NAME="userImg"
     }
 }
