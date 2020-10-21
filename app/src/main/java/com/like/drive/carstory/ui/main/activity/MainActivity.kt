@@ -128,7 +128,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun MainViewModel.configVersion() {
         configVersionCode.observe(this@MainActivity, Observer {
             getVersionCode()?.let { nowVersion ->
-                if (it > nowVersion) {
+                if (it != nowVersion) {
                     if (isStatusActivity(this@MainActivity.javaClass.name)) {
                         AppUpdateDialog.newInstance().apply {
                             isCancelable = false

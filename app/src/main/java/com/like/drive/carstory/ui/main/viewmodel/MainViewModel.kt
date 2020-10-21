@@ -24,7 +24,7 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
     val uploadClickEvent = SingleLiveEvent<Unit>()
     val userMessageEvent = SingleLiveEvent<String>()
 
-    val configVersionCode = SingleLiveEvent<Long>()
+    val configVersionCode = SingleLiveEvent<String>()
 
     val notificationRefreshEvent = SingleLiveEvent<Unit>()
     private val remoteConfig by lazy { Firebase.remoteConfig }
@@ -74,11 +74,11 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
         }
         remoteConfig.setConfigSettingsAsync(configSetting)
 
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+        //remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
 
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val configAppVersion = remoteConfig[APP_LAST_VERSION_KEY].asLong()
+                val configAppVersion = remoteConfig[APP_LAST_VERSION_KEY].asString()
                 configVersionCode.value = configAppVersion
 
             }
@@ -86,7 +86,7 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
     }
 
     companion object {
-        const val APP_LAST_VERSION_KEY = "app_latest_version_code"
+        const val APP_LAST_VERSION_KEY = "app_latest_version_name"
     }
 
 }
