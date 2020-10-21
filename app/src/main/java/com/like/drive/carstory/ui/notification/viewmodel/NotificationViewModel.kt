@@ -8,9 +8,11 @@ import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.data.notification.NotificationSendData
 import com.like.drive.carstory.repository.notification.NotificationRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NotificationViewModel(val repository: NotificationRepository) : BaseViewModel() {
 
@@ -21,17 +23,19 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
 
     val isEmptyObservable = ObservableBoolean(false)
 
-    val removeItemEvent = SingleLiveEvent<Int>()
+    val removeItemEvent = SingleLiveEvent<Long>()
 
     fun init() {
         viewModelScope.launch {
-            repository.getList().distinctUntilChanged().collect {
+            repository.getList().let {
                 if (it.isEmpty()) {
                     isEmptyObservable.set(true)
-                    return@collect
+                    return@launch
                 }
+
                 _notificationList.value =
                     it.map { data -> NotificationSendData().entityToData(data) }
+                isEmptyObservable.set(false)
             }
         }
     }
@@ -40,15 +44,18 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
         clickItemEvent.value = data
     }
 
-    fun removeListener(id: Int?) {
+    fun removeListener(id: Long?) {
         id?.let {
             removeItemEvent.value = it
         }
     }
 
-    fun removeNotificationItem(id: Int) {
+    fun removeNotificationItem(id: Long) {
         viewModelScope.launch {
-            repository.deleteItem(id)
+            withContext(Dispatchers.IO){
+                repository.deleteItem(id)
+            }
+            init()
         }
     }
 }

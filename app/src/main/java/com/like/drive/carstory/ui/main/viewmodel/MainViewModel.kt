@@ -19,6 +19,8 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
     val uploadClickEvent = SingleLiveEvent<Unit>()
     val userMessageEvent = SingleLiveEvent<String>()
 
+    val notificationRefreshEvent = SingleLiveEvent<Unit>()
+
     init {
         checkPermission()
         userMessage()
@@ -51,6 +53,10 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
                 UserInfo.userInfo?.userMessageStatus = false
             }
         }
+    }
+
+    fun onNotificationRefreshListener() {
+        notificationRefreshEvent.call()
     }
 
 }

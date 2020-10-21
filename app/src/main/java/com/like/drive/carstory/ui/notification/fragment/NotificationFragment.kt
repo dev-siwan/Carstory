@@ -12,17 +12,20 @@ import com.like.drive.carstory.ui.base.BaseFragment
 import com.like.drive.carstory.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.main.activity.MainActivity
+import com.like.drive.carstory.ui.main.viewmodel.MainViewModel
 import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.carstory.ui.notification.activity.NotificationSettingActivity
 import com.like.drive.carstory.ui.notification.adapter.NotificationAdapter
 import com.like.drive.carstory.ui.notification.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationFragment :
     BaseFragment<FragmentNotificationBinding>(R.layout.fragment_notification) {
 
     private val viewModel: NotificationViewModel by viewModel()
+    private val mainViewModel: MainViewModel by sharedViewModel()
     private val adapter by lazy { NotificationAdapter(viewModel) }
 
     override fun onBind(dataBinding: FragmentNotificationBinding) {
@@ -54,7 +57,7 @@ class NotificationFragment :
         viewModel.init()
         withViewModel()
 
-        (requireActivity() as MainActivity).navBottomView.removeBadge(R.id.action_notification)
+        removeBadge()
     }
 
     private fun withViewModel() {
@@ -63,6 +66,9 @@ class NotificationFragment :
             getList()
             moveToPage()
             removeItemListener()
+        }
+        with(mainViewModel) {
+            refresh()
         }
     }
 
@@ -97,9 +103,23 @@ class NotificationFragment :
         removeItemEvent.observe(viewLifecycleOwner, Observer {
             ConfirmDialog.newInstance(message = getString(R.string.remove_notification_item_desc))
                 .apply {
-                    confirmAction = { removeNotificationItem(it) }
+                    confirmAction = {
+                        removeNotificationItem(it)
+                    }
                 }.show(requireActivity().supportFragmentManager, ConfirmDialog.TAG)
         })
+    }
+
+    private fun MainViewModel.refresh() {
+        notificationRefreshEvent.observe(viewLifecycleOwner, Observer {
+            viewModel.init()
+            removeBadge()
+        })
+    }
+
+
+    private fun removeBadge(){
+        (requireActivity() as MainActivity).navBottomView.removeBadge(R.id.action_notification)
     }
 
 }

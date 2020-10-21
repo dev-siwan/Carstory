@@ -9,7 +9,7 @@ import java.util.*
 @Entity
 class NotificationEntity(
     @PrimaryKey(autoGenerate = true)
-    val mID: Int? = null,
+    val mID: Long? = null,
     val notificationType: String? = null,
     val nid: String? = null,
     val bid: String? = null,

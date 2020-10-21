@@ -13,11 +13,11 @@ class NotificationRepositoryImpl(private val dao: NotificationDao) : Notificatio
         return dao.insert(NotificationEntity().dataToEntity(notificationSendData))
     }
 
-    override fun getList(): Flow<List<NotificationEntity>> {
+    override suspend fun getList(): List<NotificationEntity> {
         return dao.getList()
     }
 
-    override suspend fun deleteItem(id: Int) {
+    override suspend fun deleteItem(id: Long) {
         dao.deleteNotificationItem(id)
     }
 

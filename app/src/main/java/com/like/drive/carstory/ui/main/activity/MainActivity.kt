@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import com.like.drive.carstory.R
@@ -26,11 +27,14 @@ import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.carstory.ui.permission.AccessPermissionDialog
 import com.like.drive.carstory.util.notification.NotificationUtil
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    private val viewModel: MainViewModel by inject()
+    private val viewModel: MainViewModel by viewModel()
     private var currentNavController: LiveData<NavController>? = null
     private lateinit var fcmBroadcastReceiver: BroadcastReceiver
 
@@ -162,9 +166,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             override fun onReceive(context: Context?, intent: Intent?) {
                 intent?.let {
                     it.getStringExtra(FirebaseDefine.PUSH_EXTRA_KEY)?.let { title ->
-                        showShortToast(title)
-                        val badge = navBottomView.getOrCreateBadge(R.id.action_notification)
-                        badge.isVisible = true
+                        lifecycleScope.launch {
+                            delay(1000)
+                            showShortToast(title)
+                            val badge = navBottomView.getOrCreateBadge(R.id.action_notification)
+                            badge.isVisible = true
+                            viewModel.onNotificationRefreshListener()
+                        }
                     }
                 }
             }

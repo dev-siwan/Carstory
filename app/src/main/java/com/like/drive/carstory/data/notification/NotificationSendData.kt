@@ -10,8 +10,8 @@ import java.util.*
 
 @Parcelize
 data class NotificationSendData(
-    @SerializedName("mID")
-    val mid: Int? = null,
+    @SerializedName("mId")
+    val mid: Long? = null,
     @SerializedName("notificationType")
     val notificationType: String? = null,
     @SerializedName("nid")

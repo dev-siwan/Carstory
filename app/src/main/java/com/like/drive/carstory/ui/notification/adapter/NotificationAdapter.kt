@@ -6,7 +6,8 @@ import com.like.drive.carstory.data.notification.NotificationSendData
 import com.like.drive.carstory.ui.notification.holder.NotificationViewHolder
 import com.like.drive.carstory.ui.notification.viewmodel.NotificationViewModel
 
-class NotificationAdapter(val vm:NotificationViewModel) : RecyclerView.Adapter<NotificationViewHolder>() {
+class NotificationAdapter(val vm: NotificationViewModel) :
+    RecyclerView.Adapter<NotificationViewHolder>() {
 
     val list = mutableListOf<NotificationSendData>()
 
@@ -16,7 +17,7 @@ class NotificationAdapter(val vm:NotificationViewModel) : RecyclerView.Adapter<N
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        holder.bind(vm,list[position])
+        holder.bind(vm, list[position])
     }
 
 }
