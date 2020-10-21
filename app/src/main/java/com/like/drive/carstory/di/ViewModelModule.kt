@@ -19,7 +19,6 @@ import com.like.drive.carstory.ui.report.list.viewmodel.ReportViewModel
 import com.like.drive.carstory.ui.report.reg.viewmodel.ReportRegisterViewModel
 import com.like.drive.carstory.ui.search.viewmodel.SearchViewModel
 import com.like.drive.carstory.ui.sign.`in`.viewmodel.SignInViewModel
-import com.like.drive.carstory.ui.sign.password.viewmodel.PasswordUpdateViewModel
 import com.like.drive.carstory.ui.sign.up.viewmodel.SignUpViewModel
 import com.like.drive.carstory.ui.splash.viewmodel.SplashViewModel
 import com.like.drive.carstory.ui.user.viewmodel.UserLookUpViewModel
@@ -44,7 +43,6 @@ val viewModelModule = module {
     viewModel { FilterViewModel() }
     viewModel { NotificationViewModel(get()) }
     viewModel { MoreViewModel(get()) }
-    viewModel { PasswordUpdateViewModel(get()) }
     viewModel { NotificationSettingViewModel() }
     viewModel { NoticeListViewModel(get()) }
     viewModel { NoticeDetailViewModel(get()) }

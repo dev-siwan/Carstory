@@ -65,11 +65,17 @@ class UserApiImpl(
         uid: String,
         nickName: String,
         imgPath: String?,
-        intro: String?
+        intro: String?,
+        checkProfileImg: Boolean
     ): Flow<Boolean> {
         val document = fireStore.collection(USER).document(uid)
 
-        val map = mapOf("nickName" to nickName,"profileImgPath" to imgPath,"intro" to intro)
+        val map = mapOf(
+            "nickName" to nickName,
+            "profileImgPath" to imgPath,
+            "intro" to intro,
+            "checkProfileImg" to checkProfileImg
+        )
 
         return fireBaseTask.updateData(document, map)
     }
@@ -95,22 +101,6 @@ class UserApiImpl(
 
         return fireBaseTask.updateData(document, map)
 
-    }
-
-    override suspend fun resetPassword(email: String): Flow<Boolean> {
-        return flow {
-            val snapShot = fireAuth.sendPasswordResetEmail(email).await()
-            emit(Tasks.forResult(snapShot).isSuccessful)
-        }
-    }
-
-    override suspend fun updatePassword(password: String): Flow<Boolean> {
-        return flow {
-            fireAuth.currentUser?.let {
-                val snapShot = it.updatePassword(password).await()
-                emit(Tasks.forResult(snapShot).isSuccessful)
-            } ?: emit(false)
-        }
     }
 
     override suspend fun checkCredential(password: String): Flow<Boolean> {

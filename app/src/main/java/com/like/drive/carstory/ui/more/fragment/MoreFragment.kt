@@ -3,7 +3,6 @@ package com.like.drive.carstory.ui.more.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.define.RequestDefine
 import com.like.drive.carstory.common.user.UserInfo
@@ -11,10 +10,8 @@ import com.like.drive.carstory.databinding.FragmentMoreBinding
 import com.like.drive.carstory.ui.base.BaseFragment
 import com.like.drive.carstory.ui.base.binder.setProfileImg
 import com.like.drive.carstory.ui.base.ext.openWebBrowser
-import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startActForResult
 import com.like.drive.carstory.ui.board.list.activity.BoardListActivity
-import com.like.drive.carstory.ui.dialog.AlertDialog
 import com.like.drive.carstory.ui.more.viewmodel.MoreViewModel
 import com.like.drive.carstory.ui.notice.list.activity.NoticeListActivity
 import com.like.drive.carstory.ui.notification.activity.NotificationSettingActivity
@@ -36,7 +33,6 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
     override fun onBindAfter(dataBinding: FragmentMoreBinding) {
         super.onBindAfter(dataBinding)
 
-        withViewModel()
         moreItemClickListener(dataBinding)
     }
 
@@ -79,27 +75,6 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
             startAct(ReportActivity::class)
         }
 
-    }
-
-    private fun withViewModel() {
-        with(viewModel) {
-            resetComplete()
-            error()
-        }
-    }
-
-    private fun MoreViewModel.resetComplete() {
-        resetPasswordCompleteEvent.observe(viewLifecycleOwner, Observer {
-            AlertDialog.newInstance(message = "가입 이메일에서 재설정 해주세요.").apply {
-                action = { Unit }
-            }.show(requireActivity().supportFragmentManager, AlertDialog.TAG)
-        })
-    }
-
-    private fun MoreViewModel.error() {
-        errorEvent.observe(viewLifecycleOwner, Observer {
-            requireContext().showShortToast(it)
-        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

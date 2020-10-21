@@ -63,14 +63,6 @@ interface UserRepository {
     )
 
     suspend fun signOut(success: () -> Unit, fail: () -> Unit)
-    suspend fun resetPassword(email: String, success: () -> Unit, fail: () -> Unit)
-    suspend fun updatePassword(
-        nowPassword: String,
-        rePassword: String,
-        success: () -> Unit,
-        failCredential: () -> Unit,
-        fail: () -> Unit
-    )
 
     fun isProvider(): Boolean
 

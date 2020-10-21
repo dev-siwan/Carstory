@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.remote.api.img.ImageApi
+import com.like.drive.carstory.remote.api.img.ImageApiImpl
 import com.like.drive.carstory.remote.api.user.UserApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -154,7 +155,8 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
     ) {
         UserInfo.userInfo?.let { info ->
 
-            var profileImgPath: String? = null
+            val profileImgPath: String =
+                info.profileImgPath ?: "/user/${info.uid}/${ImageApiImpl.USER_IMG_NAME}"
 
             if (nickName != info.nickName) {
                 userApi.checkNickName(nickName).catch { fail.invoke() }.single().let {
@@ -167,16 +169,21 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
             imgFile?.let {
                 withContext(Dispatchers.Default) {
-                    profileImgPath =
-                        imageApi.profileImage(info.uid ?: "", it)
-                            .catch { e ->
-                                e.message
-                                fail.invoke()
-                            }.single()
+                    imageApi.profileImage(info.uid ?: "", it)
+                        .catch { e ->
+                            e.message
+                            fail.invoke()
+                        }.collect()
                 }
-            }
+            } ?: deleteFile(info)
 
-            userApi.setUserProfile(info.uid ?: "", nickName, profileImgPath, intro)
+            userApi.setUserProfile(
+                info.uid ?: "",
+                nickName,
+                profileImgPath,
+                intro,
+                imgFile != null
+            )
                 .catch { e ->
                     e.printStackTrace()
                     fail.invoke()
@@ -186,6 +193,17 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
 
     }
 
+    private suspend fun deleteFile(userData: UserData) {
+        if (userData.checkProfileImg) {
+            withContext(Dispatchers.IO) {
+                userData.profileImgPath?.let {
+                    imageApi.removeProfileImg(it).catch { e ->
+                        e.printStackTrace()
+                    }.collect()
+                }
+            }
+        }
+    }
 
     override suspend fun signOut(success: () -> Unit, fail: () -> Unit) {
         try {
@@ -195,49 +213,6 @@ class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: Ima
             e.printStackTrace()
             fail.invoke()
         }
-    }
-
-    override suspend fun resetPassword(email: String, success: () -> Unit, fail: () -> Unit) {
-        userApi.resetPassword(email).collect {
-            if (it) {
-                success.invoke()
-            } else {
-                fail.invoke()
-            }
-        }
-    }
-
-    override suspend fun updatePassword(
-        nowPassword: String,
-        rePassword: String, success: () -> Unit, failCredential: () -> Unit, fail: () -> Unit
-    ) {
-
-        userApi.checkCredential(nowPassword).catch {
-
-            failCredential.invoke()
-
-        }.collect { credentialResult ->
-
-            if (credentialResult) {
-
-                userApi.updatePassword(rePassword).catch { error ->
-                    if (error is FirebaseAuthRecentLoginRequiredException) {
-                        failCredential.invoke()
-                    }
-                }.collect {
-                    if (it) {
-                        success.invoke()
-                    } else {
-                        fail.invoke()
-                    }
-                }
-            } else {
-
-                failCredential.invoke()
-            }
-
-        }
-
     }
 
     override fun isProvider(): Boolean {

@@ -73,7 +73,7 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
                 intro = intro,
                 imgFile = imgFile,
                 success = {
-                    complete(nickName, intro, it)
+                    complete(nickName, intro, it, imgFile != null)
                 },
                 fail = {
                     viewModelScope.launch {
@@ -105,8 +105,8 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
         signOut.call()
     }
 
-    private fun complete(nickName: String, intro: String?, imgPath: String?) {
-        UserInfo.updateProfile(nickName, intro, imgPath)
+    private fun complete(nickName: String, intro: String?, imgPath: String?, checkImg: Boolean) {
+        UserInfo.updateProfile(nickName, intro, imgPath, checkImg)
         completeEvent.value = profileStatus
         isLoading.value = false
     }

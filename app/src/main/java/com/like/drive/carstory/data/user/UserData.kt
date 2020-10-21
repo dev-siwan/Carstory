@@ -30,5 +30,7 @@ data class UserData(
     @SerializedName("userMessage")
     val userMessage: String? = null,
     @SerializedName("userMessageStatus")
-    var userMessageStatus: Boolean = false
+    var userMessageStatus: Boolean = false,
+    @SerializedName("checkProfileImg")
+    var checkProfileImg: Boolean = false
 ) : Parcelable
