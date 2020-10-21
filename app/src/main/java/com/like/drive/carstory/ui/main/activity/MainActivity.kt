@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -21,6 +22,7 @@ import com.like.drive.carstory.ui.base.ext.*
 import com.like.drive.carstory.ui.board.detail.activity.BoardDetailActivity
 import com.like.drive.carstory.ui.board.upload.activity.UploadActivity
 import com.like.drive.carstory.ui.dialog.AlertDialog
+import com.like.drive.carstory.ui.dialog.AppUpdateDialog
 import com.like.drive.carstory.ui.home.fragment.HomeFragment
 import com.like.drive.carstory.ui.main.viewmodel.MainViewModel
 import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
@@ -29,7 +31,6 @@ import com.like.drive.carstory.util.notification.NotificationUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -67,6 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             permission()
             userMessage()
             moveToUploadPage()
+            configVersion()
         }
     }
 
@@ -114,12 +116,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun MainViewModel.userMessage() {
         userMessageEvent.observe(this@MainActivity, Observer {
-            AlertDialog.newInstance(title = "메세지", message = it).apply {
+            AlertDialog.newInstance(title = getString(R.string.car_story_message), message = it).apply {
                 isCancelable = false
                 action = {
                     confirmUserMessage()
                 }
             }.show(supportFragmentManager, AlertDialog.TAG)
+        })
+    }
+
+    private fun MainViewModel.configVersion() {
+        configVersionCode.observe(this@MainActivity, Observer {
+            getVersionCode()?.let { nowVersion ->
+                if (it > nowVersion) {
+                    if (isStatusActivity(this@MainActivity.javaClass.name)) {
+                        AppUpdateDialog.newInstance().apply {
+                            isCancelable = false
+                            confirmAction = {
+                                startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("market://details?id=$packageName")
+                                    )
+                                )
+                            }
+                        }.show(supportFragmentManager, "")
+                    }
+                }
+            }
+
         })
     }
 

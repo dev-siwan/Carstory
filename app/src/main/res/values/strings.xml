@@ -365,7 +365,7 @@
     <string name="user_ban_dialog_desc_format"><![CDATA[<b>%s님</b>은 서비스 이용 정지를 당하셨습니다.<br />%s]]></string>
 
     <string name="notification_list_all_remove_desc">알림을 전체 삭제 하시겠습니까?</string>
-    <string name="notification_date_desc">* 알림은 최대 15일까지 저장이 됩니다.</string>
+    <string name="notification_date_desc">알림은 최대 15일까지 저장이 됩니다.</string>
     <string name="wrong_url">웹페이지를 열 수 없습니다</string>
 
     <string name="tag_all_remove_desc">태그목록을 삭제하시겠습니까?</string>
@@ -373,14 +373,18 @@
     <string name="permission_title">접근 권한 안내</string>
     <string name="permission_sub_title">카스토리 이용을 위해 다음 권한을 사용합니다.</string>
     <string name="permission_selective_access">선택 접근 권한</string>
-    <string name="permission_notification_title">알림</string>
+    <string name="permission_notification_title">- 알림</string>
     <string name="permission_notification_sub_title">공지사항 및 댓글,대댓글 알림</string>
-    <string name="permission_camera_title">저장공간 및 카메라</string>
+    <string name="permission_camera_title">- 저장공간 및 카메라</string>
     <string name="permission_camera_sub_title">프로필 사진 및 게시판 사진 등록</string>
     <string name="permission_tip_1">※ 접근 권한은 휴대폰 설정 > 애플리케이션 관리에서 변경 가능합니다.</string>
     <string name="permission_tip_2">선택 접근 권한은 해당 기능 이용시 허용이 필요하며, 비허용시에도 해당 기능 외 서비스는 이용 가능합니다.</string>
 
     <string name="remove_notification_item_desc">해당 알림을 삭제하시겠습니까?</string>
+    <string name="do_next">다음에하기</string>
+    <string name="do_app_update">앱 업데이트 하기</string>
+    <string name="app_update_desc">카스토리 새로운 버전이 출시 되었습니다.\n새로워진 기능들을 만나기 위해서 업데이트를 해주세요!</string>
+    <string name="car_story_message">카스토리 메세지</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>

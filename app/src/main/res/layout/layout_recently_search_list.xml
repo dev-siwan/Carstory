@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <TextView
-            android:id="@+id/tvAllRemove"
+            android:id="@+id/tvSaveDataDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{()->vm.doClickEvent(vm.allRemoveClickEvent)}"

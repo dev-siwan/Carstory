@@ -11,28 +11,35 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_bg">
+        android:background="@drawable/rect_solid_white_100_conner_16dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="30dp" />
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="30dp" />
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="30dp" />
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -102,12 +109,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:includeFontPadding="false"
                     android:text="@string/permission_notification_title"
                     android:textColor="@color/grey_3"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSelectPermission" />
@@ -132,6 +139,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/activity_small_margin"
                     android:includeFontPadding="false"
                     android:text="@string/permission_camera_title"
                     android:textColor="@color/grey_3"
@@ -139,8 +147,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvNotificationSubTitle"
-                    android:layout_marginTop="@dimen/activity_small_margin"/>
+                    app:layout_constraintTop_toBottomOf="@id/tvNotificationSubTitle" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCameraDesc"
@@ -189,18 +196,16 @@
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/grey_1"
+            android:background="@drawable/rect_solid_black_conner_12dp"
             android:includeFontPadding="false"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
             android:stateListAnimator="@null"
             android:text="@string/confirm_text"
             android:textColor="@color/white_100"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="@id/glEnd"
+            app:layout_constraintStart_toStartOf="@id/glStart"
             app:layout_constraintTop_toBottomOf="@id/scrollPermission" />
 
 

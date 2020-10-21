@@ -1,15 +1,15 @@
 package com.like.drive.carstory.ui.base.ext
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.app.Dialog
+import android.app.*
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ScrollView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -199,6 +200,17 @@ fun Activity.startActForResult(clazz: KClass<*>, requestCode: Int, bundle: Bundl
     }
 }
 
+fun Activity.isStatusActivity(activityName: String): Boolean {
+
+    val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    val info = manager.appTasks
+    val topActivityName = info[0].taskInfo.topActivity?.className
+
+    return topActivityName?.let {
+        activityName == it
+    } ?: false
+}
+
 fun FragmentManager.currentNavigationFragment() =
     primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
@@ -211,6 +223,23 @@ inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
             }
         }
     })
+}
+
+fun Activity.getVersionCode(): Long? {
+
+    var version: Long? = null
+
+    try {
+        version = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            packageManager.getPackageInfo(packageName, 0).longVersionCode
+        } else {
+            packageManager.getPackageInfo(packageName, 0).versionCode.toLong()
+        }
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+
+    return version
 }
 
 @SuppressLint("ClickableViewAccessibility")
