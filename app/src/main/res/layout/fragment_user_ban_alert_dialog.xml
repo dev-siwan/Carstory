@@ -29,6 +29,14 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="30dp" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_vertical_margin" />
+
+
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="0dp"
@@ -57,33 +65,22 @@
             app:layout_constraintRight_toRightOf="@id/glRight"
             app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@color/grey_4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvUserBanSubmitDesc" />
-
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/rect_solid_black_conner_12dp"
             android:includeFontPadding="false"
-            android:paddingVertical="@dimen/activity_vertical_margin"
             android:stateListAnimator="@null"
             android:text="@string/confirm_text"
-            android:textColor="@color/grey_1"
+            android:textColor="@color/white_100"
             android:textSize="@dimen/normal_text_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            android:layout_marginTop="@dimen/activity_vertical_x_margin"
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="@id/glRight"
+            app:layout_constraintStart_toStartOf="@id/glLeft"
+            app:layout_constraintTop_toBottomOf="@id/tvUserBanSubmitDesc" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,7 +27,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="30dp" />
+            app:layout_constraintGuide_begin="@dimen/activity_vertical_x_margin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/activity_small_margin" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -56,32 +63,22 @@
             app:layout_goneMarginTop="0dp"
             tools:text="다이얼로그 내용입니다. 위 내용을 확인하셨습니까?" />
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@color/grey_4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
-
         <TextView
             android:id="@+id/btnConfirm"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@null"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:padding="@dimen/activity_vertical_margin"
+            android:stateListAnimator="@null"
             android:text="@string/confirm_text"
             android:textColor="@color/grey_1"
             android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintBottom_toBottomOf="@id/glBottom"
+            app:layout_constraintEnd_toEndOf="@id/glRight"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

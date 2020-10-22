@@ -218,7 +218,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
     private fun SignInViewModel.emptyNickName() {
         emptyNickNameEvent.observe(this@SignInActivity, Observer {
             startAct(ProfileActivity::class)
-            showShortToast(R.string.nick_name_null_error)
         })
     }
 
@@ -274,8 +273,8 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
         }
 
-        val useIndex = termsDesc.indexOf("이용약관")
-        val privacyIndex = termsDesc.indexOf("개인정보처리방침")
+        val useIndex = termsDesc.indexOf(getString(R.string.terms_user_text))
+        val privacyIndex = termsDesc.indexOf(getString(R.string.terms_privacy_text))
 
         return SpannableString(termsDesc).apply {
             setSpan(useClickSpan, useIndex, useIndex + 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

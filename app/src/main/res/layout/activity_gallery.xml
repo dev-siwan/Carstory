@@ -68,12 +68,15 @@
             tools:listitem="@layout/holder_gallery" />
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <Button
             android:id="@+id/fabAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_vertical_margin"
-            android:backgroundTint="@color/white_100"
+            android:background="@drawable/rect_solid_black_conner_12dp"
+            android:text="@string/upload"
+            android:textColor="@color/white_100"
+            android:textSize="@dimen/normal_text_size"
             android:onClick="@{()->vm.doClickEvent(vm.completeClickEvent)}"
             android:src="@drawable/fab_add"
             android:visibility="@{vm.enableStatus &amp;&amp; vm.isMultiple}"

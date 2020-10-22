@@ -387,6 +387,8 @@
     <string name="app_update_desc">카스토리 새로운 버전이 출시 되었습니다.\n새로워진 기능들을 만나기 위해서 업데이트를 해주세요!</string>
     <string name="car_story_message">카스토리 메세지</string>
     <string name="do_share">공유하기</string>
+    <string name="terms_user_text">이용약관</string>
+    <string name="terms_privacy_text">개인정보처리방침</string>
 
     <string-array name="empty_photo_type_array">
         <item>카메라</item>
