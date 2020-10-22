@@ -9,5 +9,6 @@ import kotlinx.android.parcel.Parcelize
 data class CommentFragmentExtra(
     val commentUpdate: Boolean? = false,
     val commentData: CommentData? = null,
-    val reCommentData: ReCommentData? = null
+    val reCommentData: ReCommentData? = null,
+    val reCommentReply:ReCommentData?=null,
 ) : Parcelable

@@ -10,10 +10,14 @@ import com.like.drive.carstory.ui.board.detail.viewmodel.BoardDetailViewModel
 class ReCommentHolder(val binding: HolderReCommentBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(vm :BoardDetailViewModel, data: ReCommentData) {
+    fun bind(vm: BoardDetailViewModel, data: ReCommentData) {
         binding.vm = vm
         binding.reCommentData = data
         binding.executePendingBindings()
+
+        binding.tvReComment.setOnClickListener {
+            vm.showCommentDialogListener(false, reCommentReply = data)
+        }
     }
 
     companion object {

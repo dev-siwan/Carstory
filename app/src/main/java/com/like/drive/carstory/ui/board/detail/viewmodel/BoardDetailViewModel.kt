@@ -146,12 +146,14 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     fun showCommentDialogListener(
         isCommentUpdate: Boolean? = false,
         commentData: CommentData? = null,
-        reCommentData: ReCommentData? = null
+        reCommentData: ReCommentData? = null,
+        reCommentReply: ReCommentData? = null
     ) {
         showCommentDialogEvent.value = CommentFragmentExtra(
             commentUpdate = isCommentUpdate,
             commentData = commentData,
-            reCommentData = reCommentData
+            reCommentData = reCommentData,
+            reCommentReply = reCommentReply
         )
     }
 
@@ -171,7 +173,23 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
                     updateReComment(it, commentStrValue!!)
                 }
             } else {
-                addReComment(commentFragmentExtra.commentData!!, commentStrValue)
+                when {
+                    commentData != null -> addReComment(
+                        commentData,
+                        commentStrValue,
+                        commentData.userInfo!!,
+                        commentData.commentStr!!
+                    )
+                    reCommentReply != null ->
+                        addReComment(
+                            commentList.value?.find { it.commentData.cid == reCommentReply.cid }?.commentData,
+                            commentStrValue,
+                            reCommentReply.userInfo!!,
+                            reCommentReply.commentStr!!
+                        )
+                    else -> Unit
+                }
+
             }
         }
     }
@@ -201,23 +219,36 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     /**
      * Remote 대댓글 추가
      */
-    private fun addReComment(commentData: CommentData, reCommentValue: String?) {
+    private fun addReComment(
+        commentData: CommentData?,
+        reCommentStr: String?,
+        commentUserData: UserData,
+        contentStr: String,
+    ) {
 
-        isProgressEvent.value = true
+        commentData?.let {
 
-        reCommentValue?.let {
-            viewModelScope.launch {
-                boardRepository.addReComment(_boardData.value!!, commentData, it,
-                    success = {
-                        completeCommentDialogEvent.call()
-                        addReCommentEvent.value = it
-                    },
-                    fail = {
-                        setFailProcess(R.string.comment_add_error_message)
-                    }
-                )
+            isProgressEvent.value = true
+
+            reCommentStr?.let {
+                viewModelScope.launch {
+                    boardRepository.addReComment(
+                        boardData = _boardData.value!!,
+                        commentData = commentData,
+                        content = contentStr,
+                        reComment = it,
+                        commentUserData = commentUserData,
+                        success = {
+                            completeCommentDialogEvent.call()
+                            addReCommentEvent.value = it
+                        },
+                        fail = {
+                            setFailProcess(R.string.comment_add_error_message)
+                        }
+                    )
+                }
             }
-        }
+        } ?: setFailProcess(R.string.comment_add_error_message)
     }
 
     /**

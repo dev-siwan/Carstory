@@ -66,6 +66,10 @@ class CommentDialogFragment :
                 }
             }
 
+            reCommentReply?.let {
+                boardDetailViewModel.setReComment(null)
+            }
+
             containerFragment.setOnClickListener {
                 dismiss()
             }
@@ -74,7 +78,7 @@ class CommentDialogFragment :
                 delay(50)
                 etComment.requestFocus()
 
-                imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
 
             etComment.setOnScrollableTouchListener()

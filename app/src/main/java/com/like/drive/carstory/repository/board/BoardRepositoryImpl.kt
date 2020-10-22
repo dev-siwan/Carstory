@@ -15,6 +15,7 @@ import com.like.drive.carstory.data.notification.NotificationSendData
 import com.like.drive.carstory.data.notification.NotificationType
 import com.like.drive.carstory.data.photo.PhotoData
 import com.like.drive.carstory.data.report.ReportData
+import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.remote.api.board.BoardApi
 import com.like.drive.carstory.remote.api.img.ImageApi
 import com.like.drive.carstory.remote.api.notification.NotificationApi
@@ -260,15 +261,18 @@ class BoardRepositoryImpl(
     override suspend fun addReComment(
         boardData: BoardData,
         commentData: CommentData,
+        content: String,
         reComment: String,
+        commentUserData: UserData,
         success: (ReCommentData) -> Unit,
         fail: () -> Unit
     ) {
         val reCommentData =
-            ReCommentData().createComment(
+            ReCommentData().createReComment(
                 bid = boardData.bid ?: "",
                 cid = commentData.cid ?: "",
-                commentStr = reComment
+                commentStr = reComment,
+                nickName = commentUserData.nickName
             )
 
         boardApi.addReComment(reCommentData).catch {
@@ -276,12 +280,12 @@ class BoardRepositoryImpl(
         }.collect {
             success(reCommentData)
 
-            val dateCompare = Date().before(getTimeAgo(commentData.createDate ?: Date(), -24))
+            val dateCompare = Date().before(getTimeAgo(boardData.createDate ?: Date(), -24))
 
-            if (commentData.userInfo?.uid != UserInfo.userInfo?.uid && dateCompare) {
+            if (commentUserData.uid != UserInfo.userInfo?.uid && dateCompare) {
                 val data = NotificationSendData(
                     notificationType = NotificationType.RE_COMMENT.value,
-                    uid = commentData.userInfo?.uid,
+                    uid = commentUserData.uid,
                     bid = boardData.bid,
                     title = commentData.commentStr,
                     message = reComment

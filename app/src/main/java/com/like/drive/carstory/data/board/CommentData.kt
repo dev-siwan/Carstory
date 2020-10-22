@@ -34,14 +34,16 @@ data class ReCommentData(
     var rcId: String? = null,
     val bid: String? = null,
     val userInfo: UserData? = null,
+    var nickName: String?=null,
     var commentStr: String? = null,
     val createDate: Date? = null,
-    var updateDate: Date? = null
+    var updateDate: Date? = null,
 ) : Parcelable {
-    fun createComment(bid: String, cid: String, commentStr: String) = ReCommentData(
+    fun createReComment(bid: String, cid: String, commentStr: String, nickName:String?) = ReCommentData(
         bid = bid,
         cid = cid,
         userInfo = UserInfo.userInfo,
+        nickName= nickName,
         commentStr = commentStr,
         createDate = Date(),
         updateDate = Date()

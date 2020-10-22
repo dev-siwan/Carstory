@@ -1,5 +1,6 @@
 package com.like.drive.carstory.repository.board
 
+
 import com.like.drive.carstory.data.board.BoardData
 import com.like.drive.carstory.data.board.CommentData
 import com.like.drive.carstory.data.board.CommentWrapData
@@ -7,6 +8,7 @@ import com.like.drive.carstory.data.board.ReCommentData
 import com.like.drive.carstory.data.motor.MotorTypeData
 import com.like.drive.carstory.data.photo.PhotoData
 import com.like.drive.carstory.data.report.ReportData
+import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.ui.board.category.data.CategoryData
 import com.like.drive.carstory.ui.board.upload.data.BoardUploadField
 import kotlinx.coroutines.flow.Flow
@@ -68,7 +70,9 @@ interface BoardRepository {
     suspend fun addReComment(
         boardData: BoardData,
         commentData: CommentData,
+        content: String,
         reComment: String,
+        commentUserData: UserData,
         success: (ReCommentData) -> Unit,
         fail: () -> Unit
     )
