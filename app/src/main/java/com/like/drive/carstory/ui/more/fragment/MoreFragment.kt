@@ -3,6 +3,7 @@ package com.like.drive.carstory.ui.more.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.define.RequestDefine
 import com.like.drive.carstory.common.user.UserInfo
@@ -27,6 +28,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
     private val viewModel: MoreViewModel by viewModel()
 
     override fun onBind(dataBinding: FragmentMoreBinding) {
+        super.onBind(dataBinding)
         dataBinding.vm = viewModel
     }
 
@@ -34,6 +36,11 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         super.onBindAfter(dataBinding)
 
         moreItemClickListener(dataBinding)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUserInfo()
     }
 
     private fun moreItemClickListener(dataBinding: FragmentMoreBinding) {
@@ -76,5 +83,6 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         }
 
     }
+
 
 }

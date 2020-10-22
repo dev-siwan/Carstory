@@ -58,7 +58,7 @@
                 android:id="@+id/containerProfile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_vertical_margin"
+                android:padding= "@dimen/activity_vertical_margin"
                 android:onClick="@{()->vm.moveUserLookUpListener(commentData.userInfo)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +76,7 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/ivMore"
                     tools:text="모터피드 " />
 

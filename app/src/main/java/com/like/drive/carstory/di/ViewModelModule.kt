@@ -42,7 +42,7 @@ val viewModelModule = module {
     viewModel { SearchViewModel(get()) }
     viewModel { FilterViewModel() }
     viewModel { NotificationViewModel(get()) }
-    viewModel { MoreViewModel(get()) }
+    viewModel { MoreViewModel() }
     viewModel { NotificationSettingViewModel() }
     viewModel { NoticeListViewModel(get()) }
     viewModel { NoticeDetailViewModel(get()) }
