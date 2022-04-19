@@ -9,16 +9,12 @@ import android.os.Build
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.FirebaseApp
 import com.kakao.auth.KakaoSDK
-
 import com.like.drive.carstory.common.define.FirebaseDefine
-import com.like.drive.carstory.di.*
 import com.like.drive.carstory.kakao.KakaoSDKAdapter
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.logger.AndroidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class CarStoryApplication : Application() {
 
 
@@ -40,7 +36,6 @@ class CarStoryApplication : Application() {
         FirebaseApp.initializeApp(this)
         initFacebookSDK()
         Timber.plant(Timber.DebugTree())
-        initKoin()
         initNotificationChannel()
         kakaoInit()
 
@@ -48,23 +43,6 @@ class CarStoryApplication : Application() {
 
     private fun initFacebookSDK() {
         AppEventsLogger.activateApp(this)
-    }
-
-    private fun initKoin() {
-        startKoin {
-            androidContext(this@CarStoryApplication)
-            modules(
-                listOf(
-                    cacheModule,
-                    remoteModule,
-                    viewModelModule,
-                    repositoryModule,
-                    networkModule,
-                    analyticsModule
-                )
-            )
-            logger(AndroidLogger())
-        }
     }
 
     /**
@@ -87,7 +65,7 @@ class CarStoryApplication : Application() {
         }
     }
 
-    private fun kakaoInit(){
+    private fun kakaoInit() {
         KakaoSDK.init(KakaoSDKAdapter())
     }
 
