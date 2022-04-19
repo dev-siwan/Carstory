@@ -3,39 +3,48 @@ package com.like.drive.carstory.di
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.like.drive.carstory.common.define.GitDefine
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
-val networkModule = module {
+@Module
+@InstallIn(SingletonComponent::class)
 
-    single {
-        OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .addInterceptor(CustomInterceptor())
-            .readTimeout(30, TimeUnit.SECONDS)
-            .build()
-    }
+object NetworkModule {
 
-    single {
-        Retrofit.Builder()
-            .client(get())
-            .baseUrl(GitDefine.GIT_BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(
+    @Singleton
+    @Provides
+    fun provideOkHttpClient() = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .addInterceptor(CustomInterceptor())
+        .readTimeout(30, TimeUnit.SECONDS)
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(okhttp: OkHttpClient): Retrofit = Retrofit.Builder()
+        .client(okhttp)
+        .baseUrl(GitDefine.GIT_BASE_URL)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(
+            GsonConverterFactory.create(
                 GsonBuilder().setLenient().create()
-            ))
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build()
-    }
+            )
+        )
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .build()
 
 }
 
