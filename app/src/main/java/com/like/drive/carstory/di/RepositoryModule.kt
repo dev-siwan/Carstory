@@ -16,15 +16,62 @@ import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.repository.user.UserRepositoryImpl
 import com.like.drive.carstory.repository.version.VersionRepository
 import com.like.drive.carstory.repository.version.VersionRepositoryImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import org.koin.dsl.module
+import javax.inject.Singleton
 
-val repositoryModule = module {
-    single<VersionRepository> { VersionRepositoryImpl(get()) }
-    single<MotorTypeRepository> { MotorTypeRepositoryImpl(get(), get()) }
-    single<UserRepository> { UserRepositoryImpl(get(), get()) }
-    single<BoardRepository> { BoardRepositoryImpl(get(), get(), get(), get(), get(), get(), get()) }
-    single<NotificationRepository> { NotificationRepositoryImpl(get()) }
-    single<NoticeRepository> { NoticeRepositoryImpl(get(), get()) }
-    single<ReportRepository> { ReportRepositoryImpl(get()) }
-    single<AdminRepository> { AdminRepositoryImpl(get()) }
+@Module
+@InstallIn(ViewModelComponent::class)
+abstract class RepositoryModule {
+
+    @Singleton
+    @Binds
+    abstract fun bindVersionRepository(
+        versionRepositoryImpl: VersionRepositoryImpl
+    ): VersionRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindMotorTypeRepository(
+        motorTypeRepositoryImpl: MotorTypeRepositoryImpl
+    ): MotorTypeRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindUserRepository(
+        userRepositoryImpl: UserRepositoryImpl
+    ): UserRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindBoardRepository(
+        boardRepositoryImpl: BoardRepositoryImpl
+    ): BoardRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindNotificationRepository(
+        noticeRepositoryImpl: NoticeRepositoryImpl
+    ): NotificationRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindNoticeRepository(
+        noticeRepositoryImpl: NoticeRepositoryImpl
+    ): NoticeRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindReportRepository(
+        reportRepositoryImpl: ReportRepositoryImpl
+    ): ReportRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindAdminRepository(
+        adminRepositoryImpl: AdminRepositoryImpl
+    ): AdminRepository
 }
