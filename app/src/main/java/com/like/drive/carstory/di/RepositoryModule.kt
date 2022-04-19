@@ -20,7 +20,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import org.koin.dsl.module
 import javax.inject.Singleton
 
 @Module
@@ -54,7 +53,7 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindNotificationRepository(
-        noticeRepositoryImpl: NoticeRepositoryImpl
+        notificationRepositoryImpl: NotificationRepositoryImpl
     ): NotificationRepository
 
     @Singleton
