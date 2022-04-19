@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'dagger.hilt.android.plugin'
 android {
     compileSdkVersion 31
 
@@ -122,6 +123,7 @@ dependencies {
     def mpchart_version = 'v3.1.0'
     def indicator_version = '1.0.6'
     def room_version = '2.4.2'
+    def hilt_version = '2.38.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -273,6 +275,10 @@ dependencies {
 
     //cropper
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
+    //hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
