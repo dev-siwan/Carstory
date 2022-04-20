@@ -1,6 +1,7 @@
 package com.like.drive.carstory.pref
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
@@ -10,11 +11,11 @@ import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.pref.util.ModelPreferencesManager
 import com.like.drive.carstory.ui.search.data.RecentlyData
 
-class UserPref(application: Application) {
+class UserPref(context: Context) {
     private val preferences: SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(application.applicationContext)
+        PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
     private val modelPref = ModelPreferencesManager.apply {
-        with(application)
+        with(context)
     }
 
     var fcmToken: String?
@@ -72,6 +73,6 @@ class UserPref(application: Application) {
         const val IS_SEND_FCM_TOKEN = "IS_SEND_FCM_TOKEN"
         const val RECENTLY_LIST = "RECENTLY_LIST"
         const val NOTICE_TOPIC = "NOTICE_TOPIC"
-        const val PERMISSION_CHECK="PERMISSION_CHECK"
+        const val PERMISSION_CHECK = "PERMISSION_CHECK"
     }
 }

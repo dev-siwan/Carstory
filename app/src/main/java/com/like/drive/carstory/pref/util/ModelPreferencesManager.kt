@@ -18,8 +18,8 @@ object ModelPreferencesManager {
      *
      * @param application Instance of application class
      */
-    fun with(application: Application) {
-        preferences = application.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
+    fun with(context: Context) {
+        preferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
     }
 
     /**
