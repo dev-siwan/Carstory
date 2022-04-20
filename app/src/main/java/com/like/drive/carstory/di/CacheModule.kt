@@ -1,27 +1,37 @@
 package com.like.drive.carstory.di
 
+import android.content.Context
 import com.like.drive.carstory.cache.AppDB
-import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.pref.UserPref
-import org.koin.android.ext.koin.androidApplication
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val cacheModule = module {
-    /**
-     * DB Init
-     * **/
-    single { AppDB.getInstance(androidApplication()) }
+@Module
+@InstallIn(SingletonComponent::class)
+object CacheModule {
 
-    /**
-     * DAO
-     * **/
-    single { get<AppDB>().motorTypeDao() }
-    single { get<AppDB>().notificationDao() }
-    single { get<AppDB>().likeDao() }
+    @Provides
+    @Singleton
+    fun provideUserPref(@ApplicationContext context: Context) = UserPref(context)
 
-    /**
-     * Preference
-     * **/
+    @Provides
+    @Singleton
+    fun provideAppDB(@ApplicationContext context: Context) = AppDB.getInstance(context)
 
-    single { UserPref(androidApplication()) }
+    @Provides
+    @Singleton
+    fun provideMotorTypeDao(appDB: AppDB) = appDB.motorTypeDao()
+
+    @Provides
+    @Singleton
+    fun notificationDao(appDB: AppDB) = appDB.notificationDao()
+
+    @Provides
+    @Singleton
+    fun likeDao(appDB: AppDB) = appDB.likeDao()
+
 }
