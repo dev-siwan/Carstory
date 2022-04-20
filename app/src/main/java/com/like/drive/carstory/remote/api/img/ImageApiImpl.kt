@@ -1,15 +1,15 @@
 package com.like.drive.carstory.remote.api.img
 
-import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
-import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.task.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import java.io.File
+import javax.inject.Inject
 
-class ImageApiImpl(
+class ImageApiImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val fireBaseTask: FireBaseTask
 ) : ImageApi {

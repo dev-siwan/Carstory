@@ -1,11 +1,12 @@
 package com.like.drive.carstory.remote.api.admin
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.task.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class AdminApiImpl(
+class AdminApiImpl @Inject constructor(
     private val fireBaseTask: FireBaseTask,
     private val fireStore: FirebaseFirestore
 ) : AdminApi {

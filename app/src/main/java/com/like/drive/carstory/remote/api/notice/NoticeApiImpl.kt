@@ -3,12 +3,13 @@ package com.like.drive.carstory.remote.api.notice
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.like.drive.carstory.data.notice.NoticeData
-import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.task.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName
 import kotlinx.coroutines.flow.Flow
 import java.util.*
+import javax.inject.Inject
 
-class NoticeApiImpl(
+class NoticeApiImpl @Inject constructor (
     private val fireBaseTask: FireBaseTask,
     private val fireStore: FirebaseFirestore
 ) : NoticeApi {

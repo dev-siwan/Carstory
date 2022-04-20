@@ -8,14 +8,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
-import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.task.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName.USER
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class UserApiImpl(
+class UserApiImpl @Inject constructor(
     private val fireBaseTask: FireBaseTask,
     private val fireStore: FirebaseFirestore,
     private val fireAuth: FirebaseAuth

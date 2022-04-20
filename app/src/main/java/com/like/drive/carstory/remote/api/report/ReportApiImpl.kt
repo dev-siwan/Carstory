@@ -4,12 +4,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.like.drive.carstory.data.report.ReportData
 import com.like.drive.carstory.remote.api.notice.NoticeApiImpl
-import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.task.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName
 import kotlinx.coroutines.flow.Flow
 import java.util.*
+import javax.inject.Inject
 
-class ReportApiImpl(
+class ReportApiImpl @Inject constructor(
     private val fireBaseTask: FireBaseTask,
     private val firestore: FirebaseFirestore
 ) : ReportApi {

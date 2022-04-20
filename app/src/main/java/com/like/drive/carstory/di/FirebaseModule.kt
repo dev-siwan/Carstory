@@ -3,7 +3,7 @@ package com.like.drive.carstory.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.task.FireBaseTask
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

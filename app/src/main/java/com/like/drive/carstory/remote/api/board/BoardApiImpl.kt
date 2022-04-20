@@ -7,7 +7,7 @@ import com.like.drive.carstory.data.board.BoardData
 import com.like.drive.carstory.data.board.CommentData
 import com.like.drive.carstory.data.board.ReCommentData
 import com.like.drive.carstory.data.motor.MotorTypeData
-import com.like.drive.carstory.remote.common.FireBaseTask
+import com.like.drive.carstory.remote.task.FireBaseTask
 import com.like.drive.carstory.remote.reference.CollectionName
 import com.like.drive.carstory.remote.reference.CollectionName.BOARD_COMMENT
 import com.like.drive.carstory.remote.reference.CollectionName.BOARD_RE_COMMENT
@@ -16,8 +16,9 @@ import com.like.drive.carstory.ui.board.category.data.CategoryData
 import com.like.drive.carstory.ui.board.data.LikeCountEnum
 import kotlinx.coroutines.flow.Flow
 import java.util.*
+import javax.inject.Inject
 
-class BoardApiImpl(
+class BoardApiImpl @Inject constructor (
     private val fireBaseTask: FireBaseTask,
     private val fireStore: FirebaseFirestore
 ) : BoardApi {

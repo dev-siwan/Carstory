@@ -1,4 +1,4 @@
-package com.like.drive.carstory.remote.common
+package com.like.drive.carstory.remote.task
 
 import bolts.Task
 import com.google.android.gms.tasks.Tasks
