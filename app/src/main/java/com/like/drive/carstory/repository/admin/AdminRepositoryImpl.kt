@@ -3,8 +3,9 @@ package com.like.drive.carstory.repository.admin
 import com.like.drive.carstory.remote.api.admin.AdminApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
-class AdminRepositoryImpl(private val adminApi: AdminApi) : AdminRepository {
+class AdminRepositoryImpl @Inject constructor(private val adminApi: AdminApi) : AdminRepository {
     override suspend fun sendUserMessage(
         uid: String,
         message: String,

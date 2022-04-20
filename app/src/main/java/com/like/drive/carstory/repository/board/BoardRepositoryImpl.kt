@@ -28,9 +28,10 @@ import com.like.drive.carstory.ui.board.upload.data.BoardUploadField
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class BoardRepositoryImpl(
+class BoardRepositoryImpl @Inject constructor(
     private val boardApi: BoardApi,
     private val imgApi: ImageApi,
     private val firestore: FirebaseFirestore,

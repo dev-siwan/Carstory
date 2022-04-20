@@ -14,8 +14,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.withContext
 import java.io.File
+import javax.inject.Inject
 
-class UserRepositoryImpl(private val userApi: UserApi, private val imageApi: ImageApi) :
+class UserRepositoryImpl @Inject constructor (private val userApi: UserApi, private val imageApi: ImageApi) :
     UserRepository {
 
     override suspend fun getUser(

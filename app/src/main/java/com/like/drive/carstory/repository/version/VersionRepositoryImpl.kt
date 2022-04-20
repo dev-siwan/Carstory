@@ -1,26 +1,25 @@
 package com.like.drive.carstory.repository.version
 
-
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.common.Version
 import com.like.drive.carstory.remote.api.version.VersionApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import javax.inject.Inject
 
-class VersionRepositoryImpl(private val versionApi: VersionApi) : VersionRepository {
+class VersionRepositoryImpl @Inject constructor(private val versionApi: VersionApi) :
+    VersionRepository {
 
     override suspend fun checkMotorTypeVersion(
         insertMotorType: () -> Unit,
         passInsertMotorType: () -> Unit,
         fail: () -> Unit
     ) {
-        versionApi.getMotorTypeVersion().
-        catch {
-            e->e.printStackTrace()
+        versionApi.getMotorTypeVersion().catch { e ->
+            e.printStackTrace()
             fail.invoke()
-        }.
-        collect { value: Version? ->
+        }.collect { value: Version? ->
 
             Timber.i("versionCheck ${value?.version}")
 
@@ -31,7 +30,7 @@ class VersionRepositoryImpl(private val versionApi: VersionApi) : VersionReposit
                 } else {
                     passInsertMotorType.invoke()
                 }
-            }?: fail.invoke()
+            } ?: fail.invoke()
         }
     }
 }

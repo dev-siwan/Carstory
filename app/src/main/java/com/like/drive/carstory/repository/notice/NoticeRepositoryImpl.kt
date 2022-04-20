@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import java.util.*
+import javax.inject.Inject
 
-class NoticeRepositoryImpl(
+class NoticeRepositoryImpl @Inject constructor(
     private val noticeApi: NoticeApi,
     private val notificationApi: NotificationApi
 ) : NoticeRepository {

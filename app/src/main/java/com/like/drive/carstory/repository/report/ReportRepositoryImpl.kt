@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import java.util.*
+import javax.inject.Inject
 
-class ReportRepositoryImpl(private val reportApi: ReportApi) : ReportRepository {
+class ReportRepositoryImpl @Inject constructor (private val reportApi: ReportApi) : ReportRepository {
 
     override suspend fun getReportList(date: Date): Flow<List<ReportData>> {
         return reportApi.getReportList(date)

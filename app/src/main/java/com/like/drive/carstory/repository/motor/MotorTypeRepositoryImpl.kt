@@ -12,8 +12,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
-class MotorTypeRepositoryImpl(
+class MotorTypeRepositoryImpl @Inject constructor(
     private val motorTypeApi: MotorTypeApi,
     private val motorTypeDao: MotorTypeDao
 ) : MotorTypeRepository {
