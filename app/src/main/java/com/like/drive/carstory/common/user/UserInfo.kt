@@ -15,14 +15,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import javax.inject.Inject
 
-object UserInfo : KoinComponent {
-    val userPref: UserPref by inject()
-    private val userApi: UserApi by inject()
-    private val notificationRepo: NotificationRepository by inject()
-    private val boardRepository: BoardRepository by inject()
+class UserInfo @Inject constructor(
+    private val userPref: UserPref,
+    private val userApi: UserApi,
+    private val notificationRepository: NotificationRepository,
+    private val boardRepository: BoardRepository
+) {
 
     var userInfo: UserData? = null
     var isNoticeTopic: Boolean = true
@@ -40,7 +40,7 @@ object UserInfo : KoinComponent {
         CoroutineScope(Dispatchers.IO).launch {
             userApi.signOut()
             userPref.removeUserInfo()
-            notificationRepo.deleteAll()
+            notificationRepository.deleteAll()
             boardRepository.removeAllLike()
             (CarStoryApplication.getContext()
                 .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancelAll()

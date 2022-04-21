@@ -1,6 +1,5 @@
 package com.like.drive.carstory.pref
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit

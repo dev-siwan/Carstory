@@ -16,10 +16,6 @@ object CacheModule {
 
     @Provides
     @Singleton
-    fun provideUserPref(@ApplicationContext context: Context) = UserPref(context)
-
-    @Provides
-    @Singleton
     fun provideAppDB(@ApplicationContext context: Context) = AppDB.getInstance(context)
 
     @Provides
