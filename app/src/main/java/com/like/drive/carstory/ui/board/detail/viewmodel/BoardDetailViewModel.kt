@@ -26,11 +26,18 @@ import com.like.drive.carstory.repository.board.BoardRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.board.data.CommentFragmentExtra
 import com.like.drive.carstory.ui.common.data.LoadingStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
+@HiltViewModel
+class BoardDetailViewModel @Inject constructor(
+    private val boardRepository: BoardRepository,
+    private val userInfo: UserInfo
+) :
+    BaseViewModel() {
 
     private val _boardData = MutableLiveData<BoardData>()
     val boardData: LiveData<BoardData> get() = _boardData
@@ -346,7 +353,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
     }
 
     fun moveUserLookUpListener(userData: UserData) {
-        if (userData.uid != UserInfo.userInfo?.uid) {
+        if (userData.uid != userInfo.userInfo?.uid) {
             moveUserLookUpEvent.value = userData.uid
         }
     }
@@ -355,7 +362,7 @@ class BoardDetailViewModel(private val boardRepository: BoardRepository) : BaseV
 
         isLikeEnable.get().let {
 
-            if (UserInfo.userInfo?.uid == uid) {
+            if (userInfo.userInfo?.uid == uid) {
                 warningSelfLikeEvent.value = R.string.like_self_message
                 return@let
             }

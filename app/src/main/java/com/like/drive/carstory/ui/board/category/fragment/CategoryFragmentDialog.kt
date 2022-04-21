@@ -4,19 +4,21 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.like.drive.carstory.R
 import com.like.drive.carstory.databinding.FragmentCategoryDialogBinding
 import com.like.drive.carstory.ui.base.BaseFragmentDialog
 import com.like.drive.carstory.ui.board.category.adapter.CategoryAdapter
 import com.like.drive.carstory.ui.board.category.data.getCategoryList
 import com.like.drive.carstory.ui.board.upload.viewmodel.UploadViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_category_dialog.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
+@AndroidEntryPoint
 class CategoryFragmentDialog :
     BaseFragmentDialog<FragmentCategoryDialogBinding>(R.layout.fragment_category_dialog) {
 
-    private val viewModel: UploadViewModel by sharedViewModel()
+    private val viewModel: UploadViewModel by activityViewModels()
     val list by lazy { getCategoryList(requireContext()) }
 
     override fun onStart() {

@@ -1,6 +1,5 @@
 package com.like.drive.carstory.ui.board.upload.viewmodel
 
-import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -16,10 +15,14 @@ import com.like.drive.carstory.repository.board.BoardRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.board.category.data.CategoryData
 import com.like.drive.carstory.ui.board.upload.data.BoardUploadField
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
-class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewModel() {
+@HiltViewModel
+class UploadViewModel @Inject constructor(private val boardRepository: BoardRepository) :
+    BaseViewModel() {
 
     val selectPhotoClickEvent = SingleLiveEvent<Unit>()
     val photoItemClickEvent = SingleLiveEvent<PhotoData>()
@@ -50,7 +53,7 @@ class UploadViewModel(private val boardRepository: BoardRepository) : BaseViewMo
     val categoryData: LiveData<CategoryData> get() = _categoryData
 
     val completeEvent = SingleLiveEvent<BoardData>()
-    val errorEvent = SingleLiveEvent<@StringRes Int>()
+    val errorEvent = SingleLiveEvent<Int>()
 
     val closeCategoryItemPage = SingleLiveEvent<Unit>()
     val showCategoryItemPage = SingleLiveEvent<Unit>()

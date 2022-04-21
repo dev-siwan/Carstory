@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.DisplayMetrics
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,17 +33,18 @@ import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.report.reg.fragment.ReportRegisterFragmentDialog
 import com.like.drive.carstory.ui.user.activity.UserLookUpActivity
 import com.like.drive.carstory.ui.view.large.activity.LargeThanActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_board_detail.*
 import kotlinx.android.synthetic.main.layout_detail_function_block.view.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
+@AndroidEntryPoint
 class BoardDetailActivity :
     BaseActivity<ActivityBoardDetailBinding>((R.layout.activity_board_detail)) {
 
     private var boardData: BoardData? = null
     private var bid: String? = null
-    private val viewModel: BoardDetailViewModel by viewModel()
+    private val viewModel: BoardDetailViewModel by viewModels()
 
     private val commentAdapter by lazy { CommentAdapter(viewModel) }
     private val detailImgAdapter by lazy { DetailImgAdapter(viewModel) }
@@ -437,7 +439,7 @@ class BoardDetailActivity :
         }
     }
 
-    private fun moveToUserLookUpPage(uid:String){
+    private fun moveToUserLookUpPage(uid: String) {
         startAct(UserLookUpActivity::class, Bundle().apply {
             putString(UserLookUpActivity.USER_ID_KEY, uid)
         })

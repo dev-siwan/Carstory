@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.like.drive.carstory.R
@@ -16,18 +17,19 @@ import com.like.drive.carstory.ui.base.ext.setOnScrollableTouchListener
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.board.data.CommentFragmentExtra
 import com.like.drive.carstory.ui.board.detail.viewmodel.BoardDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_comment_dialog.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 private const val EXTRA_PARAM = "extraParam"
 
+@AndroidEntryPoint
 class CommentDialogFragment :
     BaseFragmentDialog<FragmentCommentDialogBinding>(R.layout.fragment_comment_dialog) {
     private var commentFragmentExtra: CommentFragmentExtra? = null
-    private val boardDetailViewModel: BoardDetailViewModel by sharedViewModel()
+    private val boardDetailViewModel: BoardDetailViewModel by activityViewModels()
     private val imm by lazy { requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager? }
 
     override fun onCreate(savedInstanceState: Bundle?) {
