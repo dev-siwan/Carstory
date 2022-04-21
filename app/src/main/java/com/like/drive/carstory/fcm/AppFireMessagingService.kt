@@ -6,23 +6,22 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.define.FirebaseDefine
-import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.notification.NotificationSendData
 import com.like.drive.carstory.data.notification.NotificationType
-import com.like.drive.carstory.pref.UserPref
 import com.like.drive.carstory.repository.notification.NotificationRepository
 import com.like.drive.carstory.ui.base.ext.toDataClass
 import com.like.drive.carstory.util.notification.NotificationUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import javax.inject.Inject
 
-class AppFireMessagingService : FirebaseMessagingService(), KoinComponent {
+@AndroidEntryPoint
+class AppFireMessagingService : FirebaseMessagingService() {
 
-    private val repo: NotificationRepository by inject()
-    private val pref: UserPref by inject()
+    @Inject
+    lateinit var repo: NotificationRepository
 
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
