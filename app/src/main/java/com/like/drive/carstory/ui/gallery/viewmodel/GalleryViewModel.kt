@@ -2,8 +2,6 @@ package com.like.drive.carstory.ui.gallery.viewmodel
 
 import android.net.Uri
 import android.provider.MediaStore
-
-import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -18,9 +16,9 @@ import com.like.drive.carstory.ui.gallery.data.GalleryItemData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GalleryViewModel : BaseViewModel() {
-
+class GalleryViewModel @Inject constructor() : BaseViewModel() {
 
     private val _originGalleryData = MutableLiveData<List<GalleryItemData>>()
     val originGalleryData: LiveData<List<GalleryItemData>> get() = _originGalleryData
@@ -35,18 +33,18 @@ class GalleryViewModel : BaseViewModel() {
         addSource(_selectedDirectory) { value = isExistSelectedItem() }
     }
 
-    var remainCountValue :Int = 0
-    private val _remainCount =MutableLiveData<Int>()
-    val remainCount : LiveData<Int> get() = _remainCount
+    var remainCountValue: Int = 0
+    private val _remainCount = MutableLiveData<Int>()
+    val remainCount: LiveData<Int> get() = _remainCount
 
-    private val _maxSize =MutableLiveData(0)
-    val maxSize : LiveData<Int> get() = _maxSize
+    private val _maxSize = MutableLiveData(0)
+    val maxSize: LiveData<Int> get() = _maxSize
 
     private val _pickPhotoCount = MutableLiveData<Int>()
-    val pickPhotoCount :LiveData<Int> get() = _pickPhotoCount
+    val pickPhotoCount: LiveData<Int> get() = _pickPhotoCount
 
     val completeClickEvent = SingleLiveEvent<Unit>()
-    val notAvailablePhoto = SingleLiveEvent<@StringRes Int>()
+    val notAvailablePhoto = SingleLiveEvent<Int>()
     val isLoading = SingleLiveEvent<Boolean>()
 
     val selectDirectoryClickEvent = SingleLiveEvent<Unit>()
@@ -55,29 +53,31 @@ class GalleryViewModel : BaseViewModel() {
 
     private val uriList = ArrayList<Uri>()
 
-    val addDataEvent =SingleLiveEvent<GalleryItemData>()
+    val addDataEvent = SingleLiveEvent<GalleryItemData>()
     val removeDataEvent = SingleLiveEvent<GalleryItemData>()
 
-    val isMultiple=ObservableBoolean(false)
-
+    val isMultiple = ObservableBoolean(false)
 
     init {
         viewModelScope.launch {
             isLoading.value = true
             _originGalleryData.value = withContext(Dispatchers.IO) {
                 loadGalleryImage()
-            }
+            } ?: emptyList()
             isLoading.value = false
         }
     }
-
 
     /**
      *  갤러리 이미지 리스트 가져오기
      */
     private fun loadGalleryImage(): List<GalleryItemData> {
         val galleryList = mutableListOf<GalleryItemData>()
-        val projection = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.SIZE)
+        val projection = arrayOf(
+            MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+            MediaStore.Images.Media.SIZE
+        )
         val contentResolver = CarStoryApplication.getContext().contentResolver
         contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -143,13 +143,12 @@ class GalleryViewModel : BaseViewModel() {
         }
     }
 
-
     /**
      * 아이템 추가
      */
     private fun addUri(uri: Uri, data: GalleryItemData) {
         if (isAddPhoto()) {
-            if(uriList.add(uri)) {
+            if (uriList.add(uri)) {
                 _remainCount.value = ++remainCountValue
                 addDataEvent.value = data
             }
@@ -169,17 +168,16 @@ class GalleryViewModel : BaseViewModel() {
         }
     }
 
-
     /**
      * 다중선택 파일인지 아닌지 체크
      */
 
-    fun initMultiple(isMultiple:Boolean){
+    fun initMultiple(isMultiple: Boolean) {
         this.isMultiple.set(isMultiple)
     }
 
     /**
-    * 남는갯수랑 맥스갯수 받음
+     * 남는갯수랑 맥스갯수 받음
      */
     fun initCount(maxSize: Int, count: Int) {
         _maxSize.value = maxSize
@@ -190,7 +188,7 @@ class GalleryViewModel : BaseViewModel() {
     /**
      * 사용갯수 맥스 사이즈 비교
      */
-    
+
     private fun isAddPhoto() = _remainCount.value ?: 0 < _maxSize.value ?: 0
 
     /**
@@ -216,14 +214,13 @@ class GalleryViewModel : BaseViewModel() {
     /**
      * 선택 가능한 확장자 체크
      */
-    private fun String.availableMimeType(): Boolean = contains("jpeg") || contains("jpg") || contains("png")
-
+    private fun String.availableMimeType(): Boolean =
+        contains("jpeg") || contains("jpg") || contains("png")
 
     /**
      *  선택된 아이템이 있는 지 체크
      */
     private fun isExistSelectedItem() = uriList.isNotEmpty()
-
 
     /**
      *  선택된 아이템의 Uri를 반환
@@ -231,6 +228,5 @@ class GalleryViewModel : BaseViewModel() {
     fun getSelectedGalleryItem(): ArrayList<Uri> {
         return uriList
     }
-
 
 }

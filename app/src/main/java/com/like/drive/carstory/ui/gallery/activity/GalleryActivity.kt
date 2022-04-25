@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -18,10 +19,11 @@ import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.gallery.adapter.GalleryAdapter
 import com.like.drive.carstory.ui.gallery.fragment.GalleryDirectoryFragment
 import com.like.drive.carstory.ui.gallery.viewmodel.GalleryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_gallery.*
 import kotlinx.android.synthetic.main.layout_custom_toolbar.tvToolbarTitle
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class GalleryActivity :
     BaseActivity<ActivityGalleryBinding>(R.layout.activity_gallery) {
 
@@ -33,7 +35,7 @@ class GalleryActivity :
     }
 
     private val toolbar by lazy { findViewById<Toolbar>(R.id.incToolbar) }
-    private val galleryViewModel: GalleryViewModel by viewModel()
+    private val galleryViewModel: GalleryViewModel by viewModels()
 
     private val galleryAdapter by lazy { GalleryAdapter(galleryViewModel) }
     private val directoryDialog by lazy { GalleryDirectoryFragment() }

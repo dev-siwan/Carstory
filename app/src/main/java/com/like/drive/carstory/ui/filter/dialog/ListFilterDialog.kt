@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.data.motor.MotorTypeData
@@ -18,16 +19,17 @@ import com.like.drive.carstory.ui.board.category.data.CategoryData
 import com.like.drive.carstory.ui.board.category.data.getCategoryList
 import com.like.drive.carstory.ui.filter.viewmodel.FilterViewModel
 import com.like.drive.carstory.ui.motor.activity.SelectMotorTypeActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_list_filter.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val CATEGORY_TYPE = "category_type"
 const val MOTOR_TYPE = "motor_type"
 
+@AndroidEntryPoint
 class ListFilterDialog :
     BaseFragmentDialog<DialogListFilterBinding>(R.layout.dialog_list_filter) {
 
-    val viewModel: FilterViewModel by viewModel()
+    val viewModel: FilterViewModel by viewModels()
     var setFilter: ((CategoryData?, MotorTypeData?) -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

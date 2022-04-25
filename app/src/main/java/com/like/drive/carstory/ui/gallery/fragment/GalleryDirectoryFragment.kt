@@ -2,18 +2,18 @@ package com.like.drive.carstory.ui.gallery.fragment
 
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.like.drive.carstory.R
 import com.like.drive.carstory.databinding.FragmentGalleryDirectoryBinding
 import com.like.drive.carstory.ui.base.BaseFragmentDialog
 import com.like.drive.carstory.ui.gallery.adapter.GalleryDirectoryAdapter
 import com.like.drive.carstory.ui.gallery.viewmodel.GalleryViewModel
 import kotlinx.android.synthetic.main.fragment_gallery_directory.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class GalleryDirectoryFragment :
     BaseFragmentDialog<FragmentGalleryDirectoryBinding>(R.layout.fragment_gallery_directory) {
 
-    private val galleryViewModel: GalleryViewModel by sharedViewModel()
+    private val galleryViewModel: GalleryViewModel by activityViewModels()
     private val directoryAdapter: GalleryDirectoryAdapter by lazy {
         GalleryDirectoryAdapter(galleryViewModel)
     }
