@@ -1,19 +1,16 @@
 package com.like.drive.carstory.ui.profile.activity
 
-import android.Manifest
+
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
 import com.like.drive.carstory.R
-import com.like.drive.carstory.common.enum.ProfilePhotoSelectType
 import com.like.drive.carstory.databinding.ActivityProfileBinding
 import com.like.drive.carstory.ui.base.BaseActivity
-import com.like.drive.carstory.ui.base.ext.showListDialog
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startAct
 import com.like.drive.carstory.ui.base.ext.startActForResult
@@ -24,17 +21,16 @@ import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.profile.viewmodel.ProfileViewModel
 import com.like.drive.carstory.ui.sign.`in`.activity.SignInActivity
 import com.like.drive.carstory.util.photo.PickImageUtil
-import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.androidx.viewmodel.ext.android.viewModel
+
 import java.io.File
 
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
 
-    private val viewModel: ProfileViewModel by viewModel()
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +69,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     private fun ProfileViewModel.imageClick() {
         imageClickEvent.observe(this@ProfileActivity, Observer {
-            showSelectPhotoList()
+            //showSelectPhotoList()
         })
     }
 
@@ -134,7 +130,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     /**
      * 사진 선택 리스트
      * 1.사진 2.앨범
-     */
+     *//*
 
     private fun showSelectPhotoList() {
         showListDialog(
@@ -147,7 +143,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                 ProfilePhotoSelectType.BASIC.ordinal -> viewModel.setImageFile(null)
             }
         }
-    }
+    }*/
 
     /**
      * 카매라 오픈
@@ -159,7 +155,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     /**
      * 앨범 퍼미션 체크
      */
-    private fun checkStoragePermission() {
+/*    private fun checkStoragePermission() {
         TedPermission.with(this)
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
@@ -172,7 +168,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             }).setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
             .setDeniedMessage(getString(R.string.denied_permission_storage))
             .check()
-    }
+    }*/
 
     /**
      * 갤러리 리스트로 향함
@@ -214,7 +210,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                     }
                 }
 
-                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+      /*          CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                     val result = CropImage.getActivityResult(data)
                     lifecycleScope.launch {
                         setResizeImage(result.uri)
@@ -223,7 +219,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
                 CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE -> {
                     imageError()
-                }
+                }*/
 
                 else -> {
                     imageError()

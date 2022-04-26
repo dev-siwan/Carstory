@@ -1,6 +1,7 @@
 package com.like.drive.carstory.ui.notice.list.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.enum.NoticeSelectType
@@ -17,12 +18,13 @@ import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.carstory.ui.notice.list.adapter.NoticeListAdapter
 import com.like.drive.carstory.ui.notice.list.fragment.NoticeUploadFragmentDialog
 import com.like.drive.carstory.ui.notice.list.viewmodel.NoticeListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_notice_list.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class NoticeListActivity : BaseActivity<ActivityNoticeListBinding>(R.layout.activity_notice_list) {
 
-    private val viewModel: NoticeListViewModel by viewModel()
+    private val viewModel: NoticeListViewModel by viewModels()
     private val noticeAdapter by lazy { NoticeListAdapter(viewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

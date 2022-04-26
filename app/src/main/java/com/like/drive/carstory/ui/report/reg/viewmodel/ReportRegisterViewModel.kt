@@ -7,8 +7,9 @@ import com.like.drive.carstory.CarStoryApplication
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.report.reg.data.ReportType
+import javax.inject.Inject
 
-class ReportRegisterViewModel : BaseViewModel() {
+class ReportRegisterViewModel @Inject constructor() : BaseViewModel() {
 
     private val _reportTypes =
         MutableLiveData<List<ReportType>>(ReportType().getList(CarStoryApplication.getContext()))

@@ -1,34 +1,34 @@
 package com.like.drive.carstory.ui.search.viewmodel
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.like.drive.carstory.R
+import com.like.drive.carstory.analytics.AnalyticsEventLog
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.pref.UserPref
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.search.data.RecentlyData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
-import kotlin.collections.ArrayList
-import androidx.annotation.StringRes
-import androidx.databinding.ObservableBoolean
-import com.like.drive.carstory.R
-import com.like.drive.carstory.analytics.AnalyticsEventLog
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import javax.inject.Inject
 
-class SearchViewModel(private val analyticsEventLog: AnalyticsEventLog) : BaseViewModel(),
-    KoinComponent {
-
-    private val userPref: UserPref by inject()
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val userPref: UserPref,
+    private val analyticsEventLog: AnalyticsEventLog
+) :
+    BaseViewModel() {
 
     private val recentlyListPref = userPref.recentlyData
 
     private val _recentlyList = MutableLiveData<ArrayList<RecentlyData>>()
     val recentlyList: LiveData<ArrayList<RecentlyData>> get() = _recentlyList
 
-    val tagValueEvent = SingleLiveEvent<String>()
-    val tagBlankMessageEvent = SingleLiveEvent<@StringRes Int>()
+    val tagValueEvent = SingleLiveEvent<String?>()
+    val tagBlankMessageEvent = SingleLiveEvent<Int>()
 
-    val tag = MutableLiveData<String>()
+    val tag = MutableLiveData<String?>()
 
     val isSearchStatus = ObservableBoolean(true)
 

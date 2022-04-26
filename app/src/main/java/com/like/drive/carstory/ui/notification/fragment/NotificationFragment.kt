@@ -2,6 +2,8 @@ package com.like.drive.carstory.ui.notification.fragment
 
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,14 +20,12 @@ import com.like.drive.carstory.ui.notification.activity.NotificationSettingActiv
 import com.like.drive.carstory.ui.notification.adapter.NotificationAdapter
 import com.like.drive.carstory.ui.notification.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationFragment :
     BaseFragment<FragmentNotificationBinding>(R.layout.fragment_notification) {
 
-    private val viewModel: NotificationViewModel by viewModel()
-    private val mainViewModel: MainViewModel by sharedViewModel()
+    private val viewModel: NotificationViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val adapter by lazy { NotificationAdapter(viewModel) }
 
     override fun onBind(dataBinding: FragmentNotificationBinding) {
@@ -117,8 +117,7 @@ class NotificationFragment :
         })
     }
 
-
-    private fun removeBadge(){
+    private fun removeBadge() {
         (requireActivity() as MainActivity).navBottomView.removeBadge(R.id.action_notification)
     }
 

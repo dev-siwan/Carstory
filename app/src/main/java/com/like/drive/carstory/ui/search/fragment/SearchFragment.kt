@@ -14,6 +14,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -38,21 +39,20 @@ import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.search.adapter.RecentlyListAdapter
 import com.like.drive.carstory.ui.search.viewmodel.SearchViewModel
 import com.like.drive.carstory.util.ad.NativeAdUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.layout_recently_search_list.view.*
 import kotlinx.android.synthetic.main.layout_search_list.*
 import kotlinx.android.synthetic.main.layout_search_list.view.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.KoinComponent
-import org.koin.core.get
 import timber.log.Timber
+import javax.inject.Inject
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search),
-    KoinComponent {
+@AndroidEntryPoint
+class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
-    private val viewModel: SearchViewModel by viewModel()
-    private val boardListViewModel: BoardListViewModel by viewModel()
+    private val viewModel: SearchViewModel by viewModels()
+    private val boardListViewModel: BoardListViewModel by viewModels()
     private val listAdapter by lazy { BoardListAdapter(boardListViewModel) }
     private val editFocusListener by lazy {
         View.OnFocusChangeListener { _, hasFocus ->
@@ -68,7 +68,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private var tagValue: String? = null
 
-    private var nativeAdUtil: NativeAdUtil = get()
+    @Inject
+    lateinit var nativeAdUtil: NativeAdUtil
 
     @Suppress("DEPRECATION")
     private val adSize: AdSize
@@ -343,7 +344,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         initialLayoutComplete = false
 
-        MobileAds.initialize(requireContext())
+        //MobileAds.initialize(requireContext())
 
         if (BuildConfig.DEBUG) {
             MobileAds.setRequestConfiguration(
@@ -381,7 +382,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         val adRequest = AdRequest.Builder().build()
 
         // Start loading the ad in the background.
-        adView?.loadAd(adRequest)
+        //adView?.loadAd(adRequest)
 
         adView?.run {
             adListener = object : AdListener() {

@@ -5,8 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.like.drive.carstory.data.photo.PhotoData
 import com.like.drive.carstory.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LargeThanViewModel : BaseViewModel() {
+@HiltViewModel
+class LargeThanViewModel @Inject constructor() : BaseViewModel() {
 
     private val _photoDataList = MutableLiveData<List<PhotoData>>()
     val photoDataList: LiveData<List<PhotoData>> get() = _photoDataList
@@ -17,7 +20,7 @@ class LargeThanViewModel : BaseViewModel() {
         _photoDataList.value = photoDataList
     }
 
-    fun setIndex(index:Int){
+    fun setIndex(index: Int) {
         currentIndex.set(index)
     }
 

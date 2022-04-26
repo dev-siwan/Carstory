@@ -21,10 +21,13 @@ import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class SignInViewModel(private val userRepository: UserRepository) : BaseViewModel() {
+@HiltViewModel
+class SignInViewModel @Inject constructor(private val userInfo: UserInfo,private val userRepository: UserRepository) : BaseViewModel() {
 
     val email = ObservableField<String>()
     val password = ObservableField<String>()
@@ -177,7 +180,7 @@ class SignInViewModel(private val userRepository: UserRepository) : BaseViewMode
     }
 
     private fun successUser() {
-        UserInfo.userInfo?.nickName?.let {
+        userInfo.userInfo?.nickName?.let {
             completeEvent.call()
         } ?: emptyNickNameEvent.call()
         isLoading.value = false

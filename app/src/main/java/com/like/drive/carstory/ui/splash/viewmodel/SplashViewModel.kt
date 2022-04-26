@@ -7,10 +7,14 @@ import com.like.drive.carstory.repository.motor.MotorTypeRepository
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.repository.version.VersionRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
-class SplashViewModel(
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val userInfo: UserInfo,
     private val versionRepository: VersionRepository,
     private val motorTypeRepository: MotorTypeRepository,
     private val userRepository: UserRepository
@@ -19,10 +23,9 @@ class SplashViewModel(
     val errorEvent = SingleLiveEvent<SplashErrorType>()
     val completeEvent = SingleLiveEvent<SplashCompleteType>()
     val emptyNickNameEvent = SingleLiveEvent<Unit>()
-    val completeDeleteDirectory =SingleLiveEvent<Unit>()
+    val completeDeleteDirectory = SingleLiveEvent<Unit>()
 
-
-   fun versionCheck() {
+    fun versionCheck() {
         viewModelScope.launch {
             versionRepository.checkMotorTypeVersion(
                 insertMotorType = {
@@ -65,7 +68,7 @@ class SplashViewModel(
                     success = {
                         if (it.userBan) {
                             setErrorEvent(SplashErrorType.USER_BAN)
-                            UserInfo.signOut()
+                            userInfo.signOut()
                         } else {
                             successUser()
                         }
@@ -90,7 +93,7 @@ class SplashViewModel(
     }
 
     private fun successUser() {
-        UserInfo.userInfo?.nickName?.let {
+        userInfo.userInfo?.nickName?.let {
             setCompleteEvent(SplashCompleteType.HOME)
         } ?: emptyNickNameEvent.call()
     }

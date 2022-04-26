@@ -1,5 +1,6 @@
 package com.like.drive.carstory.ui.report.reg.fragment
 
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.databinding.FragmentReportRegisterDialogBinding
@@ -8,12 +9,11 @@ import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.report.reg.adapter.ReportTypeAdapter
 import com.like.drive.carstory.ui.report.reg.data.ReportType
 import com.like.drive.carstory.ui.report.reg.viewmodel.ReportRegisterViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReportRegisterFragmentDialog :
     BaseFragmentDialog<FragmentReportRegisterDialogBinding>(R.layout.fragment_report_register_dialog) {
 
-    private val viewModel: ReportRegisterViewModel by viewModel()
+    private val viewModel: ReportRegisterViewModel by viewModels()
     private val reportTypeAdapter by lazy { ReportTypeAdapter(viewModel) }
     var callbackAction: ((ReportType) -> Unit)? = null
 

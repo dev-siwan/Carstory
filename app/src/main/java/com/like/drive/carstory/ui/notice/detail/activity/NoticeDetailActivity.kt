@@ -1,6 +1,7 @@
 package com.like.drive.carstory.ui.notice.detail.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
@@ -11,16 +12,17 @@ import com.like.drive.carstory.databinding.ActivityNoticeDetailBinding
 import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.notice.detail.viewmodel.NoticeDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.markdownview.Config
 import es.dmoral.markdownview.MarkdownView
 import kotlinx.android.synthetic.main.activity_notice_detail.*
 import okhttp3.OkHttpClient
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class NoticeDetailActivity :
     BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
 
-    val viewModel: NoticeDetailViewModel by viewModel()
+    val viewModel: NoticeDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +73,7 @@ class NoticeDetailActivity :
 
             data.mdFile?.also { file -> loadFromUrl(GitDefine.getNoticeFile(file)) }
 
-            setOnMarkdownRenderingListener(object:MarkdownView.OnMarkdownRenderingListener{
+            setOnMarkdownRenderingListener(object : MarkdownView.OnMarkdownRenderingListener {
                 override fun onMarkdownRenderError() {
                     progressBar.isVisible = false
                 }

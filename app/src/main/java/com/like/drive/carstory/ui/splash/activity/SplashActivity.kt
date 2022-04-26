@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -23,16 +24,17 @@ import com.like.drive.carstory.ui.splash.viewmodel.SplashCompleteType
 import com.like.drive.carstory.ui.splash.viewmodel.SplashErrorType
 import com.like.drive.carstory.ui.splash.viewmodel.SplashViewModel
 import com.like.drive.carstory.util.photo.PickImageUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.reflect.KClass
 
+@AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
-    private val viewModel: SplashViewModel by viewModel()
+    private val viewModel: SplashViewModel by viewModels()
     private var notificationSendData: NotificationSendData? = null
     private var shareBoardId: String? = null
 

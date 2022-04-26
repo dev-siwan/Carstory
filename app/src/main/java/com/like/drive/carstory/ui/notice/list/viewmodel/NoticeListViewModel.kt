@@ -1,6 +1,5 @@
 package com.like.drive.carstory.ui.notice.list.viewmodel
 
-import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -12,12 +11,16 @@ import com.like.drive.carstory.data.notice.NoticeData
 import com.like.drive.carstory.repository.notice.NoticeRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.common.data.LoadingStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class NoticeListViewModel(private val noticeRepository: NoticeRepository) : BaseViewModel() {
+@HiltViewModel
+class NoticeListViewModel @Inject constructor(private val noticeRepository: NoticeRepository) :
+    BaseViewModel() {
 
     private val _noticeList = MutableLiveData<List<NoticeData>>()
     val noticeList: LiveData<List<NoticeData>> get() = _noticeList
@@ -40,7 +43,7 @@ class NoticeListViewModel(private val noticeRepository: NoticeRepository) : Base
 
     val addCompleteEvent = SingleLiveEvent<NoticeData>()
     val removeCompleteEvent = SingleLiveEvent<NoticeData>()
-    val errorEvent = SingleLiveEvent<@StringRes Int>()
+    val errorEvent = SingleLiveEvent<Int>()
     val loadingEvent = SingleLiveEvent<Boolean>()
 
     var noticeData: NoticeData? = null

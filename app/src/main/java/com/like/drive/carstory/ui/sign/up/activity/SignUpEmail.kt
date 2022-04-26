@@ -1,6 +1,7 @@
 package com.like.drive.carstory.ui.sign.up.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.databinding.ActivitySignUpEmailBinding
@@ -9,11 +10,12 @@ import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.base.ext.startAct
 import com.like.drive.carstory.ui.profile.activity.ProfileActivity
 import com.like.drive.carstory.ui.sign.up.viewmodel.SignUpViewModel
-import org.koin.android.ext.android.inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpEmail : BaseActivity<ActivitySignUpEmailBinding>(R.layout.activity_sign_up_email) {
 
-    private val viewModel:SignUpViewModel by inject()
+    private val viewModel:SignUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

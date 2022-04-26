@@ -1,6 +1,7 @@
 package com.like.drive.carstory.ui.view.large.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +11,14 @@ import com.like.drive.carstory.databinding.ActivityLargeThanBinding
 import com.like.drive.carstory.ui.base.BaseActivity
 import com.like.drive.carstory.ui.view.large.adapter.LargeThanAdapter
 import com.like.drive.carstory.ui.view.large.viewmodel.LargeThanViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_large_than.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class LargeThanActivity : BaseActivity<ActivityLargeThanBinding>(R.layout.activity_large_than) {
 
-    private val viewModel : LargeThanViewModel by viewModel()
-    private var position =0
+    private val viewModel: LargeThanViewModel by viewModels()
+    private var position = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,32 +33,30 @@ class LargeThanActivity : BaseActivity<ActivityLargeThanBinding>(R.layout.activi
 
     }
 
-    private fun initData(){
+    private fun initData() {
         intent.getParcelableArrayListExtra<PhotoData>(KEY_PHOTO_DATA_ARRAY)?.let {
             viewModel.init(it)
         }
-        position = intent.getIntExtra(KEY_PHOTO_DATA_ARRAY_POSITION,0)
+        position = intent.getIntExtra(KEY_PHOTO_DATA_ARRAY_POSITION, 0)
 
         initView()
     }
 
-    private fun initView(){
-        setCloseButtonToolbar(toolbar){finish()}
+    private fun initView() {
+        setCloseButtonToolbar(toolbar) { finish() }
         rvLargePhoto.run {
             setSnapHelper()
             smoothScrollToPosition(position)
-            viewModel.setIndex(position+1)
+            viewModel.setIndex(position + 1)
             setImagePosition()
         }
     }
-
 
     private fun RecyclerView.setSnapHelper() {
         onFlingListener = null
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(this)
     }
-
 
     private fun RecyclerView.setImagePosition() {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -69,8 +69,8 @@ class LargeThanActivity : BaseActivity<ActivityLargeThanBinding>(R.layout.activi
         })
     }
 
-    companion object{
-        const val KEY_PHOTO_DATA_ARRAY="PhotoDataArray"
-        const val KEY_PHOTO_DATA_ARRAY_POSITION="PhotoDataArrayPosition"
+    companion object {
+        const val KEY_PHOTO_DATA_ARRAY = "PhotoDataArray"
+        const val KEY_PHOTO_DATA_ARRAY_POSITION = "PhotoDataArrayPosition"
     }
 }

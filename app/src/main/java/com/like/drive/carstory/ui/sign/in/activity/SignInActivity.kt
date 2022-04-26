@@ -13,6 +13,7 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.facebook.CallbackManager
@@ -39,13 +40,15 @@ import com.like.drive.carstory.ui.sign.`in`.viewmodel.SignInErrorType
 import com.like.drive.carstory.ui.sign.`in`.viewmodel.SignInViewModel
 import com.like.drive.carstory.ui.sign.up.activity.SignUpEmail
 import com.like.drive.carstory.ui.terms.TermsActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
+@AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
-    private val viewModel: SignInViewModel by inject()
+    private val viewModel: SignInViewModel by viewModels()
     private val loginManager = LoginManager.getInstance()
     private val callbackManager = CallbackManager.Factory.create()
     private val facebookLoginCallback by lazy {

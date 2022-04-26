@@ -1,15 +1,12 @@
 package com.like.drive.carstory.ui.more.fragment
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import com.like.drive.carstory.R
 import com.like.drive.carstory.common.define.RequestDefine
 import com.like.drive.carstory.common.user.UserInfo
 import com.like.drive.carstory.databinding.FragmentMoreBinding
 import com.like.drive.carstory.ui.base.BaseFragment
-import com.like.drive.carstory.ui.base.binder.setProfileImg
 import com.like.drive.carstory.ui.base.ext.openWebBrowser
 import com.like.drive.carstory.ui.base.ext.startActForResult
 import com.like.drive.carstory.ui.board.list.activity.BoardListActivity
@@ -19,13 +16,14 @@ import com.like.drive.carstory.ui.notification.activity.NotificationSettingActiv
 import com.like.drive.carstory.ui.profile.activity.ProfileActivity
 import com.like.drive.carstory.ui.report.list.activity.ReportActivity
 import com.like.drive.carstory.ui.terms.TermsActivity
-import kotlinx.android.synthetic.main.fragment_more.*
-import kotlinx.android.synthetic.main.layout_more_profile.view.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
 
-    private val viewModel: MoreViewModel by viewModel()
+    private val viewModel: MoreViewModel by viewModels()
+    @Inject lateinit var userInfo: UserInfo
 
     override fun onBind(dataBinding: FragmentMoreBinding) {
         super.onBind(dataBinding)
@@ -49,7 +47,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         }
         dataBinding.containerMyFeed.containerMoreItem.setOnClickListener {
             startAct(BoardListActivity::class, Bundle().apply {
-                putParcelable(BoardListActivity.BOARD_DATA_KEY, UserInfo.userInfo)
+                putParcelable(BoardListActivity.BOARD_DATA_KEY, userInfo.userInfo)
             })
         }
 
@@ -83,6 +81,5 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
         }
 
     }
-
 
 }

@@ -1,6 +1,7 @@
 package com.like.drive.carstory.ui.report.list.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.carstory.R
@@ -16,12 +17,13 @@ import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.report.list.adapter.ReportAdapter
 import com.like.drive.carstory.ui.report.list.viewmodel.ReportViewModel
 import com.like.drive.carstory.ui.user.activity.UserLookUpActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_report.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class ReportActivity : BaseActivity<ActivityReportBinding>(R.layout.activity_report) {
 
-    private val viewModel: ReportViewModel by viewModel()
+    private val viewModel: ReportViewModel by viewModels()
     private val reportAdapter by lazy { ReportAdapter(viewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

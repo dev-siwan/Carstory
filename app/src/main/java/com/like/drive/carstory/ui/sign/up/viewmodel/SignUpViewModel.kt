@@ -11,9 +11,13 @@ import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.base.ext.isEmail
 import com.like.drive.carstory.ui.base.ext.isPassword
 import com.like.drive.carstory.ui.base.ext.isPasswordValid
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpViewModel(private val userRepository: UserRepository) : BaseViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(private val userRepository: UserRepository) :
+    BaseViewModel() {
     val email = ObservableField<String>()
     val password = ObservableField<String>()
     val passwordValid = ObservableField<String>()

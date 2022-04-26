@@ -10,10 +10,17 @@ import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.base.ext.isNickName
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
-class ProfileViewModel(private val userRepository: UserRepository) : BaseViewModel() {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val userInfo: UserInfo,
+    private val userRepository: UserRepository
+) :
+    BaseViewModel() {
 
     val nickObserver = ObservableField<String>()
     val introObserver = ObservableField<String>()
@@ -29,13 +36,13 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
 
     var profileStatus: ProfileStatus? = null
 
-    private val _isFirstProfile = MutableLiveData<Boolean>(false)
+    private val _isFirstProfile = MutableLiveData(false)
     val isFirstProfile: LiveData<Boolean> get() = _isFirstProfile
 
     private var imgFile: File? = null
 
     init {
-        UserInfo.userInfo?.let {
+        userInfo.userInfo?.let {
 
             if (it.nickName == null) {
                 profileStatus = ProfileStatus.INIT
@@ -94,12 +101,12 @@ class ProfileViewModel(private val userRepository: UserRepository) : BaseViewMod
     }
 
     fun signOut() {
-        UserInfo.signOut()
+        userInfo.signOut()
         signOut.call()
     }
 
     private fun complete(nickName: String, intro: String?) {
-        UserInfo.updateProfile(nickName, intro)
+        userInfo.updateProfile(nickName, intro)
         completeEvent.value = profileStatus
         isLoading.value = false
     }

@@ -1,6 +1,5 @@
 package com.like.drive.carstory.ui.message.viewmodel
 
-import androidx.annotation.StringRes
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,13 +10,17 @@ import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.repository.admin.AdminRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.message.data.UserMessageType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserMessageViewModel(private val adminRepository: AdminRepository) : BaseViewModel() {
+@HiltViewModel
+class UserMessageViewModel @Inject constructor(private val adminRepository: AdminRepository) :
+    BaseViewModel() {
 
     val context = CarStoryApplication.getContext()
 
-    private val _userMessageType = MutableLiveData<List<UserMessageType>>(
+    private val _userMessageType = MutableLiveData(
         UserMessageType().getList(CarStoryApplication.getContext())
     )
     val userMessageType: LiveData<List<UserMessageType>> get() = _userMessageType
@@ -25,8 +28,8 @@ class UserMessageViewModel(private val adminRepository: AdminRepository) : BaseV
     var uid: String? = null
     var isUserBan: Boolean? = false
 
-    val errorEvent = SingleLiveEvent<@StringRes Int>()
-    val completeEvent = SingleLiveEvent<@StringRes Int>()
+    val errorEvent = SingleLiveEvent<Int>()
+    val completeEvent = SingleLiveEvent<Int>()
 
     val confirmMessage = SingleLiveEvent<String>()
 

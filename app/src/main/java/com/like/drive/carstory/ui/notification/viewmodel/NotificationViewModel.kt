@@ -9,12 +9,12 @@ import com.like.drive.carstory.data.notification.NotificationSendData
 import com.like.drive.carstory.repository.notification.NotificationRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class NotificationViewModel(val repository: NotificationRepository) : BaseViewModel() {
+class NotificationViewModel @Inject constructor(val repository: NotificationRepository) :
+    BaseViewModel() {
 
     private val _notificationList = MutableLiveData<List<NotificationSendData>>()
     val notificationList: LiveData<List<NotificationSendData>> get() = _notificationList
@@ -52,7 +52,7 @@ class NotificationViewModel(val repository: NotificationRepository) : BaseViewMo
 
     fun removeNotificationItem(id: Long) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 repository.deleteItem(id)
             }
             init()

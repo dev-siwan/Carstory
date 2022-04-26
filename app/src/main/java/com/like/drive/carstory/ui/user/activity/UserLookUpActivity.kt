@@ -1,6 +1,7 @@
 package com.like.drive.carstory.ui.user.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.databinding.ActivityUserLookUpBinding
@@ -10,13 +11,14 @@ import com.like.drive.carstory.ui.base.ext.startAct
 import com.like.drive.carstory.ui.board.list.activity.BoardListActivity
 import com.like.drive.carstory.ui.message.activity.UserMessageActivity
 import com.like.drive.carstory.ui.user.viewmodel.UserLookUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_user_look_up.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class UserLookUpActivity :
     BaseActivity<ActivityUserLookUpBinding>(R.layout.activity_user_look_up) {
 
-    private val viewModel: UserLookUpViewModel by viewModel()
+    private val viewModel: UserLookUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

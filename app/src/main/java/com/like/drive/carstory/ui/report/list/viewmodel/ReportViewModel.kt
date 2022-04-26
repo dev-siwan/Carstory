@@ -1,6 +1,5 @@
 package com.like.drive.carstory.ui.report.list.viewmodel
 
-import androidx.annotation.StringRes
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,12 +11,16 @@ import com.like.drive.carstory.data.user.UserData
 import com.like.drive.carstory.repository.report.ReportRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.common.data.LoadingStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class ReportViewModel(private val reportRepository: ReportRepository) : BaseViewModel() {
+@HiltViewModel
+class ReportViewModel @Inject constructor(private val reportRepository: ReportRepository) :
+    BaseViewModel() {
 
     private val _reportList = MutableLiveData<List<ReportData>>()
     val reportList: LiveData<List<ReportData>> get() = _reportList
@@ -35,7 +38,7 @@ class ReportViewModel(private val reportRepository: ReportRepository) : BaseView
     val removeCompleteEvent = SingleLiveEvent<ReportData>()
     val detailBoardEvent = SingleLiveEvent<String>()
     val userLookUpEvent = SingleLiveEvent<UserData>()
-    val errorEvent = SingleLiveEvent<@StringRes Int>()
+    val errorEvent = SingleLiveEvent<Int>()
 
     fun initData() {
         isFirst = true

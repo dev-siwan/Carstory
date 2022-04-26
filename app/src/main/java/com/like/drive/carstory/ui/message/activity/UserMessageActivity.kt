@@ -1,6 +1,7 @@
 package com.like.drive.carstory.ui.message.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.like.drive.carstory.R
 import com.like.drive.carstory.databinding.ActivityUserMessageBinding
@@ -10,13 +11,14 @@ import com.like.drive.carstory.ui.base.ext.showShortToast
 import com.like.drive.carstory.ui.dialog.ConfirmDialog
 import com.like.drive.carstory.ui.message.adapter.UserMessageTypeAdapter
 import com.like.drive.carstory.ui.message.viewmodel.UserMessageViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_user_message.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class UserMessageActivity :
     BaseActivity<ActivityUserMessageBinding>(R.layout.activity_user_message) {
 
-    private val viewModel: UserMessageViewModel by viewModel()
+    private val viewModel: UserMessageViewModel by viewModels()
     private val userTypeAdapter by lazy { UserMessageTypeAdapter(viewModel) }
     private var isUserBan: Boolean? = false
 

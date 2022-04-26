@@ -11,10 +11,14 @@ import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.data.motor.MotorTypeData
 import com.like.drive.carstory.repository.motor.MotorTypeRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MotorTypeViewModel(private val motorTypeRepository: MotorTypeRepository) : BaseViewModel() {
+@HiltViewModel
+class MotorTypeViewModel @Inject constructor(private val motorTypeRepository: MotorTypeRepository) :
+    BaseViewModel() {
 
     private val _motorTypeList = MutableLiveData<List<MotorTypeData>>()
     val motorTypeList: LiveData<List<MotorTypeData>> get() = _motorTypeList
