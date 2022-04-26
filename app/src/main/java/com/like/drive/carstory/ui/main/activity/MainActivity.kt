@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -28,14 +29,15 @@ import com.like.drive.carstory.ui.main.viewmodel.MainViewModel
 import com.like.drive.carstory.ui.notice.detail.activity.NoticeDetailActivity
 import com.like.drive.carstory.ui.permission.AccessPermissionDialog
 import com.like.drive.carstory.util.notification.NotificationUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModels()
     private var currentNavController: LiveData<NavController>? = null
     private lateinit var fcmBroadcastReceiver: BroadcastReceiver
 
@@ -116,12 +118,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun MainViewModel.userMessage() {
         userMessageEvent.observe(this@MainActivity, Observer {
-            AlertDialog.newInstance(title = getString(R.string.car_story_message), message = it).apply {
-                isCancelable = false
-                action = {
-                    confirmUserMessage()
-                }
-            }.show(supportFragmentManager, AlertDialog.TAG)
+            AlertDialog.newInstance(title = getString(R.string.car_story_message), message = it)
+                .apply {
+                    isCancelable = false
+                    action = {
+                        confirmUserMessage()
+                    }
+                }.show(supportFragmentManager, AlertDialog.TAG)
         })
     }
 

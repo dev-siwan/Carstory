@@ -5,19 +5,19 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.like.drive.carstory.R
 import com.like.drive.carstory.common.livedata.SingleLiveEvent
 import com.like.drive.carstory.common.user.UserInfo
-import com.like.drive.carstory.pref.UserPref
 import com.like.drive.carstory.repository.user.UserRepository
 import com.like.drive.carstory.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import javax.inject.Inject
 
-class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(), KoinComponent {
-
-    private val userPref: UserPref by inject()
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val userInfo: UserInfo,
+    private val userRepository: UserRepository
+) : BaseViewModel() {
 
     val showPermissionEvent = SingleLiveEvent<Unit>()
 
@@ -36,18 +36,18 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
     }
 
     private fun checkPermission() {
-        if (!userPref.isPermissionPopUp) {
+        if (!userInfo.userPref.isPermissionPopUp) {
             showPermissionEvent.call()
         }
     }
 
     fun confirmPermission() {
-        userPref.isPermissionPopUp = true
+        userInfo.userPref.isPermissionPopUp = true
     }
 
     private fun userMessage() {
-        if (UserInfo.userInfo?.userMessageStatus == true) {
-            UserInfo.userInfo?.userMessage?.let {
+        if (userInfo.userInfo?.userMessageStatus == true) {
+            userInfo.userInfo?.userMessage?.let {
                 if (!it.isBlank()) {
                     userMessageEvent.value = it
                 }
@@ -56,10 +56,10 @@ class MainViewModel(private val userRepository: UserRepository) : BaseViewModel(
     }
 
     fun confirmUserMessage() {
-        UserInfo.userInfo?.uid?.let {
+        userInfo.userInfo?.uid?.let {
             viewModelScope.launch {
                 userRepository.confirmUserMessage(it)
-                UserInfo.userInfo?.userMessageStatus = false
+                userInfo.userInfo?.userMessageStatus = false
             }
         }
     }

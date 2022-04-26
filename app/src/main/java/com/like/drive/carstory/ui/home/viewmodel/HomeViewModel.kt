@@ -8,17 +8,21 @@ import com.like.drive.carstory.data.motor.MotorTypeData
 import com.like.drive.carstory.data.user.FilterData
 import com.like.drive.carstory.ui.base.BaseViewModel
 import com.like.drive.carstory.ui.board.category.data.CategoryData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel(private val analyticsEventLog: AnalyticsEventLog) : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val analyticsEventLog: AnalyticsEventLog) :
+    BaseViewModel() {
 
     val moveSearchEvent = SingleLiveEvent<Unit>()
 
     val setFilterEvent = SingleLiveEvent<FilterData>()
 
-    private val _category = MutableLiveData<CategoryData>()
-    val category: LiveData<CategoryData> get() = _category
-    private val _motorType = MutableLiveData<MotorTypeData>()
-    val motorType: LiveData<MotorTypeData> get() = _motorType
+    private val _category = MutableLiveData<CategoryData?>()
+    val category: LiveData<CategoryData?> get() = _category
+    private val _motorType = MutableLiveData<MotorTypeData?>()
+    val motorType: LiveData<MotorTypeData?> get() = _motorType
 
     fun setFilterData(categoryData: CategoryData?, motorTypeData: MotorTypeData?) {
 
@@ -46,6 +50,5 @@ class HomeViewModel(private val analyticsEventLog: AnalyticsEventLog) : BaseView
         )
 
     }
-
 
 }

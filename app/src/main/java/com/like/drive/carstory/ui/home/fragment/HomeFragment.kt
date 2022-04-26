@@ -3,6 +3,7 @@ package com.like.drive.carstory.ui.home.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.like.drive.carstory.R
@@ -30,20 +31,22 @@ import com.like.drive.carstory.ui.home.viewmodel.HomeViewModel
 import com.like.drive.carstory.ui.main.activity.MainActivity
 import com.like.drive.carstory.ui.motor.activity.SelectMotorTypeActivity
 import com.like.drive.carstory.util.ad.NativeAdUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_home_filter.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import javax.inject.Inject
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), KoinComponent {
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    val viewModel: HomeViewModel by viewModel()
-    private val boardListViewModel: BoardListViewModel by viewModel()
+    val viewModel: HomeViewModel by viewModels()
+    private val boardListViewModel: BoardListViewModel by viewModels()
     private val listAdapter by lazy { BoardListAdapter(vm = boardListViewModel) }
     private var emptyFilterDialog: EmptyFilterDialog? = null
-    private var nativeAdUtil: NativeAdUtil = get()
+
+    @Inject
+    lateinit var nativeAdUtil: NativeAdUtil
 
     override fun onBind(dataBinding: FragmentHomeBinding) {
         super.onBind(dataBinding)

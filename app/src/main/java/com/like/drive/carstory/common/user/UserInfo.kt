@@ -18,7 +18,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class UserInfo @Inject constructor(
-    private val userPref: UserPref,
+    val userPref: UserPref,
     private val userApi: UserApi,
     private val notificationRepository: NotificationRepository,
     private val boardRepository: BoardRepository
